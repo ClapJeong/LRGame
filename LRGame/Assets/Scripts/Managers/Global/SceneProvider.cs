@@ -1,16 +1,42 @@
+using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+
+public enum SceneType
+{
+  Initialize,
+  Game,
+}
 
 public class SceneProvider : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+  [SerializeField] private AssetReference gameSceneReference;
 
-    // Update is called once per frame
-    void Update()
+  public async UniTask LoadSceneAsync(SceneType sceneType, LoadSceneMode loadSceneMode = LoadSceneMode.Single, UnityAction<float> onProgress = null, Func<UniTask> waitUntilLoad=null)
+  {
+    var sceneRefernece = ParseSceneReference(sceneType);
+    var handle = Addressables.LoadSceneAsync(sceneRefernece,loadSceneMode,false);
+    while (!handle.IsDone)
     {
-        
+      onProgress?.Invoke(handle.PercentComplete);
+      await UniTask.Yield(PlayerLoopTiming.Update);
     }
+    onProgress?.Invoke(1.0f);
+
+    if (waitUntilLoad != null)
+      await waitUntilLoad.Invoke();
+
+    await handle.Result.ActivateAsync();
+  }
+
+  private AssetReference ParseSceneReference(SceneType sceneType)
+    => sceneType switch
+    {
+      SceneType.Initialize => throw new System.NotImplementedException(),
+      SceneType.Game => gameSceneReference,
+      _ => throw new System.NotImplementedException(),
+    };
 }

@@ -17,7 +17,7 @@ public class BasePlayerPresenter : IPlayerPresenter
   public void CreateMoveInputAction(string path, Direction direction)
   {
     var vectorDirection = model.ParseDirection(direction);
-    moveInputActions[direction] = FactoryManager.Instance.InputActionFactory.Get(path, OnMove);
+    moveInputActions[direction] = GameManager.instance.FactoryManager.InputActionFactory.Get(path, OnMove);
 
     void OnMove(InputAction.CallbackContext context)
     {

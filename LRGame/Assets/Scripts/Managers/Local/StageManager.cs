@@ -10,8 +10,11 @@ public class StageManager : MonoBehaviour
 
   private void Awake()
   {
-    instance = this;
+    instance = this;    
+  }
 
+  private void Start()
+  {
     playerSetupService.SetupAsync().Forget();
   }
 }

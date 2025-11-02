@@ -1,18 +1,12 @@
 using UnityEngine;
 
-public class FactoryManager : MonoBehaviour
+public class FactoryManager
 {
-    public static FactoryManager Instance;
-
   private InputActionFactory inputActionFactory;
-  public InputActionFactory InputActionFactory => inputActionFactory;
+  public InputActionFactory InputActionFactory => inputActionFactory; 
 
-  private void Awake()
+  public void Initialize()
   {
-    if (Instance != null)
-      Destroy(gameObject);
-
-    Instance = this;
     CreateFactoreis();
   }
 

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePlayerPresenter>
 {
-  [SerializeField] private BasePlayerView testLeftPlayerView;
-  [SerializeField] private BasePlayerView testRightPlayerView;
-
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
@@ -26,14 +23,17 @@ public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePl
 
   private async UniTask<IPlayerPresenter> CreateLeftPlayer()
   {
-    var leftView = testLeftPlayerView;
+    var leftPlayerKey = GameManager.instance.Table.AddressableKeySO.LeftPlayer;
+    var leftView = await GameManager.instance.ResourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
     var model = new PlayerModel(Vector3.up,Vector3.down,Vector3.left,Vector3.right);
     var presenter = new BasePlayerPresenter();
     presenter.Initialize(leftView, model);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(KeyCode.W), Direction.Up);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(KeyCode.D), Direction.Right);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(KeyCode.S), Direction.Down);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(KeyCode.A), Direction.Left);
+
+    var modelSO = GameManager.instance.Table.LeftPlayerModelSO;
+    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up);
+    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right);
+    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down);
+    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.LeftKeyCode), Direction.Left);
 
     await UniTask.CompletedTask;
     return presenter;
@@ -41,14 +41,17 @@ public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePl
 
   private async UniTask<IPlayerPresenter> CreateRighPlayer()
   {
-    var leftView = testRightPlayerView;
+    var rightPlayerKey = GameManager.instance.Table.AddressableKeySO.RightPlayer;
+    var rightView = await GameManager.instance.ResourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
     var model = new PlayerModel(Vector3.up, Vector3.down, Vector3.left, Vector3.right);
     var presenter = new BasePlayerPresenter();
-    presenter.Initialize(leftView, model);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(KeyCode.UpArrow), Direction.Up);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(KeyCode.RightArrow), Direction.Right);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(KeyCode.DownArrow), Direction.Down);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(KeyCode.LeftArrow), Direction.Left);
+    presenter.Initialize(rightView, model);
+
+    var modelSO = GameManager.instance.Table.RightPlayerModelSO;
+    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up);
+    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right);
+    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down);
+    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.LeftKeyCode), Direction.Left);
 
     await UniTask.CompletedTask;
     return presenter;
