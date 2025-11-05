@@ -5,11 +5,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public enum SceneType
-{
-  Initialize,
-  Game,
-}
 
 public class SceneProvider : MonoBehaviour
 {

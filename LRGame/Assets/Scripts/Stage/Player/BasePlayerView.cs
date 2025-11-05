@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BasePlayerView : MonoBehaviour, IPlayerView
 {
-  [SerializeField] private Rigidbody rigidBody;
+  [SerializeField] private Rigidbody2D rigidbody;
 
   private readonly List<Vector3> inputForces = new();
 
@@ -12,7 +12,7 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
   {
     var velocity = inputForces.Count > 0 ? inputForces.Aggregate((force1, force2) => force1 + force2)
                                       : Vector3.zero;
-      rigidBody.linearVelocity = velocity;
+      rigidbody.linearVelocity = velocity;
   }
 
   public void AddForce(Vector3 force)

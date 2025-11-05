@@ -60,7 +60,26 @@ public class BasePlayerPresenter : IPlayerPresenter
   }
 
   public void SetEnable(bool isEnable)
-  {
-    view.SetActive(isEnable);
-  }
+    => view.SetActive(isEnable);
+
+  public void SetRoot(Transform root)
+    =>view.SetRoot(root);
+
+  public void SetActive(bool isActive)
+    => view.SetActive(isActive);
+
+  public void SetLocalPosition(Vector3 position)
+    => view.SetLocalPosition(position);
+
+  public void SetWorldPosition(Vector3 worldPosition)
+    => view.SetWorldPosition(worldPosition);
+
+  public void SetEuler(Vector3 euler)
+    => view.SetEuler(euler);
+
+  public void SetRotation(Quaternion rotation)
+    => view.SetRotation(rotation);
+
+  public void SetScale(Vector3 scale)
+    => view.SetScale(scale);
 }

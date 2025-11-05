@@ -1,13 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum Direction
-{
-  Up,
-  Down,
-  Left,
-  Right,
-}
 public interface IMoveController
 {
   public void CreateMoveInputAction(string path, Direction direction);
@@ -17,7 +10,7 @@ public interface IMoveController
   public void EnableAllInputActions(bool enable);
 }
 
-public interface IPlayerPresenter: IMoveController
+public interface IPlayerPresenter: IMoveController, ITransformController
 {
   public void Initialize(IPlayerView view, PlayerModel model);
 

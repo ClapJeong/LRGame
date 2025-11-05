@@ -32,6 +32,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f36a8e861395f4f4dba3bc4c1bfbaae8
+    m_Address: TestStage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eef867e9c66589b49a786bdc517c53ff, type: 2}
   m_SchemaSet:

@@ -7,18 +7,30 @@ public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePl
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
+  private Vector3 leftPlayerPosition;
+  private Vector3 rightPlayerPosition;
+
   public async UniTask SetupAsync()
   {
     leftPlayer = await CreateLeftPlayer();
-    rightPlayer = await CreateRighPlayer();
-
-    leftPlayer.EnableAllInputActions(true);
-    rightPlayer.EnableAllInputActions(true);
+    rightPlayer = await CreateRighPlayer();    
   }
 
   public void Release()
   {
     throw new System.NotImplementedException();
+  }
+
+  public void InitializePositions(Vector3 leftPosition,  Vector3 rightPosition)
+  {
+    leftPlayerPosition = leftPosition;
+    rightPlayerPosition = rightPosition;
+  }
+
+  public void EnablePlayers(bool enable)
+  {
+    leftPlayer.EnableAllInputActions(enable);
+    rightPlayer.EnableAllInputActions(enable);
   }
 
   private async UniTask<IPlayerPresenter> CreateLeftPlayer()
@@ -28,6 +40,7 @@ public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePl
     var model = new PlayerModel(Vector3.up,Vector3.down,Vector3.left,Vector3.right);
     var presenter = new BasePlayerPresenter();
     presenter.Initialize(leftView, model);
+    presenter.SetWorldPosition(leftPlayerPosition);
 
     var modelSO = GameManager.instance.Table.LeftPlayerModelSO;
     presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up);
@@ -46,6 +59,7 @@ public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePl
     var model = new PlayerModel(Vector3.up, Vector3.down, Vector3.left, Vector3.right);
     var presenter = new BasePlayerPresenter();
     presenter.Initialize(rightView, model);
+    presenter.SetWorldPosition(rightPlayerPosition);
 
     var modelSO = GameManager.instance.Table.RightPlayerModelSO;
     presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up);
