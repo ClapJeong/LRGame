@@ -49,6 +49,17 @@ public class TriggerTileSetupService : IStageObjectSetupService<ITriggerTilePres
             cachedTriggers.Add(presenter);
           }
           break;
+
+        case TriggerTileType.Spike:
+          {
+            var presenter = new SpikeTriggerTilePresenter();
+            var model = new SpikeTriggerTileModel();
+            presenter.Initialize(model, view);
+            presenter.SubscribeOnEnter(OnSpikeEnter);
+            presenters.Add(presenter);
+            cachedTriggers.Add(presenter);
+          }
+          break;
       }
     }
 
@@ -95,4 +106,19 @@ public class TriggerTileSetupService : IStageObjectSetupService<ITriggerTilePres
 
   private bool CheckBothClearEnter()
     => isLeftEnter && isRightEnter;
+
+  private void OnSpikeEnter(Collider2D collider2D)
+  {
+    if(collider2D.gameObject.TryGetComponent<BasePlayerView>(out var playerView))
+    {
+      var failType = playerView.GetPlayerType() switch
+      {
+        PlayerType.Left => StageFailType.LeftPlayerDied,
+        PlayerType.Right => StageFailType.RightPlayerDied,
+        _ => throw new System.NotImplementedException()
+      }; ;
+
+      LocalManager.instance.StageManager.Fail(failType);
+    }
+  }
 }

@@ -1,5 +1,82 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1897688260945991148
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 364725282606148205}
+    m_Modifications:
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.50011
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.50001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709137215589598131, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_Name
+      value: Spike
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709137215589598131, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+--- !u!114 &6158375378050875988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5702402293561907128, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 1897688260945991148}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c43b6f9ce7f5a48802a738379c8d30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpikeTriggerTileView
+--- !u!4 &7884185293847577619 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 1897688260945991148}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1940999749879905778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9,8 +86,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: triggerTileRoot
+      value: 
+      objectReference: {fileID: 364725282606148205}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: dynamicObstacleRoot
+      value: 
+      objectReference: {fileID: 5878247577652768087}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: triggerTiles.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: 'triggerTiles.Array.data[0]'
@@ -20,6 +105,14 @@ PrefabInstance:
       propertyPath: 'triggerTiles.Array.data[1]'
       value: 
       objectReference: {fileID: 2264720930264277238}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: 'triggerTiles.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6158375378050875988}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: 'triggerTiles.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8734229957748750245}
     - target: {fileID: 694102038830734641, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -1013,11 +1106,22 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1904051686844066603}
+    - targetCorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7884185293847577619}
+    - targetCorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4695713829783908834}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a35ea90458ce55648aec757755174e1a, type: 3}
 --- !u!4 &364725282606148205 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+  m_PrefabInstance: {fileID: 1940999749879905778}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5878247577652768087 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5439341171836817573, guid: a35ea90458ce55648aec757755174e1a, type: 3}
   m_PrefabInstance: {fileID: 1940999749879905778}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2012987622470075584
@@ -1170,3 +1274,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e031728ab38d85f45be0bd4429c8445a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClearTriggerTileView
+--- !u!1001 &3897082017473437725
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 364725282606148205}
+    m_Modifications:
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.50011
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.50001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709137215589598131, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_Name
+      value: Spike (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709137215589598131, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+--- !u!4 &4695713829783908834 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 3897082017473437725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8734229957748750245 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5702402293561907128, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 3897082017473437725}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c43b6f9ce7f5a48802a738379c8d30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpikeTriggerTileView

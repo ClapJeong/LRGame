@@ -6,7 +6,7 @@ public abstract class TriggerTileViewBase : MonoBehaviour, ITriggerTileView
   [SerializeField] protected TriggerTileType triggerTileType;
 
   public abstract TriggerTileType GetTriggerType();
-  public abstract void Initialize(object model, ITriggerTilePresenter presenter);
+  public abstract void Initialize(ITriggerTilePresenter presenter);
 
   public abstract void Enable(bool enabled);
 

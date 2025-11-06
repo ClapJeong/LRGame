@@ -16,6 +16,12 @@ public class LocalManager : MonoBehaviour
     StageManager.CreateAsync().Forget();
   }
 
+  private void Update()
+  {
+    if(Input.GetKeyDown(KeyCode.F1))
+      StageManager.ReStartAsync().Forget();
+  }
+
   private void InitializeManagers()
   {
     stageManager = new StageManager();

@@ -67,6 +67,8 @@ public class StageManager : IStageController, IStageCreator
 
   public void Fail(StageFailType failType)
   {
-    throw new System.NotImplementedException();
+    playerSetupService.EnablePlayers(false);
+    triggerTileSetupService.EnableAllTriggers(false);
+    UnityEngine.Debug.Log(failType);
   }
 }

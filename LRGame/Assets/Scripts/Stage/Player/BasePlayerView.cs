@@ -5,6 +5,7 @@ using UnityEngine;
 public class BasePlayerView : MonoBehaviour, IPlayerView
 {
   [SerializeField] private new Rigidbody2D rigidbody;
+  [SerializeField] private PlayerType playerType;
 
   private readonly List<Vector3> inputForces = new();
 
@@ -41,4 +42,7 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
 
   public void SetWorldPosition(Vector3 worldPosition)
     => transform.position = worldPosition;
+
+  public PlayerType GetPlayerType()
+    => playerType;
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StageDataContainer : MonoBehaviour
@@ -14,10 +15,10 @@ public class StageDataContainer : MonoBehaviour
   public GameObject StaticObstacle => staticObstacle;
 
   [Space(5)]
-  [SerializeField] private List<TriggerTileViewBase> triggerTiles;
-  public List<TriggerTileViewBase> TriggerTiles=> triggerTiles;
+  [SerializeField] private Transform triggerTileRoot;
+  public List<TriggerTileViewBase> TriggerTiles=> triggerTileRoot.GetComponentsInChildren<TriggerTileViewBase>().ToList();
 
   [Space(5)]
-  [SerializeField] private List<DynamicObstacleBase> dynamicObstacles;
-  public List<DynamicObstacleBase> DynamicObstacles => dynamicObstacles;
+  [SerializeField] private Transform dynamicObstacleRoot;
+  public List<DynamicObstacleBase> DynamicObstacles => dynamicObstacleRoot.GetComponentsInChildren<DynamicObstacleBase>().ToList();
 }

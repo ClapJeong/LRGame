@@ -1,29 +1,25 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ClearTriggerTileView : TriggerTileViewBase
+public class SpikeTriggerTileView : TriggerTileViewBase
 {
-  [SerializeField] private Animator animator;
-
-  private readonly int enterHash = Animator.StringToHash("Enter");
-
   private ITriggerTilePresenter presenter;
+  private bool enable = true;
   private UnityAction<Collider2D> onEnter;
   private UnityAction<Collider2D> onExit;
-  private new bool enabled = true;
-
-  public override void Initialize(ITriggerTilePresenter presenter)
-  {
-    this.presenter = presenter;
-  }
 
   public override void Enable(bool enabled)
   {
-    this.enabled = enabled;
+    this.enable = enabled;
   }
 
   public override TriggerTileType GetTriggerType()
     => triggerTileType;
+
+  public override void Initialize( ITriggerTilePresenter presenter)
+  {
+    this.presenter = presenter;
+  }
 
   public override void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
   {
@@ -49,17 +45,15 @@ public class ClearTriggerTileView : TriggerTileViewBase
 
   private void OnTriggerEnter2D(Collider2D collision)
   {
-    if (!enabled) return;
+    if (!enable) return;
 
     onEnter?.Invoke(collision);
-    animator.SetBool(enterHash, true);
   }
 
   private void OnTriggerExit2D(Collider2D collision)
   {
-    if (!enabled) return;
+    if (!enable) return;
 
     onExit?.Invoke(collision);
-    animator.SetBool(enterHash, false);
   }
 }
