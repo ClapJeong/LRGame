@@ -1,30 +1,57 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 
-public class SceneProvider : MonoBehaviour
+public class SceneProvider : MonoBehaviour, ISceneProvider
 {
   [SerializeField] private AssetReference gameSceneReference;
 
-  public async UniTask LoadSceneAsync(SceneType sceneType, LoadSceneMode loadSceneMode = LoadSceneMode.Single, UnityAction<float> onProgress = null, Func<UniTask> waitUntilLoad=null)
+  readonly private Dictionary<AssetReference, AsyncOperationHandle<SceneInstance>> cachedHandled = new();
+  private SceneType currentScene;
+
+  public async UniTask LoadSceneAsync(
+    SceneType sceneType,
+    CancellationToken token,
+    UnityAction<float> onProgress = null, 
+    UnityAction onComplete = null, Func<UniTask> 
+    waitUntilLoad = null)
   {
-    var sceneRefernece = ParseSceneReference(sceneType);
-    var handle = Addressables.LoadSceneAsync(sceneRefernece,loadSceneMode,false);
-    while (!handle.IsDone)
+    var handle = LoadSceneHandle(sceneType);
+    try
     {
-      onProgress?.Invoke(handle.PercentComplete);
-      await UniTask.Yield(PlayerLoopTiming.Update);
+      while (!handle.IsDone)
+      {
+        token.ThrowIfCancellationRequested();
+
+        onProgress?.Invoke(handle.PercentComplete);
+        await UniTask.Yield(PlayerLoopTiming.Update);
+      }
+      onProgress?.Invoke(1.0f);
+
+      if (waitUntilLoad != null)
+        await waitUntilLoad.Invoke();
+
+      currentScene = sceneType;
+      await handle.Result.ActivateAsync();
     }
-    onProgress?.Invoke(1.0f);
+    catch (OperationCanceledException e) { Debug.Log(e); }
+  }
 
-    if (waitUntilLoad != null)
-      await waitUntilLoad.Invoke();
-
-    await handle.Result.ActivateAsync();
+  public async UniTask ReloadCurrentSceneAsync(
+    CancellationToken token, 
+    UnityAction<float> onProgress = null, 
+    UnityAction onComplete = null, 
+    Func<UniTask> waitUntilLoad = null)
+  {
+    await LoadSceneAsync(currentScene, token, onProgress, onComplete, waitUntilLoad);
   }
 
   private AssetReference ParseSceneReference(SceneType sceneType)
@@ -34,4 +61,13 @@ public class SceneProvider : MonoBehaviour
       SceneType.Game => gameSceneReference,
       _ => throw new System.NotImplementedException(),
     };
+
+  private AsyncOperationHandle<SceneInstance> LoadSceneHandle(SceneType sceneType)
+  {
+    var sceneReference = ParseSceneReference(sceneType);
+    if (cachedHandled.TryGetValue(sceneReference, out var existHandle)== false)    
+    existHandle = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Single, false);
+
+    return existHandle;
+  }
 }

@@ -14,8 +14,8 @@ public class StageDataContainer : MonoBehaviour
   public GameObject StaticObstacle => staticObstacle;
 
   [Space(5)]
-  [SerializeField] private List<TriggerTileBase> triggerTiles;
-  public List<TriggerTileBase> TriggerTiles=> triggerTiles;
+  [SerializeField] private List<TriggerTileViewBase> triggerTiles;
+  public List<TriggerTileViewBase> TriggerTiles=> triggerTiles;
 
   [Space(5)]
   [SerializeField] private List<DynamicObstacleBase> dynamicObstacles;

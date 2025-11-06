@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: triggerTiles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: 'triggerTiles.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1834553305678318087}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: 'triggerTiles.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2264720930264277238}
     - target: {fileID: 694102038830734641, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -994,6 +1006,167 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2050492183259120090}
+    - targetCorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1904051686844066603}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+--- !u!4 &364725282606148205 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+  m_PrefabInstance: {fileID: 1940999749879905778}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2012987622470075584
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 364725282606148205}
+    m_Modifications:
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.50009
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.50005
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176292232341367746, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_Name
+      value: Left
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+--- !u!114 &1834553305678318087 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 187520682508144327, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+  m_PrefabInstance: {fileID: 2012987622470075584}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e031728ab38d85f45be0bd4429c8445a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearTriggerTileView
+--- !u!4 &2050492183259120090 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+  m_PrefabInstance: {fileID: 2012987622470075584}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2159426263442566705
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 364725282606148205}
+    m_Modifications:
+    - target: {fileID: 187520682508144327, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: triggerTileType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.50009
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.50005
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176292232341367746, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+      propertyPath: m_Name
+      value: Right
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+--- !u!4 &1904051686844066603 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 548135499281614106, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+  m_PrefabInstance: {fileID: 2159426263442566705}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2264720930264277238 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 187520682508144327, guid: fc936562bcc202c40ab0f60697bfbf76, type: 3}
+  m_PrefabInstance: {fileID: 2159426263442566705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e031728ab38d85f45be0bd4429c8445a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearTriggerTileView

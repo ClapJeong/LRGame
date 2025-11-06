@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BasePlayerView : MonoBehaviour, IPlayerView
 {
-  [SerializeField] private Rigidbody2D rigidbody;
+  [SerializeField] private new Rigidbody2D rigidbody;
 
   private readonly List<Vector3> inputForces = new();
 

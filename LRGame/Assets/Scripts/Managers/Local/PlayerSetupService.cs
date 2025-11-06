@@ -2,29 +2,35 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePlayerPresenter>
+public class PlayerSetupService : IStageObjectSetupService<IPlayerPresenter>
 {
+  public class SetupData
+  {
+    public readonly Vector3 leftPosition;
+    public readonly Vector3 rightPosition;
+    public SetupData(Vector3 leftPosition, Vector3 rightPosition) 
+    { 
+      this.leftPosition = leftPosition; 
+      this.rightPosition = rightPosition; 
+    }
+  }
+
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
-  private Vector3 leftPlayerPosition;
-  private Vector3 rightPlayerPosition;
-
-  public async UniTask SetupAsync()
+  public async UniTask<List<IPlayerPresenter>> SetupAsync(object data)
   {
-    leftPlayer = await CreateLeftPlayer();
-    rightPlayer = await CreateRighPlayer();    
+    var setupData = data as SetupData;
+    leftPlayer = await CreateLeftPlayer(setupData.leftPosition);
+    rightPlayer = await CreateRighPlayer(setupData.rightPosition);
+
+    return new List<IPlayerPresenter>() { leftPlayer, rightPlayer };
   }
 
   public void Release()
   {
-    throw new System.NotImplementedException();
-  }
-
-  public void InitializePositions(Vector3 leftPosition,  Vector3 rightPosition)
-  {
-    leftPlayerPosition = leftPosition;
-    rightPlayerPosition = rightPosition;
+    leftPlayer.EnableAllInputActions(false);
+    rightPlayer.EnableAllInputActions(false);
   }
 
   public void EnablePlayers(bool enable)
@@ -33,16 +39,16 @@ public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePl
     rightPlayer.EnableAllInputActions(enable);
   }
 
-  private async UniTask<IPlayerPresenter> CreateLeftPlayer()
+  private async UniTask<IPlayerPresenter> CreateLeftPlayer(Vector3 startPosition)
   {
-    var leftPlayerKey = GameManager.instance.Table.AddressableKeySO.LeftPlayer;
-    var leftView = await GameManager.instance.ResourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
+    var leftPlayerKey = GlobalManager.instance.Table.AddressableKeySO.LeftPlayer;
+    var leftView = await GlobalManager.instance.ResourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
     var model = new PlayerModel(Vector3.up,Vector3.down,Vector3.left,Vector3.right);
     var presenter = new BasePlayerPresenter();
     presenter.Initialize(leftView, model);
-    presenter.SetWorldPosition(leftPlayerPosition);
+    presenter.SetWorldPosition(startPosition);
 
-    var modelSO = GameManager.instance.Table.LeftPlayerModelSO;
+    var modelSO = GlobalManager.instance.Table.LeftPlayerModelSO;
     presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up);
     presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right);
     presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down);
@@ -52,16 +58,16 @@ public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePl
     return presenter;
   }
 
-  private async UniTask<IPlayerPresenter> CreateRighPlayer()
+  private async UniTask<IPlayerPresenter> CreateRighPlayer(Vector3 startPosition)
   {
-    var rightPlayerKey = GameManager.instance.Table.AddressableKeySO.RightPlayer;
-    var rightView = await GameManager.instance.ResourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
+    var rightPlayerKey = GlobalManager.instance.Table.AddressableKeySO.RightPlayer;
+    var rightView = await GlobalManager.instance.ResourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
     var model = new PlayerModel(Vector3.up, Vector3.down, Vector3.left, Vector3.right);
     var presenter = new BasePlayerPresenter();
     presenter.Initialize(rightView, model);
-    presenter.SetWorldPosition(rightPlayerPosition);
+    presenter.SetWorldPosition(startPosition);
 
-    var modelSO = GameManager.instance.Table.RightPlayerModelSO;
+    var modelSO = GlobalManager.instance.Table.RightPlayerModelSO;
     presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up);
     presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right);
     presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down);
@@ -70,4 +76,5 @@ public class PlayerSetupService : MonoBehaviour, IStageObjectSetupService<BasePl
     await UniTask.CompletedTask;
     return presenter;
   }
+
 }

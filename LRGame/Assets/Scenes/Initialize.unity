@@ -663,7 +663,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429967808}
   m_CullTransparentMesh: 1
---- !u!1001 &1880131444
+--- !u!1001 &1904187799
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -671,17 +671,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2728156692887349251, guid: 43edf24d82c43a342bdc1a30f973a003, type: 3}
-      propertyPath: gameSceneRef.m_AssetGUID
-      value: 8c9cfa26abfee488c85f1582747f6a02
-      objectReference: {fileID: 0}
     - target: {fileID: 7505840234132452189, guid: 43edf24d82c43a342bdc1a30f973a003, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.52387
       objectReference: {fileID: 0}
     - target: {fileID: 7505840234132452189, guid: 43edf24d82c43a342bdc1a30f973a003, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.13001
       objectReference: {fileID: 0}
     - target: {fileID: 7505840234132452189, guid: 43edf24d82c43a342bdc1a30f973a003, type: 3}
       propertyPath: m_LocalPosition.z
@@ -717,7 +713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8351580797936561603, guid: 43edf24d82c43a342bdc1a30f973a003, type: 3}
       propertyPath: m_Name
-      value: GameManager
+      value: GlobalManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -729,6 +725,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1361533603}
-  - {fileID: 1880131444}
   - {fileID: 541085482}
   - {fileID: 1044592377}
+  - {fileID: 1904187799}

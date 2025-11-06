@@ -1,46 +1,39 @@
 using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class StageManager : IStageController, IStageCreator
 {
-  public static StageManager instance;
+  private readonly PlayerSetupService playerSetupService;
+  private readonly TriggerTileSetupService triggerTileSetupService;
 
-  [SerializeField] private PlayerSetupService playerSetupService;
+  private CTSContainer regenCTS;
 
-  private void Awake()
+  public StageManager()
   {
-    instance = this;
+    playerSetupService = new PlayerSetupService();
+    triggerTileSetupService = new TriggerTileSetupService();
   }
 
-  private async void Start()
+  public async UniTask CreateAsync()
   {
-    var stageDataContainer = await GameManager.instance.ResourceManager.CreateAssetAsync<StageDataContainer>("TestStage");
-    SetupStage(stageDataContainer);
-  }
+    var stageDataContainer = await GlobalManager.instance.ResourceManager.CreateAssetAsync<StageDataContainer>("TestStage");
 
-  public void SetupStage(StageDataContainer stageData)
-  {
-    SetupPlayers(stageData);
-    SetupTriggers(stageData);
-    SetupDynamicObstacles(stageData);
+    SetupPlayers(stageDataContainer);
+    SetupTriggers(stageDataContainer);
+    SetupDynamicObstacles(stageDataContainer);
   }
 
   private void SetupPlayers(StageDataContainer stageData)
   {
     var leftPosition = stageData.LeftPlayerBeginTransform.position;
     var rightPosition = stageData.RightPlayerBeginTransform.position;
-    playerSetupService.InitializePositions(leftPosition, rightPosition);
-    playerSetupService.SetupAsync().Forget();
+    playerSetupService.SetupAsync(new PlayerSetupService.SetupData(leftPosition,rightPosition)).Forget();
   }
 
   private void SetupTriggers(StageDataContainer stageData)
   {
-    foreach (var trigger in stageData.TriggerTiles)
-    {
-
-    }
+    triggerTileSetupService.SetupAsync(new TriggerTileSetupService.SetupData(stageData.TriggerTiles)).Forget();
   }
+
 
   private void SetupDynamicObstacles(StageDataContainer stageData)
   {
@@ -48,5 +41,32 @@ public class StageManager : MonoBehaviour
     {
 
     }
+  }
+
+  public UniTask ReStartAsync()
+  {
+    regenCTS?.Dispose();
+    regenCTS = new CTSContainer();
+    var token = regenCTS.token;
+
+    GlobalManager.instance.SceneProvider.ReloadCurrentSceneAsync(
+      token: token,
+      onProgress: null,
+      onComplete: null,
+      waitUntilLoad: null).Forget();
+
+    return UniTask.CompletedTask;
+  }
+
+  public void Complete()
+  {
+    playerSetupService.EnablePlayers(false);
+    triggerTileSetupService.EnableAllTriggers(false);
+    UnityEngine.Debug.Log("lehu~");
+  }
+
+  public void Fail(StageFailType failType)
+  {
+    throw new System.NotImplementedException();
   }
 }
