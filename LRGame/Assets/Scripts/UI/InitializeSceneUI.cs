@@ -19,8 +19,9 @@ public class InitializeSceneUI : MonoBehaviour
 
   private void ChangeToGameScene()
   {
+    ISceneProvider sceneProvider = GlobalManager.instance.SceneProvider;
     var token = destroyCancellationToken;
-    GlobalManager.instance.SceneProvider.LoadSceneAsync(
+    sceneProvider.LoadSceneAsync(
       SceneType.Game,
       token,
       onProgress: null,

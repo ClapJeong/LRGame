@@ -16,7 +16,7 @@ public class StageDataContainer : MonoBehaviour
 
   [Space(5)]
   [SerializeField] private Transform triggerTileRoot;
-  public List<TriggerTileViewBase> TriggerTiles=> triggerTileRoot.GetComponentsInChildren<TriggerTileViewBase>().ToList();
+  public List<ITriggerTileView> TriggerTiles=> triggerTileRoot.GetComponentsInChildren<ITriggerTileView>().ToList();
 
   [Space(5)]
   [SerializeField] private Transform dynamicObstacleRoot;

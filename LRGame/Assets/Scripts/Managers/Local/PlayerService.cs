@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSetupService : IStageObjectSetupService<IPlayerPresenter>
+public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageObjectEnableService<IPlayerPresenter>
 {
   public class SetupData
   {
@@ -33,26 +33,28 @@ public class PlayerSetupService : IStageObjectSetupService<IPlayerPresenter>
     rightPlayer.EnableAllInputActions(false);
   }
 
-  public void EnablePlayers(bool enable)
-  {
-    leftPlayer.EnableAllInputActions(enable);
-    rightPlayer.EnableAllInputActions(enable);
-  }
-
   private async UniTask<IPlayerPresenter> CreateLeftPlayer(Vector3 startPosition)
   {
-    var leftPlayerKey = GlobalManager.instance.Table.AddressableKeySO.LeftPlayer;
-    var leftView = await GlobalManager.instance.ResourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
+    var leftPlayerKey = 
+      GlobalManager.instance.Table.AddressableKeySO.Path.Player +
+      GlobalManager.instance.Table.AddressableKeySO.PlayerName.LeftPlayer;
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+
+    var leftView = await resourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
     var model = new PlayerModel(Vector3.up,Vector3.down,Vector3.left,Vector3.right);
     var presenter = new BasePlayerPresenter();
+
     presenter.Initialize(leftView, model);
     presenter.SetWorldPosition(startPosition);
 
     var modelSO = GlobalManager.instance.Table.LeftPlayerModelSO;
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.LeftKeyCode), Direction.Left);
+    presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
+    {
+      { InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up },
+      { InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right },
+      { InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down },
+      { InputActionPaths.ParshPath(modelSO.LeftKeyCode), Direction.Left },
+    }); 
 
     await UniTask.CompletedTask;
     return presenter;
@@ -60,21 +62,34 @@ public class PlayerSetupService : IStageObjectSetupService<IPlayerPresenter>
 
   private async UniTask<IPlayerPresenter> CreateRighPlayer(Vector3 startPosition)
   {
-    var rightPlayerKey = GlobalManager.instance.Table.AddressableKeySO.RightPlayer;
-    var rightView = await GlobalManager.instance.ResourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
+    var rightPlayerKey =
+      GlobalManager.instance.Table.AddressableKeySO.Path.Player + 
+      GlobalManager.instance.Table.AddressableKeySO.PlayerName.RightPlayer;
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+
+    var rightView = await resourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
     var model = new PlayerModel(Vector3.up, Vector3.down, Vector3.left, Vector3.right);
     var presenter = new BasePlayerPresenter();
+
     presenter.Initialize(rightView, model);
     presenter.SetWorldPosition(startPosition);
 
     var modelSO = GlobalManager.instance.Table.RightPlayerModelSO;
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down);
-    presenter.CreateMoveInputAction(InputActionPaths.ParshPath(modelSO.LeftKeyCode), Direction.Left);
+    presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
+    {
+      { InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up },
+      { InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right },
+      { InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down },
+      { InputActionPaths.ParshPath(modelSO.LeftKeyCode), Direction.Left },
+    });
 
     await UniTask.CompletedTask;
     return presenter;
   }
 
+  public void EnableAll(bool isEnable)
+  {
+    leftPlayer.EnableAllInputActions(isEnable);
+    rightPlayer.EnableAllInputActions(isEnable);
+  }
 }

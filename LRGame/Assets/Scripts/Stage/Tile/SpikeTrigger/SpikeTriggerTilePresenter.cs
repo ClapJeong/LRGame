@@ -11,8 +11,9 @@ public class SpikeTriggerTilePresenter : ITriggerTilePresenter
     this.model = model as SpikeTriggerTileModel;
     this.view = view;
   }
+
   public void Enable(bool enabled)
-  => view.Enable(enabled);
+    => view.Enable(enabled);
 
   public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
     => view.SubscribeOnEnter(onEnter);

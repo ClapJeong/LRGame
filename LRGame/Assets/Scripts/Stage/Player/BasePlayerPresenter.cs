@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,12 @@ public class BasePlayerPresenter : IPlayerPresenter
   {
     this.view = view;
     this.model = model;
+  }
+
+  public void CreateMoveInputAction(Dictionary<string, Direction> pathDirectionPairs)
+  {
+    foreach(var pair in  pathDirectionPairs)
+      CreateMoveInputAction(pair.Key,pair.Value);
   }
 
   public void CreateMoveInputAction(string path, Direction direction)
@@ -59,9 +66,6 @@ public class BasePlayerPresenter : IPlayerPresenter
     }  
   }
 
-  public void SetEnable(bool isEnable)
-    => view.SetActive(isEnable);
-
   public void SetRoot(Transform root)
     =>view.SetRoot(root);
 
@@ -82,4 +86,7 @@ public class BasePlayerPresenter : IPlayerPresenter
 
   public void SetScale(Vector3 scale)
     => view.SetScale(scale);
+
+  public void Enable(bool enable)
+    => view.SetActive(enable);
 }

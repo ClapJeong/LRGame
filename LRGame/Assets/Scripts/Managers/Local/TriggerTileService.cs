@@ -2,12 +2,12 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerTileSetupService : IStageObjectSetupService<ITriggerTilePresenter>
+public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectEnableService<ITriggerTilePresenter>
 {
   public class SetupData
   {
-    public readonly List<TriggerTileViewBase> existViews;
-    public SetupData(List<TriggerTileViewBase> existViews) 
+    public readonly List<ITriggerTileView> existViews;
+    public SetupData(List<ITriggerTileView> existViews) 
     { 
       this.existViews = existViews; 
     }
@@ -72,18 +72,15 @@ public class TriggerTileSetupService : IStageObjectSetupService<ITriggerTilePres
     throw new System.NotImplementedException();
   }
 
-  public void EnableAllTriggers(bool enabled)
-  {
-    foreach (var presenter in cachedTriggers)
-      presenter.Enable(enabled);
-  }
-
   private void OnLeftClearEnter(Collider2D collider2D)
   {
     isLeftEnter = true;
 
     if (CheckBothClearEnter())
-      LocalManager.instance.StageManager.Complete();
+    {
+      IStageController stageController = LocalManager.instance.StageManager;
+      stageController.Complete();
+    }
   }
 
   private void OnLeftClearExit(Collider2D collider2D)
@@ -96,7 +93,10 @@ public class TriggerTileSetupService : IStageObjectSetupService<ITriggerTilePres
     isRightEnter = true;
 
     if (CheckBothClearEnter())
-      LocalManager.instance.StageManager.Complete();
+    {
+      IStageController stageController = LocalManager.instance.StageManager;
+      stageController.Complete();
+    }
   }
 
   private void OnRightClearExit(Collider2D collider2D)
@@ -109,7 +109,7 @@ public class TriggerTileSetupService : IStageObjectSetupService<ITriggerTilePres
 
   private void OnSpikeEnter(Collider2D collider2D)
   {
-    if(collider2D.gameObject.TryGetComponent<BasePlayerView>(out var playerView))
+    if(collider2D.gameObject.TryGetComponent<IPlayerView>(out var playerView))
     {
       var failType = playerView.GetPlayerType() switch
       {
@@ -120,5 +120,11 @@ public class TriggerTileSetupService : IStageObjectSetupService<ITriggerTilePres
 
       LocalManager.instance.StageManager.Fail(failType);
     }
+  }
+
+  public void EnableAll(bool isEnable)
+  {
+    foreach (var presenter in cachedTriggers)
+      presenter.Enable(isEnable);
   }
 }

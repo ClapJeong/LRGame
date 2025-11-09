@@ -13,13 +13,17 @@ public class LocalManager : MonoBehaviour
     instance = this;
     InitializeManagers();
 
-    StageManager.CreateAsync().Forget();
+    IStageCreator stageCreator = StageManager;
+    stageCreator.CreateAsync().Forget();
   }
 
   private void Update()
   {
-    if(Input.GetKeyDown(KeyCode.F1))
-      StageManager.ReStartAsync().Forget();
+    if (Input.GetKeyDown(KeyCode.F1))
+    {
+      IStageCreator stageCreator = StageManager;
+      stageCreator.ReStartAsync().Forget();
+    }
   }
 
   private void InitializeManagers()

@@ -1,44 +1,46 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpikeTriggerTileView : TriggerTileViewBase
+public class SpikeTriggerTileView : MonoBehaviour, ITriggerTileView
 {
+  [SerializeField] private TriggerTileType triggerTileType;
+
   private ITriggerTilePresenter presenter;
   private bool enable = true;
   private UnityAction<Collider2D> onEnter;
   private UnityAction<Collider2D> onExit;
 
-  public override void Enable(bool enabled)
+  public void Enable(bool enabled)
   {
     this.enable = enabled;
   }
 
-  public override TriggerTileType GetTriggerType()
+  public TriggerTileType GetTriggerType()
     => triggerTileType;
 
-  public override void Initialize( ITriggerTilePresenter presenter)
+  public void Initialize( ITriggerTilePresenter presenter)
   {
     this.presenter = presenter;
   }
 
-  public override void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
+  public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
   {
     this.onEnter -= onEnter;
     this.onEnter += onEnter;
   }
 
-  public override void SubscribeOnExit(UnityAction<Collider2D> onExit)
+  public void SubscribeOnExit(UnityAction<Collider2D> onExit)
   {
     this.onExit -= onExit;
     this.onExit += onExit;
   }
 
-  public override void UnsubscribeOnEnter(UnityAction<Collider2D> onEnter)
+  public void UnsubscribeOnEnter(UnityAction<Collider2D> onEnter)
   {
     this.onEnter -= onEnter;
   }
 
-  public override void UnsubscribeOnExit(UnityAction<Collider2D> onExit)
+  public void UnsubscribeOnExit(UnityAction<Collider2D> onExit)
   {
     this.onExit -= onExit;
   }

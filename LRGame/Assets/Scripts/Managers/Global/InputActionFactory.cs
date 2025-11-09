@@ -2,6 +2,8 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -15,7 +17,7 @@ public class InputActionFactory
     Canceled
   }
 
-  private readonly Dictionary<InputAction, UnityEvent<InputAction.CallbackContext>> hotkeys = new();
+  private readonly Dictionary<InputAction, UnityEvent<InputAction.CallbackContext>> inputActions = new();
 
   public InputAction Get(List<string> paths, UnityAction action, InputActionPhaseType type)
   {
@@ -45,7 +47,7 @@ public class InputActionFactory
 
   public void Add(InputAction inputAction, UnityAction addAction, InputActionPhaseType type)
   {
-    if (hotkeys.TryGetValue(inputAction, out var unityEvent))
+    if (inputActions.TryGetValue(inputAction, out var unityEvent))
     {
       unityEvent.AddListener(CreatePhaseFilteredCallback(addAction, type));
     }
@@ -53,7 +55,7 @@ public class InputActionFactory
 
   public void Add(InputAction inputAction, UnityAction<InputAction.CallbackContext> addContextAction)
   {
-    if (hotkeys.TryGetValue(inputAction, out var unityEvent))
+    if (inputActions.TryGetValue(inputAction, out var unityEvent))
     {
       unityEvent.AddListener(addContextAction);
     }
@@ -71,10 +73,10 @@ public class InputActionFactory
     if (inputAction == null)
       return;
 
-    if (hotkeys.TryGetValue(inputAction, out var unityEvent))
+    if (inputActions.TryGetValue(inputAction, out var unityEvent))
     {
       unityEvent.RemoveAllListeners();
-      hotkeys.Remove(inputAction);
+      inputActions.Remove(inputAction);
     }
 
     inputAction.Disable();
@@ -84,12 +86,19 @@ public class InputActionFactory
 
   public void Clear()
   {
-    foreach (var key in hotkeys.Keys.ToList())
+    foreach (var key in inputActions.Keys.ToList())
     {
       ReleaseAsync(key).Forget();
     }
 
-    hotkeys.Clear();
+    inputActions.Clear();
+  }
+
+  public void AttachOnDestroy(InputAction inputAction, GameObject gameObject)
+  {
+    gameObject
+      .OnDestroyAsObservable()
+      .Subscribe(_=>Release(inputAction));
   }
 
   // ---------- 내부 유틸 메서드 ----------
@@ -132,7 +141,7 @@ public class InputActionFactory
       inputAction.AddBinding(path);
     }
 
-    hotkeys[inputAction] = contextEvent;
+    inputActions[inputAction] = contextEvent;
     inputAction.Enable();
     return inputAction;
   }
