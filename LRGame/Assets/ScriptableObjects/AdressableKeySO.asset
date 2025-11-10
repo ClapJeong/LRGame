@@ -12,5 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea67186a4254bf74d812dc295069f13c, type: 3}
   m_Name: AdressableKeySO
   m_EditorClassIdentifier: Assembly-CSharp::AddressableKeySO
-  leftPlayer: LeftPlayer
-  rightPlayer: RightPlayer
+  label:
+    preload: PreLoad
+  path:
+    player: Player/
+    ui: UI/
+    scene: Scene/
+    stage: Stage/
+  sceneName:
+    preloading: Preloading
+    lobby: Lobby
+    game: Game
+  playerName:
+    leftPlayer: LeftPlayer
+    rightPlayer: RightPlayer
+  uiName:
+    preloadingFirst: PreloadingFirst
+    lobbyFirst: LobbyFirst
+    gameFirst: GameFirst
+  stageName:
+    TestStage: TestStage

@@ -8,15 +8,9 @@ public class ClearTriggerTileView : MonoBehaviour, ITriggerTileView
 
   private readonly int enterHash = Animator.StringToHash("Enter");
 
-  private ITriggerTilePresenter presenter;
   private UnityAction<Collider2D> onEnter;
   private UnityAction<Collider2D> onExit;
   private new bool enabled = true;
-
-  public void Initialize(ITriggerTilePresenter presenter)
-  {
-    this.presenter = presenter;
-  }
 
   public void Enable(bool enabled)
   {

@@ -1,6 +1,6 @@
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class GlobalManager : MonoBehaviour
 {
@@ -20,6 +20,9 @@ public class GlobalManager : MonoBehaviour
   [SerializeField] private SceneProvider sceneProvider;
   public SceneProvider SceneProvider => sceneProvider;
 
+  [SerializeField] private UIManager uiManager;
+  public UIManager UIManager => uiManager;
+
   private void Awake()
   {
     if (instance == null)
@@ -32,6 +35,8 @@ public class GlobalManager : MonoBehaviour
 
       resourceManager = new ResourceManager();
       disposables.Add(resourceManager);
+
+      SceneProvider.LoadSceneAsync(SceneType.Preloading, System.Threading.CancellationToken.None).Forget();
     }
       else
       Destroy(gameObject);    

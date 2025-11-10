@@ -3,17 +3,17 @@ using UnityEngine.Events;
 
 public class ClearTriggerTilePresenter : ITriggerTilePresenter
 {
-  private ClearTriggerTileModel model;
-  private ITriggerTileView view;
+  private readonly ClearTriggerTileModel model;
+  private readonly ITriggerTileView view;
+
+  public ClearTriggerTilePresenter(ClearTriggerTileModel model, ITriggerTileView view)
+  {
+    this.model = model;
+    this.view = view;
+  }
 
   public void Enable(bool enabled)
     =>view.Enable(enabled);
-
-  public void Initialize(object model, ITriggerTileView view)
-  {
-    this.model = model as ClearTriggerTileModel;
-    this.view = view;
-  }
 
   public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
     =>view.SubscribeOnEnter(onEnter);

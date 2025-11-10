@@ -3,10 +3,10 @@ using UnityEngine.Events;
 
 public class SpikeTriggerTilePresenter : ITriggerTilePresenter
 {
-  private SpikeTriggerTileModel model;
-  private ITriggerTileView view;
+  private readonly SpikeTriggerTileModel model;
+  private readonly ITriggerTileView view;
 
-  public void Initialize(object model, ITriggerTileView view)
+  public SpikeTriggerTilePresenter(SpikeTriggerTileModel model, ITriggerTileView view)
   {
     this.model = model as SpikeTriggerTileModel;
     this.view = view;

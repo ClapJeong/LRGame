@@ -15,25 +15,45 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 8fefb07b487b786499827f8979a1184b
   m_SerializeEntries:
+  - m_GUID: 2d37167132dab1f45a3422ee3e7df7e8
+    m_Address: UI/PreloadingFirst
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2eb9e3ed197532d4ba21eed834da6fc4
-    m_Address: RightPlayer
+    m_Address: Player/RightPlayer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47141aded9371c9439b04c8526afdab1
+    m_Address: UI/LobbyFirst
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 731b7e771a98e574782ecb2589e1b0df
+    m_Address: Scene/Lobby
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
-    m_Address: GameScene
+    m_Address: Scene/Game
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1b347f9111336146805e81fef64965e
+    m_Address: Scene/Preloading
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: efdf9a25b1c70e34bb8d696779f35655
-    m_Address: LeftPlayer
+    m_Address: Player/LeftPlayer
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f36a8e861395f4f4dba3bc4c1bfbaae8
-    m_Address: TestStage
+    m_Address: Stage/TestStage
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -77,10 +77,10 @@ public class ResourceManager : IResourceManager, IDisposable
       if (!cachedHandles.TryGetValue(location, out var handle))
         handle = await LoadAsync(location);
 
-      var createdGameObject = MonoBehaviour.Instantiate(handle.Result as GameObject, root);
+      var createdGameObject = GameObject.Instantiate(handle.Result as GameObject, root);
       createdLocations[createdGameObject] = location;
-
-      objects.Add(createdGameObject.GetComponent<T>());
+      
+      objects.Add(createdGameObject as T);
     }
     
     return objects;
@@ -102,10 +102,10 @@ public class ResourceManager : IResourceManager, IDisposable
 
   public void ReleaseInstance(GameObject gameObject, bool releaseHandle = false)
   {
-    if (releaseHandle)
+    if (releaseHandle &&
+      createdLocations.TryGetValue(gameObject, out var location) &&
+      cachedHandles.TryGetValue(location,out var handle))
     {
-      var location = createdLocations[gameObject];
-      var handle = cachedHandles[location];
       cachedHandles.Remove(location);
       Addressables.Release(handle);
     }    

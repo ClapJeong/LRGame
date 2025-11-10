@@ -19,6 +19,11 @@ public class AddressableKeySO: ScriptableObject
   [SerializeField] private PlayerName playerName;
   public PlayerName PlayerName => playerName;
 
+  [Space(5)]
   [SerializeField] private UIName uiName;
   public UIName UIName => uiName;
+
+  [Space(5)]
+  [SerializeField] private StageName stageName;
+  public StageName StageName => stageName;
 }

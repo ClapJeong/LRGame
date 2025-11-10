@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IUIResourceService
 {
-  public UniTask<IUIView> CreateViewAsync(string viewKey, UIRootType createRoot);
+  public UniTask<GameObject> CreateViewAsync(string viewKey, UIRootType createRoot);
 
-  public void Release(IUIView view);
+  public void ReleaseView(GameObject view, bool releaseHandle = false);
 }

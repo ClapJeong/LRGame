@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class SceneName : MonoBehaviour
+[System.Serializable]
+public class SceneName
 {  
-  [SerializeField] private string loading;
-  public string Loading => loading;
+  [SerializeField] private string preloading;
+  public string Preloading => preloading;
 
   [SerializeField] private string lobby;
   public string Lobby => lobby;

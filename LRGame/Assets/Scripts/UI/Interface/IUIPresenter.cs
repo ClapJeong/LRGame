@@ -1,24 +1,13 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
-public enum UIVisibleState
+
+public interface IUIPresenter: IUIVisibleStateContainer, IDisposable
 {
-  None,
-
-  Showing,
-  Showed,
-
-  Hiding,
-  Hided,
-}
-
-public interface IUIPresenter
-{
-  public UniTask InitializeAsync(object model, IUIView view);
-
-  public UIVisibleState GetVisibleState();
-
   public UniTask ShowAsync(bool isImmediately = false);
 
   public UniTask HideAsync(bool isImmediately = false);
+
+  public IDisposable AttachOnDestroy(GameObject target);
 }

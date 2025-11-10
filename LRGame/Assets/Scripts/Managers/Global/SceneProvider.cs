@@ -12,9 +12,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneProvider : MonoBehaviour, ISceneProvider
 {
-  [SerializeField] private AssetReference gameSceneReference;
-
-  readonly private Dictionary<AssetReference, AsyncOperationHandle<SceneInstance>> cachedHandled = new();
+  readonly private Dictionary<SceneType, AsyncOperationHandle<SceneInstance>> cachedHandled = new();
   private SceneType currentScene;
 
   public async UniTask LoadSceneAsync(
@@ -54,20 +52,28 @@ public class SceneProvider : MonoBehaviour, ISceneProvider
     await LoadSceneAsync(currentScene, token, onProgress, onComplete, waitUntilLoad);
   }
 
-  private AssetReference ParseSceneReference(SceneType sceneType)
-    => sceneType switch
-    {
-      SceneType.Initialize => throw new System.NotImplementedException(),
-      SceneType.Game => gameSceneReference,
-      _ => throw new System.NotImplementedException(),
-    };
 
   private AsyncOperationHandle<SceneInstance> LoadSceneHandle(SceneType sceneType)
   {
-    var sceneReference = ParseSceneReference(sceneType);
-    if (cachedHandled.TryGetValue(sceneReference, out var existHandle)== false)    
-    existHandle = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Single, false);
+    if (cachedHandled.TryGetValue(sceneType, out var existHandle) == false)
+    {
+      var sceneKey = GetSceneKey(sceneType);
+      existHandle = Addressables.LoadSceneAsync(sceneKey, LoadSceneMode.Single, false);
+    }
 
     return existHandle;
+  }
+
+  private string GetSceneKey(SceneType sceneType)
+  {
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    return sceneType switch
+    {
+      SceneType.Initialize => throw new NotImplementedException(),
+      SceneType.Preloading => table.Path.Scene + table.SceneName.Preloading,
+      SceneType.Lobby => table.Path.Scene + table.SceneName.Lobby,
+      SceneType.Game => table.Path.Scene + table.SceneName.Game,
+      _ => throw new NotImplementedException()
+    };
   }
 }

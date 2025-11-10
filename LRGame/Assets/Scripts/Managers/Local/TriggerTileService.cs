@@ -28,9 +28,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
       {
         case TriggerTileType.LeftClearTrigger:
           {
-            var presenter = new ClearTriggerTilePresenter();
             var model = new ClearTriggerTileModel();
-            presenter.Initialize(model, view);
+            var presenter = new ClearTriggerTilePresenter(model, view);
             presenter.SubscribeOnEnter(OnLeftClearEnter);
             presenter.SubscribeOnExit(OnLeftClearExit);
             presenters.Add(presenter);
@@ -40,9 +39,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.RightClearTrigger:
           {
-            var presenter = new ClearTriggerTilePresenter();
             var model = new ClearTriggerTileModel();
-            presenter.Initialize(model, view);
+            var presenter = new ClearTriggerTilePresenter(model, view);
             presenter.SubscribeOnEnter(OnRightClearEnter);
             presenter.SubscribeOnExit(OnRightClearExit);
             presenters.Add(presenter);
@@ -52,9 +50,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.Spike:
           {
-            var presenter = new SpikeTriggerTilePresenter();
             var model = new SpikeTriggerTileModel();
-            presenter.Initialize(model, view);
+            var presenter = new SpikeTriggerTilePresenter(model, view);
             presenter.SubscribeOnEnter(OnSpikeEnter);
             presenters.Add(presenter);
             cachedTriggers.Add(presenter);
