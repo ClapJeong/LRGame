@@ -11,8 +11,6 @@ public class LocalManager : MonoBehaviour
   private StageManager stageManager;
   public StageManager StageManager => stageManager;
 
-  private IDisposable firstUI;
-
   private async void Awake()
   {
     instance = this;
@@ -63,6 +61,7 @@ public class LocalManager : MonoBehaviour
     stageManager = new StageManager();
   }
 
+
   private async UniTask CreateFirstUIAsync()
   {
     IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
@@ -105,10 +104,5 @@ public class LocalManager : MonoBehaviour
     var label = GlobalManager.instance.Table.AddressableKeySO.Label.PreLoad;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     await resourceManager.LoadAssetsAsync(label);
-  }
-
-  private void OnDestroy()
-  {
-    
   }
 }

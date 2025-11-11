@@ -10,4 +10,10 @@ public class TableContainer : MonoBehaviour
 
   [SerializeField] private AddressableKeySO addressableKeySO;
   public AddressableKeySO AddressableKeySO => addressableKeySO;
+
+  [SerializeField] private TriggerTileModelSO triggerTileModelSO;
+  public TriggerTileModelSO TriggerTileModelSO => triggerTileModelSO;
+
+  [SerializeField] private UISO uiSO;
+  public UISO UISO => uiSO;
 }

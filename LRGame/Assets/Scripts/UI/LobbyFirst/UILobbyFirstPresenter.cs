@@ -78,6 +78,7 @@ public class UILobbyFirstPresenter : IUIPresenter
   {
     IUIPresenterContainer presenterContainer = GlobalManager.instance.UIManager;
     presenterContainer.Remove(this);
+    if(viewContainer)
     GameObject.Destroy(viewContainer.gameObject);
   }
 }

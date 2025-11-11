@@ -49,7 +49,8 @@ public class UIPreloadingPresenter : IUIPresenter
   {
     IUIPresenterContainer presenterContainer = GlobalManager.instance.UIManager;
     presenterContainer.Remove(this);
-    GameObject.Destroy(view.gameObject);
+    if(view)
+      GameObject.Destroy(view.gameObject);
   }
 
   public IDisposable AttachOnDestroy(GameObject target)

@@ -35,25 +35,29 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
 
   private async UniTask<IPlayerPresenter> CreateLeftPlayer(Vector3 startPosition)
   {
+    var modelSO = GlobalManager.instance.Table.LeftPlayerModelSO;
     var leftPlayerKey = 
       GlobalManager.instance.Table.AddressableKeySO.Path.Player +
       GlobalManager.instance.Table.AddressableKeySO.PlayerName.LeftPlayer;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
     var leftView = await resourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
-    var model = new PlayerModel(Vector3.up,Vector3.down,Vector3.left,Vector3.right);
+    var model = new PlayerModel(
+      modelSO.Movement.UpVector,
+      modelSO.Movement.DownVector,
+      modelSO.Movement.LeftVector,
+      modelSO.Movement.RightVector);
     var presenter = new BasePlayerPresenter();
 
     presenter.Initialize(leftView, model);
     presenter.SetWorldPosition(startPosition);
 
-    var modelSO = GlobalManager.instance.Table.LeftPlayerModelSO;
     presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
     {
-      { InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up },
-      { InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right },
-      { InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down },
-      { InputActionPaths.ParshPath(modelSO.LeftKeyCode), Direction.Left },
+      { InputActionPaths.ParshPath(modelSO.Movement.UpKeyCode), Direction.Up },
+      { InputActionPaths.ParshPath(modelSO.Movement.RightKeyCode), Direction.Right },
+      { InputActionPaths.ParshPath(modelSO.Movement.DownKeyCode), Direction.Down },
+      { InputActionPaths.ParshPath(modelSO.Movement.LeftKeyCode), Direction.Left },
     }); 
 
     await UniTask.CompletedTask;
@@ -62,25 +66,28 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
 
   private async UniTask<IPlayerPresenter> CreateRighPlayer(Vector3 startPosition)
   {
+    var modelSO = GlobalManager.instance.Table.RightPlayerModelSO;
     var rightPlayerKey =
       GlobalManager.instance.Table.AddressableKeySO.Path.Player + 
       GlobalManager.instance.Table.AddressableKeySO.PlayerName.RightPlayer;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
     var rightView = await resourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
-    var model = new PlayerModel(Vector3.up, Vector3.down, Vector3.left, Vector3.right);
-    var presenter = new BasePlayerPresenter();
+    var model = new PlayerModel(
+          modelSO.Movement.UpVector,
+          modelSO.Movement.DownVector,
+          modelSO.Movement.LeftVector,
+          modelSO.Movement.RightVector); var presenter = new BasePlayerPresenter();
 
     presenter.Initialize(rightView, model);
     presenter.SetWorldPosition(startPosition);
 
-    var modelSO = GlobalManager.instance.Table.RightPlayerModelSO;
     presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
     {
-      { InputActionPaths.ParshPath(modelSO.UpKeyCode), Direction.Up },
-      { InputActionPaths.ParshPath(modelSO.RightKeyCode), Direction.Right },
-      { InputActionPaths.ParshPath(modelSO.DownKeyCode), Direction.Down },
-      { InputActionPaths.ParshPath(modelSO.LeftKeyCode), Direction.Left },
+      { InputActionPaths.ParshPath(modelSO.Movement.UpKeyCode), Direction.Up },
+      { InputActionPaths.ParshPath(modelSO.Movement.RightKeyCode), Direction.Right },
+      { InputActionPaths.ParshPath(modelSO.Movement.DownKeyCode), Direction.Down },
+      { InputActionPaths.ParshPath(modelSO.Movement.LeftKeyCode), Direction.Left },
     });
 
     await UniTask.CompletedTask;

@@ -7,20 +7,18 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
   [SerializeField] private new Rigidbody2D rigidbody;
   [SerializeField] private PlayerType playerType;
 
-  private readonly List<Vector3> inputForces = new();
+  private Vector3 velocity = Vector3.zero;
 
   private void FixedUpdate()
   {
-    var velocity = inputForces.Count > 0 ? inputForces.Aggregate((force1, force2) => force1 + force2)
-                                      : Vector3.zero;
       rigidbody.linearVelocity = velocity;
   }
 
   public void AddForce(Vector3 force)
-    => inputForces.Add(force);
+    => velocity +=force;
 
   public void RemoveForce(Vector3 force)
-    => inputForces.Remove(force);
+    => velocity-=force;
 
   public void SetActive(bool isActive)
     =>gameObject.SetActive(isActive);
