@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 
 public class GlobalManager : MonoBehaviour
 {
@@ -45,5 +47,10 @@ public class GlobalManager : MonoBehaviour
   private void OnDestroy()
   {
     disposables.Dispose();
+  }
+
+  public void Test_ChangeLocale(Locale locale)
+  {
+    LocalizationSettings.SelectedLocale = locale;
   }
 }

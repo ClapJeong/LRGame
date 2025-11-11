@@ -74,7 +74,7 @@ public class LocalManager : MonoBehaviour
 
       case SceneType.Preloading:
         {
-          var model = new UIPreloadingPresenter.Model("Preloading...?");
+          var model = new UIPreloadingPresenter.Model();
           var view = firstUiVeiw.GetComponent<UIPreloadingView>();
           presenterFactory.Register(() => new UIPreloadingPresenter(model, view));
           var presenter = presenterFactory.Create<UIPreloadingPresenter>();
@@ -85,7 +85,7 @@ public class LocalManager : MonoBehaviour
       case SceneType.Lobby:
         {
           var table = GlobalManager.instance.Table.AddressableKeySO;
-          var model = new UILobbyFirstPresenter.Model("Test Stage", table.Path.Scene + table.SceneName.Game);
+          var model = new UILobbyFirstPresenter.Model(table.Path.Scene + table.SceneName.Game);
           var view = firstUiVeiw.GetComponent<UILobbyViewContainer>();
           presenterFactory.Register(() => new UILobbyFirstPresenter(model, view));
           var presenter = presenterFactory.Create<UILobbyFirstPresenter>();

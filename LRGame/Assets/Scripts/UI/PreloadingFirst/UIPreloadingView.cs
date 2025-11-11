@@ -1,13 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 
-public class UIPreloadingView : MonoBehaviour, ITMPController
+public class UIPreloadingView : MonoBehaviour
 {
-  [SerializeField] private TextMeshProUGUI loadingText;
-
-  public void AppendText(string text)
-    => loadingText.text += text;
-
-  public void SetText(string text)
-    => loadingText.text = text;
 }

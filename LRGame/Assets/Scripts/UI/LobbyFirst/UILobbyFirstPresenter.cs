@@ -9,12 +9,10 @@ public class UILobbyFirstPresenter : IUIPresenter
 {
   public class Model
   {
-    public readonly string beginButtonText;
-    public readonly string beginButtonSceneKey;
+    public string beginButtonSceneKey;
 
-    public Model(string beginButtonText, string beginButtonSceneKey)
+    public Model(string beginButtonSceneKey)
     {
-      this.beginButtonText = beginButtonText;
       this.beginButtonSceneKey = beginButtonSceneKey;
     }
   }
@@ -22,16 +20,13 @@ public class UILobbyFirstPresenter : IUIPresenter
   private readonly Model model;
   private readonly UILobbyViewContainer viewContainer;
   private readonly IButtonController beginButton;
-  private readonly ITMPController beginButtonText;
 
   public UILobbyFirstPresenter(Model model, UILobbyViewContainer viewContainer)
   {
     this.model = model;
     this.viewContainer = viewContainer;
     this.beginButton = viewContainer.beginButton;
-    this.beginButtonText = viewContainer.beginButton;
 
-    beginButtonText.SetText(model.beginButtonText);
     beginButton.SubscribeOnClick(OnBeginButtonClick);
   }
 

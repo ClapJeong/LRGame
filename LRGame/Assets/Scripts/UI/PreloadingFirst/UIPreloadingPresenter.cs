@@ -8,25 +8,15 @@ public class UIPreloadingPresenter : IUIPresenter
 {
   public class Model
   {
-    public readonly string loadingText;
-
-    public Model(string loadingText)
-    {
-      this.loadingText = loadingText;
-    }
   }
 
   private readonly Model model;
   private readonly UIPreloadingView view;
-  private readonly ITMPController loadingTextController;
 
   public UIPreloadingPresenter(Model model, UIPreloadingView view)
   {
     this.model = model;
     this.view = view;
-    this.loadingTextController = view;
-
-    loadingTextController.SetText(model.loadingText);
   }
 
   public async UniTask HideAsync(bool isImmediately = false)

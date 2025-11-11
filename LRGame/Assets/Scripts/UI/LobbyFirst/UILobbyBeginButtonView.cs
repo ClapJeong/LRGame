@@ -5,10 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UILobbyBeginButtonView : MonoBehaviour, IButtonController, ITMPController
+public class UILobbyBeginButtonView : MonoBehaviour, IButtonController
 {
   [SerializeField] private Button button;
-  [SerializeField] private TextMeshProUGUI tmp;
 
   private readonly UnityEvent onClick = new ();
   private IDisposable buttonDispose;
@@ -19,12 +18,6 @@ public class UILobbyBeginButtonView : MonoBehaviour, IButtonController, ITMPCont
       .OnClickAsObservable()
       .Subscribe(_ => onClick?.Invoke());
   }
-
-  public void AppendText(string text)
-    => tmp.text += text;
-
-  public void SetText(string text)
-    => tmp.text = text;
 
   public void SetInteractable(bool interactable)
     =>button.interactable = interactable;

@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8cd9b81b2393bd419c775cb59a0be80, type: 3}
   m_Name: RightPlayerModel
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModelSO
-  upKeyCode: 273
-  downKeyCode: 274
-  leftKeyCode: 276
-  rightKeyCode: 275
+  movement:
+    upKeyCode: 273
+    downKeyCode: 274
+    leftKeyCode: 276
+    rightKeyCode: 275
+    upVector: {x: 0, y: 3, z: 0}
+    downVector: {x: 0, y: -3, z: 0}
+    leftVector: {x: -3, y: 0, z: 0}
+    rightVector: {x: -3, y: 0, z: 0}
