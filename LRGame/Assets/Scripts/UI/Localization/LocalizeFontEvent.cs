@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
+using UnityEngine.Localization.Components;
+
 
 #if UNITY_EDITOR
 using UnityEditor.Localization;
@@ -12,11 +14,13 @@ using UnityEditor.Localization;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(TextMeshProUGUI))]
+[RequireComponent(typeof(LocalizeStringEvent))]
 public class LocalizeFontEvent : MonoBehaviour
-{
+{  
   [SerializeField] private LocalizedTmpFont fontReference = new();
   [Space(5)]
   [SerializeField] private List<TextMeshProUGUI> textmeshPros = new();
+  private LocalizeStringEvent localizeStringEvent;
 
 #if UNITY_EDITOR
   private bool TryAssignExistingFontTable(out LocalizedTmpFont assetReference)
@@ -54,12 +58,15 @@ public class LocalizeFontEvent : MonoBehaviour
 
   private void OnEnable()
   {
-    if(fontReference.IsEmpty && TryAssignExistingFontTable(out var assetReference))
+    if (localizeStringEvent == null)
+      localizeStringEvent = GetComponent<LocalizeStringEvent>();
+
+    if (fontReference.IsEmpty && TryAssignExistingFontTable(out var assetReference))
       fontReference = assetReference;
 
     if (textmeshPros.Count == 0)
       CacheAllTMP();
-    
+
     RefreshFont();
     Register();
   }
@@ -69,7 +76,7 @@ public class LocalizeFontEvent : MonoBehaviour
     => Unregister();
 
   private void OnDestroy()
-    => Register();
+    => Unregister();
 
 
   private void RefreshFont()
@@ -83,15 +90,22 @@ public class LocalizeFontEvent : MonoBehaviour
 
 
   private void Register()
-  {
+  {    
     LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
     fontReference.AssetChanged += OnAssetChanged;
+    localizeStringEvent.OnUpdateString.AddListener(OnUpdateString);
   }
 
   private void Unregister()
   {
     LocalizationSettings.SelectedLocaleChanged -= OnLocaleChanged;
     fontReference.AssetChanged -= OnAssetChanged;
+    localizeStringEvent.OnUpdateString.RemoveListener(OnUpdateString);
+  }
+
+  private void OnUpdateString(string text)
+  {
+    RefreshFont();
   }
 
   private void OnLocaleChanged(Locale locale)

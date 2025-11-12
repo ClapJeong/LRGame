@@ -3,6 +3,8 @@ using System;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 public class UIPreloadingPresenter : IUIPresenter
 {

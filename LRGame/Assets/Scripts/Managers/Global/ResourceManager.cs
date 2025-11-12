@@ -13,19 +13,21 @@ public class ResourceManager : IResourceManager, IDisposable
   readonly private Dictionary<IResourceLocation, AsyncOperationHandle> cachedHandles = new();
   readonly private Dictionary<GameObject, IResourceLocation> createdLocations = new();
 
-  public async UniTask LoadAssetsAsync(string key)
+  public async UniTask<List<AsyncOperationHandle>> LoadAssetsAsync(string key)
   {
     var locations = await GetLocationsAsync(key);
-    await LoadAssetsAsync(locations);
+    var handles = await LoadAssetsAsync(locations);
+    return handles;
   }
 
-  public async UniTask LoadAssetsAsync(AssetReference assetReference)
+  public async UniTask<List<AsyncOperationHandle>> LoadAssetsAsync(AssetReference assetReference)
   {
     var locations = await GetLocationsAsync(assetReference);
-    await LoadAssetsAsync(locations);
+    var handles = await LoadAssetsAsync(locations);
+    return handles;
   }
 
-  public async UniTask LoadAssetsAsync(IList<IResourceLocation> locations)
+  public async UniTask<List<AsyncOperationHandle>> LoadAssetsAsync(IList<IResourceLocation> locations)
   {
     var handles = new List<AsyncOperationHandle>();
     foreach (var location in locations)
@@ -35,6 +37,7 @@ public class ResourceManager : IResourceManager, IDisposable
     }
 
     await Addressables.ResourceManager.CreateGenericGroupOperation(handles, true);
+    return handles;
   }
 
   public async UniTask<AsyncOperationHandle> LoadAsync(IResourceLocation location)
@@ -80,7 +83,10 @@ public class ResourceManager : IResourceManager, IDisposable
       var createdGameObject = GameObject.Instantiate(handle.Result as GameObject, root);
       createdLocations[createdGameObject] = location;
       
-      objects.Add(createdGameObject as T);
+      if(typeof(T) == typeof(GameObject))     
+        objects.Add(createdGameObject as T);
+      else
+        objects.Add(createdGameObject.GetComponent<T>());
     }
     
     return objects;

@@ -42,6 +42,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c0a80f96fb2e63a45922d597be034eb6
+    m_Address: UI/LobbyStageButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1b347f9111336146805e81fef64965e
     m_Address: Scene/Preloading
     m_ReadOnly: 0
@@ -53,9 +58,10 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f36a8e861395f4f4dba3bc4c1bfbaae8
-    m_Address: Stage/TestStage
+    m_Address: Stage/Stage_-1
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Stage
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eef867e9c66589b49a786bdc517c53ff, type: 2}

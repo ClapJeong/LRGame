@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 
 public interface IStageCreator
 {
-  public UniTask CreateAsync(bool isEnableImmediately = false);
+  public UniTask CreateAsync(int index, bool isEnableImmediately = false);
 
   public UniTask ReStartAsync();
 }

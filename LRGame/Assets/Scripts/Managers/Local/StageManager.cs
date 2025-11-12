@@ -13,10 +13,11 @@ public class StageManager : IStageController, IStageCreator
     triggerTileSetupService = new TriggerTileService();
   }
 
-  public async UniTask CreateAsync(bool isEnableImmediately = false)
+  public async UniTask CreateAsync(int index, bool isEnableImmediately = false)
   {
+    var key = string.Format(GlobalManager.instance.Table.AddressableKeySO.StageName.StageNameFormat, index);
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    var stageDataContainer = await resourceManager.CreateAssetAsync<StageDataContainer>("TestStage");
+    var stageDataContainer = await resourceManager.CreateAssetAsync<StageDataContainer>(key);
 
     SetupPlayers(stageDataContainer);
     SetupTriggers(stageDataContainer);

@@ -11,4 +11,7 @@ public class UIName
 
   [SerializeField] private string gameFirst;
   public string GameFirst => gameFirst;
+
+  [SerializeField] private string lobbyStageButton;
+  public string LobbyStageButton => lobbyStageButton;
 }

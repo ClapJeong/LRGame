@@ -7,11 +7,11 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 public interface IResourceManager
 {
-  public UniTask LoadAssetsAsync(string key);
+  public UniTask<List<AsyncOperationHandle>> LoadAssetsAsync(string key);
 
-  public UniTask LoadAssetsAsync(AssetReference assetReference);
+  public UniTask<List<AsyncOperationHandle>> LoadAssetsAsync(AssetReference assetReference);
 
-  public UniTask LoadAssetsAsync(IList<IResourceLocation> locations);
+  public UniTask<List<AsyncOperationHandle>> LoadAssetsAsync(IList<IResourceLocation> locations);
 
   public UniTask<AsyncOperationHandle> LoadAsync(IResourceLocation location);
 

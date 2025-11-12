@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UniRx;
 using UniRx.Triggers;
@@ -19,15 +21,14 @@ public class UILobbyFirstPresenter : IUIPresenter
 
   private readonly Model model;
   private readonly UILobbyViewContainer viewContainer;
-  private readonly IButtonController beginButton;
+  private readonly List<(IButtonController, ILocalizeStringController)> stageButtons = new();
 
   public UILobbyFirstPresenter(Model model, UILobbyViewContainer viewContainer)
   {
     this.model = model;
     this.viewContainer = viewContainer;
-    this.beginButton = viewContainer.beginButton;
 
-    beginButton.SubscribeOnClick(OnBeginButtonClick);
+    CreateStageButtons().Forget();
   }
 
   public UIVisibleState GetVisibleState()
@@ -48,20 +49,38 @@ public class UILobbyFirstPresenter : IUIPresenter
     throw new System.NotImplementedException();
   }
 
-  private void OnBeginButtonClick()
+  private async UniTask CreateStageButtons()
   {
-    var compositeDisposable = new CompositeDisposable();
-    compositeDisposable.Add(beginButton);
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var stageLabel = table.Label.Stage;
+    var stageButtonKey = table.Path.Ui + table.UIName.LobbyStageButton;
 
-    beginButton.SetInteractable(false);
-    beginButton.UnsubscribeOnClick(OnBeginButtonClick);
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    var stages = await resourceManager.LoadAssetsAsync(stageLabel);
 
+    for(int i=0;i<stages.Count; i++)
+    {
+      var stageButton = await resourceManager.CreateAssetAsync<UILobbyStageButtonView>(stageButtonKey,viewContainer.stageButtonRoot);
+      var buttonController = stageButton as IButtonController;
+      var localizeStringController = buttonController as ILocalizeStringController;
+      stageButtons.Add((buttonController,localizeStringController));
+
+      var index = i - 1;
+      buttonController.SubscribeOnClick(() => OnStageButtonClick(index));
+      buttonController.SubscribeOnClick(buttonController.Dispose);
+      localizeStringController.SetArgument(new() { index });
+    }
+  }
+
+  private void OnStageButtonClick(int index)
+  {
+    GlobalManager.instance.selectedStage = index;
     var sceneProvider = GlobalManager.instance.SceneProvider;
     sceneProvider.LoadSceneAsync(
       SceneType.Game,
       CancellationToken.None,
       onProgress: null,
-      onComplete: compositeDisposable.Dispose).Forget();
+      onComplete: null).Forget();
   }
 
   public IDisposable AttachOnDestroy(GameObject target)

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AddressableKeySO
   label:
     preload: PreLoad
+    stage: Stage
   path:
     player: Player/
     ui: UI/
@@ -30,5 +31,6 @@ MonoBehaviour:
     preloadingFirst: PreloadingFirst
     lobbyFirst: LobbyFirst
     gameFirst: GameFirst
+    lobbyStageButton: LobbyStageButton
   stageName:
-    TestStage: TestStage
+    StageNameFormat: Stage_{0}

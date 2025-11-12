@@ -23,6 +23,14 @@ MonoBehaviour:
     m_Key: CurrentCountry
     m_Metadata:
       m_Items: []
+  - m_Id: 452826556366848
+    m_Key: StageButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 472191074926592
+    m_Key: DynamicTest
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

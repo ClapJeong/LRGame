@@ -41,7 +41,8 @@ public class LocalManager : MonoBehaviour
 
       case SceneType.Game:
         { 
-          await CreateFirstUIAsync(); 
+          await CreateFirstUIAsync();
+          await CreateStageAsync(GlobalManager.instance.selectedStage);
         }
         break;
     }   
@@ -52,6 +53,10 @@ public class LocalManager : MonoBehaviour
     stageManager = new StageManager();
   }
 
+  private async UniTask CreateStageAsync(int index)
+  {
+    await StageManager.CreateAsync(index, true);
+  }
 
   private async UniTask CreateFirstUIAsync()
   {
