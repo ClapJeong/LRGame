@@ -47,15 +47,6 @@ public class LocalManager : MonoBehaviour
     }   
   }
 
-  private void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.F1))
-    {
-      IStageCreator stageCreator = StageManager;
-      stageCreator.ReStartAsync().Forget();
-    }
-  }
-
   private void InitializeManagers()
   {
     stageManager = new StageManager();

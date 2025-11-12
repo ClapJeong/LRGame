@@ -13,7 +13,7 @@ public class StageManager : IStageController, IStageCreator
     triggerTileSetupService = new TriggerTileService();
   }
 
-  public async UniTask CreateAsync()
+  public async UniTask CreateAsync(bool isEnableImmediately = false)
   {
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var stageDataContainer = await resourceManager.CreateAssetAsync<StageDataContainer>("TestStage");
@@ -23,18 +23,18 @@ public class StageManager : IStageController, IStageCreator
     SetupDynamicObstacles(stageDataContainer);
   }
 
-  private void SetupPlayers(StageDataContainer stageData)
+  private void SetupPlayers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
     IStageObjectSetupService<IPlayerPresenter> stageObjectSetupService = playerSetupService;
     var leftPosition = stageData.LeftPlayerBeginTransform.position;
     var rightPosition = stageData.RightPlayerBeginTransform.position;
-    stageObjectSetupService.SetupAsync(new PlayerService.SetupData(leftPosition,rightPosition)).Forget();
+    stageObjectSetupService.SetupAsync(new PlayerService.SetupData(leftPosition,rightPosition),isEnableImmediately).Forget();
   }
 
-  private void SetupTriggers(StageDataContainer stageData)
+  private void SetupTriggers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
     IStageObjectSetupService<ITriggerTilePresenter> triggersSetupService = triggerTileSetupService;
-    triggersSetupService.SetupAsync(new TriggerTileService.SetupData(stageData.TriggerTiles)).Forget();
+    triggersSetupService.SetupAsync(new TriggerTileService.SetupData(stageData.TriggerTiles),isEnableImmediately).Forget();
   }
 
 
@@ -77,5 +77,23 @@ public class StageManager : IStageController, IStageCreator
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
     UnityEngine.Debug.Log($"Fail: {failType}");
+  }
+
+  public void Begin()
+  {
+    playerSetupService.EnableAll(true);
+    triggerTileSetupService.EnableAll(true);
+  }
+
+  public void Pause()
+  {
+    playerSetupService.EnableAll(false);
+    triggerTileSetupService.EnableAll(false);
+  }
+
+  public void Resume()
+  {
+    playerSetupService.EnableAll(true);
+    triggerTileSetupService.EnableAll(true);
   }
 }

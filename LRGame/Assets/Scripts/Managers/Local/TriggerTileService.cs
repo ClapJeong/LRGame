@@ -18,7 +18,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
   private bool isLeftEnter;
   private bool isRightEnter;
 
-  public async UniTask<List<ITriggerTilePresenter>> SetupAsync(object data)
+  public async UniTask<List<ITriggerTilePresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
     var presenters = new List<ITriggerTilePresenter>();
     var setupData = data as SetupData;
@@ -32,6 +32,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
             var presenter = new ClearTriggerTilePresenter(model, view);
             presenter.SubscribeOnEnter(OnLeftClearEnter);
             presenter.SubscribeOnExit(OnLeftClearExit);
+            presenter.Enable(isEnableImmediately);
             presenters.Add(presenter);
             cachedTriggers.Add(presenter);
           }
@@ -43,6 +44,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
             var presenter = new ClearTriggerTilePresenter(model, view);
             presenter.SubscribeOnEnter(OnRightClearEnter);
             presenter.SubscribeOnExit(OnRightClearExit);
+            presenter.Enable(isEnableImmediately);
             presenters.Add(presenter);
             cachedTriggers.Add(presenter);
           }
@@ -53,6 +55,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
             var model = new SpikeTriggerTileModel();
             var presenter = new SpikeTriggerTilePresenter(model, view);
             presenter.SubscribeOnEnter(OnSpikeEnter);
+            presenter.Enable(isEnableImmediately);
             presenters.Add(presenter);
             cachedTriggers.Add(presenter);
           }

@@ -18,11 +18,14 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
-  public async UniTask<List<IPlayerPresenter>> SetupAsync(object data)
+  public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
     var setupData = data as SetupData;
     leftPlayer = await CreateLeftPlayer(setupData.leftPosition);
     rightPlayer = await CreateRighPlayer(setupData.rightPosition);
+
+    leftPlayer.Enable(isEnableImmediately);
+    rightPlayer.Enable(isEnableImmediately);
 
     return new List<IPlayerPresenter>() { leftPlayer, rightPlayer };
   }

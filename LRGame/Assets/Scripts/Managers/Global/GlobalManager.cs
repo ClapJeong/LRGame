@@ -3,8 +3,10 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using System.IO;
+using System.Threading;
 
-public class GlobalManager : MonoBehaviour
+public class GlobalManager : MonoBehaviour, IGameDataController
 {
   public static GlobalManager instance;
 
@@ -25,8 +27,13 @@ public class GlobalManager : MonoBehaviour
   [SerializeField] private UIManager uiManager;
   public UIManager UIManager => uiManager;
 
+  private string GameDataPath;
+  private GameData gameData;
+  public int selectedStage = 0;
+
   private void Awake()
   {
+    GameDataPath = Application.persistentDataPath + "/GameData.json";
     if (instance == null)
     {
       instance = this;
@@ -52,5 +59,37 @@ public class GlobalManager : MonoBehaviour
   public void Test_ChangeLocale(Locale locale)
   {
     LocalizationSettings.SelectedLocale = locale;
+  }
+
+  public async UniTask SaveAsync(CancellationToken token)
+  {
+    if(gameData==null)
+      gameData = new GameData();
+
+    var json = JsonUtility.ToJson(gameData);
+    await  File.WriteAllTextAsync(GameDataPath, json,token);
+  }
+
+  public async UniTask LoadAsync(CancellationToken token)
+  {
+    if (File.Exists(GameDataPath) == false)
+    {
+      gameData = new GameData();
+    }
+    else
+    {
+      var text = await File.ReadAllTextAsync(GameDataPath, token);
+      gameData = JsonUtility.FromJson<GameData>(text);
+    }    
+  }
+
+  public int GetClearStage()
+  {
+    return gameData.clearedStage;
+  }
+
+  public void SetClearStage(int stage)
+  {
+    gameData.clearedStage = stage;
   }
 }
