@@ -70,49 +70,67 @@ public class LocalManager : MonoBehaviour
 
       case SceneType.Preloading:
         {
-          var model = new UIPreloadingPresenter.Model();
-          var view = firstUiVeiw.GetComponent<UIPreloadingView>();
-          presenterFactory.Register(() => new UIPreloadingPresenter(model, view));
-          var presenter = presenterFactory.Create<UIPreloadingPresenter>();
-          presenter.AttachOnDestroy(gameObject);
+          CreatePreloadingUI(presenterFactory, firstUiVeiw);
         }
         break;
 
       case SceneType.Lobby:
         {
-          var table = GlobalManager.instance.Table.AddressableKeySO;
-          var model = new UILobbyFirstPresenter.Model(table.Path.Scene + table.SceneName.Game);
-          var view = firstUiVeiw.GetComponent<UILobbyViewContainer>();
-          presenterFactory.Register(() => new UILobbyFirstPresenter(model, view));
-          var presenter = presenterFactory.Create<UILobbyFirstPresenter>();
-          presenter.AttachOnDestroy(gameObject);
+          CreateLobbyUI(presenterFactory, firstUiVeiw);
         }
         break;
 
       case SceneType.Game:
         {
-          var table = GlobalManager.instance.Table.AddressableKeySO;
-          var model = new UIGameFirstPresenter.Model(
-            InputActionPaths.Keyboard.W,
-            InputActionPaths.Keyboard.Up,
-            () =>
-            {
-              IStageController stageController = StageManager;
-              stageController.Begin();
-            },
-            () =>
-            {
-              IStageCreator stageCreator = StageManager;
-              stageCreator.ReStartAsync().Forget();
-            }
-            );
-          var view = firstUiVeiw.GetComponent<UIGameFirstViewContainer>();
-          presenterFactory.Register(() => new UIGameFirstPresenter(model, view));
-          var presenter = presenterFactory.Create<UIGameFirstPresenter>();
-          presenter.AttachOnDestroy(gameObject);
+          CreateGameUI(presenterFactory, firstUiVeiw);
         }
         break;
     }
+  }
+
+  private void CreatePreloadingUI(IUIPresenterFactory presenterFactory, GameObject viewGameObject)
+  {
+    var model = new UIPreloadingPresenter.Model();
+    var view = viewGameObject.GetComponent<UIPreloadingView>();
+    presenterFactory.Register(() => new UIPreloadingPresenter(model, view));
+    var presenter = presenterFactory.Create<UIPreloadingPresenter>();
+    presenter.AttachOnDestroy(gameObject);
+  }
+
+  private void CreateLobbyUI(IUIPresenterFactory presenterFactory,GameObject viewGameObject)
+  {
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var model = new UILobbyFirstPresenter.Model(table.Path.Scene + table.SceneName.Game);
+    var view = viewGameObject.GetComponent<UILobbyViewContainer>();
+    presenterFactory.Register(() => new UILobbyFirstPresenter(model, view));
+    var presenter = presenterFactory.Create<UILobbyFirstPresenter>();
+    presenter.AttachOnDestroy(gameObject);
+  }
+
+  private void CreateGameUI(IUIPresenterFactory presenterFactory, GameObject viewGameObject)
+  {
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var model = new UIGameFirstPresenter.Model(
+      InputActionPaths.Keyboard.W,
+      InputActionPaths.Keyboard.Up,
+      () =>
+      {
+        IStageController stageController = StageManager;
+        stageController.Begin();
+      },
+      () =>
+      {
+        IStageCreator stageCreator = StageManager;
+        stageCreator.ReStartAsync().Forget();
+      }
+      );
+    var view = viewGameObject.GetComponent<UIGameFirstViewContainer>();
+    presenterFactory.Register(() => new UIGameFirstPresenter(model, view));
+    var presenter = presenterFactory.Create<UIGameFirstPresenter>();
+    presenter.AttachOnDestroy(gameObject);
+
+    IStageController stageController = StageManager;
+    StageManager.SubscribeOnEvent(IStageController.StageEventType.LeftFailed, presenter.EnableRestartGuide);
   }
 
   private async UniTask LoadPreloadAsync()

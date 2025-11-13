@@ -4,25 +4,28 @@ using UnityEngine;
 
 public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectEnableService<ITriggerTilePresenter>
 {
-  public class SetupData
+  public class Model
   {
+    public readonly IStageController stageController;
     public readonly List<ITriggerTileView> existViews;
-    public SetupData(List<ITriggerTileView> existViews) 
+    public Model(List<ITriggerTileView> existViews, IStageController stageController) 
     { 
       this.existViews = existViews; 
+      this.stageController = stageController;
     }
   }
 
   private readonly List<ITriggerTilePresenter> cachedTriggers = new();
 
+  private Model model;
   private bool isLeftEnter;
   private bool isRightEnter;
 
   public async UniTask<List<ITriggerTilePresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
     var presenters = new List<ITriggerTilePresenter>();
-    var setupData = data as SetupData;
-    foreach(var view in setupData.existViews)
+    this.model = data as Model;
+    foreach(var view in model.existViews)
     {
       switch (view.GetTriggerType())
       {
@@ -111,14 +114,18 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
   {
     if(collider2D.gameObject.TryGetComponent<IPlayerView>(out var playerView))
     {
-      var failType = playerView.GetPlayerType() switch
+      switch (playerView.GetPlayerType())
       {
-        PlayerType.Left => StageFailType.LeftPlayerDied,
-        PlayerType.Right => StageFailType.RightPlayerDied,
-        _ => throw new System.NotImplementedException()
-      }; ;
+        case PlayerType.Left:
+          model.stageController.OnLeftFailed();
+          break;
 
-      LocalManager.instance.StageManager.Fail(failType);
+        case PlayerType.Right:
+          model.stageController.OnRightFailed();
+          break;
+
+        default: throw new System.NotImplementedException();
+      }
     }
   }
 
