@@ -15,7 +15,8 @@ public class StageManager : IStageController, IStageCreator
 
   public async UniTask CreateAsync(int index, bool isEnableImmediately = false)
   {
-    var key = string.Format(GlobalManager.instance.Table.AddressableKeySO.StageName.StageNameFormat, index);
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var key = table.Path.Stage + string.Format(table.StageName.StageNameFormat, index);
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var stageDataContainer = await resourceManager.CreateAssetAsync<StageDataContainer>(key);
 

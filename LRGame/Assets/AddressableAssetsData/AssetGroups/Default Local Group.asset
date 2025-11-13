@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 8fefb07b487b786499827f8979a1184b
   m_SerializeEntries:
+  - m_GUID: 0d7ef29e8d7fac04099c55f01c86624f
+    m_Address: UI/GameFirst
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d37167132dab1f45a3422ee3e7df7e8
     m_Address: UI/PreloadingFirst
     m_ReadOnly: 0

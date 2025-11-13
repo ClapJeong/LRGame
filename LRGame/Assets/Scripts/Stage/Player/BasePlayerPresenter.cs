@@ -88,5 +88,7 @@ public class BasePlayerPresenter : IPlayerPresenter
     => view.SetScale(scale);
 
   public void Enable(bool enable)
-    => view.SetActive(enable);
+  {
+    EnableAllInputActions(enable);
+  }
 }

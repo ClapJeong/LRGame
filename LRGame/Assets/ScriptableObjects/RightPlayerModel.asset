@@ -20,4 +20,4 @@ MonoBehaviour:
     upVector: {x: 0, y: 3, z: 0}
     downVector: {x: 0, y: -3, z: 0}
     leftVector: {x: -3, y: 0, z: 0}
-    rightVector: {x: -3, y: 0, z: 0}
+    rightVector: {x: 3, y: 0, z: 0}

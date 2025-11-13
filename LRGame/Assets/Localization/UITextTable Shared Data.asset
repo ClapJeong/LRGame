@@ -28,7 +28,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 472191074926592
-    m_Key: DynamicTest
+    m_Key: PressToBegin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 692108302843904
+    m_Key: PressToRestart
     m_Metadata:
       m_Items: []
   m_Metadata:

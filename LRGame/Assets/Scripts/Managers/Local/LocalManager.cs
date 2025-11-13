@@ -90,9 +90,29 @@ public class LocalManager : MonoBehaviour
         break;
 
       case SceneType.Game:
+        {
+          var table = GlobalManager.instance.Table.AddressableKeySO;
+          var model = new UIGameFirstPresenter.Model(
+            InputActionPaths.Keyboard.W,
+            InputActionPaths.Keyboard.Up,
+            () =>
+            {
+              IStageController stageController = StageManager;
+              stageController.Begin();
+            },
+            () =>
+            {
+              IStageCreator stageCreator = StageManager;
+              stageCreator.ReStartAsync().Forget();
+            }
+            );
+          var view = firstUiVeiw.GetComponent<UIGameFirstViewContainer>();
+          presenterFactory.Register(() => new UIGameFirstPresenter(model, view));
+          var presenter = presenterFactory.Create<UIGameFirstPresenter>();
+          presenter.AttachOnDestroy(gameObject);
+        }
         break;
     }
-
   }
 
   private async UniTask LoadPreloadAsync()

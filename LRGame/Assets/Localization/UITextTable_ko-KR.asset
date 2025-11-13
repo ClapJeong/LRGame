@@ -33,9 +33,15 @@ MonoBehaviour:
       m_Items:
       - rid: 2350293246091198545
   - m_Id: 472191074926592
-    m_Localized: "\uD55C\uAE00 \uBA3C\uC800! {global-TestInt} "
+    m_Localized: "{0} \uC785\uB825\uC73C\uB85C \uC2DC\uC791"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 2350293246091198545
+  - m_Id: 692108302843904
+    m_Localized: "{0} \uC785\uB825\uC73C\uB85C \uB2E4\uC2DC\uD558\uAE30"
+    m_Metadata:
+      m_Items:
+      - rid: 2350293246091198545
   references:
     version: 2
     RefIds:
@@ -45,3 +51,5 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 452826556366848
+        - id: 472191074926592
+        - id: 692108302843904
