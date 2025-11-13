@@ -140,4 +140,42 @@ public class LocalManager : MonoBehaviour
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     await resourceManager.LoadAssetsAsync(label);
   }
+
+  #region DebugginMethods
+  public void Debugging_StageComplete()
+  {
+    if (sceneType != SceneType.Game)
+      return;
+
+    IStageController stageController = StageManager;
+    stageController.Complete();
+  }
+
+  public void Debugging_StageLeftFail()
+  {
+    if (sceneType != SceneType.Game)
+      return;
+
+    IStageController stageController = StageManager;
+    stageController.OnLeftFailed();
+  }
+
+  public void Debugging_StageRightFail()
+  {
+    if (sceneType != SceneType.Game)
+      return;
+
+    IStageController stageController = StageManager;
+    stageController.OnRightFailed();
+  }
+
+  public void Debugging_StageRestart()
+  {
+    if (sceneType != SceneType.Game)
+      return;
+
+    IStageCreator stageCreator = StageManager;
+    stageCreator.ReStartAsync().Forget();
+  }
+  #endregion
 }

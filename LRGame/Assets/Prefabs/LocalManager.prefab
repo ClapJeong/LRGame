@@ -1,5 +1,156 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1516448259212712605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5542611918299440361}
+  - component: {fileID: 4565081304365723334}
+  - component: {fileID: 8863850931480651792}
+  - component: {fileID: 5491912365020933804}
+  - component: {fileID: 4035836715977570532}
+  m_Layer: 0
+  m_Name: DebuggingEventRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5542611918299440361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516448259212712605}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3976512258928946772}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4565081304365723334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516448259212712605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e1897fa36e73f4c94bf8cae149d0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableStageEventListener
+  so: {fileID: 11400000, guid: c200bcf017050274087b1fc10067166a, type: 2}
+  type: 0
+  stageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2591406199023073449}
+        m_TargetAssemblyTypeName: LocalManager, Assembly-CSharp
+        m_MethodName: Debugging_StageComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8863850931480651792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516448259212712605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e1897fa36e73f4c94bf8cae149d0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableStageEventListener
+  so: {fileID: 11400000, guid: c200bcf017050274087b1fc10067166a, type: 2}
+  type: 1
+  stageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2591406199023073449}
+        m_TargetAssemblyTypeName: LocalManager, Assembly-CSharp
+        m_MethodName: Debugging_StageLeftFail
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5491912365020933804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516448259212712605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e1897fa36e73f4c94bf8cae149d0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableStageEventListener
+  so: {fileID: 11400000, guid: c200bcf017050274087b1fc10067166a, type: 2}
+  type: 2
+  stageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2591406199023073449}
+        m_TargetAssemblyTypeName: LocalManager, Assembly-CSharp
+        m_MethodName: Debugging_StageRightFail
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4035836715977570532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516448259212712605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e1897fa36e73f4c94bf8cae149d0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableStageEventListener
+  so: {fileID: 11400000, guid: c200bcf017050274087b1fc10067166a, type: 2}
+  type: 3
+  stageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2591406199023073449}
+        m_TargetAssemblyTypeName: LocalManager, Assembly-CSharp
+        m_MethodName: Debugging_StageRestart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8921980825293777830
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,7 +180,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5542611918299440361}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2591406199023073449
@@ -44,3 +196,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c844c802a558f84c956f1ff8cb88393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalManager
+  sceneType: 0
