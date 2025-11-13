@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IPlayerView : ITransformController
+public interface IPlayerView : IGameObjectController, IPositionController
 {
   public PlayerType GetPlayerType();
 

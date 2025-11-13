@@ -29,8 +29,8 @@ public class UIGameFirstPresenter : IUIPresenter
   private readonly Model model;
   private readonly UIGameFirstViewContainer viewContainer;
 
-  private readonly IRectController beginGuideRect;
-  private readonly IRectController restartGuideRect;
+  private readonly IGameObjectController beginGuideGameObject;
+  private readonly IGameObjectController restartGuideGameObject;
   private readonly ILocalizeStringController beginGuideString;
   private readonly ILocalizeStringController restartGuideString;
 
@@ -43,9 +43,9 @@ public class UIGameFirstPresenter : IUIPresenter
   {
     this.model = model;
     this.viewContainer = viewContainer;
-    this.beginGuideRect = viewContainer.stageBeginView;
+    this.beginGuideGameObject = viewContainer.stageBeginView;
     this.beginGuideString = viewContainer.stageBeginView;
-    this.restartGuideRect = viewContainer.stageRestartView;
+    this.restartGuideGameObject = viewContainer.stageRestartView;
     this.restartGuideString = viewContainer.stageRestartView;
 
     beginGuideString.SetArgument(new() { model.beginInputActionPath });
@@ -88,25 +88,25 @@ public class UIGameFirstPresenter : IUIPresenter
   public void EnableBeginGuide()
   {
     beginInputAction.Enable();
-    beginGuideRect.SetActive(true);
+    beginGuideGameObject.SetActive(true);
   }
 
   public void DisableBeginGuide()
   {
     beginInputAction.Disable();
-    beginGuideRect.SetActive(false);
+    beginGuideGameObject.SetActive(false);
   }
 
   public void EnableRestartGuide()
   {
     restartInputAction.Enable();
-    restartGuideRect.SetActive(true);
+    restartGuideGameObject.SetActive(true);
   }
 
   public void DisableRestartGuide()
   {
     restartInputAction.Disable();
-    restartGuideRect.SetActive(false);
+    restartGuideGameObject.SetActive(false);
   }
 
   private void OnBeginStage()

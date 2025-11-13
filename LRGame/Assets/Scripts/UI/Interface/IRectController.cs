@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public interface IRectController : ITransformController
+public interface IRectController
 {
-  
+  //SetAnchor
+  //SetPivot
 }

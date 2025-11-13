@@ -131,6 +131,7 @@ public class LocalManager : MonoBehaviour
 
     IStageController stageController = StageManager;
     StageManager.SubscribeOnEvent(IStageController.StageEventType.LeftFailed, presenter.EnableRestartGuide);
+    StageManager.SubscribeOnEvent(IStageController.StageEventType.RightFailed, presenter.EnableRestartGuide);
   }
 
   private async UniTask LoadPreloadAsync()

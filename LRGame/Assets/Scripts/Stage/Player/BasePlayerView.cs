@@ -43,4 +43,10 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
 
   public PlayerType GetPlayerType()
     => playerType;
+
+  public void AddWorldPosition(Vector3 value)
+    => transform.position += value;
+
+  public void AddLocalPosition(Vector3 value)
+    => transform.localPosition += value;
 }

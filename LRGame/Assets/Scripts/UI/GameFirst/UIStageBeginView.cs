@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
-public class UIStageBeginView : MonoBehaviour, IRectController, ILocalizeStringController
+public class UIStageBeginView : MonoBehaviour, IGameObjectController, ILocalizeStringController
 {
   [SerializeField] private RectTransform RectTransform;
   [SerializeField] private LocalizeStringEvent stringEvent;

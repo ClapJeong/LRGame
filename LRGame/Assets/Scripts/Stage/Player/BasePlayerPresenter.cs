@@ -78,17 +78,19 @@ public class BasePlayerPresenter : IPlayerPresenter
   public void SetWorldPosition(Vector3 worldPosition)
     => view.SetWorldPosition(worldPosition);
 
-  public void SetEuler(Vector3 euler)
-    => view.SetEuler(euler);
-
-  public void SetRotation(Quaternion rotation)
-    => view.SetRotation(rotation);
-
-  public void SetScale(Vector3 scale)
-    => view.SetScale(scale);
 
   public void Enable(bool enable)
   {
     EnableAllInputActions(enable);
+  }
+
+  public void AddWorldPosition(Vector3 value)
+  {
+    throw new System.NotImplementedException();
+  }
+
+  public void AddLocalPosition(Vector3 value)
+  {
+    throw new System.NotImplementedException();
   }
 }
