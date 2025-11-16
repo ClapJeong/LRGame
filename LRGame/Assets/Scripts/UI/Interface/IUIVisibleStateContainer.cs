@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public interface IUIVisibleStateContainer
+namespace LR.UI
 {
-  public UIVisibleState GetVisibleState();
+  public interface IUIVisibleStateContainer
+  {
+    public UIVisibleState GetVisibleState();
 
-  public void SetVisibleState(UIVisibleState visibleState);
+    public void SetVisibleState(UIVisibleState visibleState);
+  }
 }

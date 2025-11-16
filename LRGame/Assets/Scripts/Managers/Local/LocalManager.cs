@@ -2,6 +2,10 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
+using LR.UI;
+using LR.UI.Preloading;
+using LR.UI.GameScene;
+using LR.UI.Lobby;
 
 public class LocalManager : MonoBehaviour
 {
@@ -130,8 +134,8 @@ public class LocalManager : MonoBehaviour
     presenter.AttachOnDestroy(gameObject);
 
     IStageController stageController = StageManager;
-    StageManager.SubscribeOnEvent(IStageController.StageEventType.LeftFailed, presenter.EnableRestartGuide);
-    StageManager.SubscribeOnEvent(IStageController.StageEventType.RightFailed, presenter.EnableRestartGuide);
+    StageManager.SubscribeOnEvent(IStageController.StageEventType.LeftFailed, presenter.OnGameFailed);
+    StageManager.SubscribeOnEvent(IStageController.StageEventType.RightFailed, presenter.OnGameFailed);
   }
 
   private async UniTask LoadPreloadAsync()
