@@ -13,6 +13,7 @@ public class BasePlayerPresenter : IPlayerPresenter
   {
     this.view = view;
     this.model = model;
+    view.SetWorldPosition(model.beginPosition);
   }
 
   public void CreateMoveInputAction(Dictionary<string, Direction> pathDirectionPairs)
@@ -66,31 +67,9 @@ public class BasePlayerPresenter : IPlayerPresenter
     }  
   }
 
-  public void SetRoot(Transform root)
-    =>view.SetRoot(root);
-
-  public void SetActive(bool isActive)
-    => view.SetActive(isActive);
-
-  public void SetLocalPosition(Vector3 position)
-    => view.SetLocalPosition(position);
-
-  public void SetWorldPosition(Vector3 worldPosition)
-    => view.SetWorldPosition(worldPosition);
-
 
   public void Enable(bool enable)
   {
     EnableAllInputActions(enable);
-  }
-
-  public void AddWorldPosition(Vector3 value)
-  {
-    throw new System.NotImplementedException();
-  }
-
-  public void AddLocalPosition(Vector3 value)
-  {
-    throw new System.NotImplementedException();
   }
 }

@@ -49,11 +49,11 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       modelSO.Movement.UpVector,
       modelSO.Movement.DownVector,
       modelSO.Movement.LeftVector,
-      modelSO.Movement.RightVector);
+      modelSO.Movement.RightVector,
+      startPosition);
     var presenter = new BasePlayerPresenter();
 
     presenter.Initialize(leftView, model);
-    presenter.SetWorldPosition(startPosition);
 
     presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
     {
@@ -80,10 +80,11 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
           modelSO.Movement.UpVector,
           modelSO.Movement.DownVector,
           modelSO.Movement.LeftVector,
-          modelSO.Movement.RightVector); var presenter = new BasePlayerPresenter();
+          modelSO.Movement.RightVector,
+          startPosition);
+    var presenter = new BasePlayerPresenter();
 
     presenter.Initialize(rightView, model);
-    presenter.SetWorldPosition(startPosition);
 
     presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
     {

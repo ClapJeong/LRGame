@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LR.UI.GameScene
 {
-  public class UIStageFailViewContainer : MonoBehaviour, IGameObjectController
+  public class UIStageFailViewContainer : MonoBehaviour, IGameObjectView
   {
     public BaseCanvasGroupView failBackgroundView;
     public BaseLocalizeStringView failTextView;

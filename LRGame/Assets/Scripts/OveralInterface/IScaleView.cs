@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IScaleController
+public interface IScaleView
 {
   public void SetWorldScale(Vector3 scale);
 

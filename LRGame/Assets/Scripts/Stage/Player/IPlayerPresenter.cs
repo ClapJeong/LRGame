@@ -13,7 +13,7 @@ public interface IMoveController
   public void EnableAllInputActions(bool enable);
 }
 
-public interface IPlayerPresenter: IMoveController, IGameObjectController, IPositionController, IStageObjectEnabler
+public interface IPlayerPresenter: IMoveController, IStageObjectEnabler
 {
   public void Initialize(IPlayerView view, PlayerModel model);
 }

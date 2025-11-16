@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IRotationController
+public interface IRotationView
 {
     public void SetRotaion(Quaternion quaternion);
 

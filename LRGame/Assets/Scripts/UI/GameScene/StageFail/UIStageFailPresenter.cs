@@ -29,7 +29,7 @@ namespace LR.UI.GameScene
     private readonly Model model;
     private readonly UIStageFailViewContainer stageFailViewContainer;
 
-    private readonly IGameObjectController content;
+    private readonly IGameObjectView content;
     private readonly ICanvasGroupView backGroundCanvasGroup;
     private readonly ILocalizeStringView restartText;
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IGameObjectController
+public interface IGameObjectView
 {
   public void SetActive(bool active);
 

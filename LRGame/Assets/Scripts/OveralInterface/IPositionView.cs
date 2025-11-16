@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IPositionController
+public interface IPositionView
 {
   public void SetWorldPosition(Vector3 worldPosition);
 
