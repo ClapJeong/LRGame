@@ -12,6 +12,12 @@ public class DebuggingUI : MonoBehaviour
   [SerializeField] private GameObject root;
   [SerializeField] private ScriptableEventSO scriptableEventSO;
   [SerializeField] private TextMeshProUGUI selectedStageIndexText;
+  [SerializeField] private TextMeshProUGUI clearedStageIndexText;
+
+  private void Awake()
+  {
+    root.SetActive(false);
+  }
 
   private void Update()
   {
@@ -22,6 +28,7 @@ public class DebuggingUI : MonoBehaviour
     }      
 
     selectedStageIndexText.text = GlobalManager.instance.selectedStage.ToString();
+    clearedStageIndexText.text = GlobalManager.instance.gameData.clearedStage.ToString();
   }
 
   public void OnLocaleButtonClicked(Locale locale)
@@ -29,4 +36,7 @@ public class DebuggingUI : MonoBehaviour
 
   public void OnStageButtonClicked(int stageEventType)
     => scriptableEventSO.OnStageEvent((StageEventType)stageEventType);
+
+  public void OnGameDataButtonClicked(int gameDataEventType)
+    => scriptableEventSO.OnGameDataEvent((GameDataEventType)gameDataEventType);
 }

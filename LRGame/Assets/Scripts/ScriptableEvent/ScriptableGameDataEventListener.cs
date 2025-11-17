@@ -1,0 +1,30 @@
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Localization;
+
+namespace ScriptableEvent
+{
+  public enum GameDataEventType
+  {
+    AddClearedStage,
+    MinusClearedStage
+  }
+  public class ScriptableGameDataEventListener : MonoBehaviour
+  {
+    [SerializeField] private GameDataEventType type;
+    [SerializeField] private UnityEvent listenrEvent;
+
+    private void OnEnable()
+    {
+      ScriptableEventSO.instance.RegisterGameDataEvent(type,this);
+    }
+
+    private void OnDisable()
+    {
+      ScriptableEventSO.instance.RegisterGameDataEvent(type, this);
+    }
+
+    public void Raise()
+      => listenrEvent?.Invoke();
+  }
+}

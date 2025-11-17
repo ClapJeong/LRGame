@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IGameDataController
 {
-  public UniTask SaveAsync(CancellationToken token);
+  public UniTask SaveDataAsync(CancellationToken token = default);
 
-  public UniTask LoadAsync(CancellationToken token);
+  public UniTask LoadDataAsync(CancellationToken token = default);
 
   public int GetClearStage();
 

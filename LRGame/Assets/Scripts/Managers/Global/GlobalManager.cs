@@ -28,7 +28,7 @@ public class GlobalManager : MonoBehaviour, IGameDataController
   public UIManager UIManager => uiManager;
 
   private string GameDataPath;
-  private GameData gameData;
+  public GameData gameData;
   public int selectedStage = 0;
 
   private void Awake()
@@ -46,6 +46,7 @@ public class GlobalManager : MonoBehaviour, IGameDataController
       disposables.Add(resourceManager);
 
       SceneProvider.LoadSceneAsync(SceneType.Preloading, System.Threading.CancellationToken.None).Forget();
+      LoadDataAsync().Forget();
     }
       else
       Destroy(gameObject);    
@@ -61,7 +62,7 @@ public class GlobalManager : MonoBehaviour, IGameDataController
     LocalizationSettings.SelectedLocale = locale;
   }
 
-  public async UniTask SaveAsync(CancellationToken token)
+  public async UniTask SaveDataAsync(CancellationToken token = default)
   {
     if(gameData==null)
       gameData = new GameData();
@@ -70,7 +71,7 @@ public class GlobalManager : MonoBehaviour, IGameDataController
     await  File.WriteAllTextAsync(GameDataPath, json,token);
   }
 
-  public async UniTask LoadAsync(CancellationToken token)
+  public async UniTask LoadDataAsync(CancellationToken token = default)
   {
     if (File.Exists(GameDataPath) == false)
     {
@@ -92,4 +93,18 @@ public class GlobalManager : MonoBehaviour, IGameDataController
   {
     gameData.clearedStage = stage;
   }
+
+  #region Debugging
+  public void Debugging_AddClearStage()
+  {
+    gameData.clearedStage++;
+    SaveDataAsync().Forget();
+  }
+
+  public void Debugging_MinusClearStage()
+  {
+    gameData.clearedStage = Mathf.Max(0, gameData.clearedStage - 1);
+    SaveDataAsync().Forget();
+  }
+  #endregion
 }

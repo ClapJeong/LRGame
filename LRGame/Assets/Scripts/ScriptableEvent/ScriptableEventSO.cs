@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
+using static IStageController;
 
 namespace ScriptableEvent
 {
@@ -33,8 +34,35 @@ namespace ScriptableEvent
           listeners[i].Raise();
       }
     }
+    private class GameDataListnerSet
+    {
+      public static implicit operator bool(GameDataListnerSet s) => s != null;
+
+      public readonly GameDataEventType type;
+      public readonly List<ScriptableGameDataEventListener> listeners;
+
+      public GameDataListnerSet(GameDataEventType type, ScriptableGameDataEventListener listener)
+      {
+        this.type = type;
+        this.listeners = new() { listener };
+      }
+
+      public void Add(ScriptableGameDataEventListener listener)
+        => listeners.Add(listener);
+
+      public void Remove(ScriptableGameDataEventListener listener)
+        => listeners.Remove(listener);
+
+      public void Raise()
+      {
+        for (int i = 0; i < listeners.Count; i++)
+          listeners[i].Raise();
+      }
+    }
+
     private readonly List<ScriptableLocaleEventListener> setLocaleListeners = new();
     private readonly List<StageListnerSet> stageListeners = new();
+    private readonly List<GameDataListnerSet> gameDataListnerSets = new();
     public static ScriptableEventSO instance;
 
     private void OnEnable()
@@ -77,6 +105,30 @@ namespace ScriptableEvent
     public void UnregisterStageEvent(StageEventType stageEventType, ScriptableStageEventListener listener)
     {
       var set = stageListeners.FirstOrDefault(s => s.type == stageEventType);
+      set?.Remove(listener);
+    }
+    #endregion
+
+    #region GameData
+    public void OnGameDataEvent(GameDataEventType gameDataEventType)
+    {
+      var set = gameDataListnerSets.FirstOrDefault(s => s.type == gameDataEventType);
+      set?.Raise();
+    }
+
+    public void RegisterGameDataEvent(GameDataEventType gameDataEventType, ScriptableGameDataEventListener listener)
+    {
+      var set = gameDataListnerSets.FirstOrDefault(s => s.type == gameDataEventType);
+
+      if (set)
+        set.Add(listener);
+      else
+        gameDataListnerSets.Add(new GameDataListnerSet(gameDataEventType, listener));
+    }
+
+    public void UnregisterGameDataEvent(GameDataEventType gameDataEventType, ScriptableGameDataEventListener listener)
+    {
+      var set = gameDataListnerSets.FirstOrDefault(s => s.type == gameDataEventType);
       set?.Remove(listener);
     }
     #endregion
