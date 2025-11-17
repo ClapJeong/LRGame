@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -23,15 +24,9 @@ namespace LR.UI.Preloading
       this.view = view;
     }
 
-    public async UniTask HideAsync(bool isImmediately = false)
-    {
-      await UniTask.CompletedTask;
-    }
+    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default) { }
 
-    public async UniTask ShowAsync(bool isImmediately = false)
-    {
-      await UniTask.CompletedTask;
-    }
+    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default) { }
 
     public void SetVisibleState(UIVisibleState visibleState)
       => throw new System.NotImplementedException();

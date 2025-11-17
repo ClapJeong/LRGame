@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
-using System;
 using System.Threading;
 using UnityEngine;
-using LR.UI;
 using LR.UI.Preloading;
 using LR.UI.GameScene;
 using LR.UI.Lobby;
@@ -99,6 +97,7 @@ public class LocalManager : MonoBehaviour
     presenterFactory.Register(() => new UIPreloadingPresenter(model, view));
     var presenter = presenterFactory.Create<UIPreloadingPresenter>();
     presenter.AttachOnDestroy(gameObject);
+    presenter.ShowAsync().Forget();
   }
 
   private void CreateLobbyUI(IUIPresenterFactory presenterFactory,GameObject viewGameObject)
@@ -109,33 +108,24 @@ public class LocalManager : MonoBehaviour
     presenterFactory.Register(() => new UILobbyFirstPresenter(model, view));
     var presenter = presenterFactory.Create<UILobbyFirstPresenter>();
     presenter.AttachOnDestroy(gameObject);
+    presenter.ShowAsync().Forget();
   }
 
   private void CreateGameUI(IUIPresenterFactory presenterFactory, GameObject viewGameObject)
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var model = new UIGameFirstPresenter.Model(
-      InputActionPaths.Keyboard.W,
-      InputActionPaths.Keyboard.Up,
-      () =>
-      {
-        IStageController stageController = StageManager;
-        stageController.Begin();
-      },
-      () =>
-      {
-        IStageCreator stageCreator = StageManager;
-        stageCreator.ReStartAsync().Forget();
-      }
-      );
+      beginPair: (InputActionPaths.Keyboard.W, OnStageBegin),
+      restartPair: (InputActionPaths.Keyboard.Up, OnStageRestart),
+      lobbyPair: (InputActionPaths.Keyboard.A, OnReturnToLobby),
+      nextPair: (InputActionPaths.Keyboard.D, OnNextStage)
+    ); ;
     var view = viewGameObject.GetComponent<UIGameFirstViewContainer>();
     presenterFactory.Register(() => new UIGameFirstPresenter(model, view));
     var presenter = presenterFactory.Create<UIGameFirstPresenter>();
     presenter.AttachOnDestroy(gameObject);
 
-    IStageController stageController = StageManager;
-    StageManager.SubscribeOnEvent(IStageController.StageEventType.LeftFailed, presenter.OnGameFailed);
-    StageManager.SubscribeOnEvent(IStageController.StageEventType.RightFailed, presenter.OnGameFailed);
+    presenter.ShowAsync().Forget();
   }
 
   private async UniTask LoadPreloadAsync()
@@ -143,6 +133,22 @@ public class LocalManager : MonoBehaviour
     var label = GlobalManager.instance.Table.AddressableKeySO.Label.PreLoad;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     await resourceManager.LoadAssetsAsync(label);
+  }
+
+  private void OnStageBegin()
+  {
+  }
+
+  private void OnStageRestart()
+  {
+  }
+
+  private void OnReturnToLobby()
+  {
+  }
+
+  private void OnNextStage()
+  {
   }
 
   #region DebugginMethods
@@ -178,8 +184,8 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageCreator stageCreator = StageManager;
-    stageCreator.ReStartAsync().Forget();
+    IStageController stageController = StageManager;
+    stageController.RestartAsync().Forget();
   }
   #endregion
 }

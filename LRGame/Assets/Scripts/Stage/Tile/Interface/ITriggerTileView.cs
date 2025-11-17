@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ITriggerTileView: ITriggerEventSubscriber, IStageObjectEnabler
+public interface ITriggerTileView: ITriggerEventSubscriber
 {
   public TriggerTileType GetTriggerType();
 }

@@ -15,7 +15,7 @@ namespace LR.UI
       canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public async UniTask DoFade(float alpha, float duration, CancellationToken token = default)
+    public async UniTask DoFadeAsync(float alpha, float duration, CancellationToken token = default)
     {
       await canvasGroup.DOFade(alpha, duration).ToUniTask(tweenCancelBehaviour: TweenCancelBehaviour.Kill, token);
     }

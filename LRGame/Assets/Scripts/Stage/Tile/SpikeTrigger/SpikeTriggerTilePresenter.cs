@@ -13,7 +13,14 @@ public class SpikeTriggerTilePresenter : ITriggerTilePresenter
   }
 
   public void Enable(bool enabled)
-    => view.Enable(enabled);
+  {
+
+  }
+
+  public void Restart()
+  {
+    
+  }
 
   public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
     => view.SubscribeOnEnter(onEnter);

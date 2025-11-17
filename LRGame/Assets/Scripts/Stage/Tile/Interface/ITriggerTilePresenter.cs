@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface ITriggerTilePresenter: ITriggerEventSubscriber, IStageObjectEnabler
+public interface ITriggerTilePresenter: IStageObjectController
 {
 }

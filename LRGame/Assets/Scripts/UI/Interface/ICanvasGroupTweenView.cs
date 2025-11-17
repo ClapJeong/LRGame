@@ -6,6 +6,6 @@ namespace LR.UI
 {
   public interface ICanvasGroupTweenView
   {
-    public UniTask DoFade(float alpha, float duration,CancellationToken token = default);
+    public UniTask DoFadeAsync(float alpha, float duration,CancellationToken token = default);
   }
 }

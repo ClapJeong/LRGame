@@ -36,9 +36,9 @@ namespace LR.UI.Lobby
     public UIVisibleState GetVisibleState()
       => UIVisibleState.Showed;
 
-    public UniTask HideAsync(bool isImmediately = false)
+    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      throw new System.NotImplementedException();
+      return UniTask.CompletedTask;
     }
 
     public void SetVisibleState(UIVisibleState visibleState)
@@ -46,9 +46,9 @@ namespace LR.UI.Lobby
       throw new System.NotImplementedException();
     }
 
-    public UniTask ShowAsync(bool isImmediately = false)
+    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      throw new System.NotImplementedException();
+      return UniTask.CompletedTask;
     }
 
     private async UniTask CreateStageButtons()

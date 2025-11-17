@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,9 @@ public interface IStageController
     Complete,
     LeftFailed,
     RightFailed,
+    Restart
   }
+
   public void Begin();
 
   public void Pause();
@@ -23,6 +26,8 @@ public interface IStageController
   public void OnLeftFailed();
 
   public void OnRightFailed();
+
+  public UniTask RestartAsync();
 
   public void SubscribeOnEvent(StageEventType type, UnityAction action);
 

@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageObjectEnableService<IPlayerPresenter>
+public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageObjectControlService<IPlayerPresenter>
 {
   public class SetupData
   {
@@ -102,5 +102,11 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
   {
     leftPlayer.EnableAllInputActions(isEnable);
     rightPlayer.EnableAllInputActions(isEnable);
+  }
+
+  public void RestartAll()
+  {
+    leftPlayer.Restart();
+    rightPlayer.Restart();
   }
 }

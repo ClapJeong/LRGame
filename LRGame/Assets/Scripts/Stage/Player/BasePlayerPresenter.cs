@@ -72,4 +72,10 @@ public class BasePlayerPresenter : IPlayerPresenter
   {
     EnableAllInputActions(enable);
   }
+
+  public void Restart()
+  {
+    EnableAllInputActions(true);
+    view.SetWorldPosition(model.beginPosition);
+  }
 }

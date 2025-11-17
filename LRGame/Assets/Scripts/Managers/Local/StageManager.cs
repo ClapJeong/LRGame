@@ -52,18 +52,10 @@ public class StageManager : IStageController, IStageCreator
     }
   }
 
-  public UniTask ReStartAsync()
+  public UniTask RestartAsync()
   {
-    regenCTS?.Dispose();
-    regenCTS = new CTSContainer();
-    var token = regenCTS.token;
-    ISceneProvider sceneProvider = GlobalManager.instance.SceneProvider;
-    sceneProvider.ReloadCurrentSceneAsync(
-      token: token,
-      onProgress: null,
-      onComplete: null,
-      waitUntilLoad: null).Forget();
-
+    playerSetupService.RestartAll();
+    triggerTileSetupService.RestartAll();
     return UniTask.CompletedTask;
   }
 
@@ -72,8 +64,8 @@ public class StageManager : IStageController, IStageCreator
     if (stageEvents.TryGetValue(IStageController.StageEventType.Complete, out var existEvent))
       existEvent?.Invoke();
 
-    IStageObjectEnableService<IPlayerPresenter> playerController = playerSetupService;    
-    IStageObjectEnableService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
+    IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;    
+    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
     UnityEngine.Debug.Log("Complete!");
@@ -111,8 +103,8 @@ public class StageManager : IStageController, IStageCreator
     if (stageEvents.TryGetValue(IStageController.StageEventType.LeftFailed, out var existEvent))
       existEvent?.Invoke();
 
-    IStageObjectEnableService<IPlayerPresenter> playerController = playerSetupService;
-    IStageObjectEnableService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
+    IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
+    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
   }
@@ -122,8 +114,8 @@ public class StageManager : IStageController, IStageCreator
     if (stageEvents.TryGetValue(IStageController.StageEventType.RightFailed, out var existEvent))
       existEvent?.Invoke();
 
-    IStageObjectEnableService<IPlayerPresenter> playerController = playerSetupService;
-    IStageObjectEnableService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
+    IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
+    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
   }

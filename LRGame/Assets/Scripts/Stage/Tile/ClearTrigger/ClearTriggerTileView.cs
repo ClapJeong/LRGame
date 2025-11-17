@@ -12,11 +12,6 @@ public class ClearTriggerTileView : MonoBehaviour, ITriggerTileView
   private UnityAction<Collider2D> onExit;
   private new bool enabled = true;
 
-  public void Enable(bool enabled)
-  {
-    this.enabled = enabled;
-  }
-
   public TriggerTileType GetTriggerType()
     => triggerTileType;
 

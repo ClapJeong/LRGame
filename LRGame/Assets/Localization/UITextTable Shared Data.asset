@@ -35,6 +35,14 @@ MonoBehaviour:
     m_Key: PressToRestart
     m_Metadata:
       m_Items: []
+  - m_Id: 2164709420269568
+    m_Key: PressToNext
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2164969655861248
+    m_Key: PressToLobby
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

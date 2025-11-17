@@ -1,8 +1,9 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectEnableService<ITriggerTilePresenter>
+public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectControlService<ITriggerTilePresenter>
 {
   public class Model
   {
@@ -32,7 +33,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
         case TriggerTileType.LeftClearTrigger:
           {
             var model = new ClearTriggerTileModel();
-            var presenter = new ClearTriggerTilePresenter(model, view);
+            var clearTriggerTileView = view as ClearTriggerTileView;
+            var presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
             presenter.SubscribeOnEnter(OnLeftClearEnter);
             presenter.SubscribeOnExit(OnLeftClearExit);
             presenter.Enable(isEnableImmediately);
@@ -44,7 +46,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
         case TriggerTileType.RightClearTrigger:
           {
             var model = new ClearTriggerTileModel();
-            var presenter = new ClearTriggerTilePresenter(model, view);
+            var clearTriggerTileView = view as ClearTriggerTileView;
+            var presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
             presenter.SubscribeOnEnter(OnRightClearEnter);
             presenter.SubscribeOnExit(OnRightClearExit);
             presenter.Enable(isEnableImmediately);
@@ -56,7 +59,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
         case TriggerTileType.Spike:
           {
             var model = new SpikeTriggerTileModel();
-            var presenter = new SpikeTriggerTilePresenter(model, view);
+            var spikeTriggerTileView = view as SpikeTriggerTileView;
+            var presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
             presenter.SubscribeOnEnter(OnSpikeEnter);
             presenter.Enable(isEnableImmediately);
             presenters.Add(presenter);
@@ -133,5 +137,11 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
   {
     foreach (var presenter in cachedTriggers)
       presenter.Enable(isEnable);
+  }
+
+  public void RestartAll()
+  {
+    foreach (var presenter in cachedTriggers)
+      presenter.Restart();
   }
 }

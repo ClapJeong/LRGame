@@ -6,5 +6,6 @@ namespace LR.UI.GameScene
   {
     public UIStageBeginViewContainer beginViewContainer;
     public UIStageFailViewContainer failViewContainer;
+    public UIStageSuccessViewContainer successViewContainer;
   }
 }

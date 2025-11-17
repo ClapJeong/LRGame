@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -12,13 +13,17 @@ namespace LR.UI.GameScene
   {
     public class Model
     {
+      public float showDuration;
+      public float hideDuration;
       public string beginInputActionPath;
       public UnityAction onBeginStage;
 
-      public Model(string  beginInputActionPath,UnityAction onBeginStage)
+      public Model(string beginInputActionPath,UnityAction onBeginStage,float showDuration,float hideDuration)
       {
         this.beginInputActionPath = beginInputActionPath;
         this.onBeginStage = onBeginStage;
+        this.showDuration = showDuration;
+        this.hideDuration = hideDuration;
       }
     }
 
@@ -27,10 +32,10 @@ namespace LR.UI.GameScene
     private readonly Model model;
     private readonly UIStageBeginViewContainer viewContainer;
 
-    private readonly ICanvasGroupView canvasGroup;
+    private readonly ICanvasGroupTweenView canvasGroup;
     private readonly ILocalizeStringView beginGuideText;
 
-    private readonly InputAction beginInputAction;
+    private InputAction beginInputAction;
 
     public UIStageBeginPresenter(Model model,UIStageBeginViewContainer viewContainer)
     {
@@ -41,6 +46,10 @@ namespace LR.UI.GameScene
       this.beginGuideText = viewContainer.textView;
 
       beginGuideText.SetArgument(new() { model.beginInputActionPath });
+      canvasGroup.DoFadeAsync(1.0f, 0.0f).Forget();
+
+      CreateBeginInputAction();
+      AttachOnDestroy(viewContainer.gameObject);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -52,23 +61,34 @@ namespace LR.UI.GameScene
     }
 
     public UIVisibleState GetVisibleState()
-    {
-      throw new NotImplementedException();
-    }
-
-    public UniTask HideAsync(bool isImmediately = false)
-    {
-      throw new NotImplementedException();
-    }
+      => visibleState;
 
     public void SetVisibleState(UIVisibleState visibleState)
     {
       throw new NotImplementedException();
     }
 
-    public UniTask ShowAsync(bool isImmediately = false)
+    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      throw new NotImplementedException();
+      beginInputAction.Disable();
+      visibleState = UIVisibleState.Hiding;
+      await canvasGroup.DoFadeAsync(0.0f,model.hideDuration, token);
+      visibleState = UIVisibleState.Hided;
+    }
+
+
+    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    {
+      visibleState = UIVisibleState.Showing;
+      await canvasGroup.DoFadeAsync(1.0f,0.5f,token);
+      visibleState = UIVisibleState.Showed;
+      beginInputAction.Enable();
+    }
+
+    private void CreateBeginInputAction()
+    {
+      var inputActionFactory = GlobalManager.instance.FactoryManager.InputActionFactory;
+      beginInputAction = inputActionFactory.Get(model.beginInputActionPath, () => model.onBeginStage?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
     }
   }
 }

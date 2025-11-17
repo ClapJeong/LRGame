@@ -1,18 +1,13 @@
-using DG.Tweening;
 using UnityEngine;
 
-public class UIStageSuccessViewContainer : MonoBehaviour
+namespace LR.UI
 {
-  public CanvasGroup canvasGroup;
+  public class UIStageSuccessViewContainer : MonoBehaviour
+  {
+    public BaseCanvasGroupTweenView canvasGroup;
 
-    void Start()
-    {
-    var rec = new RectTransform();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public BaseLocalizeStringView restartText;
+    public BaseLocalizeStringView nextText;
+    public BaseLocalizeStringView lobbyText;
+  }
 }

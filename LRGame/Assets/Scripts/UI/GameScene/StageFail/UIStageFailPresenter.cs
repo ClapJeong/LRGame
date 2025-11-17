@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -30,10 +31,12 @@ namespace LR.UI.GameScene
     private readonly UIStageFailViewContainer stageFailViewContainer;
 
     private readonly IGameObjectView content;
-    private readonly ICanvasGroupView backGroundCanvasGroup;
+    private readonly ICanvasGroupTweenView backGroundCanvasGroup;
     private readonly ILocalizeStringView restartText;
 
     private readonly InputAction restartInputAction;
+
+    private UIVisibleState visibleState;
 
     public UIStageFailPresenter(Model model, UIStageFailViewContainer stageFailViewContainer)
     {
@@ -47,27 +50,33 @@ namespace LR.UI.GameScene
       var inputActionFactory = GlobalManager.instance.FactoryManager.InputActionFactory;
       restartInputAction = inputActionFactory.Get(model.restartInputActionPath, model.onRestartStage, InputActionFactory.InputActionPhaseType.Performed);
 
-      backGroundCanvasGroup.SetAlpha(0.0f);
+      backGroundCanvasGroup.DoFadeAsync(0.0f,0.0f).Forget();
       restartText.SetArgument(new() { model.restartInputActionPath });
+
+      AttachOnDestroy(stageFailViewContainer.gameObject);
     }
 
-    public UniTask ShowAsync(bool isImmediately = false)
+    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      throw new NotImplementedException();
+      visibleState = UIVisibleState.Showing;
+      await backGroundCanvasGroup.DoFadeAsync(1.0f, model.showDuration, token);
+      restartInputAction.Enable();
+      visibleState = UIVisibleState.Showed;
     }
 
-    public UniTask HideAsync(bool isImmediately = false)
+    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      throw new NotImplementedException();
+      restartInputAction.Disable();
+      visibleState = UIVisibleState.Hiding;
+      await backGroundCanvasGroup.DoFadeAsync(0.0f,model.hideDuration, token);
+      visibleState = UIVisibleState.Hided;
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
       => target.OnDestroyAsObservable().Subscribe(_ => Dispose());
 
     public UIVisibleState GetVisibleState()
-    {
-      throw new NotImplementedException();
-    }
+      => visibleState;
 
     public void SetVisibleState(UIVisibleState visibleState)
     {
