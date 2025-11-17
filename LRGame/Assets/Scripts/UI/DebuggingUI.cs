@@ -28,6 +28,7 @@ public class DebuggingUI : MonoBehaviour
     }      
 
     selectedStageIndexText.text = GlobalManager.instance.selectedStage.ToString();
+    if(GlobalManager.instance.gameData!=null)
     clearedStageIndexText.text = GlobalManager.instance.gameData.clearedStage.ToString();
   }
 

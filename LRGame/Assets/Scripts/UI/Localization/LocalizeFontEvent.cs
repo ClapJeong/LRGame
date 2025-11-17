@@ -6,6 +6,8 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 using UnityEngine.Localization.Components;
+using Cysharp.Threading.Tasks;
+
 
 
 #if UNITY_EDITOR
@@ -79,10 +81,10 @@ public class LocalizeFontEvent : MonoBehaviour
     => Unregister();
 
 
-  private void RefreshFont()
+  private async void RefreshFont()
   {
-    var handle = fontReference.LoadAssetAsync();
-    var currentTMP = handle.Result;
+    var handle = await fontReference.LoadAssetAsync().ToUniTask();
+    var currentTMP = handle;
 
     foreach (var tmp in textmeshPros)
       tmp.font = currentTMP;

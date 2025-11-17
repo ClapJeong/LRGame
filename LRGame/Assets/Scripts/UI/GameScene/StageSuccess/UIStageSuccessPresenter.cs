@@ -80,7 +80,7 @@ namespace LR.UI
     {
       canvasGroup.DoFadeAsync(0.0f, 0.0f).Forget();
       restartInputAction.Disable();
-      nextInputAction.Disable();
+      nextInputAction?.Disable();
       lobbyInputAction.Disable();
       visibleState = UIVisibleState.Hided;
       return UniTask.CompletedTask;
@@ -97,16 +97,25 @@ namespace LR.UI
       await canvasGroup.DoFadeAsync(1.0f, model.showDuration, token);
       visibleState = UIVisibleState.Showed;
       restartInputAction.Enable();
-      nextInputAction.Enable();
+      nextInputAction?.Enable();
       lobbyInputAction.Enable();
     }
 
-    private void CreateInputActions()
+    private async void CreateInputActions()
     {
       var inputActionFactory = GlobalManager.instance.FactoryManager.InputActionFactory;
       restartInputAction = inputActionFactory.Get(model.restartPath, () => model.onRestart?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
-      nextInputAction = inputActionFactory.Get(model.nextPath, () => model.onNext?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
       lobbyInputAction = inputActionFactory.Get(model.lobbyPath, () => model.onLobby?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
+
+      var table = GlobalManager.instance.Table.AddressableKeySO;
+      var stageLabel = table.Label.Stage;
+
+      IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+      var stages = await resourceManager.LoadAssetsAsync(stageLabel);
+      if (GlobalManager.instance.selectedStage < stages.Count)
+        nextInputAction = inputActionFactory.Get(model.nextPath, () => model.onNext?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
+      else
+        viewContainer.nextText.SetEntry("");
     }
   }
 }
