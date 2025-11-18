@@ -46,10 +46,7 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
 
     var leftView = await resourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
     var model = new PlayerModel(
-      modelSO.Movement.UpVector,
-      modelSO.Movement.DownVector,
-      modelSO.Movement.LeftVector,
-      modelSO.Movement.RightVector,
+      modelSO,
       startPosition);
     var presenter = new BasePlayerPresenter();
 
@@ -77,10 +74,7 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
 
     var rightView = await resourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
     var model = new PlayerModel(
-          modelSO.Movement.UpVector,
-          modelSO.Movement.DownVector,
-          modelSO.Movement.LeftVector,
-          modelSO.Movement.RightVector,
+          modelSO,
           startPosition);
     var presenter = new BasePlayerPresenter();
 

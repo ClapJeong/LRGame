@@ -2,34 +2,29 @@ using UnityEngine;
 
 public class PlayerModel
 {
-  private readonly Vector3 up;
-  private readonly Vector3 down;
-  private readonly Vector3 left;
-  private readonly Vector3 right;
+  public PlayerModelSO so;
 
   public readonly Vector3 beginPosition;
 
+  public float acceleration => so.Movement.Acceleration;
+  public float deceleration => so.Movement.Decceleration;
+  public float maxSpeed => so.Movement.MaxSpeed;
+
   public PlayerModel(
-    Vector3 up,
-    Vector3 down,
-    Vector3 left,
-    Vector3 right,
+    PlayerModelSO so,
     Vector3 beginPosition)
   {
-    this.up = up;
-    this.down = down;
-    this.left = left;
-    this.right = right;
+    this.so = so;
     this.beginPosition = beginPosition;
   }
 
   public Vector3 ParseDirection(Direction direction)
     => direction switch
     {
-      Direction.Up => up,
-      Direction.Down => down,
-      Direction.Left => left,
-      Direction.Right => right,
+      Direction.Up => so.Movement.UpVector,
+      Direction.Down => so.Movement.DownVector,
+      Direction.Left => so.Movement.LeftVector,
+      Direction.Right => so.Movement.RightVector,
       _ => throw new System.NotImplementedException(),
     };
 }

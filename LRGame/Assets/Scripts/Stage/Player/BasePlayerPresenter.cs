@@ -14,6 +14,10 @@ public class BasePlayerPresenter : IPlayerPresenter
     this.view = view;
     this.model = model;
     view.SetWorldPosition(model.beginPosition);
+    view.SetSO(model.so);
+    //view.SetAcceleration(model.acceleration);
+    //view.SetDecceleration(model.deceleration);
+    //view.SetMaxSpeed(model.maxSpeed);
   }
 
   public void CreateMoveInputAction(Dictionary<string, Direction> pathDirectionPairs)
@@ -32,14 +36,14 @@ public class BasePlayerPresenter : IPlayerPresenter
       switch (context.phase)
       {
         case InputActionPhase.Started:
-          view.AddForce(vectorDirection);
+          view.AddDirection(vectorDirection);
           break;
 
         case InputActionPhase.Performed:
           break;
 
         case InputActionPhase.Canceled:
-          view.RemoveForce(vectorDirection);
+          view.RemoveDirection(vectorDirection);
           break;
       }
     }

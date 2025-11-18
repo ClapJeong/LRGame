@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface IPositionView
 {
+
   public void SetWorldPosition(Vector3 worldPosition);
 
   public void AddWorldPosition(Vector3 value);

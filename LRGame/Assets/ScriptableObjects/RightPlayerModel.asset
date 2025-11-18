@@ -17,7 +17,10 @@ MonoBehaviour:
     downKeyCode: 274
     leftKeyCode: 276
     rightKeyCode: 275
-    upVector: {x: 0, y: 3, z: 0}
-    downVector: {x: 0, y: -3, z: 0}
-    leftVector: {x: -3, y: 0, z: 0}
-    rightVector: {x: 3, y: 0, z: 0}
+    upVector: {x: 0, y: 1, z: 0}
+    downVector: {x: 0, y: -1, z: 0}
+    leftVector: {x: -1, y: 0, z: 0}
+    rightVector: {x: 1, y: 0, z: 0}
+    acceleration: 22
+    decceleration: 7
+    maxSpeed: 5

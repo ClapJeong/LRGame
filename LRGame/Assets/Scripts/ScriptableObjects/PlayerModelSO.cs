@@ -30,6 +30,15 @@ public class PlayerModelSO : ScriptableObject
 
     [SerializeField] private Vector3 rightVector;
     public Vector3 RightVector => rightVector;
+
+    [SerializeField] private float acceleration;
+    public float Acceleration => acceleration;
+
+    [SerializeField] private float decceleration;
+    public float Decceleration => decceleration;
+
+    [SerializeField] private float maxSpeed;
+    public float MaxSpeed => maxSpeed;
   }
   [SerializeField] private MovementData movement;
   public MovementData Movement => movement;

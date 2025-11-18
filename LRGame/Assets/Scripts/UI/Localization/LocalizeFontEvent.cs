@@ -83,11 +83,18 @@ public class LocalizeFontEvent : MonoBehaviour
 
   private async void RefreshFont()
   {
-    var handle = await fontReference.LoadAssetAsync().ToUniTask();
-    var currentTMP = handle;
+    try
+    {
+      var handle = await fontReference.LoadAssetAsync().ToUniTask();
+      var currentTMP = handle;
 
-    foreach (var tmp in textmeshPros)
-      tmp.font = currentTMP;
+      foreach (var tmp in textmeshPros)
+        tmp.font = currentTMP;
+    }
+    catch (System.Exception)
+    {
+
+    }
   }
 
 

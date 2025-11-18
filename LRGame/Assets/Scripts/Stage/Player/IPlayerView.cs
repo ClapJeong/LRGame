@@ -2,9 +2,11 @@ using UnityEngine;
 
 public interface IPlayerView : IGameObjectView, IPositionView
 {
+  public void SetSO(PlayerModelSO so);
+
   public PlayerType GetPlayerType();
 
-  public void AddForce(Vector3 force);
+  public void AddDirection(Vector3 direction);
 
-  public void RemoveForce(Vector3 force);
+  public void RemoveDirection(Vector3 direction);
 }
