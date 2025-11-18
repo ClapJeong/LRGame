@@ -24,9 +24,15 @@ namespace LR.UI.Preloading
       this.view = view;
     }
 
-    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default) { }
+    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    {
+      return UniTask.CompletedTask;
+    }
 
-    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default) { }
+    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    {
+      return UniTask.CompletedTask;
+    }
 
     public void SetVisibleState(UIVisibleState visibleState)
       => throw new System.NotImplementedException();

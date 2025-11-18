@@ -58,8 +58,6 @@ namespace LR.UI
       viewContainer.lobbyText.SetArgument(new() { model.lobbyPath });
 
       CreateInputActions();
-
-      AttachOnDestroy(viewContainer.gameObject);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)

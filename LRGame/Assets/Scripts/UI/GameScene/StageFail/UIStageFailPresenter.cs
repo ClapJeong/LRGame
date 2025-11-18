@@ -52,8 +52,6 @@ namespace LR.UI.GameScene
 
       backGroundCanvasGroup.DoFadeAsync(0.0f,0.0f).Forget();
       restartText.SetArgument(new() { model.restartInputActionPath });
-
-      AttachOnDestroy(stageFailViewContainer.gameObject);
     }
 
     public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)

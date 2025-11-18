@@ -41,18 +41,22 @@ namespace LR.UI.GameScene
     private readonly Model model;
     private readonly UIGameFirstViewContainer viewContainer;
 
-    private readonly UIStageBeginPresenter beginPresenter;
-    private readonly UIStageFailPresenter failPresenter;
-    private readonly UIStageSuccessPresenter successPresenter;
+    private UIStageBeginPresenter beginPresenter;
+    private UIStageFailPresenter failPresenter;
+    private UIStageSuccessPresenter successPresenter;
+
+    private UIPlayerInputPresenter inputUIPresenter;
 
     public UIGameFirstPresenter(Model model, UIGameFirstViewContainer viewContainer)
     {
       this.model = model;
       this.viewContainer = viewContainer;
 
-      this.beginPresenter = CreateBeginPresenter();
-      this.failPresenter = CreateFailPresenter();
-      this.successPresenter = CreateSuccessPresenter();
+      CreateBeginPresenter();
+      CreateFailPresenter();
+      CreateSuccessPresenter();
+
+      CreateInputUIPresenterAsync().Forget();
 
       beginPresenter.ShowAsync(true).Forget();
       failPresenter.HideAsync(true).Forget();
@@ -92,26 +96,27 @@ namespace LR.UI.GameScene
       return UniTask.CompletedTask;
     }
 
-
-    private UIStageBeginPresenter CreateBeginPresenter()
+    private void CreateBeginPresenter()
     {
       var model = new UIStageBeginPresenter.Model(this.model.beginInputActionPath, OnStageBeginInput,0.5f,0.5f);
       var beginView = viewContainer.beginViewContainer;
       IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
       presenterFactory.Register(() => new UIStageBeginPresenter(model, beginView));
-      return presenterFactory.Create<UIStageBeginPresenter>();
+      beginPresenter = presenterFactory.Create<UIStageBeginPresenter>();
+      beginPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
 
-    private UIStageFailPresenter CreateFailPresenter()
+    private void CreateFailPresenter()
     {
       var model = new UIStageFailPresenter.Model(0.8f, 0.4f, this.model.restartInputActionPath,OnStageRestartInput);
       var failView = viewContainer.failViewContainer;
       IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
       presenterFactory.Register(() => new UIStageFailPresenter(model, failView));
-      return presenterFactory.Create<UIStageFailPresenter>();
+      failPresenter = presenterFactory.Create<UIStageFailPresenter>();
+      failPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
 
-    private UIStageSuccessPresenter CreateSuccessPresenter()
+    private void CreateSuccessPresenter()
     {
       var model = new UIStageSuccessPresenter.Model(
         0.5f,
@@ -124,9 +129,22 @@ namespace LR.UI.GameScene
       var view = viewContainer.successViewContainer;
       IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
       presenterFactory.Register(()=> new UIStageSuccessPresenter(model, view));
-      return presenterFactory.Create<UIStageSuccessPresenter>();
+      successPresenter = presenterFactory.Create<UIStageSuccessPresenter>();
+      successPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
 
+    private async UniTask CreateInputUIPresenterAsync()
+    {
+      var model = new UIPlayerInputPresenter.Model();
+      var leftView = viewContainer.leftViewContainer;
+      var leftSubscriber = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+      var rightView = viewContainer.rightViewContainer;
+      var rightSubscriber = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+      IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
+      presenterFactory.Register(() => new UIPlayerInputPresenter(model, leftView, leftSubscriber, rightView, rightSubscriber));      
+      inputUIPresenter = presenterFactory.Create<UIPlayerInputPresenter>();
+      inputUIPresenter.AttachOnDestroy(viewContainer.gameObject);
+    }
     #region Callbacks
     private void OnStageBeginInput()
     {

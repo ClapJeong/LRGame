@@ -18,6 +18,8 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
+  private bool isSetupComplete = false;
+
   public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
     var setupData = data as SetupData;
@@ -26,6 +28,8 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
 
     leftPlayer.Enable(isEnableImmediately);
     rightPlayer.Enable(isEnableImmediately);
+
+    isSetupComplete = true;
 
     return new List<IPlayerPresenter>() { leftPlayer, rightPlayer };
   }
@@ -102,5 +106,18 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
   {
     leftPlayer.Restart();
     rightPlayer.Restart();
+  }
+
+  public IPlayerPresenter GetPresenter(PlayerType type)
+    => type switch
+    {
+      PlayerType.Left => leftPlayer,
+      PlayerType.Right => rightPlayer,
+      _ => throw new System.NotImplementedException(),
+    };
+
+  public async UniTask AwaitUntilSetupCompleteAsync()
+  {
+    await UniTask.WaitUntil(()=> isSetupComplete);
   }
 }

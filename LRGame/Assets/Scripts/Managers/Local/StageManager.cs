@@ -136,4 +136,10 @@ public class StageManager : IStageController, IStageCreator
     if (stageEvents.TryGetValue(type, out var existEvent))
       existEvent.RemoveListener(action);
   }
+
+  public async UniTask<IPlayerPresenter> GetPresenterAsync(PlayerType type)
+  {
+    await playerSetupService.AwaitUntilSetupCompleteAsync();
+    return playerSetupService.GetPresenter(type);
+  }
 }

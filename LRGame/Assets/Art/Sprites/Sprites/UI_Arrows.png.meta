@@ -1,0 +1,731 @@
+fileFormatVersion: 2
+guid: 823337dfe243b7d4e98e6c4a8df00e78
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1968159708506083986
+    second: UI_Arrows_0
+  - first:
+      213: 1946983641678201263
+    second: UI_Arrows_1
+  - first:
+      213: 4039430399525112957
+    second: UI_Arrows_2
+  - first:
+      213: 5033383330773740995
+    second: UI_Arrows_3
+  - first:
+      213: 5679428645448660477
+    second: UI_Arrows_4
+  - first:
+      213: 1056437359092526505
+    second: UI_Arrows_5
+  - first:
+      213: -5660989671699259713
+    second: UI_Arrows_6
+  - first:
+      213: -6528699439750478092
+    second: UI_Arrows_7
+  - first:
+      213: -5978979983449641596
+    second: UI_Arrows_8
+  - first:
+      213: 8713449483992877974
+    second: UI_Arrows_9
+  - first:
+      213: 6875866666578044504
+    second: UI_Arrows_10
+  - first:
+      213: 2424327771117494202
+    second: UI_Arrows_11
+  - first:
+      213: 293060077869803837
+    second: UI_Arrows_12
+  - first:
+      213: 8067846795958852383
+    second: UI_Arrows_13
+  - first:
+      213: -4752384467202841054
+    second: UI_Arrows_14
+  - first:
+      213: -5696945992461584604
+    second: UI_Arrows_15
+  - first:
+      213: 2746206746916768882
+    second: UI_Arrows_16
+  - first:
+      213: 4110343780284300701
+    second: UI_Arrows_17
+  - first:
+      213: -807946127709336188
+    second: UI_Arrows_18
+  - first:
+      213: 34778904239121820
+    second: UI_Arrows_19
+  - first:
+      213: 4837619917418528299
+    second: UI_Arrows_20
+  - first:
+      213: 4553922381595989241
+    second: UI_Arrows_21
+  - first:
+      213: -3414051180254083515
+    second: UI_Arrows_22
+  - first:
+      213: 309835864974843632
+    second: UI_Arrows_23
+  - first:
+      213: 2446004696355082381
+    second: UI_Arrows_24
+  - first:
+      213: 5631701953081768700
+    second: UI_Arrows_25
+  - first:
+      213: 4734728651611893914
+    second: UI_Arrows_26
+  - first:
+      213: -2244382654628720054
+    second: UI_Arrows_27
+  - first:
+      213: 4286706573802436113
+    second: UI_Arrows_28
+  - first:
+      213: -4098427575168266498
+    second: UI_Arrows_29
+  - first:
+      213: 8658433396504235591
+    second: UI_Arrows_30
+  - first:
+      213: 2172230664021871530
+    second: UI_Arrows_31
+  - first:
+      213: -2200206713548437081
+    second: UI_Arrows_32
+  - first:
+      213: -1603234451139230995
+    second: UI_Arrows_33
+  - first:
+      213: 8374261251448222639
+    second: UI_Arrows_34
+  - first:
+      213: -250595865488671322
+    second: UI_Arrows_35
+  - first:
+      213: -3533824476375014765
+    second: UI_Arrows_36
+  - first:
+      213: -951350663187150674
+    second: UI_Arrows_37
+  - first:
+      213: -3590170250408827164
+    second: UI_Arrows_38
+  - first:
+      213: 3472904181762200527
+    second: UI_Arrows_39
+  - first:
+      213: 5479550679285885136
+    second: UI_Arrows_40
+  - first:
+      213: -2876247542287832651
+    second: UI_Arrows_41
+  - first:
+      213: -5943892731638124702
+    second: UI_Arrows_42
+  - first:
+      213: -5173685301934182558
+    second: UI_Arrows_43
+  - first:
+      213: 2984220803954140003
+    second: UI_Arrows_44
+  - first:
+      213: 568664994290670527
+    second: UI_Arrows_45
+  - first:
+      213: 917294137334479325
+    second: UI_Arrows_46
+  - first:
+      213: -8993223823444464661
+    second: UI_Arrows_47
+  - first:
+      213: -5539505765149360328
+    second: UI_Arrows_48
+  - first:
+      213: -3159210552514834740
+    second: UI_Arrows_49
+  - first:
+      213: -6535838819350589643
+    second: UI_Arrows_50
+  - first:
+      213: -8225461813090221577
+    second: UI_Arrows_51
+  - first:
+      213: -9040772740142463509
+    second: UI_Arrows_52
+  - first:
+      213: -6886027766023071288
+    second: UI_Arrows_53
+  - first:
+      213: -5833554348669551017
+    second: UI_Arrows_54
+  - first:
+      213: 210878891233168603
+    second: UI_Arrows_55
+  - first:
+      213: 6972526436912899690
+    second: UI_Arrows_56
+  - first:
+      213: -7406708921793316788
+    second: UI_Arrows_57
+  - first:
+      213: 3600387576869226791
+    second: UI_Arrows_58
+  - first:
+      213: 6823096637765501980
+    second: UI_Arrows_59
+  - first:
+      213: 6808862920282986193
+    second: UI_Arrows_60
+  - first:
+      213: -8607872148952567419
+    second: UI_Arrows_61
+  - first:
+      213: -4596902334318085156
+    second: UI_Arrows_62
+  - first:
+      213: -8588345243548843366
+    second: UI_Arrows_63
+  - first:
+      213: 1084215020820392463
+    second: UI_Arrows_64
+  - first:
+      213: -4887523510310457749
+    second: UI_Arrows_65
+  - first:
+      213: -7723006285167454019
+    second: UI_Arrows_66
+  - first:
+      213: 9215334337600758748
+    second: UI_Arrows_67
+  - first:
+      213: -3463076173537276138
+    second: UI_Arrows_68
+  - first:
+      213: 3565490957811987279
+    second: UI_Arrows_69
+  - first:
+      213: 6480482553513081446
+    second: UI_Arrows_70
+  - first:
+      213: -8892979573681186132
+    second: UI_Arrows_71
+  - first:
+      213: 8600302616562978488
+    second: UI_Arrows_72
+  - first:
+      213: -1611329708270662383
+    second: UI_Arrows_73
+  - first:
+      213: 828609491631140399
+    second: UI_Arrows_74
+  - first:
+      213: 5999626535102978176
+    second: UI_Arrows_75
+  - first:
+      213: -5479235336048671739
+    second: UI_Arrows_76
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: UI_Arrows_6
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbed53503ef1071b0800000000000000
+      internalID: -5660989671699259713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_7
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f6816833766565a0800000000000000
+      internalID: -6528699439750478092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48d205f0265660da0800000000000000
+      internalID: -5978979983449641596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69bc4bdc3246ce870800000000000000
+      internalID: 8713449483992877974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8566558ad4cfb6f50800000000000000
+      internalID: 6875866666578044504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_11
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abf92906341f4a120800000000000000
+      internalID: 2424327771117494202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d39274f8698211400800000000000000
+      internalID: 293060077869803837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_13
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1b96676aefb6ff60800000000000000
+      internalID: 8067846795958852383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2266a4c91832c0eb0800000000000000
+      internalID: -4752384467202841054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fffd28f43041c84e8d8325aba9f0215
+      internalID: 1968159708506083986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82f53fc78258ef14aa2ef5655a99e78b
+      internalID: 1946983641678201263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9be5e18a5ac0af47828754e86487b0f
+      internalID: 4039430399525112957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67a3b856d2c694d409d6fa5d6f6636eb
+      internalID: 5033383330773740995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8bc94b25ae8d8249a71d3e60c520429
+      internalID: 5679428645448660477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 100f9553dd02e4f449e9179fb5de6e18
+      internalID: 1056437359092526505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Arrows_15
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90427519118e7714ba4e8b961f5ae851
+      internalID: -5696945992461584604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":4.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      UI_Arrows_0: 1968159708506083986
+      UI_Arrows_1: 1946983641678201263
+      UI_Arrows_10: 6875866666578044504
+      UI_Arrows_11: 2424327771117494202
+      UI_Arrows_12: 293060077869803837
+      UI_Arrows_13: 8067846795958852383
+      UI_Arrows_14: -4752384467202841054
+      UI_Arrows_15: -5696945992461584604
+      UI_Arrows_2: 4039430399525112957
+      UI_Arrows_3: 5033383330773740995
+      UI_Arrows_4: 5679428645448660477
+      UI_Arrows_5: 1056437359092526505
+      UI_Arrows_6: -5660989671699259713
+      UI_Arrows_7: -6528699439750478092
+      UI_Arrows_8: -5978979983449641596
+      UI_Arrows_9: 8713449483992877974
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

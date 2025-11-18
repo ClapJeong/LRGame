@@ -49,7 +49,6 @@ namespace LR.UI.GameScene
       canvasGroup.DoFadeAsync(1.0f, 0.0f).Forget();
 
       CreateBeginInputAction();
-      AttachOnDestroy(viewContainer.gameObject);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)

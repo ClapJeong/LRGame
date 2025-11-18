@@ -22,6 +22,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
   private bool isLeftEnter;
   private bool isRightEnter;
 
+  private bool isSetupComplete = false;
+
   public async UniTask<List<ITriggerTilePresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
     var presenters = new List<ITriggerTilePresenter>();
@@ -70,6 +72,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
       }
     }
 
+    isSetupComplete = true;
     await UniTask.CompletedTask;
     return presenters;
   }
@@ -143,5 +146,10 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
   {
     foreach (var presenter in cachedTriggers)
       presenter.Restart();
+  }
+
+  public async UniTask AwaitUntilSetupCompleteAsync()
+  {
+    await UniTask.WaitUntil(()=>isSetupComplete);
   }
 }
