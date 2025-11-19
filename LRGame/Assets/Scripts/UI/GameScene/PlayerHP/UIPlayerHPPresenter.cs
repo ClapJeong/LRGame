@@ -42,6 +42,9 @@ namespace LR.UI.GameScene.Player
 
       InitializeHPObjects();
       SubscribePresenters();
+
+      IStageController stageController = LocalManager.instance.StageManager;
+      stageController.SubscribeOnEvent(IStageController.StageEventType.Restart, InitializeHPObjects);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -51,6 +54,8 @@ namespace LR.UI.GameScene.Player
     {
       GlobalManager.instance.UIManager.Remove(this);
       UnsubscribePresenters();
+      IStageController stageController = LocalManager.instance.StageManager;
+      stageController?.UnsubscribeOnEvent(IStageController.StageEventType.Restart, InitializeHPObjects);
     }
 
     public UIVisibleState GetVisibleState()

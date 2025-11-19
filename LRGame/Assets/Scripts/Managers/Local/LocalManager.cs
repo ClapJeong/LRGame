@@ -214,5 +214,29 @@ public class LocalManager : MonoBehaviour
     IStageController stageController = StageManager;
     stageController.RestartAsync().Forget();
   }
+
+  public async void Debugging_LeftPlayerHPDamaged(int value)
+  {
+    IPlayerHPController hpController = await StageManager.GetPresenterAsync(PlayerType.Left);
+    hpController.DamageHP(value);
+  }
+
+  public async void Debugging_LeftPlayerHPRestored(int value)
+  {
+    IPlayerHPController hpController = await StageManager.GetPresenterAsync(PlayerType.Left);
+    hpController.RestoreHP(value);
+  }
+
+  public async void Debugging_RightPlayerHPDamaged(int value)
+  {
+    IPlayerHPController hpController = await StageManager.GetPresenterAsync(PlayerType.Right);
+    hpController.DamageHP(value);
+  }
+
+  public async void Debugging_RightPlayerHPRestored(int value)
+  {
+    IPlayerHPController hpController = await StageManager.GetPresenterAsync(PlayerType.Right);
+    hpController.RestoreHP(value);
+  }
   #endregion
 }

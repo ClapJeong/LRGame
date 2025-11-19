@@ -36,6 +36,8 @@ namespace LR.UI.GameScene.Player
     {
       IUIPresenterContainer presenterContainer = GlobalManager.instance.UIManager;
       presenterContainer.Remove(this);
+      if (viewContainer)
+        GameObject.Destroy(viewContainer.gameObject);
     }
 
     public UIVisibleState GetVisibleState()

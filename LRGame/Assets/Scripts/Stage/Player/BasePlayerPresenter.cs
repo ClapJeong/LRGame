@@ -19,12 +19,11 @@ public class BasePlayerPresenter : IPlayerPresenter
   {
     this.view = view;
     this.model = model;
-    view.SetWorldPosition(model.beginPosition);
+
     view.SetSO(model.so);
+
+    view.SetWorldPosition(model.beginPosition);    
     SetHP(model.maxHP);
-    //view.SetAcceleration(model.acceleration);
-    //view.SetDecceleration(model.deceleration);
-    //view.SetMaxSpeed(model.maxSpeed);
   }
 
   #region IStageObjectController
@@ -36,7 +35,9 @@ public class BasePlayerPresenter : IPlayerPresenter
   public void Restart()
   {
     EnableAllInputActions(true);
+
     view.SetWorldPosition(model.beginPosition);
+    SetHP(model.maxHP);
   }
   #endregion
 
@@ -121,6 +122,21 @@ public class BasePlayerPresenter : IPlayerPresenter
   {
     hp = Mathf.Max(0, hp - damage);
     onHPChanged?.Invoke(hp);
+
+    if(hp<=0)
+    {
+      IStageController stageController = LocalManager.instance.StageManager;
+      switch (view.GetPlayerType())
+      {
+        case PlayerType.Left:
+          stageController.OnLeftFailed();
+          break;
+
+        case PlayerType.Right:
+          stageController.OnRightFailed();
+          break;
+      }      
+    }
   }
 
   public void RestoreHP(int value)

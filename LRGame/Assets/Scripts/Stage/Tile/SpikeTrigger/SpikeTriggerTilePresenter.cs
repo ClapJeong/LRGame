@@ -3,13 +3,26 @@ using UnityEngine.Events;
 
 public class SpikeTriggerTilePresenter : ITriggerTilePresenter
 {
-  private readonly SpikeTriggerTileModel model;
+  public class Model
+  {
+    public UnityAction<Collider2D> onEnter;
+
+    public Model(UnityAction<Collider2D> onEnter)
+    {
+      this.onEnter = onEnter;
+    }
+  }
+
+  private readonly Model model;
   private readonly ITriggerTileView view;
 
-  public SpikeTriggerTilePresenter(SpikeTriggerTileModel model, ITriggerTileView view)
+  public SpikeTriggerTilePresenter(Model model, ITriggerTileView view)
   {
-    this.model = model as SpikeTriggerTileModel;
+    this.model = model;
     this.view = view;
+
+    view.SubscribeOnEnter(model.onEnter);
+    view.SubscribeOnEnter(OnSpikeEnter);
   }
 
   public void Enable(bool enabled)
@@ -22,15 +35,14 @@ public class SpikeTriggerTilePresenter : ITriggerTilePresenter
     
   }
 
-  public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
-    => view.SubscribeOnEnter(onEnter);
-
-  public void SubscribeOnExit(UnityAction<Collider2D> onExit)
-    => view.SubscribeOnExit(onExit);
-
-  public void UnsubscribeOnEnter(UnityAction<Collider2D> onEnter)
-    => view.UnsubscribeOnEnter(onEnter);
-
-  public void UnsubscribeOnExit(UnityAction<Collider2D> onExit)
-    => view.UnsubscribeOnExit(onExit);
+  private async void OnSpikeEnter(Collider2D collider2D)
+  {
+    if (collider2D.gameObject.TryGetComponent<IPlayerView>(out var playerView))
+    {
+      var playerType = playerView.GetPlayerType();
+      var playerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(playerType);
+      IPlayerHPController hpcontroller = playerPresenter;
+      hpcontroller.DamageHP(1);
+    }
+  }
 }

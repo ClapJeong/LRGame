@@ -63,6 +63,9 @@ namespace ScriptableEvent
     private readonly List<ScriptableLocaleEventListener> setLocaleListeners = new();
     private readonly List<StageListnerSet> stageListeners = new();
     private readonly List<GameDataListnerSet> gameDataListnerSets = new();
+    private readonly List<ScriptableHPEventListener> leftHPListnerListeners = new();
+    private readonly List<ScriptableHPEventListener> rightHPListnerListeners = new();
+
     public static ScriptableEventSO instance;
 
     private void OnEnable()
@@ -131,6 +134,32 @@ namespace ScriptableEvent
       var set = gameDataListnerSets.FirstOrDefault(s => s.type == gameDataEventType);
       set?.Remove(listener);
     }
+    #endregion
+
+    #region HP
+    public void OnLeftHPChanged(int value)
+    {
+      for (int i = 0; i < leftHPListnerListeners.Count; i++)
+        leftHPListnerListeners[i].Raise(value);
+    }
+
+    public void RegisterLeftHPEvent(ScriptableHPEventListener listener)
+      => leftHPListnerListeners.Add(listener);
+
+    public void UnregisterLeftHPEvent(ScriptableHPEventListener listener)
+      => leftHPListnerListeners.Remove(listener);
+
+    public void OnRightHPChanged(int value)
+    {
+      for (int i = 0; i < rightHPListnerListeners.Count; i++)
+        rightHPListnerListeners[i].Raise(value);
+    }
+
+    public void RegisterRightHPEvent(ScriptableHPEventListener listener)
+      => rightHPListnerListeners.Add(listener);
+
+    public void UnregisterRightHPEvent(ScriptableHPEventListener listener)
+      => rightHPListnerListeners.Remove(listener);
     #endregion
   }
 }

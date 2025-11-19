@@ -3,13 +3,31 @@ using UnityEngine.Events;
 
 public class ClearTriggerTilePresenter : ITriggerTilePresenter
 {
-  private readonly ClearTriggerTileModel model;
+  public class Model
+  {
+    public UnityAction<Collider2D> onEnter;
+    public UnityAction<Collider2D> onExit;
+
+    public Model(UnityAction<Collider2D> onEnter,UnityAction<Collider2D> onExit)
+    {
+      this.onEnter = onEnter;
+      this.onExit = onExit;
+    }
+  }
+
+  private readonly Model model;
   private readonly ClearTriggerTileView view;
 
-  public ClearTriggerTilePresenter(ClearTriggerTileModel model, ClearTriggerTileView view)
+  private ITriggerEventSubscriber subscriber;
+
+  public ClearTriggerTilePresenter(Model model, ClearTriggerTileView view)
   {
     this.model = model;
     this.view = view;
+
+    subscriber = view;
+    subscriber.SubscribeOnEnter(model.onEnter);
+    subscriber.SubscribeOnExit(model.onExit);
   }
 
   public void Enable(bool enabled)
@@ -21,16 +39,4 @@ public class ClearTriggerTilePresenter : ITriggerTilePresenter
   {
     
   }
-
-  public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
-    =>view.SubscribeOnEnter(onEnter);
-
-  public void SubscribeOnExit(UnityAction<Collider2D> onExit)
-    => view.SubscribeOnExit(onExit);
-
-  public void UnsubscribeOnEnter(UnityAction<Collider2D> onEnter)
-    =>view.UnsubscribeOnEnter(onEnter);
-
-  public void UnsubscribeOnExit(UnityAction<Collider2D> onExit)
-    =>view.UnsubscribeOnExit(onExit);
 }

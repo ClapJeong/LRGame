@@ -34,11 +34,9 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
       {
         case TriggerTileType.LeftClearTrigger:
           {
-            var model = new ClearTriggerTileModel();
+            var model = new ClearTriggerTilePresenter.Model(OnLeftClearEnter,OnLeftClearExit);
             var clearTriggerTileView = view as ClearTriggerTileView;
             var presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
-            presenter.SubscribeOnEnter(OnLeftClearEnter);
-            presenter.SubscribeOnExit(OnLeftClearExit);
             presenter.Enable(isEnableImmediately);
             presenters.Add(presenter);
             cachedTriggers.Add(presenter);
@@ -47,11 +45,9 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.RightClearTrigger:
           {
-            var model = new ClearTriggerTileModel();
+            var model = new ClearTriggerTilePresenter.Model(OnRightClearEnter, OnRightClearExit); 
             var clearTriggerTileView = view as ClearTriggerTileView;
             var presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
-            presenter.SubscribeOnEnter(OnRightClearEnter);
-            presenter.SubscribeOnExit(OnRightClearExit);
             presenter.Enable(isEnableImmediately);
             presenters.Add(presenter);
             cachedTriggers.Add(presenter);
@@ -60,10 +56,9 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.Spike:
           {
-            var model = new SpikeTriggerTileModel();
+            var model = new SpikeTriggerTilePresenter.Model(null);
             var spikeTriggerTileView = view as SpikeTriggerTileView;
             var presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
-            presenter.SubscribeOnEnter(OnSpikeEnter);
             presenter.Enable(isEnableImmediately);
             presenters.Add(presenter);
             cachedTriggers.Add(presenter);
@@ -116,25 +111,6 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
   private bool CheckBothClearEnter()
     => isLeftEnter && isRightEnter;
-
-  private void OnSpikeEnter(Collider2D collider2D)
-  {
-    if(collider2D.gameObject.TryGetComponent<IPlayerView>(out var playerView))
-    {
-      switch (playerView.GetPlayerType())
-      {
-        case PlayerType.Left:
-          model.stageController.OnLeftFailed();
-          break;
-
-        case PlayerType.Right:
-          model.stageController.OnRightFailed();
-          break;
-
-        default: throw new System.NotImplementedException();
-      }
-    }
-  }
 
   public void EnableAll(bool isEnable)
   {
