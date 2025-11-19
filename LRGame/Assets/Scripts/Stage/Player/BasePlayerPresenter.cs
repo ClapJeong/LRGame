@@ -7,10 +7,13 @@ using UnityEngine.InputSystem;
 public class BasePlayerPresenter : IPlayerPresenter
 {
   private readonly Dictionary<Direction, InputAction> moveInputActions = new();
+
   private IPlayerView view;
   private PlayerModel model;
   private UnityEvent<Direction> onPerformed = new();
   private UnityEvent<Direction> onCanceled = new();
+  private int hp;
+  private UnityEvent<int> onHPChanged = new();
 
   public void Initialize(IPlayerView view, PlayerModel model)
   {
@@ -18,15 +21,30 @@ public class BasePlayerPresenter : IPlayerPresenter
     this.model = model;
     view.SetWorldPosition(model.beginPosition);
     view.SetSO(model.so);
+    SetHP(model.maxHP);
     //view.SetAcceleration(model.acceleration);
     //view.SetDecceleration(model.deceleration);
     //view.SetMaxSpeed(model.maxSpeed);
   }
 
+  #region IStageObjectController
+  public void Enable(bool enable)
+  {
+    EnableAllInputActions(enable);
+  }
+
+  public void Restart()
+  {
+    EnableAllInputActions(true);
+    view.SetWorldPosition(model.beginPosition);
+  }
+  #endregion
+
+  #region IPlayerMoveController
   public void CreateMoveInputAction(Dictionary<string, Direction> pathDirectionPairs)
   {
-    foreach(var pair in  pathDirectionPairs)
-      CreateMoveInputAction(pair.Key,pair.Value);
+    foreach (var pair in pathDirectionPairs)
+      CreateMoveInputAction(pair.Key, pair.Value);
   }
 
   public void CreateMoveInputAction(string path, Direction direction)
@@ -57,7 +75,7 @@ public class BasePlayerPresenter : IPlayerPresenter
 
   public void EnableInputAction(Direction direction, bool enable)
   {
-    if(moveInputActions.TryGetValue(direction, out InputAction action))
+    if (moveInputActions.TryGetValue(direction, out InputAction action))
     {
       if (enable)
         action.Enable();
@@ -68,26 +86,17 @@ public class BasePlayerPresenter : IPlayerPresenter
 
   public void EnableAllInputActions(bool enable)
   {
-    foreach(var inputAction in moveInputActions.Values)
+    foreach (var inputAction in moveInputActions.Values)
     {
-      if(enable)
+      if (enable)
         inputAction.Enable();
       else
         inputAction.Disable();
-    }  
+    }
   }
+  #endregion
 
-  public void Enable(bool enable)
-  {
-    EnableAllInputActions(enable);
-  }
-
-  public void Restart()
-  {
-    EnableAllInputActions(true);
-    view.SetWorldPosition(model.beginPosition);
-  }
-
+  #region IPlayerMoveSubscriber
   public void SubscribeOnPerformed(UnityAction<Direction> performed)
     => onPerformed.AddListener(performed);
 
@@ -99,4 +108,35 @@ public class BasePlayerPresenter : IPlayerPresenter
 
   public void UnsubscribeCanceled(UnityAction<Direction> canceled)
     =>onCanceled.RemoveListener(canceled);
+  #endregion
+
+  #region IPlayerHPController
+  public void SetHP(int value)
+  {
+    hp = value;
+    onHPChanged?.Invoke(hp);
+  }
+
+  public void DamageHP(int damage)
+  {
+    hp = Mathf.Max(0, hp - damage);
+    onHPChanged?.Invoke(hp);
+  }
+
+  public void RestoreHP(int value)
+  {
+    hp = Mathf.Min(model.maxHP, hp + value);
+    onHPChanged?.Invoke(hp);
+  }
+
+  public void SubscribeOnHPChanged(UnityAction<int> onHPChanged)
+  {
+    this.onHPChanged.AddListener(onHPChanged);
+  }
+
+  public void UnsubscribeOnHPChanged(UnityAction<int> onHPChanged)
+  {
+    this.onHPChanged.RemoveListener(onHPChanged);
+  }
+  #endregion
 }

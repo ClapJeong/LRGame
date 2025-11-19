@@ -10,6 +10,8 @@ public class PlayerModel
   public float deceleration => so.Movement.Decceleration;
   public float maxSpeed => so.Movement.MaxSpeed;
 
+  public int maxHP => so.HP.MaxHP;
+
   public PlayerModel(
     PlayerModelSO so,
     Vector3 beginPosition)
