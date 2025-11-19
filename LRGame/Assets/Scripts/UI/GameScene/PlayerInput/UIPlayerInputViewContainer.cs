@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LR.UI
+namespace LR.UI.Player
 {
   public class UIPlayerInputViewContainer : MonoBehaviour
   {

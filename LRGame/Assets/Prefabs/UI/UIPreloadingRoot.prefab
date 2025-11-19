@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5124962781118498508}
   - component: {fileID: 8238952106159879744}
   m_Layer: 5
-  m_Name: UIPreloadingFirst
+  m_Name: UIPreloadingRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e905d634adcb14aadff073cf7d2cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIPreloadingView
-  loadingText: {fileID: 6704833116956989024}
 --- !u!1 &5911811662356519177
 GameObject:
   m_ObjectHideFlags: 0

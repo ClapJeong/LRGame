@@ -6,9 +6,9 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace LR.UI.GameScene
+namespace LR.UI.Stage
 {
-  public class UIGameFirstPresenter : IUIPresenter
+  public class UIStageRootPresenter : IUIPresenter
   {
     public class Model
     {
@@ -39,15 +39,14 @@ namespace LR.UI.GameScene
     }
 
     private readonly Model model;
-    private readonly UIGameFirstViewContainer viewContainer;
+    private readonly UIStageRootViewContainer viewContainer;
 
     private UIStageBeginPresenter beginPresenter;
     private UIStageFailPresenter failPresenter;
     private UIStageSuccessPresenter successPresenter;
 
-    private UIPlayerInputPresenter inputUIPresenter;
 
-    public UIGameFirstPresenter(Model model, UIGameFirstViewContainer viewContainer)
+    public UIStageRootPresenter(Model model, UIStageRootViewContainer viewContainer)
     {
       this.model = model;
       this.viewContainer = viewContainer;
@@ -55,8 +54,6 @@ namespace LR.UI.GameScene
       CreateBeginPresenter();
       CreateFailPresenter();
       CreateSuccessPresenter();
-
-      CreateInputUIPresenterAsync().Forget();
 
       beginPresenter.ShowAsync(true).Forget();
       failPresenter.HideAsync(true).Forget();
@@ -133,18 +130,6 @@ namespace LR.UI.GameScene
       successPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
 
-    private async UniTask CreateInputUIPresenterAsync()
-    {
-      var model = new UIPlayerInputPresenter.Model();
-      var leftView = viewContainer.leftViewContainer;
-      var leftSubscriber = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
-      var rightView = viewContainer.rightViewContainer;
-      var rightSubscriber = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
-      IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-      presenterFactory.Register(() => new UIPlayerInputPresenter(model, leftView, leftSubscriber, rightView, rightSubscriber));      
-      inputUIPresenter = presenterFactory.Create<UIPlayerInputPresenter>();
-      inputUIPresenter.AttachOnDestroy(viewContainer.gameObject);
-    }
     #region Callbacks
     private void OnStageBeginInput()
     {

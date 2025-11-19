@@ -28,9 +28,10 @@ MonoBehaviour:
     leftPlayer: LeftPlayer
     rightPlayer: RightPlayer
   uiName:
-    preloadingFirst: PreloadingFirst
-    lobbyFirst: LobbyFirst
-    gameFirst: GameFirst
+    preloadingRoot: PreloadingRoot
+    lobbyRoot: LobbyRoot
+    stageRoot: StageRoot
+    playerRoot: PlayerRoot
     lobbyStageButton: LobbyStageButton
   stageName:
     StageNameFormat: Stage_{0}

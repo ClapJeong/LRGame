@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using LR.UI;
 
-public class UIManager : MonoBehaviour, ICanvasProvider, IUIResourceService, IUIPresenterFactory, IUIPresenterContainer, IFirstUICreator
+public class UIManager : MonoBehaviour, ICanvasProvider, IUIResourceService, IUIPresenterFactory, IUIPresenterContainer
 {
   [System.Serializable]
   public class CanvasSet
@@ -30,11 +30,11 @@ public class UIManager : MonoBehaviour, ICanvasProvider, IUIResourceService, IUI
   }
   
 
-  public async UniTask<GameObject> CreateViewAsync(string viewKey, UIRootType createRoot)
+  public async UniTask<T> CreateViewAsync<T>(string viewKey, UIRootType createRoot) where T : UnityEngine.Object
   {
     var root = GetCanvas(createRoot).transform;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    var view = await resourceManager.CreateAssetAsync<GameObject>(viewKey,root);
+    var view = await resourceManager.CreateAssetAsync<T>(viewKey,root);
     return view;
   }
 
@@ -44,29 +44,22 @@ public class UIManager : MonoBehaviour, ICanvasProvider, IUIResourceService, IUI
     resourceManager.ReleaseInstance(view, releaseHandle);
   }
 
-  public async UniTask<GameObject> CreateFirstUIViewAsync(SceneType sceneType)
+  public async UniTask<T> CreateRootUIViewAsync<T>(RootUIType rootType) where T : UnityEngine.Object
   {
-    var firstUIKey = GetFirstUIKey(sceneType);
-    var firstUI = await CreateViewAsync(firstUIKey, UIRootType.Overlay);
-    return firstUI;
+    var rootUIKey = GetRootUIKey(rootType);
+    var rootUI = await CreateViewAsync<T>(rootUIKey, UIRootType.Overlay);
+    return rootUI;
   }
 
-  private string GetFirstUIKey(SceneType sceneType)
-  {
+  private string GetRootUIKey(RootUIType rootType)
+  {      
     var keyTable = GlobalManager.instance.Table.AddressableKeySO;
-    return sceneType switch
+    return rootType switch
     {
-      SceneType.Initialize => throw new System.NotImplementedException(),
-      SceneType.Preloading =>
-         keyTable.Path.Ui +
-         keyTable.UIName.PreloadingFirst,
-      SceneType.Lobby =>
-         keyTable.Path.Ui +
-         keyTable.UIName.LobbyFirst,
-      SceneType.Game =>
-         keyTable.Path.Ui +
-         keyTable.UIName.GameFirst,
-
+      RootUIType.Preloading => keyTable.Path.Ui + keyTable.UIName.PreloadingRoot,
+      RootUIType.Lobby => keyTable.Path.Ui + keyTable.UIName.LobbyRoot,
+      RootUIType.Player => keyTable.Path.Ui + keyTable.UIName.PlayerRoot,
+      RootUIType.Stage => keyTable.Path.Ui + keyTable.UIName.StageRoot,
       _ => throw new System.NotImplementedException(),
     };
   }

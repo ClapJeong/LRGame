@@ -2,8 +2,9 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
 using LR.UI.Preloading;
-using LR.UI.GameScene;
 using LR.UI.Lobby;
+using LR.UI.Player;
+using LR.UI.Stage;
 
 public class LocalManager : MonoBehaviour
 {
@@ -62,9 +63,6 @@ public class LocalManager : MonoBehaviour
 
   private async UniTask CreateFirstUIAsync()
   {
-    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-    IFirstUICreator firstUICreator = GlobalManager.instance.UIManager;
-    var firstUiVeiw = await firstUICreator.CreateFirstUIViewAsync(sceneType);
     switch (sceneType)
     {
       case SceneType.Initialize:
@@ -72,57 +70,86 @@ public class LocalManager : MonoBehaviour
 
       case SceneType.Preloading:
         {
-          CreatePreloadingUI(presenterFactory, firstUiVeiw);
+          await CreatePreloadingUIAsync();
         }
         break;
 
       case SceneType.Lobby:
         {
-          CreateLobbyUI(presenterFactory, firstUiVeiw);
+          await CreateLobbyUIAsync();
         }
         break;
 
       case SceneType.Game:
         {
-          CreateGameUI(presenterFactory, firstUiVeiw);
+          await CreatePlayerUIAsync();
+          await CreateStageUIAsync();
         }
         break;
     }
   }
 
-  private void CreatePreloadingUI(IUIPresenterFactory presenterFactory, GameObject viewGameObject)
+  private async UniTask CreatePreloadingUIAsync()
   {
     var model = new UIPreloadingPresenter.Model();
-    var view = viewGameObject.GetComponent<UIPreloadingView>();
+
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
+    var view = await uiResourceService.CreateViewAsync<UIPreloadingView>(table.Path.Ui + table.UIName.PreloadingRoot,UIRootType.Overlay);
+
+    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
     presenterFactory.Register(() => new UIPreloadingPresenter(model, view));
     var presenter = presenterFactory.Create<UIPreloadingPresenter>();
     presenter.AttachOnDestroy(gameObject);
     presenter.ShowAsync().Forget();
   }
 
-  private void CreateLobbyUI(IUIPresenterFactory presenterFactory,GameObject viewGameObject)
+  private async UniTask CreateLobbyUIAsync()
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var model = new UILobbyFirstPresenter.Model(table.Path.Scene + table.SceneName.Game);
-    var view = viewGameObject.GetComponent<UILobbyViewContainer>();
+
+    IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
+    var view = await uiResourceService.CreateViewAsync<UILobbyViewContainer>(table.Path.Ui + table.UIName.LobbyRoot, UIRootType.Overlay);
+
+    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
     presenterFactory.Register(() => new UILobbyFirstPresenter(model, view));
     var presenter = presenterFactory.Create<UILobbyFirstPresenter>();
     presenter.AttachOnDestroy(gameObject);
     presenter.ShowAsync().Forget();
   }
 
-  private void CreateGameUI(IUIPresenterFactory presenterFactory, GameObject viewGameObject)
+  private async UniTask CreatePlayerUIAsync()
   {
+    var model = new UIPlayerRootPresenter.Model();
+
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    var model = new UIGameFirstPresenter.Model(
-      beginPair: (InputActionPaths.Keyboard.W, OnStageBegin),
-      restartPair: (InputActionPaths.Keyboard.Up, OnStageRestart),
-      lobbyPair: (InputActionPaths.Keyboard.A, OnReturnToLobby),
-      nextPair: (InputActionPaths.Keyboard.D, OnNextStage)
-    ); ;
-    var view = viewGameObject.GetComponent<UIGameFirstViewContainer>();
-    presenterFactory.Register(() => new UIGameFirstPresenter(model, view));
-    var presenter = presenterFactory.Create<UIGameFirstPresenter>();
+    IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
+    var view = await uiResourceService.CreateViewAsync<UIPlayerRootViewContainer>(table.Path.Ui + table.UIName.PlayerRoot, UIRootType.Overlay);
+
+    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
+    presenterFactory.Register(() => new UIPlayerRootPresenter(model, view));
+    var presenter = presenterFactory.Create<UIPlayerRootPresenter>();
+    presenter.AttachOnDestroy(gameObject);
+    presenter.ShowAsync().Forget();
+  }
+
+  private async UniTask CreateStageUIAsync()
+  {
+    var model = new UIStageRootPresenter.Model(
+   beginPair: (InputActionPaths.Keyboard.W, OnStageBegin),
+   restartPair: (InputActionPaths.Keyboard.Up, OnStageRestart),
+   lobbyPair: (InputActionPaths.Keyboard.A, OnReturnToLobby),
+   nextPair: (InputActionPaths.Keyboard.D, OnNextStage)
+ ); ;
+
+    IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var view = await uiResourceService.CreateViewAsync<UIStageRootViewContainer>(table.Path.Ui + table.UIName.StageRoot, UIRootType.Overlay);
+
+    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
+    presenterFactory.Register(() => new UIStageRootPresenter(model, view));
+    var presenter = presenterFactory.Create<UIStageRootPresenter>();
     presenter.AttachOnDestroy(gameObject);
 
     presenter.ShowAsync().Forget();

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5891724123871268746}
   - component: {fileID: 4388393181413905413}
   m_Layer: 5
-  m_Name: UILobbyFirst
+  m_Name: UILobbyRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

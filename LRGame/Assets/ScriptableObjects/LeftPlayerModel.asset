@@ -24,3 +24,5 @@ MonoBehaviour:
     acceleration: 22
     decceleration: 7
     maxSpeed: 4
+  hp:
+    maxHP: 3
