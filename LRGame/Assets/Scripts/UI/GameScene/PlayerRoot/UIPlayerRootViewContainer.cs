@@ -4,7 +4,12 @@ namespace LR.UI.GameScene.Player
 {
   public class UIPlayerRootViewContainer : MonoBehaviour
   {
-    public UIPlayerInputViewContainer leftViewContainer;
-    public UIPlayerInputViewContainer rightViewContainer;
+    [Header("Input")]
+    public UIPlayerInputViewContainer leftInputViewContainer;
+    public UIPlayerInputViewContainer rightInputViewContainer;
+
+    [Header("HP")]
+    public UIPlayerHPViewContainer leftHPViewContainer;
+    public UIPlayerHPViewContainer rightHPViewContainer;
   }
 }
