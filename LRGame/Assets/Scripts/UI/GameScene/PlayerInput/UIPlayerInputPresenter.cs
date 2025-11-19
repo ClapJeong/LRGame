@@ -5,7 +5,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-namespace LR.UI.Player
+namespace LR.UI.GameScene.Player
 {
   public class UIPlayerInputPresenter : IUIPresenter
   {

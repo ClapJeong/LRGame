@@ -6,7 +6,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace LR.UI.Stage
+namespace LR.UI.GameScene.Stage
 {
   public class UIStageRootPresenter : IUIPresenter
   {

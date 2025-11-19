@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LR.UI.Stage
+namespace LR.UI.GameScene.Stage
 {
   public class UIStageFailViewContainer : MonoBehaviour, IGameObjectView
   {

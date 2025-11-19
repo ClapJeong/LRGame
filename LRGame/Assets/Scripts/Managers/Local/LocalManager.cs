@@ -3,8 +3,8 @@ using System.Threading;
 using UnityEngine;
 using LR.UI.Preloading;
 using LR.UI.Lobby;
-using LR.UI.Player;
-using LR.UI.Stage;
+using LR.UI.GameScene.Stage;
+using LR.UI.GameScene.Player;
 
 public class LocalManager : MonoBehaviour
 {

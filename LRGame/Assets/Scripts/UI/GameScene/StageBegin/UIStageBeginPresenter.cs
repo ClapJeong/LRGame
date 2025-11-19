@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace LR.UI.Stage
+namespace LR.UI.GameScene.Stage
 {
   public class UIStageBeginPresenter : IUIPresenter
   {

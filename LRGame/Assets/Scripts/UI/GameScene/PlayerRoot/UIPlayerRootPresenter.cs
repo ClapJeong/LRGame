@@ -1,4 +1,3 @@
-
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
@@ -6,7 +5,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-namespace LR.UI.Player
+namespace LR.UI.GameScene.Player
 {
   public class UIPlayerRootPresenter : IUIPresenter
   {
