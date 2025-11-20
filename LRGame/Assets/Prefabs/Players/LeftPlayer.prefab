@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasePlayerView
   rigidbody: {fileID: 6632608147133349101}
+  playerType: 0
 --- !u!50 &6632608147133349101
 Rigidbody2D:
   serializedVersion: 5
@@ -145,7 +146,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 350226de16bd0d740a017e85f2d106f5, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
