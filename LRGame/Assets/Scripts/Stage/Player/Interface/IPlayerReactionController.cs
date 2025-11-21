@@ -2,6 +2,5 @@ using UnityEngine;
 
 public interface IPlayerReactionController
 {
-  public void Bounce(Vector3 force);
-
+  public void Bounce(BounceData data, Vector3 direction);
 }

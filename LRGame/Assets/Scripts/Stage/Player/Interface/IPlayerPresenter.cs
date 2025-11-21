@@ -1,4 +1,3 @@
-public interface IPlayerPresenter: IPlayerMoveController, IPlayerMoveSubscriber, IStageObjectController, IPlayerHPController
+public interface IPlayerPresenter: IPlayerMoveController, IStageObjectController, IPlayerHPController, IPlayerReactionController, IPlayerStateController
 {
-  public void Initialize(IPlayerView view, PlayerModel model);
 }

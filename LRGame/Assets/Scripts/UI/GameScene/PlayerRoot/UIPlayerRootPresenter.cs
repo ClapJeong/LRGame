@@ -64,11 +64,11 @@ namespace LR.UI.GameScene.Player
     {
       var model = new UIPlayerInputPresenter.Model();
       var leftView = viewContainer.leftInputViewContainer;
-      var leftSubscriber = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+      IPlayerMoveController leftMoveController = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
       var rightView = viewContainer.rightInputViewContainer;
-      var rightSubscriber = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+      IPlayerMoveController rightMoveController = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
       IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-      presenterFactory.Register(() => new UIPlayerInputPresenter(model, leftView, leftSubscriber, rightView, rightSubscriber));
+      presenterFactory.Register(() => new UIPlayerInputPresenter(model, leftView, leftMoveController, rightView, rightMoveController));
       inputPresenter = presenterFactory.Create<UIPlayerInputPresenter>();
       inputPresenter.AttachOnDestroy(viewContainer.gameObject);
     }

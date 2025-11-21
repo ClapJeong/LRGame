@@ -1,29 +1,44 @@
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class BasePlayerPresenter : IPlayerPresenter
 {
-  private readonly Dictionary<Direction, InputAction> moveInputActions = new();
-
-  private IPlayerView view;
+  private BasePlayerView view;
   private PlayerModel model;
-  private UnityEvent<Direction> onPerformed = new();
-  private UnityEvent<Direction> onCanceled = new();
-  private int hp;
-  private UnityEvent<int> onHPChanged = new();
 
-  public void Initialize(IPlayerView view, PlayerModel model)
+  private BasePlayerHPController hpController;
+  private BasePlayerMoveController moveController;
+  private PlayerStateController stateController;
+
+  private IDisposable viewFixedUpdate;
+
+  public BasePlayerPresenter(PlayerType playerType, BasePlayerView view, PlayerModel model)
   {
     this.view = view;
     this.model = model;
 
-    view.SetSO(model.so);
-
     view.SetWorldPosition(model.beginPosition);    
-    SetHP(model.maxHP);
+
+    hpController = new BasePlayerHPController(playerType, model);
+    moveController = new BasePlayerMoveController(view, model);
+
+    stateController = new PlayerStateController();
+    stateController.AddState(PlayerStateType.Idle, new PlayerIdleState(moveController,this));
+    stateController.AddState(PlayerStateType.Move, new PlayerMoveState(this,moveController));
+    stateController.AddState(PlayerStateType.Bounced, new PlayerBouncedState());
+
+    stateController.ChangeState(PlayerStateType.Idle);
+
+    viewFixedUpdate = view
+      .FixedUpdateAsObservable()
+      .Subscribe(_ => stateController.FixedUpdate());
+    view
+      .OnDestroyAsObservable()
+      .Subscribe(_ => viewFixedUpdate.Dispose());
   }
 
   #region IStageObjectController
@@ -43,116 +58,63 @@ public class BasePlayerPresenter : IPlayerPresenter
 
   #region IPlayerMoveController
   public void CreateMoveInputAction(Dictionary<string, Direction> pathDirectionPairs)
-  {
-    foreach (var pair in pathDirectionPairs)
-      CreateMoveInputAction(pair.Key, pair.Value);
-  }
+    =>moveController.CreateMoveInputAction(pathDirectionPairs);
 
   public void CreateMoveInputAction(string path, Direction direction)
-  {
-    moveInputActions[direction] = GlobalManager.instance.FactoryManager.InputActionFactory.Get(path, NextedOnMove);
-
-    void NextedOnMove(InputAction.CallbackContext context)
-    {
-      var vectorDirection = model.ParseDirection(direction);
-
-      switch (context.phase)
-      {
-        case InputActionPhase.Started:
-          break;
-
-        case InputActionPhase.Performed:
-          view.AddDirection(vectorDirection);
-          onPerformed?.Invoke(direction);
-          break;
-
-        case InputActionPhase.Canceled:
-          view.RemoveDirection(vectorDirection);
-          onCanceled?.Invoke(direction);
-          break;
-      }
-    }
-  }
+    =>moveController.CreateMoveInputAction(path, direction);  
 
   public void EnableInputAction(Direction direction, bool enable)
-  {
-    if (moveInputActions.TryGetValue(direction, out InputAction action))
-    {
-      if (enable)
-        action.Enable();
-      else
-        action.Disable();
-    }
-  }
+    =>moveController.EnableInputAction(direction, enable);
 
   public void EnableAllInputActions(bool enable)
-  {
-    foreach (var inputAction in moveInputActions.Values)
-    {
-      if (enable)
-        inputAction.Enable();
-      else
-        inputAction.Disable();
-    }
-  }
-  #endregion
+    =>moveController.EnableAllInputActions(enable);
 
-  #region IPlayerMoveSubscriber
   public void SubscribeOnPerformed(UnityAction<Direction> performed)
-    => onPerformed.AddListener(performed);
+    => moveController.SubscribeOnPerformed(performed);
 
   public void SubscribeOnCanceled(UnityAction<Direction> canceled)
-    => onCanceled.AddListener(canceled);
+    => moveController.SubscribeOnCanceled(canceled);
 
-  public void UnsubscribePerfoemd(UnityAction<Direction> perfoemd)
-    =>onPerformed.RemoveListener(perfoemd);
+  public void UnsubscribePerfoemd(UnityAction<Direction> performed)
+    => moveController.UnsubscribePerfoemd(performed);
 
   public void UnsubscribeCanceled(UnityAction<Direction> canceled)
-    =>onCanceled.RemoveListener(canceled);
+    => moveController.UnsubscribeCanceled(canceled);
+
+  public void ApplyMoveAcceleration()
+    => moveController.ApplyMoveAcceleration();
+
+  public void ApplyMoveDeceleration()
+    => moveController.ApplyMoveDeceleration();
   #endregion
 
   #region IPlayerHPController
   public void SetHP(int value)
-  {
-    hp = value;
-    onHPChanged?.Invoke(hp);
-  }
+    =>hpController.SetHP(value);
 
   public void DamageHP(int damage)
-  {
-    hp = Mathf.Max(0, hp - damage);
-    onHPChanged?.Invoke(hp);
-
-    if(hp<=0)
-    {
-      IStageController stageController = LocalManager.instance.StageManager;
-      switch (view.GetPlayerType())
-      {
-        case PlayerType.Left:
-          stageController.OnLeftFailed();
-          break;
-
-        case PlayerType.Right:
-          stageController.OnRightFailed();
-          break;
-      }      
-    }
-  }
+    =>hpController.DamageHP(damage);
 
   public void RestoreHP(int value)
-  {
-    hp = Mathf.Min(model.maxHP, hp + value);
-    onHPChanged?.Invoke(hp);
-  }
+    =>hpController.RestoreHP(value);
 
   public void SubscribeOnHPChanged(UnityAction<int> onHPChanged)
-  {
-    this.onHPChanged.AddListener(onHPChanged);
-  }
+    =>hpController.SubscribeOnHPChanged(onHPChanged);
 
   public void UnsubscribeOnHPChanged(UnityAction<int> onHPChanged)
+    => hpController.UnsubscribeOnHPChanged(onHPChanged);
+  #endregion
+
+  #region IPlayerReactionController
+  public void Bounce(BounceData data, Vector3 direction)
   {
-    this.onHPChanged.RemoveListener(onHPChanged);
+    
+    throw new System.NotImplementedException();
   }
+  #endregion
+
+  #region IStateController
+  public void ChangeState(PlayerStateType playerState)
+    => stateController.ChangeState(playerState);  
   #endregion
 }

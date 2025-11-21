@@ -22,15 +22,15 @@ namespace LR.UI.GameScene.Player
     public UIPlayerInputPresenter(
       Model model,
       UIPlayerInputViewContainer leftViewContainer,
-      IPlayerMoveSubscriber leftSubscriber,
+      IPlayerMoveController leftMoveController,
       UIPlayerInputViewContainer rightViewContainer,
-      IPlayerMoveSubscriber rightSubscriber)
+      IPlayerMoveController rightMoveController)
     {
       this.model = model;
       this.leftViewContainer = leftViewContainer;
       this.rightViewContainer = rightViewContainer;
 
-      leftSubscriber.SubscribeOnPerformed(direction=>
+      leftMoveController.SubscribeOnPerformed(direction=>
       {
         var view = direction switch
         {
@@ -42,7 +42,7 @@ namespace LR.UI.GameScene.Player
         };
         view.SetBool(activeHash, true);
       });
-      leftSubscriber.SubscribeOnCanceled(direction =>
+      leftMoveController.SubscribeOnCanceled(direction =>
       {
         var view = direction switch
         {
@@ -54,7 +54,7 @@ namespace LR.UI.GameScene.Player
         };
         view.SetBool(activeHash, false);
       });
-      rightSubscriber.SubscribeOnPerformed(direction =>
+      rightMoveController.SubscribeOnPerformed(direction =>
       {
         var view = direction switch
         {
@@ -66,7 +66,7 @@ namespace LR.UI.GameScene.Player
         };
         view.SetBool(activeHash, true);
       });
-      rightSubscriber.SubscribeOnCanceled(direction =>
+      rightMoveController.SubscribeOnCanceled(direction =>
       {
         var view = direction switch
         {

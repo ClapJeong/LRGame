@@ -7,56 +7,6 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
   [SerializeField] private new Rigidbody2D rigidbody;
   [SerializeField] private PlayerType playerType;
 
-  private PlayerModelSO so;
-  
-  private Vector3 inputDirection;
-
-  private void FixedUpdate()
-  {
-    if (so == null)
-      return;
-
-    ApplyAcceleration();
-  }
-
-  private void ApplyAcceleration()
-  {
-    Vector3 currentVel = rigidbody.linearVelocity;
-    Vector3 desiredVel = inputDirection.normalized * so.Movement.MaxSpeed;
-
-    bool hasInput = inputDirection.sqrMagnitude > 0.01f;
-
-    if (hasInput)
-    {
-      // 입력이 있을 때: currentVel → desiredVel 로 가속
-      currentVel = Vector3.MoveTowards(
-          currentVel,
-          desiredVel,
-          so.Movement.Acceleration * Time.fixedDeltaTime
-      );
-    }
-    else
-    {
-      // 입력 없을 때: currentVel → 0 으로 감속
-      currentVel = Vector3.MoveTowards(
-          currentVel,
-          Vector3.zero,
-          so.Movement.Decceleration * Time.fixedDeltaTime
-      );
-    }
-
-    rigidbody.linearVelocity = currentVel;
-  }
-
-  public void SetSO(PlayerModelSO so)
-    =>this.so = so;
-
-  public void AddDirection(Vector3 direction)
-    => inputDirection += direction;
-
-  public void RemoveDirection(Vector3 direction)
-    => inputDirection -= direction;
-
   public void SetActive(bool isActive)
     =>gameObject.SetActive(isActive);
 
@@ -77,4 +27,13 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
 
   public void AddLocalPosition(Vector3 value)
     => transform.localPosition += value;
+
+  public void SetLinearVelocity(Vector3 velocity)
+    => rigidbody.linearVelocity = velocity;
+
+  public void AddForce(Vector3 force, ForceMode2D forceMode = ForceMode2D.Force)
+    => rigidbody.AddForce(force, forceMode);
+
+  public Vector3 GetLinearVelocity()
+    => rigidbody.linearVelocity;
 }

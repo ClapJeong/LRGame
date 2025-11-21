@@ -1,12 +1,6 @@
 using UnityEngine;
 
-public interface IPlayerView : IGameObjectView, IPositionView
+public interface IPlayerView : IGameObjectView, IPositionView, IRigidbodyController
 {
-  public void SetSO(PlayerModelSO so);
-
   public PlayerType GetPlayerType();
-
-  public void AddDirection(Vector3 direction);
-
-  public void RemoveDirection(Vector3 direction);
 }

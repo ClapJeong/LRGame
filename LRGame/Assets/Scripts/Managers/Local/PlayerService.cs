@@ -48,13 +48,12 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       GlobalManager.instance.Table.AddressableKeySO.PlayerName.LeftPlayer;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
+    var playerType = PlayerType.Left;
     var leftView = await resourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
     var model = new PlayerModel(
       modelSO,
       startPosition);
-    var presenter = new BasePlayerPresenter();
-
-    presenter.Initialize(leftView, model);
+    var presenter = new BasePlayerPresenter(playerType, leftView, model);
 
     presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
     {
@@ -76,13 +75,12 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       GlobalManager.instance.Table.AddressableKeySO.PlayerName.RightPlayer;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
+    var playerType = PlayerType.Right;
     var rightView = await resourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
     var model = new PlayerModel(
           modelSO,
           startPosition);
-    var presenter = new BasePlayerPresenter();
-
-    presenter.Initialize(rightView, model);
+    var presenter = new BasePlayerPresenter(playerType, rightView, model);
 
     presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
     {
