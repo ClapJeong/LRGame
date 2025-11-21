@@ -25,6 +25,7 @@ public class BasePlayerHPController : IPlayerHPController
 
   public void DamageHP(int damage)
   {
+    //데미지받고무적도적용해야함
     hp = Mathf.Max(0, hp - damage);
     onHPChanged?.Invoke(hp);
 
@@ -61,5 +62,10 @@ public class BasePlayerHPController : IPlayerHPController
         stageController.OnRightFailed();
         break;
     }
+  }
+
+  public void Dispose()
+  {
+    
   }
 }

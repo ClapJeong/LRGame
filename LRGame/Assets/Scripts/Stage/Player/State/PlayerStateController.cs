@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 
-public class PlayerStateController
+public class PlayerStateController : IPlayerStateController
 {
   private Dictionary<PlayerStateType, IPlayerState> states = new();
   private IPlayerState currentState = null;
@@ -20,9 +22,13 @@ public class PlayerStateController
     currentState = states[type];
     currentState.OnEnter();
   }
-
   public void FixedUpdate()
   {
     currentState.FixedUpdate();
+  }
+
+  public void Dispose()
+  {
+    
   }
 }

@@ -6,6 +6,6 @@ public class BounceData
   [SerializeField] private float force;
   public float Force => force;
 
-  [SerializeField] private float deceleration;
-  public float Deceleration => deceleration;
+  [SerializeField] private float stunDuration;
+  public float StunDuration => stunDuration;
 }

@@ -12,9 +12,11 @@ public class BasePlayerPresenter : IPlayerPresenter
 
   private BasePlayerHPController hpController;
   private BasePlayerMoveController moveController;
+  private BasePlayerReactionController reactionController;
+  private BasePlayerInputActionController inputActionController;
   private PlayerStateController stateController;
 
-  private IDisposable viewFixedUpdate;
+  private CompositeDisposable disposables = new();
 
   public BasePlayerPresenter(PlayerType playerType, BasePlayerView view, PlayerModel model)
   {
@@ -23,22 +25,31 @@ public class BasePlayerPresenter : IPlayerPresenter
 
     view.SetWorldPosition(model.beginPosition);    
 
-    hpController = new BasePlayerHPController(playerType, model);
-    moveController = new BasePlayerMoveController(view, model);
+    hpController = new BasePlayerHPController(playerType, model).AddTo(disposables);
+    inputActionController = new BasePlayerInputActionController(model).AddTo(disposables);
+    moveController = new BasePlayerMoveController(view, inputActionController: this, model).AddTo(disposables);
+    reactionController = new BasePlayerReactionController(moveController: this, stateController: this).AddTo(disposables);    
 
     stateController = new PlayerStateController();
-    stateController.AddState(PlayerStateType.Idle, new PlayerIdleState(moveController,this));
-    stateController.AddState(PlayerStateType.Move, new PlayerMoveState(this,moveController));
-    stateController.AddState(PlayerStateType.Bounced, new PlayerBouncedState());
+    disposables.Add(stateController);
+    stateController.AddState(PlayerStateType.Idle, new PlayerIdleState(moveController: this, inputActionController:this, stateController: this));
+    stateController.AddState(PlayerStateType.Move, new PlayerMoveState(moveController: this, inputActionController: this, stateController: this));
+    var bounceData = GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger.BounceData;
+    stateController.AddState(PlayerStateType.Bounce, new PlayerBounceState(moveController: this, inputActionController:this, stateController: this, bounceData));
 
     stateController.ChangeState(PlayerStateType.Idle);
 
-    viewFixedUpdate = view
+    SubscribeObservable();
+  }
+
+  private void SubscribeObservable()
+  {
+    view
       .FixedUpdateAsObservable()
-      .Subscribe(_ => stateController.FixedUpdate());
+      .Subscribe(_ => stateController.FixedUpdate()).AddTo(disposables);
     view
       .OnDestroyAsObservable()
-      .Subscribe(_ => viewFixedUpdate.Dispose());
+      .Subscribe(_ => disposables.Dispose());
   }
 
   #region IStageObjectController
@@ -57,35 +68,43 @@ public class BasePlayerPresenter : IPlayerPresenter
   #endregion
 
   #region IPlayerMoveController
-  public void CreateMoveInputAction(Dictionary<string, Direction> pathDirectionPairs)
-    =>moveController.CreateMoveInputAction(pathDirectionPairs);
-
-  public void CreateMoveInputAction(string path, Direction direction)
-    =>moveController.CreateMoveInputAction(path, direction);  
-
-  public void EnableInputAction(Direction direction, bool enable)
-    =>moveController.EnableInputAction(direction, enable);
-
-  public void EnableAllInputActions(bool enable)
-    =>moveController.EnableAllInputActions(enable);
-
-  public void SubscribeOnPerformed(UnityAction<Direction> performed)
-    => moveController.SubscribeOnPerformed(performed);
-
-  public void SubscribeOnCanceled(UnityAction<Direction> canceled)
-    => moveController.SubscribeOnCanceled(canceled);
-
-  public void UnsubscribePerfoemd(UnityAction<Direction> performed)
-    => moveController.UnsubscribePerfoemd(performed);
-
-  public void UnsubscribeCanceled(UnityAction<Direction> canceled)
-    => moveController.UnsubscribeCanceled(canceled);
+  public void SetLinearVelocity(Vector3 velocity)
+    =>moveController.SetLinearVelocity(velocity);
 
   public void ApplyMoveAcceleration()
     => moveController.ApplyMoveAcceleration();
 
   public void ApplyMoveDeceleration()
     => moveController.ApplyMoveDeceleration();
+  #endregion
+
+  #region IPlayerInputActionController
+  public void CreateMoveInputAction(Dictionary<string, Direction> pathDirectionPairs)
+    => inputActionController.CreateMoveInputAction(pathDirectionPairs);
+
+  public void CreateMoveInputAction(string path, Direction direction)
+    => inputActionController.CreateMoveInputAction(path, direction);
+
+  public void EnableInputAction(Direction direction, bool enable)
+    => inputActionController.EnableInputAction(direction, enable);
+
+  public void EnableAllInputActions(bool enable)
+    => inputActionController.EnableAllInputActions(enable);
+
+  public void SubscribeOnPerformed(UnityAction<Direction> performed)
+    => inputActionController.SubscribeOnPerformed(performed);
+
+  public void SubscribeOnCanceled(UnityAction<Direction> canceled)
+    => inputActionController.SubscribeOnCanceled(canceled);
+
+  public void UnsubscribePerfoemd(UnityAction<Direction> performed)
+    => inputActionController.UnsubscribePerfoemd(performed);
+
+  public void UnsubscribeCanceled(UnityAction<Direction> canceled)
+    => inputActionController.UnsubscribeCanceled(canceled);
+
+  public bool IsAnyInput()
+    => inputActionController.IsAnyInput();
   #endregion
 
   #region IPlayerHPController
@@ -107,14 +126,14 @@ public class BasePlayerPresenter : IPlayerPresenter
 
   #region IPlayerReactionController
   public void Bounce(BounceData data, Vector3 direction)
-  {
-    
-    throw new System.NotImplementedException();
-  }
+    => reactionController.Bounce(data, direction);
+
+  public void ChangeState(PlayerStateType playerState)
+    =>stateController.ChangeState(playerState);
   #endregion
 
-  #region IStateController
-  public void ChangeState(PlayerStateType playerState)
-    => stateController.ChangeState(playerState);  
-  #endregion
+  public void Dispose()
+  {
+    disposables.Dispose();
+  }
 }

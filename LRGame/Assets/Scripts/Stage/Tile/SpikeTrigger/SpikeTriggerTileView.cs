@@ -5,18 +5,12 @@ public class SpikeTriggerTileView : MonoBehaviour, ITriggerTileView, IGameObject
 {
   [SerializeField] private TriggerTileType triggerTileType;
 
-  private ITriggerTilePresenter presenter;
   private bool enable = true;
   private UnityAction<Collider2D> onEnter;
   private UnityAction<Collider2D> onExit;
 
   public TriggerTileType GetTriggerType()
     => triggerTileType;
-
-  public void Initialize( ITriggerTilePresenter presenter)
-  {
-    this.presenter = presenter;
-  }
 
   public void SetActive(bool active)
     =>gameObject.SetActive(active);

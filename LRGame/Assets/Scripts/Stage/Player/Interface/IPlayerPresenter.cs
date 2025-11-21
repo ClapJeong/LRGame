@@ -1,3 +1,9 @@
-public interface IPlayerPresenter: IPlayerMoveController, IStageObjectController, IPlayerHPController, IPlayerReactionController, IPlayerStateController
+public interface IPlayerPresenter:
+  IStageObjectController,
+  IPlayerMoveController, 
+  IPlayerInputActionController,
+  IPlayerHPController, 
+  IPlayerReactionController,
+  IPlayerStateController
 {
 }

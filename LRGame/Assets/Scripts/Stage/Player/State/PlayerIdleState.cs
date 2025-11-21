@@ -4,12 +4,14 @@ using UnityEngine.InputSystem;
 public class PlayerIdleState : IPlayerState
 {
   private readonly IPlayerMoveController moveController;
+  private readonly IPlayerInputActionController inputActionController;
   private readonly IPlayerStateController playerStateController;
 
 
-  public PlayerIdleState(IPlayerMoveController moveController, IPlayerStateController stateController)
+  public PlayerIdleState(IPlayerMoveController moveController, IPlayerInputActionController inputActionController, IPlayerStateController stateController)
   {
     this.moveController = moveController;
+    this.inputActionController = inputActionController;
     this.playerStateController = stateController;
   }
 
@@ -20,12 +22,12 @@ public class PlayerIdleState : IPlayerState
 
   public void OnEnter()
   {
-    moveController.SubscribeOnPerformed(OnMovePerformed);
+    inputActionController.SubscribeOnPerformed(OnMovePerformed);
   }
 
   public void OnExit()
   {
-    moveController.UnsubscribePerfoemd(OnMovePerformed);
+    inputActionController.UnsubscribePerfoemd(OnMovePerformed);
   }
 
   private void OnMovePerformed(Direction direction)

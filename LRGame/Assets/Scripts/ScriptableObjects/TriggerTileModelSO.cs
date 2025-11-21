@@ -10,4 +10,13 @@ public class TriggerTileModelSO : ScriptableObject
   }
   [SerializeField] private ClearTriggerData clearTrigger;
   public ClearTriggerData ClearTrigger => clearTrigger;
+
+  [System.Serializable]
+  public class SpikeTriggerData
+  {
+    [SerializeField] private BounceData bounceData;
+    public BounceData BounceData => bounceData;
+  }
+  [SerializeField] private SpikeTriggerData spikeTrigger;
+  public SpikeTriggerData SpikeTrigger => spikeTrigger;
 }

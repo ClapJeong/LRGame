@@ -56,7 +56,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.Spike:
           {
-            var model = new SpikeTriggerTilePresenter.Model(null);
+            var model = new SpikeTriggerTilePresenter.Model(null,GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger.BounceData);
             var spikeTriggerTileView = view as SpikeTriggerTileView;
             var presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
             presenter.Enable(isEnableImmediately);

@@ -3,14 +3,16 @@ using UnityEngine;
 public class PlayerMoveState : IPlayerState
 {
   private readonly IPlayerStateController stateController;
-  private readonly IPlayerMoveController moveController;
+  private readonly IPlayerInputActionController inputActionController;
+  private readonly IPlayerMoveController moveController;  
 
-
-  public PlayerMoveState(
-    IPlayerStateController stateController, 
-    IPlayerMoveController moveController)
+  public PlayerMoveState(     
+    IPlayerMoveController moveController,
+    IPlayerInputActionController inputActionController,
+    IPlayerStateController stateController)
   {
     this.stateController = stateController;
+    this.inputActionController = inputActionController;
     this.moveController = moveController;
   }
 
@@ -21,16 +23,17 @@ public class PlayerMoveState : IPlayerState
 
   public void OnEnter()
   {
-    moveController.SubscribeOnCanceled(OnMoveCanceled);
+    inputActionController.SubscribeOnCanceled(OnMoveCanceled);
   }
 
   public void OnExit()
   {
-    moveController.UnsubscribeCanceled(OnMoveCanceled);
+    inputActionController.UnsubscribeCanceled(OnMoveCanceled);
   }
 
   private void OnMoveCanceled(Direction direction)
   {
-    stateController.ChangeState(PlayerStateType.Idle);
+    if(inputActionController.IsAnyInput() == false)
+      stateController.ChangeState(PlayerStateType.Idle);
   }
 }

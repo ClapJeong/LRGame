@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface IPlayerHPController 
+public interface IPlayerHPController: IDisposable
 {
   public void SetHP(int value);
 

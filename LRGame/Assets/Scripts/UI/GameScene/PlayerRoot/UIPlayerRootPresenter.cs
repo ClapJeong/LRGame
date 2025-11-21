@@ -63,12 +63,20 @@ namespace LR.UI.GameScene.Player
     private async UniTask CreateInputPresenterAsync()
     {
       var model = new UIPlayerInputPresenter.Model();
+
       var leftView = viewContainer.leftInputViewContainer;
-      IPlayerMoveController leftMoveController = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+      IPlayerPresenter leftPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+
       var rightView = viewContainer.rightInputViewContainer;
-      IPlayerMoveController rightMoveController = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+      IPlayerPresenter rightPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+
       IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-      presenterFactory.Register(() => new UIPlayerInputPresenter(model, leftView, leftMoveController, rightView, rightMoveController));
+      presenterFactory.Register(() => new UIPlayerInputPresenter(
+        model, 
+        leftView, 
+        leftInputController: leftPresenter, 
+        rightView, 
+        rightInputController: rightPresenter));
       inputPresenter = presenterFactory.Create<UIPlayerInputPresenter>();
       inputPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
@@ -76,13 +84,22 @@ namespace LR.UI.GameScene.Player
     private async UniTask CreateHPPresenterAsync()
     {
       var table = GlobalManager.instance.Table;
+
       var model = new UIPlayerHPPresenter.Model(table.LeftPlayerModelSO.HP.MaxHP,table.RightPlayerModelSO.HP.MaxHP);
+
       var leftView = viewContainer.leftHPViewContainer;
-      var leftHPController = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+      IPlayerPresenter leftPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+
       var rightView = viewContainer.rightHPViewContainer;
-      var rightHPController = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+      IPlayerPresenter rightPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+
       IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-      presenterFactory.Register(() => new UIPlayerHPPresenter(model, leftView, leftHPController, rightView, rightHPController));
+      presenterFactory.Register(() => new UIPlayerHPPresenter(
+        model, 
+        leftView, 
+        leftHPController: leftPresenter, 
+        rightView, 
+        rightHPController: rightPresenter));
       hpPresenter = presenterFactory.Create<UIPlayerHPPresenter>();
       hpPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
