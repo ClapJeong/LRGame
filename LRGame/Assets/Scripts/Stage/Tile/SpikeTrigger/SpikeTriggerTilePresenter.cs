@@ -44,7 +44,9 @@ public class SpikeTriggerTilePresenter : ITriggerTilePresenter
       var playerType = playerView.GetPlayerType();
       var playerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(playerType);
       IPlayerHPController hpcontroller = playerPresenter;
-      hpcontroller.DamageHP(1);
+      if(hpcontroller.IsInvincible() == false)
+        hpcontroller.DamageHP(1);
+
       var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;
       IPlayerReactionController reactionController = playerPresenter;
       reactionController.Bounce(model.bounceData, bounceDirection);

@@ -5,7 +5,8 @@ using UnityEngine;
 public class BasePlayerView : MonoBehaviour, IPlayerView
 {
   [SerializeField] private new Rigidbody2D rigidbody;
-  [SerializeField] private PlayerType playerType;
+  [SerializeField] private SpriteRenderer spriteRenderer;
+  [SerializeField] private PlayerType playerType;  
 
   public void SetActive(bool isActive)
     =>gameObject.SetActive(isActive);
@@ -36,4 +37,23 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
 
   public Vector3 GetLinearVelocity()
     => rigidbody.linearVelocity;
+
+  public void SetAlpha(float alpha)
+  {
+    var color = spriteRenderer.color;
+    if (color.a != alpha)
+    {
+      color.a = alpha;
+      spriteRenderer.color = color;
+    }
+  }
+
+  public void SetColor(Color color)
+  {
+    if (spriteRenderer.color != color)
+      spriteRenderer.color = color;
+  }
+
+  public void SetSprite(Sprite sprite)
+    => spriteRenderer.sprite = sprite;
 }

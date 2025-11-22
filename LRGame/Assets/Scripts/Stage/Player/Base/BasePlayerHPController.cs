@@ -1,3 +1,6 @@
+using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -5,14 +8,18 @@ public class BasePlayerHPController : IPlayerHPController
 {
   private readonly PlayerType playerType;
   private readonly PlayerModel model;
+  private readonly ISpriteRendererView spriteRenderer;
 
   private int hp;
+  private bool isInvincible;
+
   private UnityEvent<int> onHPChanged = new();
 
-  public BasePlayerHPController(PlayerType playerType, PlayerModel model)
+  public BasePlayerHPController(PlayerType playerType, PlayerModel model, ISpriteRendererView spriteRenderer)
   {
     this.playerType = playerType;
     this.model = model;   
+    this.spriteRenderer = spriteRenderer;
 
     SetHP(model.so.HP.MaxHP);
   }
@@ -25,7 +32,7 @@ public class BasePlayerHPController : IPlayerHPController
 
   public void DamageHP(int damage)
   {
-    //데미지받고무적도적용해야함
+    PlayInvincible(model.so.HP.InvincibleDuration).Forget();
     hp = Mathf.Max(0, hp - damage);
     onHPChanged?.Invoke(hp);
 
@@ -68,4 +75,38 @@ public class BasePlayerHPController : IPlayerHPController
   {
     
   }
+
+  public bool IsInvincible()
+    => isInvincible;
+
+  public async UniTask PlayInvincible(float duration, UnityAction onFinished = null, CancellationToken token = default)
+  {
+    isInvincible = true;
+    try
+    {
+      var time = 0.0f;
+      var interval = 0.2f;
+      while (time < duration)
+      {
+        token.ThrowIfCancellationRequested();
+
+        var blinkCount =(int)(time / interval);
+        if (blinkCount % 2 == 0)
+          spriteRenderer.SetAlpha(model.so.HP.InvincibleBlinkAlphaMax);
+        else
+          spriteRenderer.SetAlpha(model.so.HP.InvincibleBlinkAlphaMin);
+
+        time += Time.deltaTime;
+        await UniTask.Yield(PlayerLoopTiming.Update);
+      }
+      
+    }
+    catch (OperationCanceledException) { }
+    finally
+    {
+      spriteRenderer.SetAlpha(1.0f);
+      isInvincible = false;
+    }
+  }
+
 }

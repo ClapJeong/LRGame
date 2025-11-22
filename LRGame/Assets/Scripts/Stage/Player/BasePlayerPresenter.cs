@@ -1,5 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -25,7 +27,7 @@ public class BasePlayerPresenter : IPlayerPresenter
 
     view.SetWorldPosition(model.beginPosition);    
 
-    hpController = new BasePlayerHPController(playerType, model).AddTo(disposables);
+    hpController = new BasePlayerHPController(playerType, model, spriteRenderer: view).AddTo(disposables);
     inputActionController = new BasePlayerInputActionController(model).AddTo(disposables);
     moveController = new BasePlayerMoveController(view, inputActionController: this, model).AddTo(disposables);
     reactionController = new BasePlayerReactionController(moveController: this, stateController: this).AddTo(disposables);    
@@ -122,6 +124,12 @@ public class BasePlayerPresenter : IPlayerPresenter
 
   public void UnsubscribeOnHPChanged(UnityAction<int> onHPChanged)
     => hpController.UnsubscribeOnHPChanged(onHPChanged);
+
+  public bool IsInvincible()
+    => hpController.IsInvincible();
+
+  public async UniTask PlayInvincible(float duration, UnityAction onFinished = null, CancellationToken token = default)
+    => await hpController.PlayInvincible(duration, onFinished, token);
   #endregion
 
   #region IPlayerReactionController

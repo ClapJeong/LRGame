@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasePlayerView
   rigidbody: {fileID: 8919338106855535870}
+  spriteRenderer: {fileID: 5493465683989241404}
   playerType: 1
 --- !u!50 &8919338106855535870
 Rigidbody2D:
