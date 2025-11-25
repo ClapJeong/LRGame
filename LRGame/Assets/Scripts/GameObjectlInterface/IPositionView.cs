@@ -10,4 +10,8 @@ public interface IPositionView
   public void SetLocalPosition(Vector3 localPosition);
 
   public void AddLocalPosition(Vector3 value);
+
+  public Vector3 GetWorldPosition();
+
+  public Vector3 GetLocalPosition();
 }

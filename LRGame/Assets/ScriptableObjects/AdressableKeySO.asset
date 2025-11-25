@@ -30,8 +30,9 @@ MonoBehaviour:
   uiName:
     preloadingRoot: PreloadingRoot
     lobbyRoot: LobbyRoot
+    lobbyStageButton: LobbyStageButton
     stageRoot: StageRoot
     playerRoot: PlayerRoot
-    lobbyStageButton: LobbyStageButton
+    indicator: Indicator
   stageName:
     StageNameFormat: Stage_{0}

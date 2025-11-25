@@ -4,8 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using LR.UI;
+using UnityEngine.Events;
+using LR.UI.Indicator;
 
-public class UIManager : MonoBehaviour, ICanvasProvider, IUIResourceService, IUIPresenterFactory, IUIPresenterContainer
+public class UIManager : MonoBehaviour, 
+  ICanvasProvider, 
+  IUIResourceService, 
+  IUIPresenterFactory, 
+  IUIPresenterContainer, 
+  IUISelectionEventService,
+  IUIIndicatorService,
+  IUIDepthService
 {
   [System.Serializable]
   public class CanvasSet
@@ -16,8 +25,26 @@ public class UIManager : MonoBehaviour, ICanvasProvider, IUIResourceService, IUI
 
   [SerializeField] private List<CanvasSet> canvasSets = new();
 
-  private readonly Dictionary<Type, Func<IUIPresenter>> presenterRegisters = new();
-  private readonly Dictionary<Type,List<IUIPresenter>> cachedPresenters = new();
+  private UIResourceService resourceService;
+  private UIPresenterContainer presenterContainer;
+  private UIPresenterFactory presenterFactory;
+  private UISelectionService selectionService;  
+  private UIIndicatorService indicatorService;
+  private UIDepthService depthService;
+
+  private void Awake()
+  {
+    presenterContainer = new UIPresenterContainer();
+    presenterFactory = new UIPresenterFactory(container: this);
+    selectionService = new UISelectionService();
+    resourceService = new UIResourceService(canvasProvider: this);
+    depthService = new UIDepthService();
+  }
+
+  private void Update()
+  {
+    selectionService.UpdateDetectingSelectedObject();
+  }
 
   public Canvas GetCanvas(UIRootType rootType)
   {
@@ -28,89 +55,79 @@ public class UIManager : MonoBehaviour, ICanvasProvider, IUIResourceService, IUI
 
     return set.canvas;
   }
-  
 
+  #region IUIResourceService
   public async UniTask<T> CreateViewAsync<T>(string viewKey, UIRootType createRoot) where T : UnityEngine.Object
-  {
-    var root = GetCanvas(createRoot).transform;
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    var view = await resourceManager.CreateAssetAsync<T>(viewKey,root);
-    return view;
-  }
+    => await resourceService.CreateViewAsync<T>(viewKey, createRoot);
 
   public void ReleaseView(GameObject view, bool releaseHandle = false)
-  {
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    resourceManager.ReleaseInstance(view, releaseHandle);
-  }
+    => resourceService.ReleaseView(view, releaseHandle);
+  #endregion
 
-  public async UniTask<T> CreateRootUIViewAsync<T>(RootUIType rootType) where T : UnityEngine.Object
-  {
-    var rootUIKey = GetRootUIKey(rootType);
-    var rootUI = await CreateViewAsync<T>(rootUIKey, UIRootType.Overlay);
-    return rootUI;
-  }
-
-  private string GetRootUIKey(RootUIType rootType)
-  {      
-    var keyTable = GlobalManager.instance.Table.AddressableKeySO;
-    return rootType switch
-    {
-      RootUIType.Preloading => keyTable.Path.Ui + keyTable.UIName.PreloadingRoot,
-      RootUIType.Lobby => keyTable.Path.Ui + keyTable.UIName.LobbyRoot,
-      RootUIType.Player => keyTable.Path.Ui + keyTable.UIName.PlayerRoot,
-      RootUIType.Stage => keyTable.Path.Ui + keyTable.UIName.StageRoot,
-      _ => throw new System.NotImplementedException(),
-    };
-  }
-
+  #region IUIPresenterFactory
   public void Register<T>(Func<T> constructor) where T : IUIPresenter
-  {
-    var type = typeof(T);
-    presenterRegisters[type] = ()=> constructor();
-  }
+    =>presenterFactory.Register<T>(constructor);
 
   public T Create<T>() where T : IUIPresenter
-  {
-    var type = typeof(T);
-    if (presenterRegisters.ContainsKey(type) == false)
-      throw new System.NotImplementedException($"{type.Name} does not exist");
+    => presenterFactory.Create<T>();
+  #endregion
 
-    var presenter = (T)presenterRegisters[type]();
-    Add(presenter);
-
-    return presenter;
-  }
-
+  #region IUIPresenterContainer
   public void Add(IUIPresenter presenter)
-  {
-    var type = presenter.GetType();
-
-    if (cachedPresenters.TryGetValue(type, out var existList))
-      existList.Add(presenter);
-    else
-      cachedPresenters[type] = new List<IUIPresenter> { presenter };
-  }
+    => presenterContainer.Add(presenter);
 
   public void Remove(IUIPresenter presenter)
-  {
-    var type = presenter.GetType();
-
-    if(cachedPresenters.TryGetValue(type,out var existList))
-      existList.Remove(presenter);
-  }
+    => presenterContainer.Remove(presenter);
 
   public IReadOnlyList<T> GetAll<T>() where T : IUIPresenter
-  {
-    if(cachedPresenters.TryGetValue(typeof(T), out var existList))
-      return existList.Cast<T>().ToList();
-    else
-      return Array.Empty<T>();
-  }
+    => presenterContainer.GetAll<T>();
 
   public T GetFirst<T>() where T : IUIPresenter
-    => GetAll<T>().FirstOrDefault();
+    => presenterContainer.GetFirst<T>();
 
   public T GetLast<T>() where T : IUIPresenter
-    => GetAll<T>().LastOrDefault();
+    => presenterContainer.GetLast<T>();
+  #endregion
+
+  #region IUISelectionEventService
+  public void SetSelectedObject(RectTransform rectTransform)
+    => selectionService.SetSelectedObject(rectTransform);
+
+  public void SubscribeEvent(IUISelectionEventService.EventType type, UnityAction<RectTransform> action)
+    => selectionService.SubscribeEvent(type, action);
+
+  public void UnsubscribeEvent(IUISelectionEventService.EventType type, UnityAction<RectTransform> action)
+    => selectionService.UnsubscribeEvent(type, action);
+  #endregion
+
+  #region IUIIndicatorService
+  public void AttachCurrentWithGameObject(GameObject target)
+    => indicatorService.AttachCurrentWithGameObject(target);
+
+  public async UniTask<IUIIndicatorPresenter> CreateAsync(Transform root, IRectView beginTarget)
+    => await indicatorService.CreateAsync(root, beginTarget);
+
+  public IUIIndicatorPresenter GetCurrent()
+    => indicatorService.GetCurrent();
+
+  public bool TryGetCurrent(out IUIIndicatorPresenter current)
+    => indicatorService.TryGetCurrent(out current);
+
+  public void Push(IUIIndicatorPresenter presenter)
+    => indicatorService.Push(presenter);
+
+  public void Pop()
+    => indicatorService.Pop();
+  #endregion
+
+  #region IUIDepthService
+  public void SelectTopObject()
+    => depthService.SelectTopObject();
+
+  public void RaiseDepth(GameObject targetSelectingGameObject)
+    =>depthService.RaiseDepth(targetSelectingGameObject);
+
+  public void LowerDepth()
+    => depthService.LowerDepth();
+  #endregion
 }

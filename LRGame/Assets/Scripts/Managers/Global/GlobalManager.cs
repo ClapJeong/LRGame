@@ -27,6 +27,9 @@ public class GlobalManager : MonoBehaviour, IGameDataController
   [SerializeField] private UIManager uiManager;
   public UIManager UIManager => uiManager;
 
+  [SerializeField] private UIInputManager uiInputManager;
+  public UIInputManager UIInputManager => uiInputManager;
+
   private string GameDataPath;
   public GameData gameData;
   public int selectedStage = 0;
@@ -44,6 +47,9 @@ public class GlobalManager : MonoBehaviour, IGameDataController
 
       resourceManager = new ResourceManager();
       disposables.Add(resourceManager);
+
+      uiInputManager = new UIInputManager();
+      disposables.Add(uiInputManager);
 
       SceneProvider.LoadSceneAsync(SceneType.Preloading, System.Threading.CancellationToken.None).Forget();
       LoadDataAsync().Forget();

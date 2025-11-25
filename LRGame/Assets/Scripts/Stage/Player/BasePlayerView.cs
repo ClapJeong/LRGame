@@ -1,34 +1,50 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class BasePlayerView : MonoBehaviour, IPlayerView
 {
   [SerializeField] private new Rigidbody2D rigidbody;
-  [SerializeField] private SpriteRenderer spriteRenderer;
-  [SerializeField] private PlayerType playerType;  
+  [SerializeField] private PlayerType playerType;
 
-  public void SetActive(bool isActive)
-    =>gameObject.SetActive(isActive);
+  [Header("[ View ]")]
+  [SerializeField] private BaseGameObjectView gameObjectView;
+  [SerializeField] private BasePositionView positionView;
+  [SerializeField] private BaseSpriteRendererView spriteRendererView;
 
-  public void SetLocalPosition(Vector3 position)
-    =>transform.localPosition = position;
-
-  public void SetRoot(Transform root)
-    => transform.SetParent(root);
-
-  public void SetWorldPosition(Vector3 worldPosition)
-    => transform.position = worldPosition;
-
+  #region IPlayerView
   public PlayerType GetPlayerType()
     => playerType;
+  #endregion
+
+  #region IGameObjectView
+  public void SetActive(bool isActive)
+    => gameObjectView.SetActive(isActive);
+
+  public void SetRoot(Transform root)
+    => gameObjectView.SetRoot(root);
+  #endregion
+
+  #region IPositionView
+  public void SetLocalPosition(Vector3 position)
+    => positionView.SetLocalPosition(position);  
+
+  public void SetWorldPosition(Vector3 worldPosition)
+    => positionView.SetWorldPosition(worldPosition);  
 
   public void AddWorldPosition(Vector3 value)
-    => transform.position += value;
+    => positionView.AddWorldPosition(value);
 
   public void AddLocalPosition(Vector3 value)
-    => transform.localPosition += value;
+    => positionView.AddLocalPosition(value);
 
+  public Vector3 GetWorldPosition()
+    => positionView.GetWorldPosition();
+
+  public Vector3 GetLocalPosition()
+    => positionView.GetLocalPosition();
+  #endregion
+
+  #region IRigidbodyController
   public void SetLinearVelocity(Vector3 velocity)
     => rigidbody.linearVelocity = velocity;
 
@@ -37,23 +53,16 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
 
   public Vector3 GetLinearVelocity()
     => rigidbody.linearVelocity;
+  #endregion
 
+  #region ISpriteRendererView
   public void SetAlpha(float alpha)
-  {
-    var color = spriteRenderer.color;
-    if (color.a != alpha)
-    {
-      color.a = alpha;
-      spriteRenderer.color = color;
-    }
-  }
+    => spriteRendererView.SetAlpha(alpha);
 
   public void SetColor(Color color)
-  {
-    if (spriteRenderer.color != color)
-      spriteRenderer.color = color;
-  }
+    => spriteRendererView.SetColor(color);
 
   public void SetSprite(Sprite sprite)
-    => spriteRenderer.sprite = sprite;
+    => spriteRendererView.SetSprite(sprite);
+  #endregion
 }

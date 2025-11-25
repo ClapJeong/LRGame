@@ -12,3 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5d5f16bdef7b054fa2076ac474e2212, type: 3}
   m_Name: UISO
   m_EditorClassIdentifier: Assembly-CSharp::UISO
+  inputPaths:
+    leftUp: 0
+    leftRight: 0
+    leftDown: 0
+    leftLeft: 0
+    rightUp: 0
+    rightRight: 0
+    rightDown: 0
+    rightLeft: 0
+  indicatorDuration: 0.2

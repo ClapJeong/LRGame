@@ -8,6 +8,12 @@ public class BasePositionView : MonoBehaviour, IPositionView
   public void AddWorldPosition(Vector3 value)
     => transform.position += value;
 
+  public Vector3 GetLocalPosition()
+    => transform.localPosition;
+
+  public Vector3 GetWorldPosition()
+    => transform.position;
+
   public void SetLocalPosition(Vector3 localPosition)
     =>transform.localPosition = localPosition;
 
