@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 984024810478957470}
   - component: {fileID: 7917616542132063568}
   - component: {fileID: 8225028645393476180}
-  - component: {fileID: 881210769026153541}
   - component: {fileID: 3444145079393367659}
   - component: {fileID: 8449208002430969936}
+  - component: {fileID: 2023082824268484999}
+  - component: {fileID: 2272698878430299922}
   m_Layer: 5
   m_Name: LobbyStageButtonPrefab
   m_TagString: Untagged
@@ -124,18 +125,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &881210769026153541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2695411832984047432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f67d524f46717464db37e10ffe71f005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseButtonView
 --- !u!114 &3444145079393367659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +165,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0e860155ff67147b58053cbf38ae92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseLocalizeStringView
+--- !u!114 &2023082824268484999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2695411832984047432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a2fef4ad6edf04a9a0722685f7f762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseSubmitView
+--- !u!114 &2272698878430299922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2695411832984047432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c867e38d87db7df4a85df12b59c07aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseNavigationView
+  selectable: {fileID: 8225028645393476180}
 --- !u!1 &7938665428575869002
 GameObject:
   m_ObjectHideFlags: 0

@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour,
     selectionService = new UISelectionService();
     resourceService = new UIResourceService(canvasProvider: this);
     depthService = new UIDepthService();
+    indicatorService = new UIIndicatorService();
   }
 
   private void Update()

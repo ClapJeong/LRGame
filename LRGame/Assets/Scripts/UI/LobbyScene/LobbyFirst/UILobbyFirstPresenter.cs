@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using UniRx;
 using UniRx.Triggers;
@@ -23,7 +22,7 @@ namespace LR.UI.Lobby
 
     private readonly Model model;
     private readonly UILobbyViewContainer viewContainer;
-    private readonly List<(IButtonView, ILocalizeStringView)> stageButtons = new();
+    private readonly List<(ISubmitView, ILocalizeStringView)> stageButtons = new();
 
     public UILobbyFirstPresenter(Model model, UILobbyViewContainer viewContainer)
     {
@@ -63,13 +62,16 @@ namespace LR.UI.Lobby
       for (int i = 0; i < stages.Count; i++)
       {
         var stageButtonObject = await resourceManager.CreateAssetAsync<GameObject>(stageButtonKey, viewContainer.stageButtonRoot);
-        var buttonView = stageButtonObject.GetComponent<BaseButtonView>();
+        var submitView = stageButtonObject.GetComponent<BaseSubmitView>();
         var localizeStringView = stageButtonObject.GetComponent<BaseLocalizeStringView>();
-        stageButtons.Add((buttonView, localizeStringView));
+        stageButtons.Add((submitView, localizeStringView));
 
         var index = i - 1;
-        buttonView.SubscribeOnClick(() => OnStageButtonClick(index));
-        buttonView.SubscribeOnClick(buttonView.Dispose);
+        submitView.SubscribeOnSubmit(() =>
+        {
+          OnStageButtonClick(index);
+          submitView.Enable(false);
+        });
         localizeStringView.SetArgument(new() { index });
       }
     }
