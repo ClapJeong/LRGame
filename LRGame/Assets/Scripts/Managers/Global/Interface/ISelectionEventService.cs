@@ -1,3 +1,4 @@
+using LR.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,9 +10,9 @@ public interface IUISelectionEventService
     OnExit,
   }
 
-  public void SetSelectedObject(RectTransform rectTransform);
+  public void SetSelectedObject(GameObject gameObject);
 
-  public void SubscribeEvent(EventType type, UnityAction<RectTransform> action);
+  public void SubscribeEvent(EventType type, UnityAction<IRectView> action);
 
-  public void UnsubscribeEvent(EventType type, UnityAction<RectTransform> action);
+  public void UnsubscribeEvent(EventType type, UnityAction<IRectView> action);
 }

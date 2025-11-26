@@ -1,3 +1,4 @@
+using LR.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,8 +6,8 @@ using UnityEngine.EventSystems;
 
 public class UISelectionService : IUISelectionEventService
 {
-  private UnityEvent<RectTransform> onSelectEnter = new();
-  private UnityEvent<RectTransform> onSelectExit = new();
+  private UnityEvent<IRectView> onSelectEnter = new();
+  private UnityEvent<IRectView> onSelectExit = new();
   private GameObject previousSelectedObject;
 
   public void UpdateDetectingSelectedObject()
@@ -16,28 +17,28 @@ public class UISelectionService : IUISelectionEventService
        currentSelectedObject != null &&
        currentSelectedObject != previousSelectedObject)
     {
-      onSelectExit?.Invoke(previousSelectedObject.GetComponent<RectTransform>());
-      onSelectEnter?.Invoke(currentSelectedObject.GetComponent<RectTransform>());
+      onSelectExit?.Invoke(previousSelectedObject.GetComponent<IRectView>());
+      onSelectEnter?.Invoke(currentSelectedObject.GetComponent<IRectView>());
     }
     else if(previousSelectedObject != null &&
             currentSelectedObject == null)
     {
-      onSelectExit?.Invoke(previousSelectedObject.GetComponent<RectTransform>());
+      onSelectExit?.Invoke(previousSelectedObject.GetComponent<IRectView>());
     }
     else if(previousSelectedObject == null &&
             currentSelectedObject != null)
     {
-      onSelectEnter?.Invoke(currentSelectedObject.GetComponent<RectTransform>());
+      onSelectEnter?.Invoke(currentSelectedObject.GetComponent<IRectView>());
     }
 
     previousSelectedObject = currentSelectedObject;
   }
 
 
-  public void SetSelectedObject(RectTransform rectTransform)
-    => EventSystem.current.SetSelectedGameObject(rectTransform.gameObject);
+  public void SetSelectedObject(GameObject gameObject)
+    => EventSystem.current.SetSelectedGameObject(gameObject);
 
-  public void SubscribeEvent(IUISelectionEventService.EventType type, UnityAction<RectTransform> action)
+  public void SubscribeEvent(IUISelectionEventService.EventType type, UnityAction<IRectView> action)
   {
     switch (type)
     {
@@ -51,7 +52,7 @@ public class UISelectionService : IUISelectionEventService
     }
   }
 
-  public void UnsubscribeEvent(IUISelectionEventService.EventType type, UnityAction<RectTransform> action)
+  public void UnsubscribeEvent(IUISelectionEventService.EventType type, UnityAction<IRectView> action)
   {
     switch (type)
     {

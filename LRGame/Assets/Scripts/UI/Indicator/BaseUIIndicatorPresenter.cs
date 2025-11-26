@@ -10,13 +10,14 @@ namespace LR.UI.Indicator
   public class BaseUIIndicatorPresenter : IUIIndicatorPresenter
   {
     private readonly BaseUIIndicatorView view;
+    private readonly CTSContainer cts = new();
 
     public BaseUIIndicatorPresenter(Transform root, IRectView targetRect, BaseUIIndicatorView view)
     {
       this.view = view;
       view.SetRoot(root);
       view.SetPosition(targetRect.GetPosition());
-      view.SetRect(targetRect.GetCurrentRect());
+      view.SetRect(targetRect.GetCurrentRectSize());
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -31,10 +32,12 @@ namespace LR.UI.Indicator
     }
 
 
-    public async UniTask MoveAsync(IRectView targetRect, bool isImmediately = false, CancellationToken token = default)
+    public async UniTask MoveAsync(IRectView targetRect, bool isImmediately = false)
     {
+      cts.Cancel(regenerate: true);
+
       var targetPosition = targetRect.GetPosition();
-      var targetRectSize = targetRect.GetCurrentRect();
+      var targetRectSize = targetRect.GetCurrentRectSize();
 
       if (isImmediately)
       {
@@ -48,16 +51,23 @@ namespace LR.UI.Indicator
         var time = 0.0f;
 
         var currentPosition = view.transform.position;
-        var currentRectsize = view.GetCurrentRect();
-        while (time < targetDuration)
+        var currentRectsize = view.GetCurrentRectSize();
+        try
         {
-          var t = time / targetDuration;
-          view.SetPosition(Vector2.Lerp(currentPosition, targetPosition, t));
-          view.SetRect(Vector2.Lerp(currentRectsize, targetRectSize, t));
+          while (time < targetDuration)
+          {
+            cts.token.ThrowIfCancellationRequested();
+            var t = time / targetDuration;
+            view.SetPosition(Vector2.Lerp(currentPosition, targetPosition, t));
+            view.SetRect(Vector2.Lerp(currentRectsize, targetRectSize, t));
 
-          time += Time.deltaTime;
-          await UniTask.Yield(PlayerLoopTiming.Update);
+            time += Time.deltaTime;
+            await UniTask.Yield(PlayerLoopTiming.Update);
+          }
+          view.SetPosition(targetPosition);
+          view.SetRect(targetRectSize);
         }
+        catch (OperationCanceledException) { }
       }
     }
 

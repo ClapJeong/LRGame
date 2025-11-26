@@ -6,6 +6,6 @@ namespace LR.UI.Indicator
 {
   public interface IUIIndicatorPresenter: IUIPresenter
   {
-    public UniTask MoveAsync(IRectView targetRect, bool isImmediately = false, CancellationToken token = default);
+    public UniTask MoveAsync(IRectView targetRect, bool isImmediately = false);
   }
 }

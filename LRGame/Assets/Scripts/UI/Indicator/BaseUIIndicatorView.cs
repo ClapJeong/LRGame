@@ -8,8 +8,8 @@ namespace LR.UI.Indicator
     [SerializeField] private BaseRectView rectView;
 
     #region IRectView
-    public Vector2 GetCurrentRect()
-      => rectView.GetCurrentRect();
+    public Vector2 GetCurrentRectSize()
+      => rectView.GetCurrentRectSize();
 
     public void SetAnchoredPosition(Vector2 anchoredPosition)
       => rectView.SetAnchoredPosition(anchoredPosition);

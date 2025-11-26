@@ -4,6 +4,7 @@ using UnityEngine.Localization.Components;
 
 namespace LR.UI
 {
+  [ExecuteInEditMode]
   [RequireComponent(typeof(LocalizeStringEvent))]
   public class BaseLocalizeStringView : MonoBehaviour, ILocalizeStringView
   {

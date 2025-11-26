@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace LR.UI
 {
+  [ExecuteInEditMode]
   [RequireComponent(typeof(CanvasGroup))]
   public class BaseCanvasGroupView : MonoBehaviour, ICanvasGroupView
   {

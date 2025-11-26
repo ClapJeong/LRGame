@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace LR.UI
 {
+  [ExecuteInEditMode]
   [RequireComponent(typeof(RectTransform))]
   public class BaseRectView : MonoBehaviour, IRectView
   {
@@ -21,7 +22,7 @@ namespace LR.UI
       rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.y);
     }
 
-    public Vector2 GetCurrentRect()
+    public Vector2 GetCurrentRectSize()
       => rectTransform.rect.size;
 
     public void SetPosition(Vector2 position)

@@ -31,5 +31,7 @@ public class CTSContainer : IDisposable
     }
 
     cts = null;
+    if(regenerate)
+      cts = new CancellationTokenSource();
   }
 }

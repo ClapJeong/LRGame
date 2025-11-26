@@ -8,7 +8,7 @@ namespace LR.UI
   {
     private TextMeshProUGUI tmp;
 
-    private void OnEnable()
+    private void Awake()
     {
       tmp = GetComponent<TextMeshProUGUI>();
     }

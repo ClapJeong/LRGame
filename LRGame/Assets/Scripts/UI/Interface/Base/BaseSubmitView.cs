@@ -11,12 +11,13 @@ namespace LR.UI
 
     public void Enable(bool enabled)
       => isEnable = enabled;
+
     public bool GetEnable()
       => isEnable;
 
     public void OnSubmit(BaseEventData eventData)
     {
-      onSubmit?.Invoke();
+      onSubmit.Invoke();
     }
 
     public void SubscribeOnSubmit(UnityAction onSubmit)

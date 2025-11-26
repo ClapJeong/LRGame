@@ -12,9 +12,9 @@ public class UIIndicatorService : IUIIndicatorService
   private readonly string indicatorKey;
   private readonly IResourceManager resourceManager;
 
-  public UIIndicatorService()
+  public UIIndicatorService(IResourceManager resourceManager)
   {
-    resourceManager = GlobalManager.instance.ResourceManager;
+    this.resourceManager = resourceManager;
     var table = GlobalManager.instance.Table.AddressableKeySO;
     indicatorKey = table.Path.Ui + table.UIName.Indicator;
   }

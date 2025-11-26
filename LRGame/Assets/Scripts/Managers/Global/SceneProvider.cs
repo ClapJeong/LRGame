@@ -10,10 +10,15 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 
-public class SceneProvider : MonoBehaviour, ISceneProvider
+public class SceneProvider : ISceneProvider
 {
   readonly private Dictionary<SceneType, AsyncOperationHandle<SceneInstance>> cachedHandled = new();
   private SceneType currentScene;
+
+  public SceneProvider()
+  {
+
+  }
 
   public async UniTask LoadSceneAsync(
     SceneType sceneType,

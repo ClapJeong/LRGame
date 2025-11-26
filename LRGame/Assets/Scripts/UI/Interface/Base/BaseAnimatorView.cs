@@ -2,10 +2,16 @@ using UnityEngine;
 
 namespace LR.UI
 {
+  [ExecuteInEditMode]
   [RequireComponent(typeof(Animator))]
   public class BaseAnimatorView : MonoBehaviour, IAnimatorView
   {
     private Animator animator;
+
+    private void OnEnable()
+    {
+      animator = GetComponent<Animator>();
+    }
 
     public void Play(int hashID)
       =>animator.Play(hashID);
@@ -20,11 +26,6 @@ namespace LR.UI
       =>animator.SetInteger(hashID, value);
 
     public void SetTrigger(int hashID)
-      =>animator.SetTrigger(hashID);
-
-    private void OnEnable()
-    {
-      animator = GetComponent<Animator>();
-    }
+      =>animator.SetTrigger(hashID);    
   }
 }

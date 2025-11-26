@@ -8,7 +8,7 @@ namespace LR.UI
 
     public void SetRect(Vector2 rect);
 
-    public Vector2 GetCurrentRect();
+    public Vector2 GetCurrentRectSize();
 
     public void SetPosition(Vector2 position);
 

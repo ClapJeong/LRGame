@@ -21,7 +21,7 @@ public class GlobalManager : MonoBehaviour, IGameDataController
 
   private CompositeDisposable disposables = new();
 
-  [SerializeField] private SceneProvider sceneProvider;
+  private SceneProvider sceneProvider;
   public SceneProvider SceneProvider => sceneProvider;
 
   [SerializeField] private UIManager uiManager;
@@ -51,8 +51,11 @@ public class GlobalManager : MonoBehaviour, IGameDataController
       uiInputManager = new UIInputManager();
       disposables.Add(uiInputManager);
 
+      sceneProvider = new SceneProvider();
       SceneProvider.LoadSceneAsync(SceneType.Preloading, System.Threading.CancellationToken.None).Forget();
       LoadDataAsync().Forget();
+
+      uiManager.Initialize();
     }
       else
       Destroy(gameObject);    

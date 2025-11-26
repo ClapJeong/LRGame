@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: UISO
   m_EditorClassIdentifier: Assembly-CSharp::UISO
   inputPaths:
-    leftUp: 0
-    leftRight: 0
-    leftDown: 0
-    leftLeft: 0
-    rightUp: 0
-    rightRight: 0
-    rightDown: 0
-    rightLeft: 0
-  indicatorDuration: 0.2
+    leftUp: 119
+    leftRight: 100
+    leftDown: 115
+    leftLeft: 97
+    rightUp: 273
+    rightRight: 275
+    rightDown: 274
+    rightLeft: 276
+  indicatorDuration: 0.08

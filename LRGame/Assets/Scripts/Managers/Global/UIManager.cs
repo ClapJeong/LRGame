@@ -32,19 +32,20 @@ public class UIManager : MonoBehaviour,
   private UIIndicatorService indicatorService;
   private UIDepthService depthService;
 
-  private void Awake()
+  public void Initialize()
   {
     presenterContainer = new UIPresenterContainer();
     presenterFactory = new UIPresenterFactory(container: this);
     selectionService = new UISelectionService();
     resourceService = new UIResourceService(canvasProvider: this);
     depthService = new UIDepthService();
-    indicatorService = new UIIndicatorService();
+    indicatorService = new UIIndicatorService(resourceManager: GlobalManager.instance.ResourceManager);
   }
 
   private void Update()
   {
     selectionService.UpdateDetectingSelectedObject();
+    depthService.UpdateFocusingSelectedGameObject();
   }
 
   public Canvas GetCanvas(UIRootType rootType)
@@ -91,13 +92,13 @@ public class UIManager : MonoBehaviour,
   #endregion
 
   #region IUISelectionEventService
-  public void SetSelectedObject(RectTransform rectTransform)
-    => selectionService.SetSelectedObject(rectTransform);
+  public void SetSelectedObject(GameObject gameObject)
+    => selectionService.SetSelectedObject(gameObject);
 
-  public void SubscribeEvent(IUISelectionEventService.EventType type, UnityAction<RectTransform> action)
+  public void SubscribeEvent(IUISelectionEventService.EventType type, UnityAction<IRectView> action)
     => selectionService.SubscribeEvent(type, action);
 
-  public void UnsubscribeEvent(IUISelectionEventService.EventType type, UnityAction<RectTransform> action)
+  public void UnsubscribeEvent(IUISelectionEventService.EventType type, UnityAction<IRectView> action)
     => selectionService.UnsubscribeEvent(type, action);
   #endregion
 

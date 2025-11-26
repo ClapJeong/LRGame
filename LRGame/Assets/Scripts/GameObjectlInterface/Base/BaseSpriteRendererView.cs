@@ -1,10 +1,11 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class BaseSpriteRendererView : MonoBehaviour, ISpriteRendererView
 {
   private SpriteRenderer spriteRenderer;
 
-  private void OnEnable()
+  private void Awake()
   {
     spriteRenderer = GetComponent<SpriteRenderer>();
   }

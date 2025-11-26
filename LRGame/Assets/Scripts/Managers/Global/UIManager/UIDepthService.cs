@@ -10,6 +10,13 @@ public class UIDepthService : IUIDepthService
   {
   }
 
+  public void UpdateFocusingSelectedGameObject()
+  {
+    if (EventSystem.current.currentSelectedGameObject == null &&
+      depthSelectedObjects.TryPeek(out var currentSelectedGameObject))
+      EventSystem.current.SetSelectedGameObject(currentSelectedGameObject);
+  }
+
   public void LowerDepth()
   {
     depthSelectedObjects.Pop();

@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace LR.UI
 {
+  [ExecuteInEditMode]
   [RequireComponent(typeof(CanvasGroup))]
   public class BaseCanvasGroupTweenView : MonoBehaviour, ICanvasGroupTweenView
   {
