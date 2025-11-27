@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class UISelectionService : IUISelectionEventService
+public class UISelectedGameObjectService : IUISelectedGameObjectService
 {
-  private UnityEvent<IRectView> onSelectEnter = new();
-  private UnityEvent<IRectView> onSelectExit = new();
+  private UnityEvent<GameObject> onSelectEnter = new();
+  private UnityEvent<GameObject> onSelectExit = new();
   private GameObject previousSelectedObject;
 
   public void UpdateDetectingSelectedObject()
@@ -17,18 +17,18 @@ public class UISelectionService : IUISelectionEventService
        currentSelectedObject != null &&
        currentSelectedObject != previousSelectedObject)
     {
-      onSelectExit?.Invoke(previousSelectedObject.GetComponent<IRectView>());
-      onSelectEnter?.Invoke(currentSelectedObject.GetComponent<IRectView>());
+      onSelectExit?.Invoke(previousSelectedObject);
+      onSelectEnter?.Invoke(currentSelectedObject);
     }
     else if(previousSelectedObject != null &&
             currentSelectedObject == null)
     {
-      onSelectExit?.Invoke(previousSelectedObject.GetComponent<IRectView>());
+      onSelectExit?.Invoke(previousSelectedObject);
     }
     else if(previousSelectedObject == null &&
             currentSelectedObject != null)
     {
-      onSelectEnter?.Invoke(currentSelectedObject.GetComponent<IRectView>());
+      onSelectEnter?.Invoke(currentSelectedObject);
     }
 
     previousSelectedObject = currentSelectedObject;
@@ -38,29 +38,29 @@ public class UISelectionService : IUISelectionEventService
   public void SetSelectedObject(GameObject gameObject)
     => EventSystem.current.SetSelectedGameObject(gameObject);
 
-  public void SubscribeEvent(IUISelectionEventService.EventType type, UnityAction<IRectView> action)
+  public void SubscribeEvent(IUISelectedGameObjectService.EventType type, UnityAction<GameObject> action)
   {
     switch (type)
     {
-      case IUISelectionEventService.EventType.OnEnter:
+      case IUISelectedGameObjectService.EventType.OnEnter:
         onSelectEnter.AddListener(action);
         break;
 
-      case IUISelectionEventService.EventType.OnExit:
+      case IUISelectedGameObjectService.EventType.OnExit:
         onSelectExit.AddListener(action);
         break;
     }
   }
 
-  public void UnsubscribeEvent(IUISelectionEventService.EventType type, UnityAction<IRectView> action)
+  public void UnsubscribeEvent(IUISelectedGameObjectService.EventType type, UnityAction<GameObject> action)
   {
     switch (type)
     {
-      case IUISelectionEventService.EventType.OnEnter:
+      case IUISelectedGameObjectService.EventType.OnEnter:
         onSelectEnter.RemoveListener(action);
         break;
 
-      case IUISelectionEventService.EventType.OnExit:
+      case IUISelectedGameObjectService.EventType.OnExit:
         onSelectExit.RemoveListener(action);
         break;
     }

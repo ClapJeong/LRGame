@@ -9,4 +9,8 @@ public class UISO : ScriptableObject
   [Space(5)]
   [SerializeField] private float indicatorDuration;
   public float IndicatorDuration => indicatorDuration;
+
+  [Space(5)]
+  [SerializeField] private float progressSubmitDuration;
+  public float ProgressSubmitDuration => progressSubmitDuration;
 }

@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour,
   IUIResourceService, 
   IUIPresenterFactory, 
   IUIPresenterContainer, 
-  IUISelectionEventService,
+  IUISelectedGameObjectService,
   IUIIndicatorService,
   IUIDepthService
 {
@@ -28,23 +28,25 @@ public class UIManager : MonoBehaviour,
   private UIResourceService resourceService;
   private UIPresenterContainer presenterContainer;
   private UIPresenterFactory presenterFactory;
-  private UISelectionService selectionService;  
+  private UISelectedGameObjectService selectedGameObjectService;  
   private UIIndicatorService indicatorService;
   private UIDepthService depthService;
+  private UIProgressSubmitController progressSubmitController;
 
   public void Initialize()
   {
     presenterContainer = new UIPresenterContainer();
     presenterFactory = new UIPresenterFactory(container: this);
-    selectionService = new UISelectionService();
+    selectedGameObjectService = new UISelectedGameObjectService();
     resourceService = new UIResourceService(canvasProvider: this);
     depthService = new UIDepthService();
     indicatorService = new UIIndicatorService(resourceManager: GlobalManager.instance.ResourceManager);
+    progressSubmitController = new UIProgressSubmitController(selectedGameObjectService: selectedGameObjectService, inputActionFactory: GlobalManager.instance.FactoryManager.InputActionFactory);
   }
 
   private void Update()
   {
-    selectionService.UpdateDetectingSelectedObject();
+    selectedGameObjectService.UpdateDetectingSelectedObject();
     depthService.UpdateFocusingSelectedGameObject();
   }
 
@@ -93,13 +95,13 @@ public class UIManager : MonoBehaviour,
 
   #region IUISelectionEventService
   public void SetSelectedObject(GameObject gameObject)
-    => selectionService.SetSelectedObject(gameObject);
+    => selectedGameObjectService.SetSelectedObject(gameObject);
 
-  public void SubscribeEvent(IUISelectionEventService.EventType type, UnityAction<IRectView> action)
-    => selectionService.SubscribeEvent(type, action);
+  public void SubscribeEvent(IUISelectedGameObjectService.EventType type, UnityAction<GameObject> action)
+    => selectedGameObjectService.SubscribeEvent(type, action);
 
-  public void UnsubscribeEvent(IUISelectionEventService.EventType type, UnityAction<IRectView> action)
-    => selectionService.UnsubscribeEvent(type, action);
+  public void UnsubscribeEvent(IUISelectedGameObjectService.EventType type, UnityAction<GameObject> action)
+    => selectedGameObjectService.UnsubscribeEvent(type, action);
   #endregion
 
   #region IUIIndicatorService

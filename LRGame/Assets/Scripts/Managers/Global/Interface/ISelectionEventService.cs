@@ -2,7 +2,7 @@ using LR.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface IUISelectionEventService
+public interface IUISelectedGameObjectService
 {
   public enum EventType
   {
@@ -12,7 +12,7 @@ public interface IUISelectionEventService
 
   public void SetSelectedObject(GameObject gameObject);
 
-  public void SubscribeEvent(EventType type, UnityAction<IRectView> action);
+  public void SubscribeEvent(EventType type, UnityAction<GameObject> action);
 
-  public void UnsubscribeEvent(EventType type, UnityAction<IRectView> action);
+  public void UnsubscribeEvent(EventType type, UnityAction<GameObject> action);
 }

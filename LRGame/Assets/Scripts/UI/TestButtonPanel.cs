@@ -15,8 +15,8 @@ public class TestButtonPanel: MonoBehaviour
 
   private void Awake()
   {
-    IUISelectionEventService selectionEventService = GlobalManager.instance.UIManager;
-    selectionEventService.SubscribeEvent(IUISelectionEventService.EventType.OnEnter, OnSelectEnter);
+    IUISelectedGameObjectService selectionEventService = GlobalManager.instance.UIManager;
+    selectionEventService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectEnter);
   }
 
   private void Update()
@@ -43,11 +43,11 @@ public class TestButtonPanel: MonoBehaviour
     indicatorService.AttachCurrentWithGameObject(gameObject);    
   }
 
-  private void OnSelectEnter(IRectView rectView)
+  private void OnSelectEnter(GameObject rectView)
   {
     IUIIndicatorService indicatorService = GlobalManager.instance.UIManager;
     if(indicatorService.TryGetCurrent(out var indicator))
-      indicator.MoveAsync(rectView).Forget();
+      indicator.MoveAsync(rectView.GetComponent<IRectView>()).Forget();
   }
 
   private void CreateButtons(out GameObject firstButton)
@@ -68,16 +68,38 @@ public class TestButtonPanel: MonoBehaviour
     {
       for (int j = 0; j < column; j++)
       {
-        var button = Instantiate(testButtonPrefab, root.transform);
-        var rect = button.GetComponent<IRectView>();
+        var button = Instantiate(testButtonPrefab, root.transform).GetComponent<TestButton>();
+        var rect = button.rectView;
         var width = Random.Range(50.0f, 150.0f);
         var height = Random.Range(50.0f, 150.0f);
         rect.SetRect(new Vector2(width, height));
 
         rect.SetAnchoredPosition(new Vector2(j * (width + horizontalSpace), i * (height + verticalSpace)));
 
-        button.GetComponent<BaseSubmitView>().SubscribeOnSubmit(() => Debug.Log($"[{i},{j}]"));
-        navigations[i, j] = button.GetComponent<BaseNavigationView>();
+        var progressSubmit = button.progressSubmitView;
+        var randomDirection = (Direction)Random.Range(0, System.Enum.GetValues(typeof(Direction)).Length);
+        progressSubmit.SubscribeOnProgress(randomDirection, value => button.image.fillAmount = value);
+        switch (randomDirection)
+        {
+          case Direction.Up:
+            button.image.fillMethod = Image.FillMethod.Vertical;
+            button.image.fillOrigin = 0;
+            break;
+          case Direction.Down:
+            button.image.fillMethod = Image.FillMethod.Vertical;
+            button.image.fillOrigin = 1;
+            break;
+          case Direction.Left:
+            button.image.fillMethod = Image.FillMethod.Horizontal;
+            button.image.fillOrigin = 1;
+            break;
+          case Direction.Right:
+            button.image.fillMethod = Image.FillMethod.Horizontal;
+            button.image.fillOrigin = 0;
+            break;
+        }
+
+        navigations[i, j] = button.navigationView;
 
         if (firstButton == null)
           firstButton = button.gameObject;
@@ -106,7 +128,7 @@ public class TestButtonPanel: MonoBehaviour
 
   private void OnDestroy()
   {
-    IUISelectionEventService selectionEventService = GlobalManager.instance.UIManager;
-    selectionEventService.UnsubscribeEvent(IUISelectionEventService.EventType.OnEnter, OnSelectEnter);
+    IUISelectedGameObjectService selectionEventService = GlobalManager.instance.UIManager;
+    selectionEventService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectEnter);
   }
 }
