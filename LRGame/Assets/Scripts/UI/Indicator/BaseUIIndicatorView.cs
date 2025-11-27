@@ -36,6 +36,9 @@ namespace LR.UI.Indicator
 
     public void SetRoot(Transform root)
       => gameObjectView.SetRoot(root);
+
+    public void DestroyGameObject()
+      => gameObjectView.DestroyGameObject();
     #endregion
   }
 }

@@ -30,7 +30,6 @@ namespace LR.UI.GameScene.Stage
     private readonly Model model;
     private readonly UIStageFailViewContainer stageFailViewContainer;
 
-    private readonly IGameObjectView content;
     private readonly ICanvasGroupTweenView backGroundCanvasGroup;
     private readonly ILocalizeStringView restartText;
 
@@ -43,7 +42,6 @@ namespace LR.UI.GameScene.Stage
       this.model = model;
       this.stageFailViewContainer = stageFailViewContainer;
 
-      this.content = stageFailViewContainer;
       this.backGroundCanvasGroup = stageFailViewContainer.failBackgroundView;
       this.restartText = stageFailViewContainer.failTextView;
 

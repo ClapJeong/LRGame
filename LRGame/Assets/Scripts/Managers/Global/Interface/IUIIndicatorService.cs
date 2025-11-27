@@ -15,5 +15,7 @@ public interface IUIIndicatorService
 
   public void Push(IUIIndicatorPresenter presenter);
 
-  public void Pop();
+  public IUIIndicatorPresenter Pop();
+
+  public void DestroyCurrent();
 }

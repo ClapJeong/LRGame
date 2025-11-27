@@ -27,10 +27,8 @@ namespace LR.UI.Indicator
 
     public void Dispose()
     {
-      if(view != null) 
-        GameObject.Destroy(view.gameObject);
+      view?.DestroyGameObject();
     }
-
 
     public async UniTask MoveAsync(IRectView targetRect, bool isImmediately = false)
     {

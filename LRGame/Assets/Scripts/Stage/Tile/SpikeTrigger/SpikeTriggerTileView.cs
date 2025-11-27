@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpikeTriggerTileView : MonoBehaviour, ITriggerTileView, IGameObjectView
+public class SpikeTriggerTileView : MonoBehaviour, ITriggerTileView
 {
   [SerializeField] private TriggerTileType triggerTileType;
 
@@ -11,12 +11,6 @@ public class SpikeTriggerTileView : MonoBehaviour, ITriggerTileView, IGameObject
 
   public TriggerTileType GetTriggerType()
     => triggerTileType;
-
-  public void SetActive(bool active)
-    =>gameObject.SetActive(active);
-
-  public void SetRoot(Transform root)
-    =>transform.SetParent(root);
 
   public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
   {

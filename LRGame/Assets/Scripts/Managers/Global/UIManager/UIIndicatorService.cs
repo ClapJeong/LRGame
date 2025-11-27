@@ -46,6 +46,9 @@ public class UIIndicatorService : IUIIndicatorService
   public void Push(IUIIndicatorPresenter presenter)
     =>indicators.Push(presenter);
 
-  public void Pop()
+  public IUIIndicatorPresenter Pop()
     => indicators.Pop();
+
+  public void DestroyCurrent()
+    => Pop().Dispose();
 }

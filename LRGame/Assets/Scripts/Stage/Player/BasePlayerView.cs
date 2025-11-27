@@ -22,6 +22,9 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
 
   public void SetRoot(Transform root)
     => gameObjectView.SetRoot(root);
+
+  public void DestroyGameObject()
+    => gameObjectView.DestroyGameObject();
   #endregion
 
   #region IPositionView
@@ -63,6 +66,6 @@ public class BasePlayerView : MonoBehaviour, IPlayerView
     => spriteRendererView.SetColor(color);
 
   public void SetSprite(Sprite sprite)
-    => spriteRendererView.SetSprite(sprite);
+    => spriteRendererView.SetSprite(sprite);  
   #endregion
 }

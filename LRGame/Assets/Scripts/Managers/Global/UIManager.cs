@@ -118,8 +118,11 @@ public class UIManager : MonoBehaviour,
   public void Push(IUIIndicatorPresenter presenter)
     => indicatorService.Push(presenter);
 
-  public void Pop()
+  public IUIIndicatorPresenter Pop()
     => indicatorService.Pop();
+
+  public void DestroyCurrent()
+    => indicatorService.DestroyCurrent();
   #endregion
 
   #region IUIDepthService
