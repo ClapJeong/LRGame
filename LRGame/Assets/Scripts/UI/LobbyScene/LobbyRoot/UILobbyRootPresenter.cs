@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace LR.UI.Lobby
 {
-  public class UILobbyFirstPresenter : IUIPresenter
+  public class UILobbyRootPresenter : IUIPresenter
   {
     public class Model
     {
@@ -24,7 +24,7 @@ namespace LR.UI.Lobby
     private readonly UILobbyViewContainer viewContainer;
     private readonly List<(ISubmitView, ILocalizeStringView)> stageButtons = new();
 
-    public UILobbyFirstPresenter(Model model, UILobbyViewContainer viewContainer)
+    public UILobbyRootPresenter(Model model, UILobbyViewContainer viewContainer)
     {
       this.model = model;
       this.viewContainer = viewContainer;

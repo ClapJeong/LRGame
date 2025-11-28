@@ -107,14 +107,14 @@ public class LocalManager : MonoBehaviour
   private async UniTask CreateLobbyUIAsync()
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    var model = new UILobbyFirstPresenter.Model(table.Path.Scene + table.SceneName.Game);
+    var model = new UILobbyRootPresenter.Model(table.Path.Scene + table.SceneName.Game);
 
     IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
     var view = await uiResourceService.CreateViewAsync<UILobbyViewContainer>(table.Path.Ui + table.UIName.LobbyRoot, UIRootType.Overlay);
 
     IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-    presenterFactory.Register(() => new UILobbyFirstPresenter(model, view));
-    var presenter = presenterFactory.Create<UILobbyFirstPresenter>();
+    presenterFactory.Register(() => new UILobbyRootPresenter(model, view));
+    var presenter = presenterFactory.Create<UILobbyRootPresenter>();
     presenter.AttachOnDestroy(gameObject);
     presenter.ShowAsync().Forget();
   }
