@@ -6,7 +6,7 @@ using UnityEngine.Localization.Settings;
 using System.IO;
 using System.Threading;
 
-public class GlobalManager : MonoBehaviour, IGameDataController
+public class GlobalManager : MonoBehaviour
 {
   public static GlobalManager instance;
 
@@ -30,13 +30,11 @@ public class GlobalManager : MonoBehaviour, IGameDataController
   [SerializeField] private UIInputManager uiInputManager;
   public UIInputManager UIInputManager => uiInputManager;
 
-  private string GameDataPath;
-  public GameData gameData;
-  public int selectedStage = 0;
+  private GameDataService gameDataService;
+  public GameDataService GameDataService => gameDataService;
 
   private void Awake()
   {
-    GameDataPath = Application.persistentDataPath + "/GameData.json";
     if (instance == null)
     {
       instance = this;
@@ -51,11 +49,13 @@ public class GlobalManager : MonoBehaviour, IGameDataController
       uiInputManager = new UIInputManager();
       disposables.Add(uiInputManager);
 
-      sceneProvider = new SceneProvider();
-      SceneProvider.LoadSceneAsync(SceneType.Preloading, System.Threading.CancellationToken.None).Forget();
-      LoadDataAsync().Forget();
+      gameDataService = new GameDataService();
+      gameDataService.LoadDataAsync().Forget();
 
       uiManager.Initialize();
+
+      sceneProvider = new SceneProvider();
+      SceneProvider.LoadSceneAsync(SceneType.Preloading).Forget();      
     }
       else
       Destroy(gameObject);    
@@ -71,49 +71,11 @@ public class GlobalManager : MonoBehaviour, IGameDataController
     LocalizationSettings.SelectedLocale = locale;
   }
 
-  public async UniTask SaveDataAsync(CancellationToken token = default)
-  {
-    if(gameData==null)
-      gameData = new GameData();
-
-    var json = JsonUtility.ToJson(gameData);
-    await  File.WriteAllTextAsync(GameDataPath, json,token);
-  }
-
-  public async UniTask LoadDataAsync(CancellationToken token = default)
-  {
-    if (File.Exists(GameDataPath) == false)
-    {
-      gameData = new GameData();
-    }
-    else
-    {
-      var text = await File.ReadAllTextAsync(GameDataPath, token);
-      gameData = JsonUtility.FromJson<GameData>(text);
-    }    
-  }
-
-  public int GetClearStage()
-  {
-    return gameData.clearedStage;
-  }
-
-  public void SetClearStage(int stage)
-  {
-    gameData.clearedStage = stage;
-  }
-
   #region Debugging
   public void Debugging_AddClearStage()
-  {
-    gameData.clearedStage++;
-    SaveDataAsync().Forget();
-  }
+    => gameDataService.Debugging_RaiseClearData();
 
-  public void Debugging_MinusClearStage()
-  {
-    gameData.clearedStage = Mathf.Max(0, gameData.clearedStage - 1);
-    SaveDataAsync().Forget();
-  }
+  public void Debugging_ClearClearStage()
+    => gameDataService.Debugging_RaiseClearData();
   #endregion
 }

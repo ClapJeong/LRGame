@@ -9,7 +9,6 @@ using LR.UI.Indicator;
 
 public class UIManager : MonoBehaviour, 
   ICanvasProvider, 
-  IUIResourceService, 
   IUIPresenterFactory, 
   IUIPresenterContainer, 
   IUISelectedGameObjectService,
@@ -23,9 +22,12 @@ public class UIManager : MonoBehaviour,
     public Canvas canvas;
   }
 
+  [Header("[ Canvas ]")]
   [SerializeField] private List<CanvasSet> canvasSets = new();
 
-  private UIResourceService resourceService;
+  [Header("[ Root ]")]
+  [SerializeField] private Transform disableRoot;
+
   private UIPresenterContainer presenterContainer;
   private UIPresenterFactory presenterFactory;
   private UISelectedGameObjectService selectedGameObjectService;  
@@ -38,9 +40,8 @@ public class UIManager : MonoBehaviour,
     presenterContainer = new UIPresenterContainer();
     presenterFactory = new UIPresenterFactory(container: this);
     selectedGameObjectService = new UISelectedGameObjectService();
-    resourceService = new UIResourceService(canvasProvider: this);
     depthService = new UIDepthService();
-    indicatorService = new UIIndicatorService(resourceManager: GlobalManager.instance.ResourceManager);
+    indicatorService = new UIIndicatorService(resourceManager: GlobalManager.instance.ResourceManager, disableRoot: disableRoot);
     progressSubmitController = new UIProgressSubmitController(selectedGameObjectService: selectedGameObjectService, inputActionFactory: GlobalManager.instance.FactoryManager.InputActionFactory);
   }
 
@@ -60,13 +61,6 @@ public class UIManager : MonoBehaviour,
     return set.canvas;
   }
 
-  #region IUIResourceService
-  public async UniTask<T> CreateViewAsync<T>(string viewKey, UIRootType createRoot) where T : UnityEngine.Object
-    => await resourceService.CreateViewAsync<T>(viewKey, createRoot);
-
-  public void ReleaseView(GameObject view, bool releaseHandle = false)
-    => resourceService.ReleaseView(view, releaseHandle);
-  #endregion
 
   #region IUIPresenterFactory
   public void Register<T>(Func<T> constructor) where T : IUIPresenter
@@ -108,23 +102,18 @@ public class UIManager : MonoBehaviour,
   public void AttachCurrentWithGameObject(GameObject target)
     => indicatorService.AttachCurrentWithGameObject(target);
 
-  public async UniTask<IUIIndicatorPresenter> CreateAsync(Transform root, IRectView beginTarget)
-    => await indicatorService.CreateAsync(root, beginTarget);
+  public IUIIndicatorPresenter GetTopIndicator()
+    => indicatorService.GetTopIndicator();
 
-  public IUIIndicatorPresenter GetCurrent()
-    => indicatorService.GetCurrent();
+  public bool TryGetTopIndicator(out IUIIndicatorPresenter current)
+    => indicatorService.TryGetTopIndicator(out current);
 
-  public bool TryGetCurrent(out IUIIndicatorPresenter current)
-    => indicatorService.TryGetCurrent(out current);
+  public async UniTask<IUIIndicatorPresenter> GetNewAsync(Transform root, IRectView beginTarget)
+    => await indicatorService.GetNewAsync(root, beginTarget);
 
-  public void Push(IUIIndicatorPresenter presenter)
-    => indicatorService.Push(presenter);
+  public void ReleaseTopIndicator()
+    => indicatorService.ReleaseTopIndicator();
 
-  public IUIIndicatorPresenter Pop()
-    => indicatorService.Pop();
-
-  public void DestroyCurrent()
-    => indicatorService.DestroyCurrent();
   #endregion
 
   #region IUIDepthService
@@ -136,5 +125,6 @@ public class UIManager : MonoBehaviour,
 
   public void LowerDepth()
     => depthService.LowerDepth();
+
   #endregion
 }

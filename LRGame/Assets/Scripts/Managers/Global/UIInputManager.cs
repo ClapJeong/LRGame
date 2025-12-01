@@ -60,6 +60,8 @@ public class UIInputManager : IUIInputActionManager
     inputSets.Add(UIInputActionType.RightRight, new InputActionSet(paths.RightRightPath));
     inputSets.Add(UIInputActionType.RightDown, new InputActionSet(paths.RightDownPath));
     inputSets.Add(UIInputActionType.RightUP, new InputActionSet(paths.RightUPPath));
+
+    inputSets.Add(UIInputActionType.Space, new InputActionSet(paths.Space));
   }
 
   public void Dispose()

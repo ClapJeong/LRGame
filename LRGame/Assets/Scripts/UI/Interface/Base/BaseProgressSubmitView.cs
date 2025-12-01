@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -132,7 +131,31 @@ namespace LR.UI
       if (eventSets.TryGetValue(direction, out var eventSet))
         eventSet.onProgress -= onProgress;
     }
+
+    public void UnsubscribeAll()
+    {
+      foreach(var eventSet in eventSets.Values)
+      {
+        eventSet.onCanceled = null;
+        eventSet.onComplete = null;
+        eventSet.onProgress = null;
+        eventSet.onPerformed = null;
+      }  
+    }
     #endregion
+
+    public void ResetProgress(Direction direction)
+    {
+      if (eventSets.TryGetValue(direction, out var eventSet))
+        eventSet.progress = 0.0f;
+    }
+
+    public void ResetAllProgress()
+    {
+      foreach(var eventSet in eventSets.Values)
+        eventSet.progress = 0.0f;
+    }
+
 
     private void UpdateProgress()
     {

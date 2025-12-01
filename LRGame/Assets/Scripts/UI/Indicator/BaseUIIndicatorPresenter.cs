@@ -20,6 +20,18 @@ namespace LR.UI.Indicator
       view.SetRect(targetRect.GetCurrentRectSize());
     }
 
+    public void ReInitialize(Transform root, IRectView targetRectView)
+    {
+      view.SetPosition(targetRectView.GetPosition());
+      view.SetRect(targetRectView.GetCurrentRectSize());
+      view.SetRoot(root);
+    }
+
+    public void Disable(Transform disabledRoot)
+    {
+      view.SetRoot(disabledRoot);
+    }
+
     public IDisposable AttachOnDestroy(GameObject target)
       => target
       .OnDestroyAsObservable()

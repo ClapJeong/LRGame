@@ -94,8 +94,10 @@ public class LocalManager : MonoBehaviour
     var model = new UIPreloadingPresenter.Model();
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
-    var view = await uiResourceService.CreateViewAsync<UIPreloadingView>(table.Path.Ui + table.UIName.PreloadingRoot,UIRootType.Overlay);
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(table.Path.Ui + table.UIName.PreloadingRoot, root);
 
     IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
     presenterFactory.Register(() => new UIPreloadingPresenter(model, view));
@@ -109,8 +111,10 @@ public class LocalManager : MonoBehaviour
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var model = new UILobbyRootPresenter.Model(table.Path.Scene + table.SceneName.Game);
 
-    IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
-    var view = await uiResourceService.CreateViewAsync<UILobbyViewContainer>(table.Path.Ui + table.UIName.LobbyRoot, UIRootType.Overlay);
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var view = await resourceManager.CreateAssetAsync<UILobbyViewContainer>(table.Path.Ui + table.UIName.LobbyRoot, root);
 
     IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
     presenterFactory.Register(() => new UILobbyRootPresenter(model, view));
@@ -124,8 +128,10 @@ public class LocalManager : MonoBehaviour
     var model = new UIPlayerRootPresenter.Model();
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
-    var view = await uiResourceService.CreateViewAsync<UIPlayerRootViewContainer>(table.Path.Ui + table.UIName.PlayerRoot, UIRootType.Overlay);
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var view = await resourceManager.CreateAssetAsync<UIPlayerRootViewContainer>(table.Path.Ui + table.UIName.PlayerRoot, root);
 
     IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
     presenterFactory.Register(() => new UIPlayerRootPresenter(model, view));
@@ -143,9 +149,11 @@ public class LocalManager : MonoBehaviour
    nextPair: (InputActionPaths.Keyboard.D, OnNextStage)
  ); ;
 
-    IUIResourceService uiResourceService = GlobalManager.instance.UIManager;
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    var view = await uiResourceService.CreateViewAsync<UIStageRootViewContainer>(table.Path.Ui + table.UIName.StageRoot, UIRootType.Overlay);
+    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var view = await resourceManager.CreateAssetAsync<UIStageRootViewContainer>(table.Path.Ui + table.UIName.StageRoot, root);
 
     IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
     presenterFactory.Register(() => new UIStageRootPresenter(model, view));

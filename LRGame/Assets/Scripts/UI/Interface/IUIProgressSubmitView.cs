@@ -23,5 +23,11 @@ namespace LR.UI
     public void UnsubscribeOnProgress(Direction direction, UnityAction<float> onProgress);
 
     public void UnsubscribeOnComplete(Direction direction, UnityAction onComplete);
+
+    public void UnsubscribeAll();
+
+    public void ResetProgress(Direction direction);
+
+    public void ResetAllProgress();
   }
 }

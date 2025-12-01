@@ -38,15 +38,14 @@ public class TestButtonPanel: MonoBehaviour
   private async UniTask CreateIndicatorAsync(IRectView firstRect)
   {
     IUIIndicatorService indicatorService = GlobalManager.instance.UIManager;
-    var indicator = await indicatorService.CreateAsync(panelRoot.Peek(), firstRect);
-    indicatorService.Push(indicator);
+    var indicator = await indicatorService.GetNewAsync(panelRoot.Peek(), firstRect);
     indicatorService.AttachCurrentWithGameObject(gameObject);    
   }
 
   private void OnSelectEnter(GameObject rectView)
   {
     IUIIndicatorService indicatorService = GlobalManager.instance.UIManager;
-    if(indicatorService.TryGetCurrent(out var indicator))
+    if(indicatorService.TryGetTopIndicator(out var indicator))
       indicator.MoveAsync(rectView.GetComponent<IRectView>()).Forget();
   }
 

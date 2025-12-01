@@ -6,4 +6,5 @@ public enum Direction
   Down,
   Left,
   Right,
+  Space,
 }

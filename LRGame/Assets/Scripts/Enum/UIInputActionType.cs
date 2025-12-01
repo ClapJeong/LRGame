@@ -9,5 +9,5 @@ public enum UIInputActionType
   RightDown,
   RightLeft,
 
-  ESC,
+  Space,
 }

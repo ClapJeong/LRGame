@@ -28,4 +28,8 @@ public class UIInputActionPaths
 
   [SerializeField] private KeyCode rightLeft;
   public string RightLeftPath => InputActionPaths.ParshPath(rightLeft);
+
+  [Header("[ Else ]")]
+  [SerializeField] private KeyCode space;
+  public string Space => InputActionPaths.ParshPath(space);
 }

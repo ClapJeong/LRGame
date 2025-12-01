@@ -1,6 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameData
 {
-  public int clearedStage;
+  [System.Serializable]
+  public class ChapterStageData
+  {
+    public int chapter;
+    public int stage;
+  }
+
+  public List<ChapterStageData> chaterStageDatas = new();
+
+  public ChapterStageData currentChapterStageData;
 }
