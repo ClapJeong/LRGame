@@ -39,7 +39,7 @@ public class TestButtonPanel: MonoBehaviour
   {
     IUIIndicatorService indicatorService = GlobalManager.instance.UIManager;
     var indicator = await indicatorService.GetNewAsync(panelRoot.Peek(), firstRect);
-    indicatorService.AttachCurrentWithGameObject(gameObject);    
+    indicatorService.ReleaseIndicatorOnDestroy(indicator, gameObject);    
   }
 
   private void OnSelectEnter(GameObject rectView)

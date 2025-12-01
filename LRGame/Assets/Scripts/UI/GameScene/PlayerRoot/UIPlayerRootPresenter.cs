@@ -70,14 +70,12 @@ namespace LR.UI.GameScene.Player
       var rightView = viewContainer.rightInputViewContainer;
       IPlayerPresenter rightPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
 
-      IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-      presenterFactory.Register(() => new UIPlayerInputPresenter(
-        model, 
-        leftView, 
-        leftInputController: leftPresenter, 
-        rightView, 
-        rightInputController: rightPresenter));
-      inputPresenter = presenterFactory.Create<UIPlayerInputPresenter>();
+      inputPresenter = new UIPlayerInputPresenter(
+        model,
+        leftView,
+        leftInputController: leftPresenter,
+        rightView,
+        rightInputController: rightPresenter);
       inputPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
 
@@ -93,14 +91,12 @@ namespace LR.UI.GameScene.Player
       var rightView = viewContainer.rightHPViewContainer;
       IPlayerPresenter rightPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
 
-      IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-      presenterFactory.Register(() => new UIPlayerHPPresenter(
-        model, 
-        leftView, 
-        leftHPController: leftPresenter, 
-        rightView, 
-        rightHPController: rightPresenter));
-      hpPresenter = presenterFactory.Create<UIPlayerHPPresenter>();
+      hpPresenter = new UIPlayerHPPresenter(
+        model,
+        leftView,
+        leftHPController: leftPresenter,
+        rightView,
+        rightHPController: rightPresenter);
       hpPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
   }

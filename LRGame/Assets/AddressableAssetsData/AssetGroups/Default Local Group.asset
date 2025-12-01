@@ -52,13 +52,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c0a80f96fb2e63a45922d597be034eb6
-    m_Address: UI/LobbyStageButton
+  - m_GUID: afaae4bb13f3afa429587c154c6a0e0a
+    m_Address: UI/LobbyChapterButton
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1b347f9111336146805e81fef64965e
     m_Address: Scene/Preloading
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca6136d292cbb1f4b90e4e5473f45598
+    m_Address: UI/LobbyChapterPanel
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

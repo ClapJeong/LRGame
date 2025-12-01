@@ -12,12 +12,14 @@ namespace LR.UI.Lobby
     public class Model
     {
       public int chapter;
-      public int stageCount;
+      public IUIDepthService depthService;
+      public IUIInputActionManager uiInputActionManager;
 
-      public Model(int chapter, int stageCount)
+      public Model(int chapter, IUIDepthService depthService, IUIInputActionManager uiInputActionManager)
       {
         this.chapter = chapter;
-        this.stageCount = stageCount;
+        this.depthService = depthService;
+        this.uiInputActionManager = uiInputActionManager;
       }
     }    
     private readonly Model model;
@@ -35,6 +37,8 @@ namespace LR.UI.Lobby
     {
       this.model = model;
       this.viewContainer = viewContainer;
+
+      viewContainer.gameObjectView.SetActive(false);
 
       CreateQuitButtonPresenter();
       CreateStageButtonPresenters();
@@ -85,65 +89,69 @@ namespace LR.UI.Lobby
 
     private void CreateQuitButtonPresenter()
     {
-      IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-
-      var model = new UIChapterPanelQuitButtonPresenter.Model(UIInputActionType.Space);
-      presenterFactory.Register(() => new UIChapterPanelQuitButtonPresenter(model, viewContainer.quitButtonView));
-      quitButtonPresenter = presenterFactory.Create<UIChapterPanelQuitButtonPresenter>();
+      var model = new UIChapterPanelQuitButtonPresenter.Model(
+        inputActionType: UIInputActionType.Space, 
+        uiInputActionManager: this.model.uiInputActionManager,
+        onQuit: () =>
+        {
+          HideAsync().Forget();
+        });
+      var view = viewContainer.quitButtonView;
+      quitButtonPresenter = new UIChapterPanelQuitButtonPresenter(model, view);
       quitButtonPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
 
     private void CreateStageButtonPresenters()
     {
-      IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-
       var upModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter, 
-        stage: model.stageCount, 
+        stage: 1,
         inputType: UIInputActionType.RightUP,
-        null);
-      presenterFactory.Register(() => new UIStageButtonPresenter(upModel, viewContainer.upStageButtonView));
-      upStagePresenter = presenterFactory.Create<UIStageButtonPresenter>();
+        null,
+        model.uiInputActionManager);
+      var upView = viewContainer.upStageButtonView;
+      upStagePresenter = new UIStageButtonPresenter(upModel, upView);
       upStagePresenter.AttachOnDestroy(viewContainer.gameObject);
 
       var rightModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
-        stage: model.stageCount,
+        stage: 2,
         inputType: UIInputActionType.RightRight,
-        null);
-      presenterFactory.Register(() => new UIStageButtonPresenter(rightModel, viewContainer.rightStageButtonView));
-      rightStagePresenter = presenterFactory.Create<UIStageButtonPresenter>();
+        null,
+        model.uiInputActionManager);
+      var rightView = viewContainer.rightStageButtonView;
+      rightStagePresenter = new UIStageButtonPresenter(rightModel, rightView);
       rightStagePresenter.AttachOnDestroy(viewContainer.gameObject);
 
       var downModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
-        stage: model.stageCount,
+        stage: 3,
         inputType: UIInputActionType.RightDown,
-        null);
-      presenterFactory.Register(() => new UIStageButtonPresenter(downModel, viewContainer.downStageButtonView));
-      downStagePresenter = presenterFactory.Create<UIStageButtonPresenter>();
+        null,
+        model.uiInputActionManager);
+      var downView = viewContainer.downStageButtonView;
+      downStagePresenter = new UIStageButtonPresenter(downModel, downView);
       downStagePresenter.AttachOnDestroy(viewContainer.gameObject);
 
       var leftModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
-        stage: model.stageCount,
+        stage: 4,
         inputType: UIInputActionType.RightLeft,
-        null);
-      presenterFactory.Register(() => new UIStageButtonPresenter(leftModel, viewContainer.leftStageButtonView));
-      leftStagePresenter = presenterFactory.Create<UIStageButtonPresenter>();
+        null,
+        model.uiInputActionManager);
+      var leftView = viewContainer.leftStageButtonView;
+      leftStagePresenter = new UIStageButtonPresenter(leftModel, leftView);
       leftStagePresenter.AttachOnDestroy(viewContainer.gameObject);
     }
 
     private void RaiseDepth()
     {
-      IUIDepthService depthService = GlobalManager.instance.UIManager;
-      depthService.RaiseDepth(null);
+      model.depthService.RaiseDepth(null);
     }
 
     private void LowerDepth()
     {
-      IUIDepthService depthService = GlobalManager.instance.UIManager;
-      depthService.LowerDepth();
+      model.depthService.LowerDepth();
     }
   }
 }

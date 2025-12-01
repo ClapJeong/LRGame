@@ -14,6 +14,9 @@ public class LocalManager : MonoBehaviour
   private StageManager stageManager;
   public StageManager StageManager => stageManager;
 
+  private IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+  private ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+
   private async void Awake()
   {
     instance = this;
@@ -45,7 +48,9 @@ public class LocalManager : MonoBehaviour
       case SceneType.Game:
         { 
           await CreateFirstUIAsync();
-          await CreateStageAsync(GlobalManager.instance.selectedStage);
+          GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
+          var index = chapter * 4 + stage;
+          await CreateStageAsync(index);
         }
         break;
     }   
@@ -53,7 +58,9 @@ public class LocalManager : MonoBehaviour
 
   private void InitializeManagers()
   {
-    stageManager = new StageManager();
+    stageManager = new StageManager(
+      resourceManager: GlobalManager.instance.ResourceManager,
+      sceneProvider: GlobalManager.instance.SceneProvider);
   }
 
   private async UniTask CreateStageAsync(int index)
@@ -94,14 +101,10 @@ public class LocalManager : MonoBehaviour
     var model = new UIPreloadingPresenter.Model();
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(table.Path.Ui + table.UIName.PreloadingRoot, root);
 
-    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-    presenterFactory.Register(() => new UIPreloadingPresenter(model, view));
-    var presenter = presenterFactory.Create<UIPreloadingPresenter>();
+    var presenter = new UIPreloadingPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
     presenter.ShowAsync().Forget();
   }
@@ -109,16 +112,15 @@ public class LocalManager : MonoBehaviour
   private async UniTask CreateLobbyUIAsync()
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    var model = new UILobbyRootPresenter.Model(table.Path.Scene + table.SceneName.Game);
+    var model = new UILobbyRootPresenter.Model(
+      uiManager: GlobalManager.instance.UIManager,
+      uiInputManager: GlobalManager.instance.UIInputManager,
+      resourceManager: GlobalManager.instance.ResourceManager);
 
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UILobbyViewContainer>(table.Path.Ui + table.UIName.LobbyRoot, root);
 
-    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-    presenterFactory.Register(() => new UILobbyRootPresenter(model, view));
-    var presenter = presenterFactory.Create<UILobbyRootPresenter>();
+    var presenter = new UILobbyRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
     presenter.ShowAsync().Forget();
   }
@@ -128,14 +130,10 @@ public class LocalManager : MonoBehaviour
     var model = new UIPlayerRootPresenter.Model();
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UIPlayerRootViewContainer>(table.Path.Ui + table.UIName.PlayerRoot, root);
 
-    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-    presenterFactory.Register(() => new UIPlayerRootPresenter(model, view));
-    var presenter = presenterFactory.Create<UIPlayerRootPresenter>();
+    var presenter = new UIPlayerRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
     presenter.ShowAsync().Forget();
   }
@@ -143,21 +141,21 @@ public class LocalManager : MonoBehaviour
   private async UniTask CreateStageUIAsync()
   {
     var model = new UIStageRootPresenter.Model(
-   beginPair: (InputActionPaths.Keyboard.W, OnStageBegin),
-   restartPair: (InputActionPaths.Keyboard.Up, OnStageRestart),
-   lobbyPair: (InputActionPaths.Keyboard.A, OnReturnToLobby),
-   nextPair: (InputActionPaths.Keyboard.D, OnNextStage)
- ); ;
+   InputActionPaths.Keyboard.W, OnStageBegin,
+   InputActionPaths.Keyboard.Up, OnStageRestart,
+   InputActionPaths.Keyboard.A, OnReturnToLobby,
+   InputActionPaths.Keyboard.D, OnNextStage,
+   stageController: stageManager,
+   presenterContainer: GlobalManager.instance.UIManager,
+   resourceManager: resourceManager,
+   gameDataService: GlobalManager.instance.GameDataService,
+   inputActionFactory: GlobalManager.instance.FactoryManager.InputActionFactory);
 
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UIStageRootViewContainer>(table.Path.Ui + table.UIName.StageRoot, root);
 
-    IUIPresenterFactory presenterFactory = GlobalManager.instance.UIManager;
-    presenterFactory.Register(() => new UIStageRootPresenter(model, view));
-    var presenter = presenterFactory.Create<UIStageRootPresenter>();
+    var presenter = new UIStageRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
 
     presenter.ShowAsync().Forget();
@@ -166,7 +164,6 @@ public class LocalManager : MonoBehaviour
   private async UniTask LoadPreloadAsync()
   {
     var label = GlobalManager.instance.Table.AddressableKeySO.Label.PreLoad;
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     await resourceManager.LoadAssetsAsync(label);
   }
 

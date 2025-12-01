@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using LR.UI;
 using LR.UI.Indicator;
+using System;
 using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
@@ -24,12 +25,14 @@ public class UIIndicatorService : IUIIndicatorService
   }
 
 
-  public void AttachCurrentWithGameObject(GameObject target)
-  {
-    target
+  public IDisposable ReleaseIndicatorOnDestroy(IUIIndicatorPresenter indicator, GameObject target)
+    => target
             .OnDestroyAsObservable()
-            .Subscribe(_ => ReleaseTopIndicator());
-  }
+            .Subscribe(_ =>
+            {
+              indicator.Disable(disableRoot);
+              disabledIndicators.Push(indicator);
+            });
 
   public IUIIndicatorPresenter GetTopIndicator()
     => enableIndicators.Peek();
@@ -40,7 +43,7 @@ public class UIIndicatorService : IUIIndicatorService
 
   public async UniTask<IUIIndicatorPresenter> GetNewAsync(Transform root, IRectView beginTarget)
   {
-    if(disabledIndicators.TryPeek(out var topIndicator))
+    if(disabledIndicators.TryPop(out var topIndicator))
     {
       topIndicator.ReInitialize(root, beginTarget);
       return topIndicator;
@@ -60,11 +63,13 @@ public class UIIndicatorService : IUIIndicatorService
     disabledIndicators.Push(disabledIndicator);
   }
 
+  public bool IsTopIndicatorIsThis(IUIIndicatorPresenter target)
+    => TryGetTopIndicator(out var topIndicator) && topIndicator == target;
+
   private async UniTask<IUIIndicatorPresenter> CreateAsync(Transform root, IRectView beginTarget)
   {
     var baseView = await resourceManager.CreateAssetAsync<BaseUIIndicatorView>(indicatorKey, root);
     var basePresenter = new BaseUIIndicatorPresenter(root, beginTarget, baseView);
-    basePresenter.AttachOnDestroy(root.gameObject);
     return basePresenter;
   }
 }

@@ -6,7 +6,6 @@ namespace LR.UI.Lobby
   {
     [Header("[ Base ]")]
     public BaseGameObjectView gameObjectView;
-    public Transform stageButtonRoot;
 
     [Header("[ StageButtons ]")]
     public UIStageButtonViewContainer upStageButtonView;

@@ -17,12 +17,16 @@ namespace LR.UI.Lobby
       public UIInputActionType inputType;
       public UnityAction onClick;
 
-      public Model(int chapter, int stage, UIInputActionType inputType, UnityAction onClick)
+      public IUIInputActionManager uiInputActionManager;
+
+      public Model(int chapter, int stage, UIInputActionType inputType, UnityAction onClick, IUIInputActionManager uiInputActionManager)
       {
         this.chapter = chapter;
         this.stage = stage;
         this.inputType = inputType;
         this.onClick = onClick;
+
+        this.uiInputActionManager = uiInputActionManager;
       }
     }
 
@@ -44,10 +48,9 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
-      if (visibleState != UIVisibleState.Showed)
+      if (visibleState == UIVisibleState.Showed)
         UnsubscribeInputAction();
     }
-
 
     public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
@@ -105,16 +108,14 @@ namespace LR.UI.Lobby
 
     private void SubscribeInputAction()
     {
-      IUIInputActionManager uiInputActionManager = GlobalManager.instance.UIInputManager;
-      uiInputActionManager.SubscribePerformedEvent(model.inputType, OnInputPerformed);
-      uiInputActionManager.SubscribeCanceledEvent(model.inputType, OnInputCanceled);
+      model.uiInputActionManager.SubscribePerformedEvent(model.inputType, OnInputPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(model.inputType, OnInputCanceled);
     }
 
     private void UnsubscribeInputAction()
     {
-      IUIInputActionManager uiInputActionManager = GlobalManager.instance.UIInputManager;
-      uiInputActionManager.UnsubscribePerformedEvent(model.inputType, OnInputPerformed);
-      uiInputActionManager.UnsubscribeCanceledEvent(model.inputType, OnInputCanceled);
+      model.uiInputActionManager.UnsubscribePerformedEvent(model.inputType, OnInputPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputType, OnInputCanceled);
     }
 
     private void OnInputPerformed()

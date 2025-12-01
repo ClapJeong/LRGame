@@ -58,7 +58,7 @@ namespace LR.UI
 
       if (AnyProgressing() == false)
       {
-        updateDisposable.Dispose();
+        updateDisposable?.Dispose();
         updateDisposable = null;
       }
     }
@@ -71,7 +71,9 @@ namespace LR.UI
         set.state = EventSet.EventState.Progressing;
 
         if(updateDisposable == null)
-          updateDisposable = this.UpdateAsObservable().Subscribe(_=> UpdateProgress());
+        {
+          updateDisposable = this.UpdateAsObservable().Subscribe(_ => UpdateProgress());
+        }          
       }
     }
 
@@ -161,6 +163,9 @@ namespace LR.UI
     {
       foreach (var eventSet in eventSets.Values)
       {
+        if (eventSet.state == EventSet.EventState.None)
+          continue;
+
         if(eventSet.progress < 1.0f)
         {
           eventSet.progress = Mathf.Min(eventSet.progress + uiSO.ProgressSubmitDuration * Time.deltaTime, 1.0f);

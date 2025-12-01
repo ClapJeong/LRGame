@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
-using UnityEngine;
 
 public interface IGameDataService
 {
@@ -17,4 +16,8 @@ public interface IGameDataService
   public void SetCurrentStageData(int chapter, int stage);
 
   public GameData.ChapterStageData GetTopClearData();
+
+  public void SetSelectedStage(int chapter, int stage);
+
+  public void GetSelectedStage(out int chapter, out int stage);
 }

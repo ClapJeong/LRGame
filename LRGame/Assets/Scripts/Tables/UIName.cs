@@ -11,17 +11,11 @@ public class UIName
   [SerializeField] private string lobbyRoot;
   public string LobbyRoot => lobbyRoot;
 
-  [SerializeField] private string lobbyStageButton;
-  public string LobbyStageButton => lobbyStageButton;
+  [SerializeField] private string lobbyChapterButton;
+  public string LobbyChapterButton => lobbyChapterButton;
 
-  [SerializeField] private string chapterButton;
-  public string ChapterButton => chapterButton;
-
-  [SerializeField] private string chapterPanel;
-  public string ChapterPanel => chapterPanel;
-
-  [SerializeField] private string stageButton;
-  public string StageButton => stageButton;
+  [SerializeField] private string lobbyChapterPanel;
+  public string LobbyChapterPanel => lobbyChapterPanel;
 
   [Header("[ Stage ]")]
   [SerializeField] private string stageRoot;

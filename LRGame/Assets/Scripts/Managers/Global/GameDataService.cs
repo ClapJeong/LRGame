@@ -7,7 +7,10 @@ using UnityEngine;
 public class GameDataService : IGameDataService
 {
   private readonly string GameDataPath;
-  public GameData gameData;
+  private GameData gameData;
+
+  private int selectedChapter;
+  private int selectedStage;
 
   public GameDataService()
   {
@@ -74,16 +77,33 @@ public class GameDataService : IGameDataService
 
   public GameData.ChapterStageData GetTopClearData()
   {
-    var topData = gameData.chaterStageDatas.OrderByDescending(data => data.chapter).FirstOrDefault();
-    topData ??= new GameData.ChapterStageData();
+    if (gameData != null)
+    {
+      var topData = gameData.chaterStageDatas.OrderByDescending(data => data.chapter).FirstOrDefault();
+      topData ??= new GameData.ChapterStageData();
 
-    return topData;
+      return topData;
+    }
+    else
+      return new GameData.ChapterStageData();
   }
 
   private GameData.ChapterStageData GetChapterData(int chapter)
     => gameData
           .chaterStageDatas
           .FirstOrDefault(set => set.chapter == chapter);
+
+  public void SetSelectedStage(int chapter, int stage)
+  {
+    selectedChapter = chapter;
+    selectedStage = stage;
+  }
+
+  public void GetSelectedStage(out int chapter, out int stage)
+  {
+    chapter = selectedChapter;
+    stage = selectedStage;
+  }
 
   #region Debugging
   public void Debugging_RaiseClearData()

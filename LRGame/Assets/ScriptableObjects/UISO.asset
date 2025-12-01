@@ -21,5 +21,6 @@ MonoBehaviour:
     rightRight: 275
     rightDown: 274
     rightLeft: 276
+    space: 32
   indicatorDuration: 0.08
   progressSubmitDuration: 0.6

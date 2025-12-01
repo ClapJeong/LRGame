@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using LR.UI;
 using LR.UI.Indicator;
+using System;
 using UnityEngine;
 
 public interface IUIIndicatorService
@@ -11,7 +12,9 @@ public interface IUIIndicatorService
 
   public bool TryGetTopIndicator(out IUIIndicatorPresenter current);
 
-  public void AttachCurrentWithGameObject(GameObject target);
+  public IDisposable ReleaseIndicatorOnDestroy(IUIIndicatorPresenter indicator, GameObject target);
 
   public void ReleaseTopIndicator();
+
+  public bool IsTopIndicatorIsThis(IUIIndicatorPresenter target);
 }

@@ -11,16 +11,33 @@ namespace LR.UI.Lobby
   {
     public class Model
     {
-      이거도해야하는데스우
+      public IUIDepthService depthService;
+      public IUIInputActionManager uiInputActionManager;
+      public IResourceManager resourceManager;
+      public int chapter;
+
+      public Model(IUIDepthService depthService, IUIInputActionManager uiInputActionManager,IResourceManager resourceManager, int chapter)
+      {
+        this.depthService = depthService;
+        this.uiInputActionManager = uiInputActionManager;
+        this.resourceManager = resourceManager;
+        this.chapter = chapter;
+      }
     }
 
     private readonly Model model;
     private readonly UIChapterButtonViewContainer viewContainer;
+    private readonly Transform panelRoot;
 
-    public UIChapterButtonPresenter(Model model, UIChapterButtonViewContainer viewContainer)
+    private UIChapterPanelPresenter panelPresenter;
+
+    public UIChapterButtonPresenter(Model model, UIChapterButtonViewContainer viewContainer, Transform panelRoot)
     {
       this.model = model;
       this.viewContainer = viewContainer;
+      this.panelRoot = panelRoot;
+
+      CreatePanelPresenterAsync().Forget();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -28,18 +45,19 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
-      if (viewContainer)
-        viewContainer.gameObjectView.DestroyGameObject();
-    }
-    
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    }    
+
+    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      return UniTask.CompletedTask;
+      UnsubscribeSubmit();
+      await UniTask.CompletedTask;
     }
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+
+    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      return UniTask.CompletedTask;
+      SubscribeSubmit();
+      await UniTask.CompletedTask;
     }
 
     public void SetVisibleState(UIVisibleState visibleState)
@@ -51,5 +69,37 @@ namespace LR.UI.Lobby
     {
       throw new NotImplementedException();
     }
+
+    private async UniTask CreatePanelPresenterAsync()
+    {
+      var table = GlobalManager.instance.Table.AddressableKeySO;
+
+      var model = new UIChapterPanelPresenter.Model(
+        this.model.chapter,
+        this.model.depthService,
+        this.model.uiInputActionManager);
+      var path = table.Path.Ui + table.UIName.LobbyChapterPanel;
+      var view = await this.model.resourceManager.CreateAssetAsync<UIChapterPanelViewContainer>(path, panelRoot);
+      panelPresenter = new UIChapterPanelPresenter(model, view);
+      panelPresenter.AttachOnDestroy(viewContainer.gameObject);
+    }
+
+    #region Subscribe
+    private void SubscribeSubmit()
+    {
+      viewContainer.progressSubmitView.SubscribeOnProgress(Direction.Right, value => viewContainer.rightProgressImageView.SetFillAmount(value));
+      viewContainer.progressSubmitView.SubscribeOnComplete(Direction.Right, () => panelPresenter.ShowAsync().Forget());
+      viewContainer.progressSubmitView.SubscribeOnCanceled(Direction.Right, () => viewContainer.rightProgressImageView.SetFillAmount(0.0f));
+
+      viewContainer.progressSubmitView.SubscribeOnProgress(Direction.Left, value => viewContainer.leftProgressImageView.SetFillAmount(value));
+      viewContainer.progressSubmitView.SubscribeOnComplete(Direction.Left, () => panelPresenter.ShowAsync().Forget());
+      viewContainer.progressSubmitView.SubscribeOnCanceled(Direction.Left, () => viewContainer.leftProgressImageView.SetFillAmount(0.0f));
+    }
+
+    private void UnsubscribeSubmit()
+    {
+      viewContainer.progressSubmitView.UnsubscribeAll();
+    }
+    #endregion
   }
 }

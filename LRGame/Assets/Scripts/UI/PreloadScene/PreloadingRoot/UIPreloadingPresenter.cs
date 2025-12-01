@@ -42,8 +42,6 @@ namespace LR.UI.Preloading
 
     public void Dispose()
     {
-      IUIPresenterContainer presenterContainer = GlobalManager.instance.UIManager;
-      presenterContainer.Remove(this);
       if (view)
         GameObject.Destroy(view.gameObject);
     }

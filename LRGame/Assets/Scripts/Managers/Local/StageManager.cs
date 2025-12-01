@@ -7,11 +7,15 @@ public class StageManager : IStageController, IStageCreator
   private readonly PlayerService playerSetupService;
   private readonly TriggerTileService triggerTileSetupService;
   private readonly Dictionary<IStageController.StageEventType, UnityEvent> stageEvents = new();
+  private readonly IResourceManager resourceManager;
+  private readonly ISceneProvider sceneProvider;
 
   private CTSContainer regenCTS;
 
-  public StageManager()
+  public StageManager(IResourceManager resourceManager, ISceneProvider sceneProvider)
   {
+    this.resourceManager = resourceManager;
+    this.sceneProvider = sceneProvider;
     playerSetupService = new PlayerService();
     triggerTileSetupService = new TriggerTileService();
   }
@@ -20,12 +24,19 @@ public class StageManager : IStageController, IStageCreator
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var key = table.Path.Stage + string.Format(table.StageName.StageNameFormat, index);
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    var stageDataContainer = await resourceManager.CreateAssetAsync<StageDataContainer>(key);
+    try
+    {
+      var stageDataContainer = await resourceManager.CreateAssetAsync<StageDataContainer>(key);
 
-    SetupPlayers(stageDataContainer);
-    SetupTriggers(stageDataContainer);
-    SetupDynamicObstacles(stageDataContainer);
+      SetupPlayers(stageDataContainer);
+      SetupTriggers(stageDataContainer);
+      SetupDynamicObstacles(stageDataContainer);
+    }
+    catch
+    {
+      GlobalManager.instance.GameDataService.SetCurrentStageData(-1, -1);
+      sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
+    }
   }
 
   private void SetupPlayers(StageDataContainer stageData, bool isEnableImmediately = false)

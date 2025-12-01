@@ -1,9 +1,9 @@
 using Cysharp.Threading.Tasks;
+using LR.UI.Indicator;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 
 namespace LR.UI.Lobby
@@ -12,24 +12,31 @@ namespace LR.UI.Lobby
   {
     public class Model
     {
-      public string beginButtonSceneKey;
+      public UIManager uiManager;
+      public IUIInputActionManager uiInputManager;
+      public IResourceManager resourceManager;
 
-      public Model(string beginButtonSceneKey)
+      public Model(UIManager uiManager, IUIInputActionManager uiInputManager, IResourceManager resourceManager)
       {
-        this.beginButtonSceneKey = beginButtonSceneKey;
+        this.uiManager = uiManager;
+        this.uiInputManager = uiInputManager;
+        this.resourceManager = resourceManager;
       }
     }
 
     private readonly Model model;
     private readonly UILobbyViewContainer viewContainer;
-    private readonly List<(ISubmitView, ILocalizeStringView)> stageButtons = new();
+
+    private IUIIndicatorPresenter currentIndicator;
+    private Dictionary<UIChapterButtonViewContainer, UIChapterButtonPresenter> chapterButtons = new();
 
     public UILobbyRootPresenter(Model model, UILobbyViewContainer viewContainer)
     {
       this.model = model;
       this.viewContainer = viewContainer;
 
-      CreateStageButtons().Forget();
+      RegisterContainer();
+      CreateChapterButtonsAsync().Forget();
     }
 
     public UIVisibleState GetVisibleState()
@@ -50,54 +57,134 @@ namespace LR.UI.Lobby
       return UniTask.CompletedTask;
     }
 
-    private async UniTask CreateStageButtons()
-    {
-      var table = GlobalManager.instance.Table.AddressableKeySO;
-      var stageLabel = table.Label.Stage;
-      var stageButtonKey = table.Path.Ui + table.UIName.LobbyStageButton;
-
-      IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-      var stages = await resourceManager.LoadAssetsAsync(stageLabel);
-
-      for (int i = 0; i < stages.Count; i++)
-      {
-        var stageButtonObject = await resourceManager.CreateAssetAsync<GameObject>(stageButtonKey, viewContainer.stageButtonRoot);
-        var submitView = stageButtonObject.GetComponent<BaseSubmitView>();
-        var localizeStringView = stageButtonObject.GetComponent<BaseLocalizeStringView>();
-        stageButtons.Add((submitView, localizeStringView));
-
-        var index = i - 1;
-        submitView.SubscribeOnSubmit(() =>
-        {
-          OnStageButtonClick(index);
-          submitView.Enable(false);
-        });
-        localizeStringView.SetArgument(new() { index });
-      }
-    }
-
-    private void OnStageButtonClick(int index)
-    {
-      GlobalManager.instance.selectedStage = index;
-      var sceneProvider = GlobalManager.instance.SceneProvider;
-      sceneProvider.LoadSceneAsync(
-        SceneType.Game,
-        CancellationToken.None,
-        onProgress: null,
-        onComplete: null).Forget();
-    }
-
     public IDisposable AttachOnDestroy(GameObject target)
-      => target
-      .OnDestroyAsObservable()
-      .Subscribe(_ => Dispose());
+      => target.AttachDisposable(this);
 
     public void Dispose()
     {
-      IUIPresenterContainer presenterContainer = GlobalManager.instance.UIManager;
-      presenterContainer.Remove(this);
+      UnregisterContainer();
+      LowerDepth();
+      UnsubscribeSelectedGameObjectService();
+
       if (viewContainer)
-        GameObject.Destroy(viewContainer.gameObject);
+        viewContainer.BaseGameObjectView.DestroyGameObject();      
+    }
+
+    private async UniTask CreateChapterButtonsAsync()
+    {
+      var navigationsView = new List<UIChapterButtonViewContainer>();
+      var testChapterCount = 3;
+      for (int i = 0; i < testChapterCount; i++)
+      {
+        var chapter = i;
+
+        var table = GlobalManager.instance.Table.AddressableKeySO;
+        var key = table.Path.Ui + table.UIName.LobbyChapterButton;
+        var model = new UIChapterButtonPresenter.Model(
+          depthService: this.model.uiManager,
+          uiInputActionManager: this.model.uiInputManager,
+          resourceManager: this.model.resourceManager,
+          chapter: chapter);
+        var view = await this.model.resourceManager.CreateAssetAsync<UIChapterButtonViewContainer>(key, viewContainer.stageButtonRoot);
+        var presenter = new UIChapterButtonPresenter(model, view, viewContainer.chapterPanelRoot);
+        presenter.AttachOnDestroy(view.gameObject);
+
+        chapterButtons[view] = presenter;
+        navigationsView.Add(view);
+      }
+
+      InitializeNavigations(navigationsView);
+    }
+
+    private void InitializeNavigations(List<UIChapterButtonViewContainer> navigationViews)
+    {
+      for(int i = 0; i < navigationViews.Count; i++)
+      {
+        var currentNavigationView = navigationViews[i].navigationView;
+
+        if (i > 0)
+        {
+          var prevNavigationView = navigationViews[i - 1].navigationView;
+          currentNavigationView.AddNavigation(Direction.Left, prevNavigationView.GetSelectable());
+        }
+
+        if(i<navigationViews.Count - 1)
+        {
+          var nextNavigationView = navigationViews[i + 1].navigationView;
+          currentNavigationView.AddNavigation(Direction.Right, nextNavigationView.GetSelectable());
+        }
+      }
+
+      RaiseDepth(navigationViews.First());
+    }
+
+    private void RegisterContainer()
+    {
+      IUIPresenterContainer presenterContainer = GlobalManager.instance.UIManager;
+      presenterContainer.Add(this);
+    }
+
+    private void UnregisterContainer()
+    {
+      IUIPresenterContainer presenterContainer = model.uiManager;
+      presenterContainer.Remove(this);
+    }
+
+    private async void RaiseDepth(UIChapterButtonViewContainer firstView)
+    {
+      IUIIndicatorService indicatorService = model.uiManager;
+      currentIndicator = await indicatorService.GetNewAsync(viewContainer.indicatorRoot, firstView.rectView);
+      indicatorService.ReleaseIndicatorOnDestroy(currentIndicator, viewContainer.gameObject);
+
+      IUIDepthService depthService = model.uiManager;
+      depthService.RaiseDepth(firstView.gameObject);
+
+      SubscribeSelectedGameObjectService();
+    }
+
+    private void LowerDepth()
+    {
+      IUIDepthService depthService = model.uiManager;
+      depthService.LowerDepth();
+    }
+
+    private void SubscribeSelectedGameObjectService()
+    {
+      IUISelectedGameObjectService selectedGameObjectService = model.uiManager;
+      selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
+      selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnExit, OnSelectedGameObjectExit);
+    }
+
+    private void UnsubscribeSelectedGameObjectService()
+    {     
+      IUISelectedGameObjectService selectedGameObjectService = model.uiManager;
+      selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
+      selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnExit, OnSelectedGameObjectExit);
+    }
+
+    private void OnSelectedGameObjectEnter(GameObject target)
+    {
+      IUIIndicatorService indicatorService = model.uiManager;
+
+      if (target.TryGetComponent<IRectView>(out var rectView) &&
+          target.TryGetComponent<UIChapterButtonViewContainer>(out var targetView) &&
+          indicatorService.IsTopIndicatorIsThis(currentIndicator))
+      {
+        currentIndicator.MoveAsync(rectView).Forget();
+        chapterButtons[targetView].ShowAsync().Forget();
+      }
+    }
+
+    private void OnSelectedGameObjectExit(GameObject target)
+    {
+      IUIIndicatorService indicatorService = model.uiManager;
+
+      if (target.TryGetComponent<IRectView>(out var rectView) &&
+          target.TryGetComponent<UIChapterButtonViewContainer>(out var targetView) &&
+          indicatorService.IsTopIndicatorIsThis(currentIndicator))
+      {
+        chapterButtons[targetView].HideAsync().Forget();
+      }
     }
   }
 }

@@ -23,7 +23,21 @@ namespace LR.UI.GameScene.Stage
       public UnityAction onNext;
       public UnityAction onLobby;
 
-      public Model(float showDuration, string restartPath,string nextPath,string lobbyPath, UnityAction onRestart, UnityAction onNext,UnityAction onLobby)
+      public IResourceManager resourceManager;
+      public IGameDataService gameDataService;
+      public InputActionFactory inputActionFactory;
+
+      public Model(
+        float showDuration, 
+        string restartPath,
+        string nextPath,
+        string lobbyPath, 
+        UnityAction onRestart, 
+        UnityAction onNext,
+        UnityAction onLobby,
+        IResourceManager resourceManager,
+        IGameDataService gameDataService,
+        InputActionFactory inputActionFactory)
       {
         this.showDuration = showDuration;
         this.restartPath = restartPath;
@@ -32,6 +46,9 @@ namespace LR.UI.GameScene.Stage
         this.onRestart = onRestart;
         this.onNext = onNext;
         this.onLobby = onLobby;
+        this.resourceManager = resourceManager;
+        this.gameDataService = gameDataService;
+        this.inputActionFactory = inputActionFactory;
       }
     }
 
@@ -101,17 +118,17 @@ namespace LR.UI.GameScene.Stage
 
     private async void CreateInputActions()
     {
-      var inputActionFactory = GlobalManager.instance.FactoryManager.InputActionFactory;
-      restartInputAction = inputActionFactory.Get(model.restartPath, () => model.onRestart?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
-      lobbyInputAction = inputActionFactory.Get(model.lobbyPath, () => model.onLobby?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
+      restartInputAction = model.inputActionFactory.Get(model.restartPath, () => model.onRestart?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
+      lobbyInputAction = model.inputActionFactory.Get(model.lobbyPath, () => model.onLobby?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
 
       var table = GlobalManager.instance.Table.AddressableKeySO;
       var stageLabel = table.Label.Stage;
 
-      IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-      var stages = await resourceManager.LoadAssetsAsync(stageLabel);
-      if (GlobalManager.instance.selectedStage < stages.Count)
-        nextInputAction = inputActionFactory.Get(model.nextPath, () => model.onNext?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
+      var stages = await model.resourceManager.LoadAssetsAsync(stageLabel);
+      model.gameDataService.GetSelectedStage(out var chapter,out var stage);
+      var index = chapter * 4 + stage;
+      if (index < stages.Count)
+        nextInputAction = model.inputActionFactory.Get(model.nextPath, () => model.onNext?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
       else
         viewContainer.nextText.SetEntry("");
     }

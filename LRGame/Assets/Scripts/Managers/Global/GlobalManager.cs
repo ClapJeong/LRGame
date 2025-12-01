@@ -46,7 +46,7 @@ public class GlobalManager : MonoBehaviour
       resourceManager = new ResourceManager();
       disposables.Add(resourceManager);
 
-      uiInputManager = new UIInputManager();
+      uiInputManager = new UIInputManager(table: table, inputActionFactory: factoryManager.InputActionFactory);
       disposables.Add(uiInputManager);
 
       gameDataService = new GameDataService();

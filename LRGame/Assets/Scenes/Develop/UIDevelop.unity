@@ -738,6 +738,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIGameFirst
       objectReference: {fileID: 0}
+    - target: {fileID: 4050641826224065189, guid: 0d7ef29e8d7fac04099c55f01c86624f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8786406738819846586, guid: 0d7ef29e8d7fac04099c55f01c86624f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -928,6 +932,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Indicator
       objectReference: {fileID: 0}
+    - target: {fileID: 4739201154466006131, guid: 0ece8bc748dae1e40bff9e7720fd4872, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1029,6 +1037,10 @@ PrefabInstance:
     - target: {fileID: 8525833067503948215, guid: f984f27f34dea6244ae7620495958433, type: 3}
       propertyPath: m_Name
       value: UIPlayerRoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8525833067503948215, guid: f984f27f34dea6244ae7620495958433, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1149,13 +1161,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1027977312}
     m_Modifications:
+    - target: {fileID: 1213825497086651856, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1213825497086651856, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861220728432100458, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861220728432100458, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2501519006623981672, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
       propertyPath: m_Name
       value: UILobbyFirst
       objectReference: {fileID: 0}
     - target: {fileID: 2501519006623981672, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4727225968570899755, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
       propertyPath: m_Pivot.x
@@ -1235,6 +1263,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4727225968570899755, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942061460568160297, guid: 47141aded9371c9439b04c8526afdab1, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

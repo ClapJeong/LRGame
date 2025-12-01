@@ -1,9 +1,8 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace LR.UI.Lobby
 {
@@ -12,10 +11,14 @@ namespace LR.UI.Lobby
     public class Model
     {
       public UIInputActionType inputActionType;
+      public IUIInputActionManager uiInputActionManager;
+      public UnityAction onQuit;
 
-      public Model(UIInputActionType inputActionType)
+      public Model(UIInputActionType inputActionType, IUIInputActionManager uiInputActionManager, UnityAction onQuit)
       {
         this.inputActionType = inputActionType;
+        this.uiInputActionManager = uiInputActionManager;
+        this.onQuit = onQuit;
       }
     }
 
@@ -33,7 +36,6 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
-      
     }
 
     public UIVisibleState GetVisibleState()
@@ -63,13 +65,12 @@ namespace LR.UI.Lobby
     #region Subscribes
     private void SubscribeSubmit()
     {
+      var direction = model.inputActionType.ParseToDirection();
+
       viewContainer.quitProgressSubmitView.ResetAllProgress();
-      viewContainer.quitProgressSubmitView.SubscribeOnProgress(Direction.Space, value => viewContainer.quitImageView.SetFillAmount(value));
-      viewContainer.quitProgressSubmitView.SubscribeOnComplete(Direction.Space, () =>
-      {
-        viewContainer.quitProgressSubmitView.UnsubscribeAll();
-        HideAsync().Forget();
-      });
+      viewContainer.quitProgressSubmitView.SubscribeOnProgress(direction, value => viewContainer.quitImageView.SetFillAmount(value));
+      viewContainer.quitProgressSubmitView.SubscribeOnCanceled(direction, () => viewContainer.quitImageView.SetFillAmount(0.0f));
+      viewContainer.quitProgressSubmitView.SubscribeOnComplete(direction, () => model.onQuit?.Invoke());
     }
 
     private void UnsubscribeSubmit()
@@ -78,17 +79,17 @@ namespace LR.UI.Lobby
     }
 
     private void SubscribeInputAction()
-    {
-      IUIInputActionManager inputActionManager = GlobalManager.instance.UIInputManager;
-      inputActionManager.SubscribePerformedEvent(UIInputActionType.RightLeft, OnInputLeftPerformed);
-      inputActionManager.SubscribeCanceledEvent(UIInputActionType.RightLeft, OnInputLeftCanceled);
+    {     
+      model.uiInputActionManager.SubscribePerformedEvent(model.inputActionType, OnInputLeftPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(model.inputActionType, OnInputLeftCanceled);
     }
 
     private void UnsubscribeInputAction()
     {
-      IUIInputActionManager inputActionManager = GlobalManager.instance.UIInputManager;
-      inputActionManager.UnsubscribePerformedEvent(UIInputActionType.RightLeft, OnInputLeftPerformed);
-      inputActionManager.UnsubscribeCanceledEvent(UIInputActionType.RightLeft, OnInputLeftCanceled);
+      var direction = model.inputActionType.ParseToDirection();
+
+      model.uiInputActionManager.UnsubscribePerformedEvent(model.inputActionType, OnInputLeftPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputActionType, OnInputLeftCanceled);
     }
 
     private void OnInputLeftPerformed()

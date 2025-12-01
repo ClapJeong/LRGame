@@ -9,7 +9,6 @@ using LR.UI.Indicator;
 
 public class UIManager : MonoBehaviour, 
   ICanvasProvider, 
-  IUIPresenterFactory, 
   IUIPresenterContainer, 
   IUISelectedGameObjectService,
   IUIIndicatorService,
@@ -29,7 +28,6 @@ public class UIManager : MonoBehaviour,
   [SerializeField] private Transform disableRoot;
 
   private UIPresenterContainer presenterContainer;
-  private UIPresenterFactory presenterFactory;
   private UISelectedGameObjectService selectedGameObjectService;  
   private UIIndicatorService indicatorService;
   private UIDepthService depthService;
@@ -38,7 +36,6 @@ public class UIManager : MonoBehaviour,
   public void Initialize()
   {
     presenterContainer = new UIPresenterContainer();
-    presenterFactory = new UIPresenterFactory(container: this);
     selectedGameObjectService = new UISelectedGameObjectService();
     depthService = new UIDepthService();
     indicatorService = new UIIndicatorService(resourceManager: GlobalManager.instance.ResourceManager, disableRoot: disableRoot);
@@ -61,14 +58,6 @@ public class UIManager : MonoBehaviour,
     return set.canvas;
   }
 
-
-  #region IUIPresenterFactory
-  public void Register<T>(Func<T> constructor) where T : IUIPresenter
-    =>presenterFactory.Register<T>(constructor);
-
-  public T Create<T>() where T : IUIPresenter
-    => presenterFactory.Create<T>();
-  #endregion
 
   #region IUIPresenterContainer
   public void Add(IUIPresenter presenter)
@@ -99,8 +88,8 @@ public class UIManager : MonoBehaviour,
   #endregion
 
   #region IUIIndicatorService
-  public void AttachCurrentWithGameObject(GameObject target)
-    => indicatorService.AttachCurrentWithGameObject(target);
+  public IDisposable ReleaseIndicatorOnDestroy(IUIIndicatorPresenter indicator, GameObject target)
+    => indicatorService.ReleaseIndicatorOnDestroy(indicator, target);
 
   public IUIIndicatorPresenter GetTopIndicator()
     => indicatorService.GetTopIndicator();
@@ -114,6 +103,8 @@ public class UIManager : MonoBehaviour,
   public void ReleaseTopIndicator()
     => indicatorService.ReleaseTopIndicator();
 
+  public bool IsTopIndicatorIsThis(IUIIndicatorPresenter target)
+    => indicatorService.IsTopIndicatorIsThis(target);
   #endregion
 
   #region IUIDepthService
@@ -124,7 +115,6 @@ public class UIManager : MonoBehaviour,
     =>depthService.RaiseDepth(targetSelectingGameObject);
 
   public void LowerDepth()
-    => depthService.LowerDepth();
-
+    => depthService.LowerDepth();  
   #endregion
 }

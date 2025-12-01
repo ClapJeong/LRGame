@@ -4,12 +4,11 @@ namespace LR.UI.Lobby
 {
   public class UIChapterButtonViewContainer : MonoBehaviour
   {
-    public BaseGameObjectView gameObjectView;
     public BaseTMPView tmpView;
     public BaseProgressSubmitView progressSubmitView;
-    public BaseImageView imageView;
-
-    [Space(5)]
-    public Transform panelRoot;
+    public BaseImageView leftProgressImageView;
+    public BaseImageView rightProgressImageView;
+    public BaseNavigationView navigationView;
+    public BaseRectView rectView;
   }
 }

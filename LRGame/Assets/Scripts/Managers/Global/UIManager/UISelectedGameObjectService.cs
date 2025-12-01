@@ -1,5 +1,3 @@
-using LR.UI;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -14,7 +12,7 @@ public class UISelectedGameObjectService : IUISelectedGameObjectService
   {
     var currentSelectedObject = EventSystem.current.currentSelectedGameObject;
     if(previousSelectedObject != null &&
-       currentSelectedObject != null &&
+       currentSelectedObject != null &&그냥무작정이전오브젝트가져오는게아니라뎁스따라서가져오는거걸러야함
        currentSelectedObject != previousSelectedObject)
     {
       onSelectExit?.Invoke(previousSelectedObject);

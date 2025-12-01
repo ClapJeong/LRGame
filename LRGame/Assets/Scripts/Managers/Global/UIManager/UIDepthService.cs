@@ -29,7 +29,8 @@ public class UIDepthService : IUIDepthService
 
   public void RaiseDepth(GameObject targetSelectingGameObject)
   {
-    depthSelectedObjects.Push(targetSelectingGameObject);
+    var lastSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+    depthSelectedObjects.Push(lastSelectedGameObject);
     EventSystem.current.SetSelectedGameObject(targetSelectingGameObject);
   }
 

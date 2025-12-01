@@ -27,9 +27,11 @@ namespace LR.UI.Debugging
         LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
       }
 
-      selectedStageIndexText.text = GlobalManager.instance.selectedStage.ToString();
-      if (GlobalManager.instance.gameData != null)
-        clearedStageIndexText.text = GlobalManager.instance.gameData.clearedStage.ToString();
+      IGameDataService gameDataService = GlobalManager.instance.GameDataService;
+      gameDataService.GetSelectedStage(out var chapter, out var stage);
+      selectedStageIndexText.text = $"current: {chapter}/{stage}";
+      var topClearData = gameDataService.GetTopClearData();
+      clearedStageIndexText.text = $"cleared: {topClearData.chapter}/{topClearData.stage}";
     }
 
     public void OnLocaleButtonClicked(Locale locale)

@@ -11,18 +11,31 @@ public class UIInputManager : IUIInputActionManager
     public UnityAction onPerformed;
     public UnityAction onCanceled;
 
-    public InputActionSet(string path)
+    public InputActionSet(string path, InputActionFactory inputActionFactory)
     {
-      var inputActionFactory = GlobalManager.instance.FactoryManager.InputActionFactory;
-      inputAction = inputActionFactory.Get(path, onPerformed, InputActionFactory.InputActionPhaseType.Performed);
-      inputActionFactory.Add(inputAction,onCanceled,InputActionFactory.InputActionPhaseType.Canceled);
+      inputAction = inputActionFactory.Get(path, OnInputAction);
+      inputAction.Enable();
+    }
+
+    private void OnInputAction(InputAction.CallbackContext context)
+    {
+      switch (context.phase)
+      {
+        case InputActionPhase.Performed: onPerformed?.Invoke(); break;
+        case InputActionPhase.Canceled: onCanceled?.Invoke(); break;
+      }
     }
   }
 
+  private readonly TableContainer table;
+  private readonly InputActionFactory inputActionFactory;
   private Dictionary<UIInputActionType, InputActionSet> inputSets = new();  
 
-  public UIInputManager()
+  public UIInputManager(TableContainer table, InputActionFactory inputActionFactory)
   {
+    this.table = table;
+    this.inputActionFactory = inputActionFactory;
+
     if(Mouse.current != null)
       DisableMouse();
     CreateUIInputActions();
@@ -39,7 +52,7 @@ public class UIInputManager : IUIInputActionManager
     => inputSets[type].onCanceled -= onCanceled;
 
   public void UnsubscribePerformedEvent(UIInputActionType type, UnityAction onPerformed)
-    => inputSets[type].onPerformed += onPerformed;
+    => inputSets[type].onPerformed -= onPerformed;
 
   private void DisableMouse()
   {
@@ -49,24 +62,23 @@ public class UIInputManager : IUIInputActionManager
 
   private void CreateUIInputActions()
   {
-    var paths = GlobalManager.instance.Table.UISO.InputPaths;
+    var paths = table.UISO.InputPaths;
 
-    inputSets.Add(UIInputActionType.LeftLeft, new InputActionSet(paths.LeftLeftPath));
-    inputSets.Add(UIInputActionType.LeftRight, new InputActionSet(paths.LeftRightPath));
-    inputSets.Add(UIInputActionType.LeftDown, new InputActionSet(paths.LeftDownPath));
-    inputSets.Add(UIInputActionType.LeftUP, new InputActionSet(paths.LeftUpPath));
+    inputSets[UIInputActionType.LeftLeft] = new InputActionSet(paths.LeftLeftPath, inputActionFactory);
+    inputSets[UIInputActionType.LeftRight] = new InputActionSet(paths.LeftRightPath, inputActionFactory);
+    inputSets[UIInputActionType.LeftDown] = new InputActionSet(paths.LeftDownPath, inputActionFactory);
+    inputSets[UIInputActionType.LeftUP] = new InputActionSet(paths.LeftUpPath, inputActionFactory);
 
-    inputSets.Add(UIInputActionType.RightLeft, new InputActionSet(paths.RightLeftPath));
-    inputSets.Add(UIInputActionType.RightRight, new InputActionSet(paths.RightRightPath));
-    inputSets.Add(UIInputActionType.RightDown, new InputActionSet(paths.RightDownPath));
-    inputSets.Add(UIInputActionType.RightUP, new InputActionSet(paths.RightUPPath));
+    inputSets[UIInputActionType.RightLeft] = new InputActionSet(paths.RightLeftPath, inputActionFactory);
+    inputSets[UIInputActionType.RightRight] = new InputActionSet(paths.RightRightPath, inputActionFactory);
+    inputSets[UIInputActionType.RightDown] = new InputActionSet(paths.RightDownPath, inputActionFactory);
+    inputSets[UIInputActionType.RightUP] = new InputActionSet(paths.RightUPPath, inputActionFactory);
 
-    inputSets.Add(UIInputActionType.Space, new InputActionSet(paths.Space));
+    inputSets[UIInputActionType.Space] = new InputActionSet(paths.Space, inputActionFactory);
   }
 
   public void Dispose()
   {
-    var inputActionFactory = GlobalManager.instance.FactoryManager.InputActionFactory;
     if (inputActionFactory != null)
     {
       foreach (var set in inputSets.Values)
