@@ -7,20 +7,24 @@ namespace LR.UI
   public class BaseTMPView : MonoBehaviour, ITMPView
   {
     private TextMeshProUGUI tmp;
-
-    private void Awake()
+    private TextMeshProUGUI TMP
     {
-      tmp = GetComponent<TextMeshProUGUI>();
+      get
+      {
+        if(tmp == null)
+          tmp = GetComponent<TextMeshProUGUI>();
+        return tmp;
+      }
     }
 
     public virtual void AppendText(string text)
     {
-      tmp.text += text;
+      TMP.text += text;
     }
 
     public virtual void SetText(string text)
     {
-      tmp.text = text;
+      TMP.text = text;
     }
   }
 

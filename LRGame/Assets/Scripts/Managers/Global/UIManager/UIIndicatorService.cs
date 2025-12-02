@@ -45,6 +45,7 @@ public class UIIndicatorService : IUIIndicatorService
   {
     if(disabledIndicators.TryPop(out var topIndicator))
     {
+      enableIndicators.Push(topIndicator);
       topIndicator.ReInitialize(root, beginTarget);
       return topIndicator;
     }

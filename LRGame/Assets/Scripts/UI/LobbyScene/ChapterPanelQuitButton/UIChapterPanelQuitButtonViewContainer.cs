@@ -6,5 +6,6 @@ namespace LR.UI.Lobby
   {
     public BaseProgressSubmitView quitProgressSubmitView;
     public BaseImageView quitImageView;
+    public BaseRectView rectView;
   }
 }

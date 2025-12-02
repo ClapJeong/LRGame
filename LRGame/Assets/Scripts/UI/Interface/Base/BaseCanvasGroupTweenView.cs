@@ -5,20 +5,23 @@ using UnityEngine;
 
 namespace LR.UI
 {
-  [ExecuteInEditMode]
   [RequireComponent(typeof(CanvasGroup))]
   public class BaseCanvasGroupTweenView : MonoBehaviour, ICanvasGroupTweenView
   {
     private CanvasGroup canvasGroup;
-
-    private void OnEnable()
+    private CanvasGroup CanvasGroup
     {
-      canvasGroup = GetComponent<CanvasGroup>();
+      get
+      {
+        if(canvasGroup == null)
+          canvasGroup = GetComponent<CanvasGroup>();
+        return canvasGroup;
+      }
     }
 
     public async UniTask DoFadeAsync(float alpha, float duration, CancellationToken token = default)
     {
-      await canvasGroup.DOFade(alpha, duration).ToUniTask(tweenCancelBehaviour: TweenCancelBehaviour.Kill, token);
+      await CanvasGroup.DOFade(alpha, duration).ToUniTask(tweenCancelBehaviour: TweenCancelBehaviour.Kill, token);
     }
   }
 }

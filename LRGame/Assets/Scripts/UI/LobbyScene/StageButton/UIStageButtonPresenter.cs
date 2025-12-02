@@ -13,18 +13,18 @@ namespace LR.UI.Lobby
       public int chapter;
       public int stage;
       public UIInputActionType inputType;
-      public UnityAction onClick;
+      public UnityAction onComplete;
 
       public IUIInputActionManager uiInputActionManager;
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
 
-      public Model(int chapter, int stage, UIInputActionType inputType, UnityAction onClick, IUIInputActionManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(int chapter, int stage, UIInputActionType inputType, UnityAction onComplete, IUIInputActionManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.chapter = chapter;
         this.stage = stage;
         this.inputType = inputType;
-        this.onClick = onClick;
+        this.onComplete = onComplete;
         this.uiInputActionManager = uiInputActionManager;
         this.gameDataService = gameDataService;
         this.sceneProvider = sceneProvider;
@@ -35,6 +35,7 @@ namespace LR.UI.Lobby
     private readonly UIStageButtonViewContainer viewContainer;
 
     private UIVisibleState visibleState;
+    private bool isSubscribing;
 
     public UIStageButtonPresenter(Model model, UIStageButtonViewContainer viewContainer)
     {
@@ -49,7 +50,7 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
-      if (visibleState == UIVisibleState.Showed)
+      if (isSubscribing)
         UnsubscribeInputAction();
     }
 
@@ -88,7 +89,7 @@ namespace LR.UI.Lobby
       {
         viewContainer.progressSubmitView.UnsubscribeAll();
 
-        model.onClick?.Invoke();
+        model.onComplete?.Invoke();
 
         model.gameDataService.SetSelectedStage(model.chapter, model.stage);
 
@@ -102,19 +103,23 @@ namespace LR.UI.Lobby
 
     private void UnsubscribeSubmitView()
     {
+      viewContainer.progressSubmitView.Cancel(model.inputType.ParseToDirection());
       viewContainer.progressSubmitView.UnsubscribeAll();
+      viewContainer.imageView.SetFillAmount(0.0f);
     }
 
     private void SubscribeInputAction()
     {
       model.uiInputActionManager.SubscribePerformedEvent(model.inputType, OnInputPerformed);
       model.uiInputActionManager.SubscribeCanceledEvent(model.inputType, OnInputCanceled);
+      isSubscribing = true;
     }
 
     private void UnsubscribeInputAction()
     {
       model.uiInputActionManager.UnsubscribePerformedEvent(model.inputType, OnInputPerformed);
       model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputType, OnInputCanceled);
+      isSubscribing = false;
     }
 
     private void OnInputPerformed()

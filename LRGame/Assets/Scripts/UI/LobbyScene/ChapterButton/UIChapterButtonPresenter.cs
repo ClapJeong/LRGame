@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 
 namespace LR.UI.Lobby
@@ -17,8 +16,9 @@ namespace LR.UI.Lobby
       public int chapter;
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
+      public IUIIndicatorService indicatorService;
 
-      public Model(IUIDepthService depthService, IUIInputActionManager uiInputActionManager, IResourceManager resourceManager, int chapter, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(IUIDepthService depthService, IUIInputActionManager uiInputActionManager, IResourceManager resourceManager, int chapter, IGameDataService gameDataService, ISceneProvider sceneProvider, IUIIndicatorService indicatorService)
       {
         this.depthService = depthService;
         this.uiInputActionManager = uiInputActionManager;
@@ -26,6 +26,7 @@ namespace LR.UI.Lobby
         this.chapter = chapter;
         this.gameDataService = gameDataService;
         this.sceneProvider = sceneProvider;
+        this.indicatorService = indicatorService;
       }
     }
 
@@ -92,7 +93,8 @@ namespace LR.UI.Lobby
           viewContainer.leftProgressImageView.SetFillAmount(0.0f);
         },
         gameDataService: this.model.gameDataService,
-        sceneProvider: this.model.sceneProvider);
+        sceneProvider: this.model.sceneProvider,
+        indicatorService: this.model.indicatorService);
       var path = table.Path.Ui + table.UIName.LobbyChapterPanel;
       var view = await this.model.resourceManager.CreateAssetAsync<UIChapterPanelViewContainer>(path, panelRoot);
       panelPresenter = new UIChapterPanelPresenter(model, view);

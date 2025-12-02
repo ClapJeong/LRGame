@@ -25,6 +25,8 @@ namespace LR.UI.Lobby
     private readonly Model model;
     private readonly UIChapterPanelQuitButtonViewContainer viewContainer;
 
+    private bool isSubscribing;
+
     public UIChapterPanelQuitButtonPresenter(Model model, UIChapterPanelQuitButtonViewContainer viewContainer)
     {
       this.model = model;
@@ -36,6 +38,8 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
+      if (isSubscribing)
+        UnsubscribeInputAction();
     }
 
     public UIVisibleState GetVisibleState()
@@ -75,21 +79,23 @@ namespace LR.UI.Lobby
 
     private void UnsubscribeSubmit()
     {
+      viewContainer.quitProgressSubmitView.Cancel(model.inputActionType.ParseToDirection());
       viewContainer.quitProgressSubmitView.UnsubscribeAll();
+      viewContainer.quitImageView.SetFillAmount(0.0f);
     }
 
     private void SubscribeInputAction()
     {     
       model.uiInputActionManager.SubscribePerformedEvent(model.inputActionType, OnInputLeftPerformed);
       model.uiInputActionManager.SubscribeCanceledEvent(model.inputActionType, OnInputLeftCanceled);
+      isSubscribing = true;
     }
 
     private void UnsubscribeInputAction()
-    {
-      var direction = model.inputActionType.ParseToDirection();
-
+    {     
       model.uiInputActionManager.UnsubscribePerformedEvent(model.inputActionType, OnInputLeftPerformed);
       model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputActionType, OnInputLeftCanceled);
+      isSubscribing = false;
     }
 
     private void OnInputLeftPerformed()

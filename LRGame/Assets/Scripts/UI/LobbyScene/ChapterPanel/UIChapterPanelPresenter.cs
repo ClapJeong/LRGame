@@ -1,5 +1,8 @@
 using Cysharp.Threading.Tasks;
+using LR.UI.Indicator;
+using LR.UI.Lobby.ChapterPanel;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UniRx;
 using UniRx.Triggers;
@@ -18,8 +21,9 @@ namespace LR.UI.Lobby
       public UnityAction onHide;
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
+      public IUIIndicatorService indicatorService;
 
-      public Model(int chapter, IUIDepthService depthService, IUIInputActionManager uiInputActionManager, UnityAction onHide, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(int chapter, IUIDepthService depthService, IUIInputActionManager uiInputActionManager, UnityAction onHide, IGameDataService gameDataService, ISceneProvider sceneProvider, IUIIndicatorService indicatorService)
       {
         this.chapter = chapter;
         this.depthService = depthService;
@@ -27,18 +31,18 @@ namespace LR.UI.Lobby
         this.onHide = onHide;
         this.gameDataService = gameDataService;
         this.sceneProvider = sceneProvider;
+        this.indicatorService = indicatorService;
       }
     }    
     private readonly Model model;
     private readonly UIChapterPanelViewContainer viewContainer;
+    private readonly UIChapterPanelActionHolder actionHolder;
 
-    private UIChapterPanelQuitButtonPresenter quitButtonPresenter;
-    private UIStageButtonPresenter upStagePresenter;
-    private UIStageButtonPresenter rightStagePresenter;
-    private UIStageButtonPresenter downStagePresenter;
-    private UIStageButtonPresenter leftStagePresenter;
-
+    private Dictionary<UIInputActionType, IUIPresenter> directionPresenters = new();
+    private UIInputActionType currentSelectingDirection = UIInputActionType.Space;
+    
     private UIVisibleState visibleState = UIVisibleState.None;
+    private bool isSubscribing;
 
     public UIChapterPanelPresenter(Model model, UIChapterPanelViewContainer viewContainer)
     {
@@ -49,27 +53,105 @@ namespace LR.UI.Lobby
 
       CreateQuitButtonPresenter();
       CreateStageButtonPresenters();
+
+      actionHolder = new UIChapterPanelActionHolder(
+        onUpPerformed: () =>
+        {
+          if (currentSelectingDirection != UIInputActionType.Space)
+            return;
+
+          currentSelectingDirection = UIInputActionType.LeftUP;
+          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.upStageButtonView.rectView).Forget();
+        },
+        onUpCanceled: () =>
+        {
+          if (currentSelectingDirection != UIInputActionType.LeftUP)
+            return;
+
+          currentSelectingDirection = UIInputActionType.Space;
+          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitButtonView.rectView).Forget();
+        },
+        onRightPerformed: () =>
+        {
+          if (currentSelectingDirection != UIInputActionType.Space)
+            return;
+
+          currentSelectingDirection = UIInputActionType.LeftRight;
+          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.rightStageButtonView.rectView).Forget();
+        },
+        onRightCanceled: () =>
+        {
+          if (currentSelectingDirection != UIInputActionType.LeftRight)
+            return;
+
+          currentSelectingDirection = UIInputActionType.Space;
+          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitButtonView.rectView).Forget();
+        },
+        onDownPerformed: () =>
+        {
+          if (currentSelectingDirection != UIInputActionType.Space)
+            return;
+
+          currentSelectingDirection = UIInputActionType.LeftDown;
+          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.downStageButtonView.rectView).Forget();
+        },
+        onDownCanceled: () =>
+        {
+          if (currentSelectingDirection != UIInputActionType.LeftDown)
+            return;
+
+          currentSelectingDirection = UIInputActionType.Space;
+          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitButtonView.rectView).Forget();
+        },
+        onLeftPerformed: () =>
+        {
+          if (currentSelectingDirection != UIInputActionType.Space)
+            return;
+
+          currentSelectingDirection = UIInputActionType.LeftLeft;
+          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.leftStageButtonView.rectView).Forget();
+        },
+        onLeftCanceled: () =>
+        {
+          if (currentSelectingDirection != UIInputActionType.LeftLeft)
+            return;
+
+          currentSelectingDirection = UIInputActionType.Space;
+          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitButtonView.rectView).Forget();
+        });
+
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
-      => target.OnDestroyAsObservable().Subscribe(_ => Dispose());
+      => target.AttachDisposable(this);
   
     public void Dispose()
     {
+      if (isSubscribing)
+      {
+        UnsubscribeInputActions();
+        model.indicatorService.ReleaseTopIndicator();
+      }
+
       if (viewContainer)
-        viewContainer.gameObjectView.DestroyGameObject();
+        viewContainer.gameObjectView.DestroyGameObject();      
     }
 
     public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      await quitButtonPresenter.ShowAsync(isImmediately);
-      await upStagePresenter.ShowAsync(isImmediately);
-      await rightStagePresenter.ShowAsync(isImmediately);
-      await downStagePresenter.ShowAsync(isImmediately);
-      await leftStagePresenter.ShowAsync(isImmediately);
+      await model.indicatorService.GetNewAsync(viewContainer.indicatorRoot, viewContainer.quitButtonView.rectView);
 
+      SubscribeInputActions();
+      await ShowPresenterAsync(UIInputActionType.Space, isImmediately, token);
       RaiseDepth();
-
       viewContainer.gameObjectView.SetActive(true);
       visibleState = UIVisibleState.Showed;
     }
@@ -77,14 +159,11 @@ namespace LR.UI.Lobby
     public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
       model.onHide?.Invoke();
-      await quitButtonPresenter.HideAsync(isImmediately);
-      await upStagePresenter.HideAsync(isImmediately);
-      await rightStagePresenter.HideAsync(isImmediately);
-      await downStagePresenter.HideAsync(isImmediately);
-      await leftStagePresenter.HideAsync(isImmediately);
+      model.indicatorService.ReleaseTopIndicator();
 
+      UnsubscribeInputActions();
+      await HideAllPresenters(isImmediately, token);
       LowerDepth();
-
       viewContainer.gameObjectView.SetActive(false);
       visibleState = UIVisibleState.Hided;
     }
@@ -95,6 +174,24 @@ namespace LR.UI.Lobby
     public void SetVisibleState(UIVisibleState visibleState)
       => this.visibleState = visibleState;
 
+    private async UniTask ShowPresenterAsync(UIInputActionType type, bool isImmediately, CancellationToken token)
+    {
+      foreach (var pair in directionPresenters)
+      {
+        if (pair.Key == type)
+          await pair.Value.ShowAsync(isImmediately, token);
+        else
+          await pair.Value.HideAsync(isImmediately, token);
+      }        
+    }
+
+    private async UniTask HideAllPresenters(bool isImmediately, CancellationToken token)
+    {
+      foreach (var presenter in directionPresenters.Values)
+        await presenter.HideAsync(isImmediately, token);
+    }
+
+    #region Create
     private void CreateQuitButtonPresenter()
     {
       var model = new UIChapterPanelQuitButtonPresenter.Model(
@@ -105,8 +202,8 @@ namespace LR.UI.Lobby
           HideAsync().Forget();
         });
       var view = viewContainer.quitButtonView;
-      quitButtonPresenter = new UIChapterPanelQuitButtonPresenter(model, view);
-      quitButtonPresenter.AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.Space] = new UIChapterPanelQuitButtonPresenter(model, view);
+      directionPresenters[UIInputActionType.Space].AttachOnDestroy(viewContainer.gameObject);
     }
 
     private void CreateStageButtonPresenters()
@@ -115,51 +212,89 @@ namespace LR.UI.Lobby
         chapter: model.chapter, 
         stage: 1,
         inputType: UIInputActionType.RightUP,
-        onClick: null,
+        onComplete: UnsubscribeInputActions,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
       var upView = viewContainer.upStageButtonView;
-      upStagePresenter = new UIStageButtonPresenter(upModel, upView);
-      upStagePresenter.AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.LeftUP] = new UIStageButtonPresenter(upModel, upView);
+      directionPresenters[UIInputActionType.LeftUP].AttachOnDestroy(viewContainer.gameObject);
 
       var rightModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
         stage: 2,
         inputType: UIInputActionType.RightRight,
-        onClick: null,
+        onComplete: UnsubscribeInputActions,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
       var rightView = viewContainer.rightStageButtonView;
-      rightStagePresenter = new UIStageButtonPresenter(rightModel, rightView);
-      rightStagePresenter.AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.LeftRight] = new UIStageButtonPresenter(rightModel, rightView);
+      directionPresenters[UIInputActionType.LeftRight].AttachOnDestroy(viewContainer.gameObject);
 
       var downModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
         stage: 3,
         inputType: UIInputActionType.RightDown,
-        onClick: null,
+        onComplete: UnsubscribeInputActions,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
       var downView = viewContainer.downStageButtonView;
-      downStagePresenter = new UIStageButtonPresenter(downModel, downView);
-      downStagePresenter.AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.LeftDown] = new UIStageButtonPresenter(downModel, downView);
+      directionPresenters[UIInputActionType.LeftDown].AttachOnDestroy(viewContainer.gameObject);
 
       var leftModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
         stage: 4,
         inputType: UIInputActionType.RightLeft,
-        onClick: null,
+        onComplete: UnsubscribeInputActions,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
       var leftView = viewContainer.leftStageButtonView;
-      leftStagePresenter = new UIStageButtonPresenter(leftModel, leftView);
-      leftStagePresenter.AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.LeftLeft] = new UIStageButtonPresenter(leftModel, leftView);
+      directionPresenters[UIInputActionType.LeftLeft].AttachOnDestroy(viewContainer.gameObject);
+    }
+    #endregion
+
+    #region InputActionSubscribes
+    private void SubscribeInputActions()
+    {
+      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftUP, actionHolder.OnUpPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftUP, actionHolder.OnUpCanceled);
+
+      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftRight, actionHolder.OnRightPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftRight, actionHolder.OnRightCanceled);      
+
+      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftDown, actionHolder.OnDownPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftDown, actionHolder.OnDownCanceled);
+
+      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftCanceled);
+
+      isSubscribing = true;
     }
 
+    private void UnsubscribeInputActions()
+    {
+      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftUP, actionHolder.OnUpPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftUP, actionHolder.OnUpCanceled);
+
+      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftRight, actionHolder.OnRightPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftRight, actionHolder.OnRightCanceled);
+
+      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftDown, actionHolder.OnDownPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftDown, actionHolder.OnDownCanceled);
+
+      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftCanceled);
+
+      isSubscribing = false;
+    }
+    #endregion
+
+    #region Depth
     private void RaiseDepth()
     {
       model.depthService.RaiseDepth(null);
@@ -169,5 +304,6 @@ namespace LR.UI.Lobby
     {
       model.depthService.LowerDepth();
     }
+    #endregion
   }
 }

@@ -3,13 +3,21 @@ using UnityEngine.UI;
 
 namespace LR.UI
 {
-  [ExecuteInEditMode]
   [RequireComponent(typeof(Image))]
   public class BaseImageView : MonoBehaviour, IImageView
   {
     private Image image;
+    private Image Image
+    {
+      get
+      {
+        if (image == null)
+          image = GetComponent<Image>();
+        return image;
+      }
+    }
 
-    private void OnEnable()
+    private void Awake()
     {
       image = GetComponent<Image>();
     }

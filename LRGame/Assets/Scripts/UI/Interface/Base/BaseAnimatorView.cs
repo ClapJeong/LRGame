@@ -2,30 +2,33 @@ using UnityEngine;
 
 namespace LR.UI
 {
-  [ExecuteInEditMode]
   [RequireComponent(typeof(Animator))]
   public class BaseAnimatorView : MonoBehaviour, IAnimatorView
   {
     private Animator animator;
-
-    private void OnEnable()
+    private Animator Animator
     {
-      animator = GetComponent<Animator>();
+      get
+      {
+        if(animator == null)
+          animator = GetComponent<Animator>();
+        return animator;
+      }
     }
 
     public void Play(int hashID)
-      =>animator.Play(hashID);
+      =>Animator.Play(hashID);
 
     public void SetBool(int hashID, bool value)
-      =>animator.SetBool(hashID, value);
+      =>Animator.SetBool(hashID, value);
 
     public void SetFloat(int hashID, float value)
-      =>animator.SetFloat(hashID, value);
+      =>Animator.SetFloat(hashID, value);
 
     public void SetInt(int hashID, int value)
-      =>animator.SetInteger(hashID, value);
+      =>Animator.SetInteger(hashID, value);
 
     public void SetTrigger(int hashID)
-      =>animator.SetTrigger(hashID);    
+      =>Animator.SetTrigger(hashID);    
   }
 }

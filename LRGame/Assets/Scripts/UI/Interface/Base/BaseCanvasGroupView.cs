@@ -3,24 +3,27 @@ using UnityEngine;
 
 namespace LR.UI
 {
-  [ExecuteInEditMode]
   [RequireComponent(typeof(CanvasGroup))]
   public class BaseCanvasGroupView : MonoBehaviour, ICanvasGroupView
   {
     private CanvasGroup canvasGroup;
-
-    private void OnEnable()
+    private CanvasGroup CanvasGroup
     {
-      canvasGroup = GetComponent<CanvasGroup>();
+      get
+      {
+        if (canvasGroup == null)
+          canvasGroup = GetComponent<CanvasGroup>();
+        return canvasGroup;
+      }
     }
 
     public virtual void EnableInteractive(bool enable)
-      =>canvasGroup.interactable = enable;
+      =>CanvasGroup.interactable = enable;
 
     public virtual void EnableRaycast(bool enable)
-      =>canvasGroup.blocksRaycasts = enable;
+      =>CanvasGroup.blocksRaycasts = enable;
 
     public virtual void SetAlpha(float alpha)
-      =>canvasGroup.alpha = alpha;
+      =>CanvasGroup.alpha = alpha;
   }
 }

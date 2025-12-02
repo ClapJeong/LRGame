@@ -4,13 +4,12 @@ using UnityEngine.Localization.Components;
 
 namespace LR.UI
 {
-  [ExecuteInEditMode]
   [RequireComponent(typeof(LocalizeStringEvent))]
   public class BaseLocalizeStringView : MonoBehaviour, ILocalizeStringView
   {
     private LocalizeStringEvent stringEvent;
 
-    private void OnEnable()
+    private void Awake()
     {
       stringEvent = GetComponent<LocalizeStringEvent>();
     }

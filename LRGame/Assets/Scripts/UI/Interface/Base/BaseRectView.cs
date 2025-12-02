@@ -2,39 +2,42 @@ using UnityEngine;
 
 namespace LR.UI
 {
-  [ExecuteInEditMode]
   [RequireComponent(typeof(RectTransform))]
   public class BaseRectView : MonoBehaviour, IRectView
   {
     private RectTransform rectTransform;
-
-    private void OnEnable()
+    private RectTransform RectTransform
     {
-      rectTransform = GetComponent<RectTransform>();
+      get
+      {
+        if(rectTransform == null)
+          rectTransform = GetComponent<RectTransform>();
+        return rectTransform;
+      }
     }
 
     public virtual void SetPivot(Vector2 pivot)
-      => rectTransform.pivot = pivot;
+      => RectTransform.pivot = pivot;
 
     public void SetRect(Vector2 rect)
     {
-      rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.x);
-      rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.y);
+      RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.x);
+      RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.y);
     }
 
     public Vector2 GetCurrentRectSize()
-      => rectTransform.rect.size;
+      => RectTransform.rect.size;
 
     public void SetPosition(Vector2 position)
-      => rectTransform.position = position;
+      => RectTransform.position = position;
 
     public void SetAnchoredPosition(Vector2 anchoredPosition)
-      => rectTransform.anchoredPosition = anchoredPosition;
+      => RectTransform.anchoredPosition = anchoredPosition;
 
     public Vector2 GetPosition()
-      => rectTransform.position;
+      => RectTransform.position;
 
     public Vector2 GetAnchoredPosition()
-      => rectTransform.anchoredPosition;
+      => RectTransform.anchoredPosition;
   }
 }

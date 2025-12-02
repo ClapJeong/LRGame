@@ -91,8 +91,10 @@ namespace LR.UI.Lobby
           resourceManager: this.model.resourceManager,
           chapter: chapter,
           gameDataService: this.model.gameDataService,
-          sceneProvider: this.model.sceneProvider);
+          sceneProvider: this.model.sceneProvider,
+          indicatorService: this.model.uiManager);
         var view = await this.model.resourceManager.CreateAssetAsync<UIChapterButtonViewContainer>(key, viewContainer.stageButtonRoot);
+        view.name = $"ChapterView_{i}";
         var presenter = new UIChapterButtonPresenter(model, view, viewContainer.chapterPanelRoot);
         presenter.AttachOnDestroy(view.gameObject);
 
