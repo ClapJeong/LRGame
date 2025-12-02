@@ -11,20 +11,24 @@ public class UISelectedGameObjectService : IUISelectedGameObjectService
   public void UpdateDetectingSelectedObject()
   {
     var currentSelectedObject = EventSystem.current.currentSelectedGameObject;
-    if(previousSelectedObject != null &&
-       currentSelectedObject != null &&그냥무작정이전오브젝트가져오는게아니라뎁스따라서가져오는거걸러야함
-       currentSelectedObject != previousSelectedObject)
+    var isPreviousGameObjectExist = previousSelectedObject != null;
+    var isCurrentGameObjectExist = currentSelectedObject != null;
+    var isGameObjectChanged = previousSelectedObject != currentSelectedObject;
+
+    if (isPreviousGameObjectExist &&
+        isCurrentGameObjectExist &&
+        isGameObjectChanged)
     {
       onSelectExit?.Invoke(previousSelectedObject);
       onSelectEnter?.Invoke(currentSelectedObject);
     }
-    else if(previousSelectedObject != null &&
-            currentSelectedObject == null)
+    else if(isPreviousGameObjectExist &&
+            isCurrentGameObjectExist == false)
     {
       onSelectExit?.Invoke(previousSelectedObject);
     }
-    else if(previousSelectedObject == null &&
-            currentSelectedObject != null)
+    else if(isPreviousGameObjectExist == false &&
+            isCurrentGameObjectExist)
     {
       onSelectEnter?.Invoke(currentSelectedObject);
     }

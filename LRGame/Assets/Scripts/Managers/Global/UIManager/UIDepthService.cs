@@ -4,7 +4,8 @@ using UnityEngine.EventSystems;
 
 public class UIDepthService : IUIDepthService
 {
-  private readonly Stack<GameObject> depthSelectedObjects = new();
+  private readonly Stack<GameObject> previousDepthSelectedGameObjects = new();
+  private readonly Stack<GameObject> newDepthFirstSelectedGameObjects = new();
 
   public UIDepthService()
   {
@@ -12,31 +13,33 @@ public class UIDepthService : IUIDepthService
 
   public void UpdateFocusingSelectedGameObject()
   {
-    if (EventSystem.current.currentSelectedGameObject == null &&
-      depthSelectedObjects.TryPeek(out var currentSelectedGameObject))
-      EventSystem.current.SetSelectedGameObject(currentSelectedGameObject);
+    var currentSelectedGameObject = EventSystem.current.currentSelectedGameObject;    
+
+    if (currentSelectedGameObject == null &&
+      newDepthFirstSelectedGameObjects.TryPeek(out var currentDepthSelectedGameObject))
+    {
+      EventSystem.current.SetSelectedGameObject(currentDepthSelectedGameObject);
+    }
   }
 
   public void LowerDepth()
   {
-    depthSelectedObjects.Pop();
-    if (depthSelectedObjects.Count > 0)
-    {
-      var lowerSelectedGameObject = depthSelectedObjects.Peek();
-      EventSystem.current.SetSelectedGameObject(lowerSelectedGameObject);
-    }      
+    newDepthFirstSelectedGameObjects.Pop();
+    var previousSelectedGameObject = previousDepthSelectedGameObjects.Pop();
+    EventSystem.current.SetSelectedGameObject(previousSelectedGameObject);
   }
 
-  public void RaiseDepth(GameObject targetSelectingGameObject)
+  public void RaiseDepth(GameObject newDepthFirstSelectingGameObject)
   {
     var lastSelectedGameObject = EventSystem.current.currentSelectedGameObject;
-    depthSelectedObjects.Push(lastSelectedGameObject);
-    EventSystem.current.SetSelectedGameObject(targetSelectingGameObject);
+    previousDepthSelectedGameObjects.Push(lastSelectedGameObject);
+    newDepthFirstSelectedGameObjects.Push(newDepthFirstSelectingGameObject);
+    EventSystem.current.SetSelectedGameObject(newDepthFirstSelectingGameObject);
   }
 
   public void SelectTopObject()
   {
-    var currentSelectedGameObject = depthSelectedObjects.Peek();
+    var currentSelectedGameObject = newDepthFirstSelectedGameObjects.Peek();
     EventSystem.current.SetSelectedGameObject(currentSelectedGameObject);
   }
 }

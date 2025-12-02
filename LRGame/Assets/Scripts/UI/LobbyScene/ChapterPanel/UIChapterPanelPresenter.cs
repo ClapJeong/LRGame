@@ -4,6 +4,7 @@ using System.Threading;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace LR.UI.Lobby
 {
@@ -14,12 +15,14 @@ namespace LR.UI.Lobby
       public int chapter;
       public IUIDepthService depthService;
       public IUIInputActionManager uiInputActionManager;
+      public UnityAction onHide;
 
-      public Model(int chapter, IUIDepthService depthService, IUIInputActionManager uiInputActionManager)
+      public Model(int chapter, IUIDepthService depthService, IUIInputActionManager uiInputActionManager, UnityAction onHide)
       {
         this.chapter = chapter;
         this.depthService = depthService;
         this.uiInputActionManager = uiInputActionManager;
+        this.onHide = onHide;
       }
     }    
     private readonly Model model;
@@ -69,6 +72,7 @@ namespace LR.UI.Lobby
 
     public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
+      model.onHide?.Invoke();
       await quitButtonPresenter.HideAsync(isImmediately);
       await upStagePresenter.HideAsync(isImmediately);
       await rightStagePresenter.HideAsync(isImmediately);

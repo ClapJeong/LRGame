@@ -30,6 +30,8 @@ namespace LR.UI.Lobby
     private readonly Transform panelRoot;
 
     private UIChapterPanelPresenter panelPresenter;
+    private float leftSubmitProgress;
+    private float rightSubmitProgress;
 
     public UIChapterButtonPresenter(Model model, UIChapterButtonViewContainer viewContainer, Transform panelRoot)
     {
@@ -77,7 +79,14 @@ namespace LR.UI.Lobby
       var model = new UIChapterPanelPresenter.Model(
         this.model.chapter,
         this.model.depthService,
-        this.model.uiInputActionManager);
+        this.model.uiInputActionManager,
+        onHide: () =>
+        {
+          rightSubmitProgress = 0.0f;
+          viewContainer.rightProgressImageView.SetFillAmount(0.0f);
+          leftSubmitProgress = 0.0f;
+          viewContainer.leftProgressImageView.SetFillAmount(0.0f);
+        });
       var path = table.Path.Ui + table.UIName.LobbyChapterPanel;
       var view = await this.model.resourceManager.CreateAssetAsync<UIChapterPanelViewContainer>(path, panelRoot);
       panelPresenter = new UIChapterPanelPresenter(model, view);
@@ -87,19 +96,56 @@ namespace LR.UI.Lobby
     #region Subscribe
     private void SubscribeSubmit()
     {
-      viewContainer.progressSubmitView.SubscribeOnProgress(Direction.Right, value => viewContainer.rightProgressImageView.SetFillAmount(value));
-      viewContainer.progressSubmitView.SubscribeOnComplete(Direction.Right, () => panelPresenter.ShowAsync().Forget());
-      viewContainer.progressSubmitView.SubscribeOnCanceled(Direction.Right, () => viewContainer.rightProgressImageView.SetFillAmount(0.0f));
+      var rightDirection = Direction.Right;
+      viewContainer.progressSubmitView.SubscribeOnProgress(rightDirection, value =>
+      {
+        if (IsSubmitProgressComplete())
+          return;
 
-      viewContainer.progressSubmitView.SubscribeOnProgress(Direction.Left, value => viewContainer.leftProgressImageView.SetFillAmount(value));
-      viewContainer.progressSubmitView.SubscribeOnComplete(Direction.Left, () => panelPresenter.ShowAsync().Forget());
-      viewContainer.progressSubmitView.SubscribeOnCanceled(Direction.Left, () => viewContainer.leftProgressImageView.SetFillAmount(0.0f));
+        rightSubmitProgress = value;
+        viewContainer.rightProgressImageView.SetFillAmount(value);
+
+        if (IsSubmitProgressComplete())
+          panelPresenter.ShowAsync().Forget();
+      });
+      viewContainer.progressSubmitView.SubscribeOnCanceled(rightDirection, () =>
+      {
+        if (IsSubmitProgressComplete())
+          return;
+
+        rightSubmitProgress = 0.0f;
+        viewContainer.rightProgressImageView.SetFillAmount(0.0f);        
+      });
+
+      var leftDirection = Direction.Left;
+      viewContainer.progressSubmitView.SubscribeOnProgress(leftDirection, value =>
+      {
+        if (IsSubmitProgressComplete())
+          return;
+
+        leftSubmitProgress = value;
+        viewContainer.leftProgressImageView.SetFillAmount(value);
+
+        if (IsSubmitProgressComplete())
+          panelPresenter.ShowAsync().Forget();
+      });
+      viewContainer.progressSubmitView.SubscribeOnCanceled(leftDirection, () =>
+      {
+        if (IsSubmitProgressComplete())
+          return;
+
+        leftSubmitProgress = 0.0f;
+        viewContainer.leftProgressImageView.SetFillAmount(0.0f);
+      });
     }
 
     private void UnsubscribeSubmit()
     {
       viewContainer.progressSubmitView.UnsubscribeAll();
     }
+
+    private bool IsSubmitProgressComplete()
+      => rightSubmitProgress + leftSubmitProgress >= 1.0f;
     #endregion
   }
 }
