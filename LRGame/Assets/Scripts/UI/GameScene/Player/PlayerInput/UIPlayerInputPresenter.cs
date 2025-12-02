@@ -105,8 +105,6 @@ namespace LR.UI.GameScene.Player
 
     public void Dispose()
     {
-      IUIPresenterContainer container = GlobalManager.instance.UIManager;
-      container.Remove(this);
     }
   }
 }

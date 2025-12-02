@@ -11,7 +11,12 @@ namespace LR.UI.GameScene.Player
   {
     public class Model
     {
+      public StageManager stageManager;
 
+      public Model(StageManager stageManager)
+      {
+        this.stageManager = stageManager;
+      }
     }
 
     private readonly Model model;
@@ -34,8 +39,6 @@ namespace LR.UI.GameScene.Player
 
     public void Dispose()
     {
-      IUIPresenterContainer presenterContainer = GlobalManager.instance.UIManager;
-      presenterContainer.Remove(this);
       if (viewContainer)
         GameObject.Destroy(viewContainer.gameObject);
     }
@@ -83,13 +86,16 @@ namespace LR.UI.GameScene.Player
     {
       var table = GlobalManager.instance.Table;
 
-      var model = new UIPlayerHPPresenter.Model(table.LeftPlayerModelSO.HP.MaxHP,table.RightPlayerModelSO.HP.MaxHP);
+      var model = new UIPlayerHPPresenter.Model(
+        table.LeftPlayerModelSO.HP.MaxHP,
+        table.RightPlayerModelSO.HP.MaxHP,
+        this.model.stageManager);
 
       var leftView = viewContainer.leftHPViewContainer;
-      IPlayerPresenter leftPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+      IPlayerPresenter leftPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Left);
 
       var rightView = viewContainer.rightHPViewContainer;
-      IPlayerPresenter rightPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+      IPlayerPresenter rightPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Right);
 
       hpPresenter = new UIPlayerHPPresenter(
         model,

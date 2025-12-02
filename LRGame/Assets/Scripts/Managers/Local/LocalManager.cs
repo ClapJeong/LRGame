@@ -129,7 +129,8 @@ public class LocalManager : MonoBehaviour
 
   private async UniTask CreatePlayerUIAsync()
   {
-    var model = new UIPlayerRootPresenter.Model();
+    var model = new UIPlayerRootPresenter.Model(
+      stageManager: stageManager);
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;

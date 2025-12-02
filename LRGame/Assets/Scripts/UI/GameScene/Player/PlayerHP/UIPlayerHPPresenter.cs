@@ -13,11 +13,13 @@ namespace LR.UI.GameScene.Player
     {
       public int leftMaxHP;
       public int rightMaxHP;
+      public IStageController stageController;
 
-      public Model(int leftMaxHP, int rightMaxHP)
+      public Model(int leftMaxHP, int rightMaxHP, IStageController stageController)
       {
         this.leftMaxHP = leftMaxHP;
         this.rightMaxHP = rightMaxHP;
+        this.stageController = stageController;
       }
     }
 
@@ -43,8 +45,7 @@ namespace LR.UI.GameScene.Player
       InitializeHPObjects();
       SubscribePresenters();
 
-      IStageController stageController = LocalManager.instance.StageManager;
-      stageController.SubscribeOnEvent(IStageController.StageEventType.Restart, InitializeHPObjects);
+      model.stageController.SubscribeOnEvent(IStageController.StageEventType.Restart, InitializeHPObjects);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -54,8 +55,7 @@ namespace LR.UI.GameScene.Player
     {
       GlobalManager.instance.UIManager.Remove(this);
       UnsubscribePresenters();
-      IStageController stageController = LocalManager.instance.StageManager;
-      stageController?.UnsubscribeOnEvent(IStageController.StageEventType.Restart, InitializeHPObjects);
+      model.stageController?.UnsubscribeOnEvent(IStageController.StageEventType.Restart, InitializeHPObjects);
     }
 
     public UIVisibleState GetVisibleState()

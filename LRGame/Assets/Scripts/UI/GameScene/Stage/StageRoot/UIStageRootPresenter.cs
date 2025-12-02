@@ -28,6 +28,7 @@ namespace LR.UI.GameScene.Stage
       public IGameDataService gameDataService;
       public InputActionFactory inputActionFactory;
 
+
       public Model(
         string beginInputActionPath, UnityAction onBeginStage,
         string restartInputActionPath, UnityAction onRestartStage,

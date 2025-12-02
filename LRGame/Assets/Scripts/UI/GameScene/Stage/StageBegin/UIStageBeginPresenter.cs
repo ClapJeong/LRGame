@@ -15,15 +15,17 @@ namespace LR.UI.GameScene.Stage
     {
       public float showDuration;
       public float hideDuration;
-      public string beginInputActionPath;
+      public UIInputActionType beginInputType;
       public UnityAction onBeginStage;
+      public IUIInputActionManager uiInputActionManager;
 
-      public Model(string beginInputActionPath,UnityAction onBeginStage,float showDuration,float hideDuration)
+      public Model(float showDuration, float hideDuration, UIInputActionType beginInputType, UnityAction onBeginStage, IUIInputActionManager uiInputActionManager)
       {
-        this.beginInputActionPath = beginInputActionPath;
-        this.onBeginStage = onBeginStage;
         this.showDuration = showDuration;
         this.hideDuration = hideDuration;
+        this.beginInputType = beginInputType;
+        this.onBeginStage = onBeginStage;
+        this.uiInputActionManager = uiInputActionManager;
       }
     }
 
@@ -35,8 +37,6 @@ namespace LR.UI.GameScene.Stage
     private readonly ICanvasGroupTweenView canvasGroup;
     private readonly ILocalizeStringView beginGuideText;
 
-    private InputAction beginInputAction;
-
     public UIStageBeginPresenter(Model model,UIStageBeginViewContainer viewContainer)
     {
       this.model = model;
@@ -45,18 +45,18 @@ namespace LR.UI.GameScene.Stage
       this.canvasGroup = viewContainer.canvasGroupView;
       this.beginGuideText = viewContainer.textView;
 
-      beginGuideText.SetArgument(new() { model.beginInputActionPath });
+      beginGuideText.SetArgument(new() { model.beginInputType });
       canvasGroup.DoFadeAsync(1.0f, 0.0f).Forget();
 
       CreateBeginInputAction();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
-      => target.OnDestroyAsObservable().Subscribe(_ => Dispose());
+      => target.AttachDisposable(this);
 
     public void Dispose()
     {
-      GlobalManager.instance.FactoryManager.InputActionFactory.Release(beginInputAction);
+      
     }
 
     public UIVisibleState GetVisibleState()
@@ -69,7 +69,7 @@ namespace LR.UI.GameScene.Stage
 
     public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      beginInputAction.Disable();
+      UnsubscribeInputAction();
       visibleState = UIVisibleState.Hiding;
       await canvasGroup.DoFadeAsync(0.0f,model.hideDuration, token);
       visibleState = UIVisibleState.Hided;
@@ -81,13 +81,22 @@ namespace LR.UI.GameScene.Stage
       visibleState = UIVisibleState.Showing;
       await canvasGroup.DoFadeAsync(1.0f,0.5f,token);
       visibleState = UIVisibleState.Showed;
-      beginInputAction.Enable();
+      SubscribeInputAction();
     }
 
-    private void CreateBeginInputAction()
+    private void SubscribeInputAction()
     {
-      var inputActionFactory = GlobalManager.instance.FactoryManager.InputActionFactory;
-      beginInputAction = inputActionFactory.Get(model.beginInputActionPath, () => model.onBeginStage?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
+      model.uiInputActionManager.SubscribePerformedEvent(model.beginInputType, OnInputActionPerformed);
+    }
+
+    private void UnsubscribeInputAction()
+    {
+      model.uiInputActionManager.UnsubscribePerformedEvent(model.beginInputType, OnInputActionPerformed);
+    }
+
+    private void OnInputActionPerformed()
+    {
+      model.onBeginStage?.Invoke();
     }
   }
 }
