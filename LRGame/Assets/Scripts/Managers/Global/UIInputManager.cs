@@ -36,8 +36,10 @@ public class UIInputManager : IUIInputActionManager
     this.table = table;
     this.inputActionFactory = inputActionFactory;
 
+#if !UNITY_EDITOR
     if(Mouse.current != null)
       DisableMouse();
+#endif
     CreateUIInputActions();
   }
 

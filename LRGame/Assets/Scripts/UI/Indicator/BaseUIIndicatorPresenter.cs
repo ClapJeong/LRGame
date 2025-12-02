@@ -22,9 +22,9 @@ namespace LR.UI.Indicator
 
     public void ReInitialize(Transform root, IRectView targetRectView)
     {
-      view.SetPosition(targetRectView.GetPosition());
-      view.SetRect(targetRectView.GetCurrentRectSize());
       view.SetRoot(root);
+      view.SetPosition(targetRectView.GetPosition());
+      view.SetRect(targetRectView.GetCurrentRectSize());      
     }
 
     public void Disable(Transform disabledRoot)

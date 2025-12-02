@@ -15,13 +15,17 @@ namespace LR.UI.Lobby
       public IUIInputActionManager uiInputActionManager;
       public IResourceManager resourceManager;
       public int chapter;
+      public IGameDataService gameDataService;
+      public ISceneProvider sceneProvider;
 
-      public Model(IUIDepthService depthService, IUIInputActionManager uiInputActionManager,IResourceManager resourceManager, int chapter)
+      public Model(IUIDepthService depthService, IUIInputActionManager uiInputActionManager, IResourceManager resourceManager, int chapter, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.depthService = depthService;
         this.uiInputActionManager = uiInputActionManager;
         this.resourceManager = resourceManager;
         this.chapter = chapter;
+        this.gameDataService = gameDataService;
+        this.sceneProvider = sceneProvider;
       }
     }
 
@@ -86,7 +90,9 @@ namespace LR.UI.Lobby
           viewContainer.rightProgressImageView.SetFillAmount(0.0f);
           leftSubmitProgress = 0.0f;
           viewContainer.leftProgressImageView.SetFillAmount(0.0f);
-        });
+        },
+        gameDataService: this.model.gameDataService,
+        sceneProvider: this.model.sceneProvider);
       var path = table.Path.Ui + table.UIName.LobbyChapterPanel;
       var view = await this.model.resourceManager.CreateAssetAsync<UIChapterPanelViewContainer>(path, panelRoot);
       panelPresenter = new UIChapterPanelPresenter(model, view);

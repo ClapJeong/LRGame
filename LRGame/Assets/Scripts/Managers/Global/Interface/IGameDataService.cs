@@ -13,8 +13,6 @@ public interface IGameDataService
 
   public bool IsEnableChapter(int chapter);
 
-  public void SetCurrentStageData(int chapter, int stage);
-
   public GameData.ChapterStageData GetTopClearData();
 
   public void SetSelectedStage(int chapter, int stage);

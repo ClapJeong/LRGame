@@ -16,13 +16,17 @@ namespace LR.UI.Lobby
       public IUIDepthService depthService;
       public IUIInputActionManager uiInputActionManager;
       public UnityAction onHide;
+      public IGameDataService gameDataService;
+      public ISceneProvider sceneProvider;
 
-      public Model(int chapter, IUIDepthService depthService, IUIInputActionManager uiInputActionManager, UnityAction onHide)
+      public Model(int chapter, IUIDepthService depthService, IUIInputActionManager uiInputActionManager, UnityAction onHide, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.chapter = chapter;
         this.depthService = depthService;
         this.uiInputActionManager = uiInputActionManager;
         this.onHide = onHide;
+        this.gameDataService = gameDataService;
+        this.sceneProvider = sceneProvider;
       }
     }    
     private readonly Model model;
@@ -111,8 +115,10 @@ namespace LR.UI.Lobby
         chapter: model.chapter, 
         stage: 1,
         inputType: UIInputActionType.RightUP,
-        null,
-        model.uiInputActionManager);
+        onClick: null,
+        uiInputActionManager: model.uiInputActionManager,
+        gameDataService: model.gameDataService,
+        sceneProvider: model.sceneProvider);
       var upView = viewContainer.upStageButtonView;
       upStagePresenter = new UIStageButtonPresenter(upModel, upView);
       upStagePresenter.AttachOnDestroy(viewContainer.gameObject);
@@ -121,8 +127,10 @@ namespace LR.UI.Lobby
         chapter: model.chapter,
         stage: 2,
         inputType: UIInputActionType.RightRight,
-        null,
-        model.uiInputActionManager);
+        onClick: null,
+        uiInputActionManager: model.uiInputActionManager,
+        gameDataService: model.gameDataService,
+        sceneProvider: model.sceneProvider);
       var rightView = viewContainer.rightStageButtonView;
       rightStagePresenter = new UIStageButtonPresenter(rightModel, rightView);
       rightStagePresenter.AttachOnDestroy(viewContainer.gameObject);
@@ -131,8 +139,10 @@ namespace LR.UI.Lobby
         chapter: model.chapter,
         stage: 3,
         inputType: UIInputActionType.RightDown,
-        null,
-        model.uiInputActionManager);
+        onClick: null,
+        uiInputActionManager: model.uiInputActionManager,
+        gameDataService: model.gameDataService,
+        sceneProvider: model.sceneProvider);
       var downView = viewContainer.downStageButtonView;
       downStagePresenter = new UIStageButtonPresenter(downModel, downView);
       downStagePresenter.AttachOnDestroy(viewContainer.gameObject);
@@ -141,8 +151,10 @@ namespace LR.UI.Lobby
         chapter: model.chapter,
         stage: 4,
         inputType: UIInputActionType.RightLeft,
-        null,
-        model.uiInputActionManager);
+        onClick: null,
+        uiInputActionManager: model.uiInputActionManager,
+        gameDataService: model.gameDataService,
+        sceneProvider: model.sceneProvider);
       var leftView = viewContainer.leftStageButtonView;
       leftStagePresenter = new UIStageButtonPresenter(leftModel, leftView);
       leftStagePresenter.AttachOnDestroy(viewContainer.gameObject);

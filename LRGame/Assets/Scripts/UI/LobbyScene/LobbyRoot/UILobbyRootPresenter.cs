@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LR.UI.Lobby
 {
@@ -15,12 +16,16 @@ namespace LR.UI.Lobby
       public UIManager uiManager;
       public IUIInputActionManager uiInputManager;
       public IResourceManager resourceManager;
+      public IGameDataService gameDataService;
+      public ISceneProvider sceneProvider;
 
-      public Model(UIManager uiManager, IUIInputActionManager uiInputManager, IResourceManager resourceManager)
+      public Model(UIManager uiManager, IUIInputActionManager uiInputManager, IResourceManager resourceManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.uiManager = uiManager;
         this.uiInputManager = uiInputManager;
         this.resourceManager = resourceManager;
+        this.gameDataService = gameDataService;
+        this.sceneProvider = sceneProvider;
       }
     }
 
@@ -84,7 +89,9 @@ namespace LR.UI.Lobby
           depthService: this.model.uiManager,
           uiInputActionManager: this.model.uiInputManager,
           resourceManager: this.model.resourceManager,
-          chapter: chapter);
+          chapter: chapter,
+          gameDataService: this.model.gameDataService,
+          sceneProvider: this.model.sceneProvider);
         var view = await this.model.resourceManager.CreateAssetAsync<UIChapterButtonViewContainer>(key, viewContainer.stageButtonRoot);
         var presenter = new UIChapterButtonPresenter(model, view, viewContainer.chapterPanelRoot);
         presenter.AttachOnDestroy(view.gameObject);
@@ -114,7 +121,6 @@ namespace LR.UI.Lobby
           currentNavigationView.AddNavigation(Direction.Right, nextNavigationView.GetSelectable());
         }
       }
-
       RaiseDepth(navigationViews.First());
     }
 
@@ -132,6 +138,9 @@ namespace LR.UI.Lobby
 
     private async void RaiseDepth(UIChapterButtonViewContainer firstView)
     {
+      LayoutRebuilder.ForceRebuildLayoutImmediate(viewContainer.stageButtonRoot.GetComponent<RectTransform>());
+      await UniTask.Yield();
+
       IUIIndicatorService indicatorService = model.uiManager;
       currentIndicator = await indicatorService.GetNewAsync(viewContainer.indicatorRoot, firstView.rectView);
       indicatorService.ReleaseIndicatorOnDestroy(currentIndicator, viewContainer.gameObject);

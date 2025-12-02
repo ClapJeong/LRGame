@@ -115,7 +115,9 @@ public class LocalManager : MonoBehaviour
     var model = new UILobbyRootPresenter.Model(
       uiManager: GlobalManager.instance.UIManager,
       uiInputManager: GlobalManager.instance.UIInputManager,
-      resourceManager: GlobalManager.instance.ResourceManager);
+      resourceManager: GlobalManager.instance.ResourceManager,
+      gameDataService: GlobalManager.instance.GameDataService,
+      sceneProvider: GlobalManager.instance.SceneProvider);
 
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UILobbyViewContainer>(table.Path.Ui + table.UIName.LobbyRoot, root);

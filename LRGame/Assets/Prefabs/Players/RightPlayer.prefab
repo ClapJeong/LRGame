@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 6746812855236859581}
   - component: {fileID: 8919338106855535870}
   - component: {fileID: 6538912471384756107}
+  - component: {fileID: 4870273994194903522}
+  - component: {fileID: 1156732253838547730}
+  - component: {fileID: 4912046962389721529}
   m_Layer: 6
   m_Name: RightPlayer
   m_TagString: Untagged
@@ -129,8 +132,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasePlayerView
   rigidbody: {fileID: 8919338106855535870}
-  spriteRenderer: {fileID: 5493465683989241404}
   playerType: 1
+  gameObjectView: {fileID: 4870273994194903522}
+  positionView: {fileID: 1156732253838547730}
+  spriteRendererView: {fileID: 4912046962389721529}
 --- !u!50 &8919338106855535870
 Rigidbody2D:
   serializedVersion: 5
@@ -204,3 +209,39 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4870273994194903522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2532013845588109163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1b429dbbc2cef4898c214480f9153c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BaseGameObjectView
+--- !u!114 &1156732253838547730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2532013845588109163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ef3fe1ddf9ea34099ec6eee5577b10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BasePositionView
+--- !u!114 &4912046962389721529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2532013845588109163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 909e6ccd48c1f594aa55d3dee47280b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BaseSpriteRendererView

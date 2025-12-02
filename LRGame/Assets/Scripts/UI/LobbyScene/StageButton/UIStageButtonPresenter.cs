@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,15 +16,18 @@ namespace LR.UI.Lobby
       public UnityAction onClick;
 
       public IUIInputActionManager uiInputActionManager;
+      public IGameDataService gameDataService;
+      public ISceneProvider sceneProvider;
 
-      public Model(int chapter, int stage, UIInputActionType inputType, UnityAction onClick, IUIInputActionManager uiInputActionManager)
+      public Model(int chapter, int stage, UIInputActionType inputType, UnityAction onClick, IUIInputActionManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.chapter = chapter;
         this.stage = stage;
         this.inputType = inputType;
         this.onClick = onClick;
-
         this.uiInputActionManager = uiInputActionManager;
+        this.gameDataService = gameDataService;
+        this.sceneProvider = sceneProvider;
       }
     }
 
@@ -89,11 +90,9 @@ namespace LR.UI.Lobby
 
         model.onClick?.Invoke();
 
-        IGameDataService gameDataService = GlobalManager.instance.GameDataService;
-        gameDataService.SetCurrentStageData(model.chapter, model.stage);
+        model.gameDataService.SetSelectedStage(model.chapter, model.stage);
 
-        var sceneProvider = GlobalManager.instance.SceneProvider;
-        sceneProvider.LoadSceneAsync(
+        model.sceneProvider.LoadSceneAsync(
           SceneType.Game,
           CancellationToken.None,
           onProgress: null,

@@ -11,6 +11,4 @@ public class GameData
   }
 
   public List<ChapterStageData> chaterStageDatas = new();
-
-  public ChapterStageData currentChapterStageData;
 }

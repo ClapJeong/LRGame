@@ -176,7 +176,7 @@ namespace LR.UI.GameScene.Stage
 
     private void OnReturnToLobbyInput()
     {
-      GlobalManager.instance.GameDataService.SetCurrentStageData(-1, -1);
+      GlobalManager.instance.GameDataService.SetSelectedStage(-1, -1);
       ISceneProvider sceneProvider = GlobalManager.instance.SceneProvider;
       sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
     }

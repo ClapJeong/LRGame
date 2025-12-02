@@ -34,7 +34,7 @@ public class StageManager : IStageController, IStageCreator
     }
     catch
     {
-      GlobalManager.instance.GameDataService.SetCurrentStageData(-1, -1);
+      GlobalManager.instance.GameDataService.SetSelectedStage(-1, -1);
       sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
     }
   }

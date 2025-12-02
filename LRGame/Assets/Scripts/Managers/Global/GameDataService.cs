@@ -69,12 +69,6 @@ public class GameDataService : IGameDataService
     return chapterData != null;
   }
 
-  public void SetCurrentStageData(int chapter, int stage)
-  {
-    var currentChapterData = new GameData.ChapterStageData() { chapter = chapter , stage = stage };
-    gameData.currentChapterStageData = currentChapterData;
-  }
-
   public GameData.ChapterStageData GetTopClearData()
   {
     if (gameData != null)
@@ -94,7 +88,7 @@ public class GameDataService : IGameDataService
           .FirstOrDefault(set => set.chapter == chapter);
 
   public void SetSelectedStage(int chapter, int stage)
-  {
+  {    
     selectedChapter = chapter;
     selectedStage = stage;
   }
