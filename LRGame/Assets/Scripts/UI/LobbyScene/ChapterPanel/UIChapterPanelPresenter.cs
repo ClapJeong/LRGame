@@ -42,12 +42,13 @@ namespace LR.UI.Lobby
     private UIInputActionType currentSelectingDirection = UIInputActionType.Space;
     
     private UIVisibleState visibleState = UIVisibleState.None;
-    private bool isSubscribing;
+    private SubscribeHandle subscribeHandle;
 
     public UIChapterPanelPresenter(Model model, UIChapterPanelViewContainer viewContainer)
     {
       this.model = model;
       this.viewContainer = viewContainer;
+      subscribeHandle = new SubscribeHandle(SubscribeInputActions, UnsubscribeInputActions);
 
       viewContainer.gameObjectView.SetActive(false);
 
@@ -135,11 +136,7 @@ namespace LR.UI.Lobby
   
     public void Dispose()
     {
-      if (isSubscribing)
-      {
-        UnsubscribeInputActions();
-        model.indicatorService.ReleaseTopIndicator();
-      }
+      subscribeHandle.Dispose();
 
       if (viewContainer)
         viewContainer.gameObjectView.DestroyGameObject();      
@@ -149,7 +146,7 @@ namespace LR.UI.Lobby
     {
       await model.indicatorService.GetNewAsync(viewContainer.indicatorRoot, viewContainer.quitButtonView.rectView);
 
-      SubscribeInputActions();
+      subscribeHandle.Subscribe();
       await ShowPresenterAsync(UIInputActionType.Space, isImmediately, token);
       RaiseDepth();
       viewContainer.gameObjectView.SetActive(true);
@@ -159,9 +156,8 @@ namespace LR.UI.Lobby
     public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
       model.onHide?.Invoke();
-      model.indicatorService.ReleaseTopIndicator();
 
-      UnsubscribeInputActions();
+      subscribeHandle.Unsubscribe();      
       await HideAllPresenters(isImmediately, token);
       LowerDepth();
       viewContainer.gameObjectView.SetActive(false);
@@ -212,7 +208,7 @@ namespace LR.UI.Lobby
         chapter: model.chapter, 
         stage: 1,
         inputType: UIInputActionType.RightUP,
-        onComplete: UnsubscribeInputActions,
+        onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
@@ -224,7 +220,7 @@ namespace LR.UI.Lobby
         chapter: model.chapter,
         stage: 2,
         inputType: UIInputActionType.RightRight,
-        onComplete: UnsubscribeInputActions,
+        onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
@@ -236,7 +232,7 @@ namespace LR.UI.Lobby
         chapter: model.chapter,
         stage: 3,
         inputType: UIInputActionType.RightDown,
-        onComplete: UnsubscribeInputActions,
+        onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
@@ -248,7 +244,7 @@ namespace LR.UI.Lobby
         chapter: model.chapter,
         stage: 4,
         inputType: UIInputActionType.RightLeft,
-        onComplete: UnsubscribeInputActions,
+        onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
@@ -272,12 +268,12 @@ namespace LR.UI.Lobby
 
       model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftPerformed);
       model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftCanceled);
-
-      isSubscribing = true;
     }
 
     private void UnsubscribeInputActions()
     {
+      model.indicatorService.ReleaseTopIndicator();
+
       model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftUP, actionHolder.OnUpPerformed);
       model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftUP, actionHolder.OnUpCanceled);
 
@@ -289,8 +285,6 @@ namespace LR.UI.Lobby
 
       model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftPerformed);
       model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftCanceled);
-
-      isSubscribing = false;
     }
     #endregion
 

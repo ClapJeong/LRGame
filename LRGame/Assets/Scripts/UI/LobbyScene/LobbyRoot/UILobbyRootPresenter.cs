@@ -138,6 +138,7 @@ namespace LR.UI.Lobby
       presenterContainer.Remove(this);
     }
 
+    #region Depths
     private async void RaiseDepth(UIChapterButtonViewContainer firstView)
     {
       LayoutRebuilder.ForceRebuildLayoutImmediate(viewContainer.stageButtonRoot.GetComponent<RectTransform>());
@@ -158,7 +159,9 @@ namespace LR.UI.Lobby
       IUIDepthService depthService = model.uiManager;
       depthService.LowerDepth();
     }
+    #endregion
 
+    #region Subscribes
     private void SubscribeSelectedGameObjectService()
     {
       IUISelectedGameObjectService selectedGameObjectService = model.uiManager;
@@ -172,6 +175,7 @@ namespace LR.UI.Lobby
       selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
       selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnExit, OnSelectedGameObjectExit);
     }
+    #endregion
 
     private void OnSelectedGameObjectEnter(GameObject target)
     {

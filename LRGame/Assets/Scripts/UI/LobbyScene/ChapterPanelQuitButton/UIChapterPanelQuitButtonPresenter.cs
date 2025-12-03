@@ -25,12 +25,24 @@ namespace LR.UI.Lobby
     private readonly Model model;
     private readonly UIChapterPanelQuitButtonViewContainer viewContainer;
 
-    private bool isSubscribing;
+    private readonly SubscribeHandle subscribeHandle;
 
     public UIChapterPanelQuitButtonPresenter(Model model, UIChapterPanelQuitButtonViewContainer viewContainer)
     {
       this.model = model;
       this.viewContainer = viewContainer;
+
+      subscribeHandle = new SubscribeHandle( 
+        ()=>
+        {
+          SubscribeInputAction();
+          SubscribeSubmit();
+        },
+        ()=>
+        {
+          UnsubscribeInputAction();
+          UnsubscribeSubmit();
+        });
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -38,8 +50,7 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
-      if (isSubscribing)
-        UnsubscribeInputAction();
+      subscribeHandle.Dispose();
     }
 
     public UIVisibleState GetVisibleState()
@@ -49,15 +60,13 @@ namespace LR.UI.Lobby
 
     public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      SubscribeSubmit();
-      SubscribeInputAction();
+      subscribeHandle.Subscribe();
       return UniTask.CompletedTask;
     }
 
     public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      UnsubscribeSubmit();
-      UnsubscribeInputAction();
+      subscribeHandle.Unsubscribe();
       return UniTask.CompletedTask;
     }
 
@@ -88,14 +97,12 @@ namespace LR.UI.Lobby
     {     
       model.uiInputActionManager.SubscribePerformedEvent(model.inputActionType, OnInputLeftPerformed);
       model.uiInputActionManager.SubscribeCanceledEvent(model.inputActionType, OnInputLeftCanceled);
-      isSubscribing = true;
     }
 
     private void UnsubscribeInputAction()
     {     
       model.uiInputActionManager.UnsubscribePerformedEvent(model.inputActionType, OnInputLeftPerformed);
       model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputActionType, OnInputLeftCanceled);
-      isSubscribing = false;
     }
 
     private void OnInputLeftPerformed()

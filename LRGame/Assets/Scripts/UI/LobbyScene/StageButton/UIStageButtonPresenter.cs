@@ -35,13 +35,24 @@ namespace LR.UI.Lobby
     private readonly UIStageButtonViewContainer viewContainer;
 
     private UIVisibleState visibleState;
-    private bool isSubscribing;
+    private SubscribeHandle subscribeHandle;
 
     public UIStageButtonPresenter(Model model, UIStageButtonViewContainer viewContainer)
     {
       this.model = model;
       this.viewContainer = viewContainer;
 
+      subscribeHandle = new SubscribeHandle(
+        () =>
+      {
+        SubscribeSubmitView();
+        SubscribeInputAction();
+      },
+        () =>
+        {
+          UnsubscribeSubmitView();
+          UnsubscribeInputAction();
+        });
       viewContainer.tmpView.SetText(model.stage.ToString());
     }
 
@@ -50,22 +61,19 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
-      if (isSubscribing)
-        UnsubscribeInputAction();
+      subscribeHandle.Dispose();
     }
 
     public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      SubscribeSubmitView();
-      SubscribeInputAction();
+      subscribeHandle.Subscribe();
       visibleState = UIVisibleState.Showed;
       return UniTask.CompletedTask;
     }
 
     public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      UnsubscribeSubmitView();
-      UnsubscribeInputAction();
+      subscribeHandle.Unsubscribe();
       visibleState = UIVisibleState.Hided;
       return UniTask.CompletedTask;
     }
@@ -112,14 +120,12 @@ namespace LR.UI.Lobby
     {
       model.uiInputActionManager.SubscribePerformedEvent(model.inputType, OnInputPerformed);
       model.uiInputActionManager.SubscribeCanceledEvent(model.inputType, OnInputCanceled);
-      isSubscribing = true;
     }
 
     private void UnsubscribeInputAction()
     {
       model.uiInputActionManager.UnsubscribePerformedEvent(model.inputType, OnInputPerformed);
       model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputType, OnInputCanceled);
-      isSubscribing = false;
     }
 
     private void OnInputPerformed()

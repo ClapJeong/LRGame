@@ -1,0 +1,36 @@
+using System;
+using UnityEngine.Events;
+
+public class SubscribeHandle : IDisposable
+{
+  private UnityEvent onSubscribe;
+  private UnityEvent onUnsubscribe;
+  private bool isSubscribing;
+
+  public SubscribeHandle(UnityAction onSubscribe, UnityAction onUnsubscribe)
+  {
+    this.onSubscribe.AddListener(onSubscribe);
+    this.onUnsubscribe.AddListener(onUnsubscribe);
+  }
+
+  public void Subscribe()
+  {
+    if (isSubscribing)
+      return;
+
+    onSubscribe?.Invoke();
+    isSubscribing = true;
+  }
+
+  public void Unsubscribe()
+  {
+    if (!isSubscribing)
+      return;
+
+    onUnsubscribe?.Invoke();
+    isSubscribing = false;
+  }
+
+  public void Dispose()
+    => Unsubscribe();
+}
