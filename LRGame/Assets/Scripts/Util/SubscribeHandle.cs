@@ -3,8 +3,8 @@ using UnityEngine.Events;
 
 public class SubscribeHandle : IDisposable
 {
-  private UnityEvent onSubscribe;
-  private UnityEvent onUnsubscribe;
+  private UnityEvent onSubscribe = new();
+  private UnityEvent onUnsubscribe = new();
   private bool isSubscribing;
 
   public SubscribeHandle(UnityAction onSubscribe, UnityAction onUnsubscribe)
