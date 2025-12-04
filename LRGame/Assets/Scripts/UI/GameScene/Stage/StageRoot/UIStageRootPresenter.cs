@@ -23,11 +23,12 @@ namespace LR.UI.GameScene.Stage
       public UnityAction onNext;
 
       public IStageController stageController;
-      public IUIPresenterContainer presenterContainer;
       public IResourceManager resourceManager;
       public IGameDataService gameDataService;
       public InputActionFactory inputActionFactory;
-
+      public UIManager uiManager;
+      public ISceneProvider sceneProvider;
+      public IUIInputActionManager uiInputActionManager;
 
       public Model(
         string beginInputActionPath, UnityAction onBeginStage,
@@ -35,10 +36,12 @@ namespace LR.UI.GameScene.Stage
         string lobbyInputActionPath, UnityAction onLobby,
         string nextInputActionPath, UnityAction onNext,
         IStageController stageController, 
-        IUIPresenterContainer presenterContainer,
         IResourceManager resourceManager,
         IGameDataService gameDataService,
-        InputActionFactory inputActionFactory)
+        InputActionFactory inputActionFactory,
+        UIManager uiManager,
+        ISceneProvider sceneProvider,
+        IUIInputActionManager uiInputActionManager)
       {
         this.beginInputActionPath = beginInputActionPath;
         this.restartInputActionPath = restartInputActionPath;
@@ -49,10 +52,12 @@ namespace LR.UI.GameScene.Stage
         this.onLobby = onLobby;
         this.onNext = onNext;
         this.stageController = stageController;
-        this.presenterContainer = presenterContainer;
         this.resourceManager = resourceManager;
         this.gameDataService = gameDataService;
         this.inputActionFactory = inputActionFactory;
+        this.uiManager = uiManager;
+        this.sceneProvider = sceneProvider;
+        this.uiInputActionManager = uiInputActionManager;
       }
     }
 
@@ -62,7 +67,7 @@ namespace LR.UI.GameScene.Stage
     private UIStageBeginPresenter beginPresenter;
     private UIStageFailPresenter failPresenter;
     private UIStageSuccessPresenter successPresenter;
-
+    private UIStagePausePresenter pausePresenter;
 
     public UIStageRootPresenter(Model model, UIStageRootViewContainer viewContainer)
     {
@@ -72,6 +77,7 @@ namespace LR.UI.GameScene.Stage
       CreateBeginPresenter();
       CreateFailPresenter();
       CreateSuccessPresenter();
+      CreatePausePresenter();
 
       beginPresenter.ShowAsync(true).Forget();
       failPresenter.HideAsync(true).Forget();
@@ -80,8 +86,6 @@ namespace LR.UI.GameScene.Stage
       model.stageController.SubscribeOnEvent(IStageController.StageEventType.Complete,OnStageSuccess);
       model.stageController.SubscribeOnEvent(IStageController.StageEventType.LeftFailed, OnStageFailed);
       model.stageController.SubscribeOnEvent(IStageController.StageEventType.RightFailed, OnStageFailed);
-
-      model.presenterContainer.Add(this);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -89,8 +93,6 @@ namespace LR.UI.GameScene.Stage
 
     public void Dispose()
     {
-      model.presenterContainer.Remove(this);
-
       if(viewContainer)
         GameObject.Destroy(viewContainer.gameObject);
     }
@@ -142,6 +144,18 @@ namespace LR.UI.GameScene.Stage
         inputActionFactory: this.model.inputActionFactory);
       var view = viewContainer.successViewContainer;
       successPresenter = new UIStageSuccessPresenter(model, view);
+      successPresenter.AttachOnDestroy(viewContainer.gameObject);
+    }
+
+    private void CreatePausePresenter()
+    {
+      var model = new UIStagePausePresenter.Model(
+        uiInputActionManager: this.model.uiInputActionManager,
+        indicatorService: this.model.uiManager,
+        sceneProvider: this.model.sceneProvider,
+        stageController: this.model.stageController);
+      var view = viewContainer.pauseViewContainer;
+      pausePresenter = new UIStagePausePresenter(model, view);
       successPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
 

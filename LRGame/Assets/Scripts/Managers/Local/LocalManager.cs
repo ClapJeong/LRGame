@@ -149,10 +149,12 @@ public class LocalManager : MonoBehaviour
    InputActionPaths.Keyboard.A, OnReturnToLobby,
    InputActionPaths.Keyboard.D, OnNextStage,
    stageController: stageManager,
-   presenterContainer: GlobalManager.instance.UIManager,
    resourceManager: resourceManager,
    gameDataService: GlobalManager.instance.GameDataService,
-   inputActionFactory: GlobalManager.instance.FactoryManager.InputActionFactory);
+   inputActionFactory: GlobalManager.instance.FactoryManager.InputActionFactory,
+   uiManager: GlobalManager.instance.UIManager,
+   sceneProvider: GlobalManager.instance.SceneProvider,
+   uiInputActionManager: GlobalManager.instance.UIInputManager);
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
