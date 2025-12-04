@@ -4,8 +4,9 @@ namespace LR.UI.GameScene.Stage.PausePanel
 {
   public class ResumeButtonViewContainer : MonoBehaviour
   {
+    public BaseGameObjectView gameObjectView;
     public BaseProgressSubmitView progressSubmitView;
-    public BaseImageView imageView;
+    public BaseScaleView fillScaleView;
     public BaseRectView rectView;
   }
 }

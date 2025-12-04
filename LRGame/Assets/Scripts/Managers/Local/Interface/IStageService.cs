@@ -1,8 +1,7 @@
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.Events;
 
-public interface IStageController
+public interface IStageService
 {
   public enum StageEventType
   {
@@ -13,6 +12,15 @@ public interface IStageController
     LeftFailed,
     RightFailed,
     Restart
+  }
+
+  public enum State
+  {
+    Ready,
+    Playing,
+    Success,
+    Fail,
+    Pause,
   }
 
   public void Begin();
@@ -32,4 +40,8 @@ public interface IStageController
   public void SubscribeOnEvent(StageEventType type, UnityAction action);
 
   public void UnsubscribeOnEvent(StageEventType type, UnityAction action);
+
+  public void SetState(State state);
+
+  public State GetState();
 }

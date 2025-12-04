@@ -200,6 +200,7 @@ namespace LR.UI.Lobby
       var view = viewContainer.quitButtonView;
       directionPresenters[UIInputActionType.Space] = new UIChapterPanelQuitButtonPresenter(model, view);
       directionPresenters[UIInputActionType.Space].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.Space].HideAsync().Forget();
     }
 
     private void CreateStageButtonPresenters()
@@ -215,6 +216,7 @@ namespace LR.UI.Lobby
       var upView = viewContainer.upStageButtonView;
       directionPresenters[UIInputActionType.LeftUP] = new UIStageButtonPresenter(upModel, upView);
       directionPresenters[UIInputActionType.LeftUP].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.LeftUP].HideAsync().Forget();
 
       var rightModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
@@ -227,6 +229,7 @@ namespace LR.UI.Lobby
       var rightView = viewContainer.rightStageButtonView;
       directionPresenters[UIInputActionType.LeftRight] = new UIStageButtonPresenter(rightModel, rightView);
       directionPresenters[UIInputActionType.LeftRight].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.LeftRight].HideAsync().Forget();
 
       var downModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
@@ -239,6 +242,7 @@ namespace LR.UI.Lobby
       var downView = viewContainer.downStageButtonView;
       directionPresenters[UIInputActionType.LeftDown] = new UIStageButtonPresenter(downModel, downView);
       directionPresenters[UIInputActionType.LeftDown].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.LeftDown].HideAsync().Forget();
 
       var leftModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
@@ -251,6 +255,7 @@ namespace LR.UI.Lobby
       var leftView = viewContainer.leftStageButtonView;
       directionPresenters[UIInputActionType.LeftLeft] = new UIStageButtonPresenter(leftModel, leftView);
       directionPresenters[UIInputActionType.LeftLeft].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[UIInputActionType.LeftLeft].HideAsync().Forget();
     }
     #endregion
 

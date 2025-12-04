@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 7244593719912149248}
   - component: {fileID: 4573497369444514078}
   - component: {fileID: 5318736342593948443}
+  - component: {fileID: 7803723653823335099}
   m_Layer: 5
   m_Name: RightSubmit
   m_TagString: Untagged
@@ -181,7 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Lobby.UIStageButtonViewContainer
   progressSubmitView: {fileID: 4573497369444514078}
-  imageView: {fileID: 5597001247722647451}
+  backGroundImageView: {fileID: 7803723653823335099}
+  fillImageView: {fileID: 5597001247722647451}
   tmpView: {fileID: 4440287632074622636}
   rectView: {fileID: 5318736342593948443}
 --- !u!114 &4573497369444514078
@@ -208,6 +210,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
+--- !u!114 &7803723653823335099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565488256334828876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &2147093148062154466
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,6 +385,7 @@ GameObject:
   - component: {fileID: 1966973946433886347}
   - component: {fileID: 4491772815065665241}
   - component: {fileID: 4524986204854708327}
+  - component: {fileID: 5234110414668850851}
   m_Layer: 5
   m_Name: UpSubmit
   m_TagString: Untagged
@@ -450,7 +465,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Lobby.UIStageButtonViewContainer
   progressSubmitView: {fileID: 4491772815065665241}
-  imageView: {fileID: 7669342258421437364}
+  backGroundImageView: {fileID: 5234110414668850851}
+  fillImageView: {fileID: 7669342258421437364}
   tmpView: {fileID: 5167169210383099963}
   rectView: {fileID: 4524986204854708327}
 --- !u!114 &4491772815065665241
@@ -477,6 +493,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
+--- !u!114 &5234110414668850851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2913792723023814745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &4151531283947455422
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +519,7 @@ GameObject:
   - component: {fileID: 683000518417523651}
   - component: {fileID: 4011696949307244229}
   - component: {fileID: 8338695648883317443}
+  - component: {fileID: 7302649666505665624}
   m_Layer: 5
   m_Name: DownSubmit
   m_TagString: Untagged
@@ -570,7 +599,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Lobby.UIStageButtonViewContainer
   progressSubmitView: {fileID: 4011696949307244229}
-  imageView: {fileID: 560159913596127664}
+  backGroundImageView: {fileID: 7302649666505665624}
+  fillImageView: {fileID: 560159913596127664}
   tmpView: {fileID: 7556860867725197764}
   rectView: {fileID: 8338695648883317443}
 --- !u!114 &4011696949307244229
@@ -597,6 +627,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
+--- !u!114 &7302649666505665624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4151531283947455422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &4154343958963797306
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,6 +654,7 @@ GameObject:
   - component: {fileID: 3500778958294733652}
   - component: {fileID: 5850714490737834229}
   - component: {fileID: 7423882866194373077}
+  - component: {fileID: 3711614494433870322}
   m_Layer: 5
   m_Name: QuitSubmit
   m_TagString: Untagged
@@ -702,7 +745,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Lobby.UIChapterPanelQuitButtonViewContainer
   quitProgressSubmitView: {fileID: 6185309264162055118}
-  quitImageView: {fileID: 1643631046676132854}
+  backgroundImageView: {fileID: 3711614494433870322}
+  fillImageView: {fileID: 1643631046676132854}
   rectView: {fileID: 7423882866194373077}
 --- !u!114 &5850714490737834229
 MonoBehaviour:
@@ -728,6 +772,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
+--- !u!114 &3711614494433870322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4154343958963797306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &4256870168695427464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,6 +1211,7 @@ GameObject:
   - component: {fileID: 9092689404518738076}
   - component: {fileID: 2654382150850615887}
   - component: {fileID: 2244066667674311506}
+  - component: {fileID: 3807899596998215024}
   m_Layer: 5
   m_Name: LeftSubmit
   m_TagString: Untagged
@@ -1234,7 +1291,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Lobby.UIStageButtonViewContainer
   progressSubmitView: {fileID: 2654382150850615887}
-  imageView: {fileID: 6869041832433138077}
+  backGroundImageView: {fileID: 3807899596998215024}
+  fillImageView: {fileID: 6869041832433138077}
   tmpView: {fileID: 7479604121977217046}
   rectView: {fileID: 2244066667674311506}
 --- !u!114 &2654382150850615887
@@ -1261,6 +1319,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
+--- !u!114 &3807899596998215024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4999846772829769307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &5870007500419049232
 GameObject:
   m_ObjectHideFlags: 0

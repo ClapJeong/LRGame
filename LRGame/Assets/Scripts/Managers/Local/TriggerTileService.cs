@@ -7,12 +7,12 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 {
   public class Model
   {
-    public readonly IStageController stageController;
+    public readonly IStageService stageService;
     public readonly List<ITriggerTileView> existViews;
-    public Model(List<ITriggerTileView> existViews, IStageController stageController) 
+    public Model(List<ITriggerTileView> existViews, IStageService stageService) 
     { 
       this.existViews = existViews; 
-      this.stageController = stageController;
+      this.stageService = stageService;
     }
   }
 
@@ -83,8 +83,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
     if (CheckBothClearEnter())
     {
-      IStageController stageController = LocalManager.instance.StageManager;
-      stageController.Complete();
+      IStageService stageService = LocalManager.instance.StageManager;
+      stageService.Complete();
     }
   }
 
@@ -99,8 +99,8 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
     if (CheckBothClearEnter())
     {
-      IStageController stageController = LocalManager.instance.StageManager;
-      stageController.Complete();
+      IStageService stageService = LocalManager.instance.StageManager;
+      stageService.Complete();
     }
   }
 

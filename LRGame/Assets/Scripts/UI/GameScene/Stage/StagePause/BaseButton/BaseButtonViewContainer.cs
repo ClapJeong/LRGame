@@ -5,6 +5,7 @@ namespace LR.UI.GameScene.Stage.PausePanel
   public class BaseButtonViewContainer : MonoBehaviour
   {
     [Header("[ Base ]")]
+    public BaseGameObjectView gameObjectView;
     public BaseRectView baseRectView;
 
     [Header("[ Min ]")]

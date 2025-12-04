@@ -9,12 +9,16 @@ public class GameDataService : IGameDataService
   private readonly string GameDataPath;
   private GameData gameData;
 
+  private int stageCount;
+
   private int selectedChapter;
   private int selectedStage;
 
-  public GameDataService()
+  public GameDataService(IResourceManager resourceManager)
   {
     GameDataPath = Application.persistentDataPath + "/GameData.json";
+
+    CacheStageCount(resourceManager).Forget();
   }
 
   public async UniTask SaveDataAsync(CancellationToken token = default)
@@ -99,6 +103,17 @@ public class GameDataService : IGameDataService
     stage = selectedStage;
   }
 
+  public bool IsStageExist(int chapter, int stage)
+    => (chapter * 4 + (stage + 1)) <= stageCount;
+
+  private async UniTask CacheStageCount(IResourceManager resourceManager)
+  {
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var stageLabel = table.Label.Stage;
+
+    var stages = await resourceManager.LoadAssetsAsync(stageLabel);
+    stageCount = stages.Count;
+  }
   #region Debugging
   public void Debugging_RaiseClearData()
   {

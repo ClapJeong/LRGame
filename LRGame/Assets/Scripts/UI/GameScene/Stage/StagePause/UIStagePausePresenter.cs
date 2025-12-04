@@ -1,9 +1,9 @@
 using Cysharp.Threading.Tasks;
 using LR.UI.GameScene.Stage.PausePanel;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
 namespace LR.UI.GameScene.Stage
 {
   public class UIStagePausePresenter : IUIPresenter
@@ -21,19 +21,31 @@ namespace LR.UI.GameScene.Stage
       public IUIInputActionManager uiInputActionManager;
       public IUIIndicatorService indicatorService;
       public ISceneProvider sceneProvider;
-      public IStageController stageController;
+      public IStageService stageService;
 
-      public Model(IUIInputActionManager uiInputActionManager, IUIIndicatorService indicatorService, ISceneProvider sceneProvider, IStageController stageController)
+      public Model(IUIInputActionManager uiInputActionManager, IUIIndicatorService indicatorService, ISceneProvider sceneProvider, IStageService stageService)
       {
         this.uiInputActionManager = uiInputActionManager;
         this.indicatorService = indicatorService;
         this.sceneProvider = sceneProvider;
-        this.stageController = stageController;
+        this.stageService = stageService;
       }
     }
 
+    private static readonly List<UIInputActionType> QuitButtonInputTypes = new()
+    {
+      UIInputActionType.LeftUP,
+      UIInputActionType.LeftDown,
+    };
+
+    private static readonly List<UIInputActionType> RestartButtonInputTypes = new()
+    {
+      UIInputActionType.LeftRight,
+      UIInputActionType.LeftLeft,
+    };
+
     private readonly Model model;
-    private readonly UIStagePauseViewContainer viewContainer;
+    private readonly UIStagePauseViewContainer viewContainer;    
 
     private ResumeButtonPresenter resumePresenter;
     private BaseButtonPresenter restartPresenter;
@@ -51,9 +63,13 @@ namespace LR.UI.GameScene.Stage
       visibleState = UIVisibleState.Hided;
 
       CreateSubscribeHandle();
+
       CreateResumePresenter();
       CreateQuitPresenter();
-      CreateRestartPresenter();      
+      CreateRestartPresenter();
+
+      visibleState = UIVisibleState.Hided;
+      viewContainer.gameObjectView.SetActive(false);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -66,8 +82,9 @@ namespace LR.UI.GameScene.Stage
 
     public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      await model.indicatorService.GetNewAsync(viewContainer.IndicatorRoot, viewContainer.quitButtonViewContainer.baseRectView);
-      SetState(SelectingState.Quit);
+      await model.indicatorService.GetNewAsync(viewContainer.IndicatorRoot, viewContainer.resumeButtonViewContainer.rectView);
+      model.stageService.Pause();
+      SetState(SelectingState.Resume);
       subscribeHandle.Subscribe();
       viewContainer.gameObjectView.SetActive(true);
       visibleState = UIVisibleState.Showed;
@@ -76,10 +93,11 @@ namespace LR.UI.GameScene.Stage
 
     public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      SetState(SelectingState.None);
+      SetState(SelectingState.None);      
       subscribeHandle.Unsubscribe();
       viewContainer.gameObjectView.SetActive(false);
       visibleState = UIVisibleState.Hided;
+      model.stageService.Resume();
       await UniTask.CompletedTask;
     }
 
@@ -134,7 +152,7 @@ namespace LR.UI.GameScene.Stage
           break;
 
         case SelectingState.Restart:
-          resumePresenter.ShowAsync().Forget();
+          restartPresenter.ShowAsync().Forget();
           model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.restartButtonViewContainer.baseRectView).Forget();
           break;
 
@@ -148,9 +166,10 @@ namespace LR.UI.GameScene.Stage
     private void CreateResumePresenter()
     {
       var model = new ResumeButtonPresenter.Model(
+        inputActionType: UIInputActionType.Space,
         onSubmit: () =>
         {
-          this.model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
+          HideAsync().Forget();          
         },
         uiInputActionManager: this.model.uiInputActionManager);
       var view = viewContainer.resumeButtonViewContainer;
@@ -165,7 +184,8 @@ namespace LR.UI.GameScene.Stage
         maxInputActionType: UIInputActionType.RightLeft,
         onSubmit: () =>
         {
-          this.model.stageController.RestartAsync().Forget();
+          this.model.stageService.RestartAsync().Forget();
+          HideAsync().Forget();
         },
         uiInputActionManager: this.model.uiInputActionManager);
       var view = viewContainer.restartButtonViewContainer;
@@ -176,14 +196,14 @@ namespace LR.UI.GameScene.Stage
     private void CreateQuitPresenter() 
     {
       var model = new BaseButtonPresenter.Model(
-        minInputActionType: UIInputActionType.RightDown,
-        maxInputActionType: UIInputActionType.RightUP,
+        minInputActionType: UIInputActionType.RightUP,
+        maxInputActionType: UIInputActionType.RightDown,
         onSubmit: () =>
         {
-          HideAsync().Forget();
+          this.model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
         },
         uiInputActionManager: this.model.uiInputActionManager);
-      var view = viewContainer.restartButtonViewContainer;
+      var view = viewContainer.quitButtonViewContainer;
       quitPresenter = new BaseButtonPresenter(model, view);
       quitPresenter.AttachOnDestroy(viewContainer.gameObject);
     }
@@ -191,31 +211,23 @@ namespace LR.UI.GameScene.Stage
     #region Subscribes
     private void SubscribeInputActions()
     {
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftUP, OnUpDownPerformed);
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftDown, OnUpDownPerformed);
-      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftUP, OnUpdownCanceled);
-      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftDown, OnUpdownCanceled);
+      model.uiInputActionManager.SubscribePerformedEvent(QuitButtonInputTypes, OnQuitButtonEnter);
+      model.uiInputActionManager.SubscribeCanceledEvent(QuitButtonInputTypes, OnQuitButtonExit);
 
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftRight, OnLeftRightPerformed);
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftLeft, OnLeftRightPerformed);
-      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftRight, OnLeftRightCanceled);
-      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftLeft, OnLeftRightCanceled);
+      model.uiInputActionManager.SubscribePerformedEvent(RestartButtonInputTypes, OnRestartEnter);
+      model.uiInputActionManager.SubscribeCanceledEvent(RestartButtonInputTypes, OnRestartExit);
     }
 
     private void UnsubscribeInputActions()
     {
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftUP, OnUpDownPerformed);
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftDown, OnUpDownPerformed);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftUP, OnUpdownCanceled);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftDown, OnUpdownCanceled);
+      model.uiInputActionManager.UnsubscribePerformedEvent(QuitButtonInputTypes, OnQuitButtonEnter);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(QuitButtonInputTypes, OnQuitButtonExit);    
 
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftRight, OnLeftRightPerformed);
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftLeft, OnLeftRightPerformed);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftRight, OnLeftRightCanceled);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftLeft, OnLeftRightCanceled);
+      model.uiInputActionManager.UnsubscribePerformedEvent(RestartButtonInputTypes, OnRestartEnter);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(RestartButtonInputTypes, OnRestartExit);
     }
 
-    private void OnUpDownPerformed()
+    private void OnQuitButtonEnter()
     {
       if (currentState != SelectingState.Resume)
         return;
@@ -223,23 +235,7 @@ namespace LR.UI.GameScene.Stage
       SetState(SelectingState.Quit);
     }
 
-    private void OnUpdownCanceled()
-    {
-      if (currentState != SelectingState.Restart)
-        return;
-
-      SetState(SelectingState.Resume);
-    }
-
-    private void OnLeftRightPerformed()
-    {
-      if (currentState != SelectingState.Resume)
-        return;
-
-      SetState(SelectingState.Restart);
-    }
-
-    private void OnLeftRightCanceled()
+    private void OnQuitButtonExit()
     {
       if (currentState != SelectingState.Quit)
         return;
@@ -247,6 +243,21 @@ namespace LR.UI.GameScene.Stage
       SetState(SelectingState.Resume);
     }
 
+    private void OnRestartEnter()
+    {
+      if (currentState != SelectingState.Resume)
+        return;
+
+      SetState(SelectingState.Restart);
+    }
+
+    private void OnRestartExit()
+    {
+      if (currentState != SelectingState.Restart)
+        return;
+
+      SetState(SelectingState.Resume);
+    }
     #endregion
   }
 }

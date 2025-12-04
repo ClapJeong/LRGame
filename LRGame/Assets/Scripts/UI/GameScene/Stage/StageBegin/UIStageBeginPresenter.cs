@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UniRx;
 using UniRx.Triggers;
@@ -13,42 +14,32 @@ namespace LR.UI.GameScene.Stage
   {
     public class Model
     {
-      public float showDuration;
-      public float hideDuration;
-      public string beginInputActionPath;
-      public UnityAction onBeginStage;
+      public IUIInputActionManager uiInputActionManager;
+      public IStageService stageService;
 
-      public Model(string beginInputActionPath,UnityAction onBeginStage,float showDuration,float hideDuration)
+      public Model(IUIInputActionManager uiInputActionManager, IStageService stageService)
       {
-        this.beginInputActionPath = beginInputActionPath;
-        this.onBeginStage = onBeginStage;
-        this.showDuration = showDuration;
-        this.hideDuration = hideDuration;
+        this.uiInputActionManager = uiInputActionManager;
+        this.stageService = stageService;
       }
     }
-
-    private UIVisibleState visibleState = UIVisibleState.None;
+    
 
     private readonly Model model;
     private readonly UIStageBeginViewContainer viewContainer;
 
-    private readonly ICanvasGroupTweenView canvasGroup;
-    private readonly ILocalizeStringView beginGuideText;
+    private UIVisibleState visibleState = UIVisibleState.None;
+    private SubscribeHandle subscribeHandle;
 
-    private InputAction beginInputAction;
+    private int leftPerfomedCount;
+    private int rightPerfomedCount;
 
-    public UIStageBeginPresenter(Model model,UIStageBeginViewContainer viewContainer)
+    public UIStageBeginPresenter(Model model, UIStageBeginViewContainer viewContainer)
     {
       this.model = model;
       this.viewContainer = viewContainer;
 
-      this.canvasGroup = viewContainer.canvasGroupView;
-      this.beginGuideText = viewContainer.textView;
-
-      beginGuideText.SetArgument(new() { model.beginInputActionPath });
-      canvasGroup.DoFadeAsync(1.0f, 0.0f).Forget();
-
-      CreateBeginInputAction();
+      CreateSubscribeHandle();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -56,38 +47,110 @@ namespace LR.UI.GameScene.Stage
 
     public void Dispose()
     {
-      GlobalManager.instance.FactoryManager.InputActionFactory.Release(beginInputAction);
+      subscribeHandle.Dispose();
     }
 
     public UIVisibleState GetVisibleState()
       => visibleState;
 
     public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new NotImplementedException();
-    }
+      => this.visibleState = visibleState;
 
-    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      beginInputAction.Disable();
-      visibleState = UIVisibleState.Hiding;
-      await canvasGroup.DoFadeAsync(0.0f,model.hideDuration, token);
+      subscribeHandle.Unsubscribe();
+      viewContainer.gameObjectView.SetActive(false);
       visibleState = UIVisibleState.Hided;
+      return UniTask.CompletedTask;
     }
 
 
-    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Showing;
-      await canvasGroup.DoFadeAsync(1.0f,0.5f,token);
+      viewContainer.leftImageView.SetAlpha(0.4f);
+      viewContainer.rightImageView.SetAlpha(0.4f);
+      subscribeHandle.Subscribe();
+      viewContainer.gameObjectView.SetActive(true);
       visibleState = UIVisibleState.Showed;
-      beginInputAction.Enable();
+      return UniTask.CompletedTask;
     }
 
-    private void CreateBeginInputAction()
+    private void CreateSubscribeHandle()
     {
-      var inputActionFactory = GlobalManager.instance.FactoryManager.InputActionFactory;
-      beginInputAction = inputActionFactory.Get(model.beginInputActionPath, () => model.onBeginStage?.Invoke(), InputActionFactory.InputActionPhaseType.Performed);
+      var leftInputs = new List<UIInputActionType>()
+            {
+              UIInputActionType.LeftUP,
+              UIInputActionType.LeftRight,
+              UIInputActionType.LeftDown,
+              UIInputActionType.LeftLeft,
+            };
+
+      var rightInputs = new List<UIInputActionType>()
+            {
+              UIInputActionType.RightUP,
+              UIInputActionType.RightRight,
+              UIInputActionType.RightDown,
+              UIInputActionType.RightLeft,
+            };
+
+      subscribeHandle = new SubscribeHandle(
+        onSubscribe: () =>
+        {
+          model.uiInputActionManager.SubscribePerformedEvent(leftInputs, OnLeftPerformed);
+          model.uiInputActionManager.SubscribeCanceledEvent(leftInputs, OnLeftCanceled);
+
+          model.uiInputActionManager.SubscribePerformedEvent(rightInputs, OnRightPerformed);
+          model.uiInputActionManager.SubscribeCanceledEvent(rightInputs, OnRightCanceled);
+        },
+        onUnsubscribe: () =>
+        {
+          model.uiInputActionManager.UnsubscribePerformedEvent(leftInputs, OnLeftPerformed);
+          model.uiInputActionManager.UnsubscribeCanceledEvent(leftInputs, OnLeftCanceled);
+
+          model.uiInputActionManager.UnsubscribePerformedEvent(rightInputs, OnRightPerformed);
+          model.uiInputActionManager.UnsubscribeCanceledEvent(rightInputs, OnRightCanceled);
+        });
+    }
+
+    private void OnLeftPerformed()
+    {
+      leftPerfomedCount++;
+      viewContainer.leftImageView.SetAlpha(1.0f);
+
+      if (IsPlayble())
+        BeginStage();
+    }
+    
+    private void OnLeftCanceled()
+    {
+      leftPerfomedCount--;
+      if (leftPerfomedCount == 0)
+        viewContainer.leftImageView.SetAlpha(0.4f);
+    }
+
+    private void OnRightPerformed()
+    {
+      rightPerfomedCount++;
+      viewContainer.rightImageView.SetAlpha(1.0f);
+
+      if (IsPlayble())
+        BeginStage();
+    }
+
+    private void OnRightCanceled()
+    {
+      rightPerfomedCount--;
+      if (rightPerfomedCount == 0)
+        viewContainer.rightImageView.SetAlpha(0.4f);
+    }
+
+    private bool IsPlayble()
+      => rightPerfomedCount > 0 && leftPerfomedCount > 0;
+
+    private void BeginStage()
+    {
+      model.stageService.Begin();
+      HideAsync().Forget();
     }
   }
 }

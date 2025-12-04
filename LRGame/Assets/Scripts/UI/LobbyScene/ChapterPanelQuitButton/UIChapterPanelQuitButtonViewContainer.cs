@@ -5,7 +5,8 @@ namespace LR.UI.Lobby
   public class UIChapterPanelQuitButtonViewContainer : MonoBehaviour
   {
     public BaseProgressSubmitView quitProgressSubmitView;
-    public BaseImageView quitImageView;
+    public BaseImageView backgroundImageView;
+    public BaseImageView fillImageView;
     public BaseRectView rectView;
   }
 }

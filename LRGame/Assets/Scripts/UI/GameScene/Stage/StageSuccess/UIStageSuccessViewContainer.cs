@@ -1,13 +1,21 @@
+using LR.UI.GameScene.Stage.SuccessPanel;
 using UnityEngine;
 
 namespace LR.UI.GameScene.Stage
 {
   public class UIStageSuccessViewContainer : MonoBehaviour
   {
-    public BaseCanvasGroupTweenView canvasGroup;
+    [Header("[ Base ]")]
+    public Transform indicatorRoot;
+    public BaseGameObjectView gameObjectView;
 
-    public BaseLocalizeStringView restartText;
-    public BaseLocalizeStringView nextText;
-    public BaseLocalizeStringView lobbyText;
+    [Header("[ Quit ]")]
+    public BaseButtonViewContainer quitViewContainer;
+
+    [Header("[ Restart ]")]
+    public CenterButtonViewContainer restartViewContainer;
+
+    [Header("[ Next ]")]
+    public BaseButtonViewContainer nextViewContainer;
   }
 }

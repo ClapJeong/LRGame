@@ -2,15 +2,15 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-public class StageManager : IStageController, IStageCreator
+public class StageManager : IStageService, IStageCreator
 {
   private readonly PlayerService playerSetupService;
   private readonly TriggerTileService triggerTileSetupService;
-  private readonly Dictionary<IStageController.StageEventType, UnityEvent> stageEvents = new();
+  private readonly Dictionary<IStageService.StageEventType, UnityEvent> stageEvents = new();
   private readonly IResourceManager resourceManager;
   private readonly ISceneProvider sceneProvider;
 
-  private CTSContainer regenCTS;
+  private IStageService.State stageState = IStageService.State.Ready;
 
   public StageManager(IResourceManager resourceManager, ISceneProvider sceneProvider)
   {
@@ -20,6 +20,7 @@ public class StageManager : IStageController, IStageCreator
     triggerTileSetupService = new TriggerTileService();
   }
 
+  #region IStageCreator
   public async UniTask CreateAsync(int index, bool isEnableImmediately = false)
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
@@ -31,6 +32,8 @@ public class StageManager : IStageController, IStageCreator
       SetupPlayers(stageDataContainer);
       SetupTriggers(stageDataContainer);
       SetupDynamicObstacles(stageDataContainer);
+
+      SetState(IStageService.State.Ready);
     }
     catch
     {
@@ -38,6 +41,7 @@ public class StageManager : IStageController, IStageCreator
       sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
     }
   }
+  #endregion
 
   private void SetupPlayers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
@@ -49,11 +53,10 @@ public class StageManager : IStageController, IStageCreator
 
   private void SetupTriggers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
-    IStageController stageController = this;
+    IStageService stageService = this;
     IStageObjectSetupService<ITriggerTilePresenter> triggersSetupService = triggerTileSetupService;
-    triggersSetupService.SetupAsync(new TriggerTileService.Model(stageData.TriggerTiles, stageController),isEnableImmediately).Forget();
+    triggersSetupService.SetupAsync(new TriggerTileService.Model(stageData.TriggerTiles, stageService),isEnableImmediately).Forget();
   }
-
 
   private void SetupDynamicObstacles(StageDataContainer stageData)
   {
@@ -63,75 +66,84 @@ public class StageManager : IStageController, IStageCreator
     }
   }
 
+  #region IStageService
   public UniTask RestartAsync()
   {
     playerSetupService.RestartAll();
     triggerTileSetupService.RestartAll();
+
+    SetState(IStageService.State.Playing);
     return UniTask.CompletedTask;
   }
 
   public void Complete()
   {
-    if (stageEvents.TryGetValue(IStageController.StageEventType.Complete, out var existEvent))
+    if (stageEvents.TryGetValue(IStageService.StageEventType.Complete, out var existEvent))
       existEvent?.Invoke();
 
     IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;    
     IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
+    SetState(IStageService.State.Success);
     UnityEngine.Debug.Log("Complete!");
   }
 
   public void Begin()
   {
-    if (stageEvents.TryGetValue(IStageController.StageEventType.Begin, out var existEvent))
+    if (stageEvents.TryGetValue(IStageService.StageEventType.Begin, out var existEvent))
       existEvent?.Invoke();
 
     playerSetupService.EnableAll(true);
     triggerTileSetupService.EnableAll(true);
+    SetState(IStageService.State.Playing);
   }
 
   public void Pause()
   {
-    if (stageEvents.TryGetValue(IStageController.StageEventType.Pause, out var existEvent))
+    if (stageEvents.TryGetValue(IStageService.StageEventType.Pause, out var existEvent))
       existEvent?.Invoke();
 
     playerSetupService.EnableAll(false);
     triggerTileSetupService.EnableAll(false);
+    SetState(IStageService.State.Pause);
   }
 
   public void Resume()
   {
-    if (stageEvents.TryGetValue(IStageController.StageEventType.Resume, out var existEvent))
+    if (stageEvents.TryGetValue(IStageService.StageEventType.Resume, out var existEvent))
       existEvent?.Invoke();
 
     playerSetupService.EnableAll(true);
     triggerTileSetupService.EnableAll(true);
+    SetState(IStageService.State.Playing);
   }
 
   public void OnLeftFailed()
   {
-    if (stageEvents.TryGetValue(IStageController.StageEventType.LeftFailed, out var existEvent))
+    if (stageEvents.TryGetValue(IStageService.StageEventType.LeftFailed, out var existEvent))
       existEvent?.Invoke();
 
     IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
     IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
+    SetState(IStageService.State.Fail);
   }
 
   public void OnRightFailed()
   {
-    if (stageEvents.TryGetValue(IStageController.StageEventType.RightFailed, out var existEvent))
+    if (stageEvents.TryGetValue(IStageService.StageEventType.RightFailed, out var existEvent))
       existEvent?.Invoke();
 
     IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
     IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
+    SetState(IStageService.State.Fail);
   }
 
-  public void SubscribeOnEvent(IStageController.StageEventType type, UnityAction action)
+  public void SubscribeOnEvent(IStageService.StageEventType type, UnityAction action)
   {
     if (stageEvents.TryGetValue(type, out var existEvent))
       existEvent.AddListener(action);
@@ -142,7 +154,7 @@ public class StageManager : IStageController, IStageCreator
     }      
   }
 
-  public void UnsubscribeOnEvent(IStageController.StageEventType type, UnityAction action)
+  public void UnsubscribeOnEvent(IStageService.StageEventType type, UnityAction action)
   {
     if (stageEvents.TryGetValue(type, out var existEvent))
       existEvent.RemoveListener(action);
@@ -153,4 +165,11 @@ public class StageManager : IStageController, IStageCreator
     await playerSetupService.AwaitUntilSetupCompleteAsync();
     return playerSetupService.GetPresenter(type);
   }
+
+  public void SetState(IStageService.State state)
+    => stageState = state;
+
+  public IStageService.State GetState()
+    => stageState;
+  #endregion
 }

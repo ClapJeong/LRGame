@@ -41,18 +41,9 @@ namespace LR.UI.Lobby
     {
       this.model = model;
       this.viewContainer = viewContainer;
+      CreateSubscribeHandle();
 
-      subscribeHandle = new SubscribeHandle(
-        () =>
-      {
-        SubscribeSubmitView();
-        SubscribeInputAction();
-      },
-        () =>
-        {
-          UnsubscribeSubmitView();
-          UnsubscribeInputAction();
-        });
+      viewContainer.backGroundImageView.SetAlpha(0.4f);
       viewContainer.tmpView.SetText(model.stage.ToString());
     }
 
@@ -67,6 +58,7 @@ namespace LR.UI.Lobby
     public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Subscribe();
+      viewContainer.backGroundImageView.SetAlpha(1.0f);
       visibleState = UIVisibleState.Showed;
       return UniTask.CompletedTask;
     }
@@ -74,6 +66,7 @@ namespace LR.UI.Lobby
     public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Unsubscribe();
+      viewContainer.backGroundImageView.SetAlpha(0.4f);
       visibleState = UIVisibleState.Hided;
       return UniTask.CompletedTask;
     }
@@ -84,36 +77,50 @@ namespace LR.UI.Lobby
     public UIVisibleState GetVisibleState()
       => visibleState;
 
+    private void CreateSubscribeHandle()
+    {
+      subscribeHandle = new SubscribeHandle(
+              () =>
+              {
+                SubscribeSubmitView();
+                SubscribeInputAction();
+              },
+              () =>
+              {
+                UnsubscribeSubmitView();
+                UnsubscribeInputAction();
+              });
+    }
+
     #region Subscribes
     private void SubscribeSubmitView()
     {
       var direction = model.inputType.ParseToDirection();
 
-      viewContainer.progressSubmitView.SubscribeOnProgress(direction, value =>
-      {
-        viewContainer.imageView.SetFillAmount(value);
-      });
-      viewContainer.progressSubmitView.SubscribeOnComplete(direction, () =>
-      {
-        viewContainer.progressSubmitView.UnsubscribeAll();
+      viewContainer.progressSubmitView.SubscribeOnProgress(direction, viewContainer.fillImageView.SetFillAmount);
+      viewContainer.progressSubmitView.SubscribeOnComplete(direction, OnProgressComplete);
+    }
 
-        model.onComplete?.Invoke();
+    private void OnProgressComplete()
+    {
+      viewContainer.progressSubmitView.UnsubscribeAll();
 
-        model.gameDataService.SetSelectedStage(model.chapter, model.stage);
+      model.onComplete?.Invoke();
 
-        model.sceneProvider.LoadSceneAsync(
-          SceneType.Game,
-          CancellationToken.None,
-          onProgress: null,
-          onComplete: null).Forget();
-      });
+      model.gameDataService.SetSelectedStage(model.chapter, model.stage);
+
+      model.sceneProvider.LoadSceneAsync(
+        SceneType.Game,
+        CancellationToken.None,
+        onProgress: null,
+        onComplete: null).Forget();
     }
 
     private void UnsubscribeSubmitView()
     {
       viewContainer.progressSubmitView.Cancel(model.inputType.ParseToDirection());
       viewContainer.progressSubmitView.UnsubscribeAll();
-      viewContainer.imageView.SetFillAmount(0.0f);
+      viewContainer.fillImageView.SetFillAmount(0.0f);
     }
 
     private void SubscribeInputAction()

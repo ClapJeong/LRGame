@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
-using static IStageController;
+using static IStageService;
 
 namespace ScriptableEvent
 {

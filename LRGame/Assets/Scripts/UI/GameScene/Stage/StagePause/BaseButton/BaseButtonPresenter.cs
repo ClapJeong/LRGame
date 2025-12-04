@@ -3,7 +3,6 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace LR.UI.GameScene.Stage.PausePanel
 {
@@ -36,6 +35,8 @@ namespace LR.UI.GameScene.Stage.PausePanel
     {
       this.model = model;
       this.viewContainer = viewContainer;
+
+      viewContainer.gameObjectView.SetActive(false);
 
       subscribeHandle = new SubscribeHandle(
         onSubscribe: () =>
@@ -115,12 +116,16 @@ namespace LR.UI.GameScene.Stage.PausePanel
     {
       minProgress = 0.0f;
       maxProgress = 0.0f;
+      viewContainer.gameObjectView.SetActive(true);
       subscribeHandle.Subscribe();
       return UniTask.CompletedTask;
     }
 
     public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
+      viewContainer.minProgressSubmitView.Cancel(model.minInputActionType.ParseToDirection());
+      viewContainer.maxProgressSubmitView.Cancel(model.maxInputActionType.ParseToDirection());
+      viewContainer.gameObjectView.SetActive(false);
       subscribeHandle.Unsubscribe();
       return UniTask.CompletedTask;
     }

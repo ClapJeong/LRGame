@@ -56,6 +56,31 @@ public class UIInputManager : IUIInputActionManager
   public void UnsubscribePerformedEvent(UIInputActionType type, UnityAction onPerformed)
     => inputSets[type].onPerformed -= onPerformed;
 
+  public void SubscribePerformedEvent(List<UIInputActionType> types, UnityAction onPerformed)
+  {
+    foreach (var inputActionType in types)
+      SubscribePerformedEvent(inputActionType, onPerformed);
+  }
+
+  public void UnsubscribePerformedEvent(List<UIInputActionType> types, UnityAction onPerformed)
+  {
+    foreach (var inputActionType in types)
+      UnsubscribePerformedEvent(inputActionType, onPerformed);
+  }
+
+  public void SubscribeCanceledEvent(List<UIInputActionType> types, UnityAction onCanceled)
+  {
+    foreach (var inputActionType in types)
+      SubscribeCanceledEvent(inputActionType, onCanceled);
+  }
+
+  public void UnsubscribeCanceledEvent(List<UIInputActionType> types, UnityAction onCanceled)
+  {
+    foreach (var inputActionType in types)
+      UnsubscribeCanceledEvent(inputActionType, onCanceled);
+  }
+
+
   private void DisableMouse()
   {
     Cursor.visible = false;

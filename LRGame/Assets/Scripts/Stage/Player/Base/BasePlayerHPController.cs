@@ -58,15 +58,15 @@ public class BasePlayerHPController : IPlayerHPController
 
   private void OnHPZero()
   {
-    IStageController stageController = LocalManager.instance.StageManager;
+    IStageService stageService = LocalManager.instance.StageManager;
     switch (playerType)
     {
       case PlayerType.Left:
-        stageController.OnLeftFailed();
+        stageService.OnLeftFailed();
         break;
 
       case PlayerType.Right:
-        stageController.OnRightFailed();
+        stageService.OnRightFailed();
         break;
     }
   }

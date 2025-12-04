@@ -1,10 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -12,49 +9,18 @@ namespace LR.UI.GameScene.Stage
   {
     public class Model
     {
-      public string beginInputActionPath;
-      public string restartInputActionPath;
-      public string lobbyInputActionPath;
-      public string nextInputActionPath;
-
-      public UnityAction onBeginStage;
-      public UnityAction onRestartStage;
-      public UnityAction onLobby;
-      public UnityAction onNext;
-
-      public IStageController stageController;
+      public IStageService stageService;
       public IResourceManager resourceManager;
       public IGameDataService gameDataService;
-      public InputActionFactory inputActionFactory;
       public UIManager uiManager;
       public ISceneProvider sceneProvider;
       public IUIInputActionManager uiInputActionManager;
 
-      public Model(
-        string beginInputActionPath, UnityAction onBeginStage,
-        string restartInputActionPath, UnityAction onRestartStage,
-        string lobbyInputActionPath, UnityAction onLobby,
-        string nextInputActionPath, UnityAction onNext,
-        IStageController stageController, 
-        IResourceManager resourceManager,
-        IGameDataService gameDataService,
-        InputActionFactory inputActionFactory,
-        UIManager uiManager,
-        ISceneProvider sceneProvider,
-        IUIInputActionManager uiInputActionManager)
+      public Model(IStageService stageService, IResourceManager resourceManager, IGameDataService gameDataService, UIManager uiManager, ISceneProvider sceneProvider, IUIInputActionManager uiInputActionManager)
       {
-        this.beginInputActionPath = beginInputActionPath;
-        this.restartInputActionPath = restartInputActionPath;
-        this.lobbyInputActionPath = lobbyInputActionPath;
-        this.nextInputActionPath = nextInputActionPath;
-        this.onBeginStage = onBeginStage;
-        this.onRestartStage = onRestartStage;
-        this.onLobby = onLobby;
-        this.onNext = onNext;
-        this.stageController = stageController;
+        this.stageService = stageService;
         this.resourceManager = resourceManager;
         this.gameDataService = gameDataService;
-        this.inputActionFactory = inputActionFactory;
         this.uiManager = uiManager;
         this.sceneProvider = sceneProvider;
         this.uiInputActionManager = uiInputActionManager;
@@ -80,21 +46,23 @@ namespace LR.UI.GameScene.Stage
       CreatePausePresenter();
 
       beginPresenter.ShowAsync(true).Forget();
-      failPresenter.HideAsync(true).Forget();
-      successPresenter.HideAsync(true).Forget();
 
-      model.stageController.SubscribeOnEvent(IStageController.StageEventType.Complete,OnStageSuccess);
-      model.stageController.SubscribeOnEvent(IStageController.StageEventType.LeftFailed, OnStageFailed);
-      model.stageController.SubscribeOnEvent(IStageController.StageEventType.RightFailed, OnStageFailed);
+      model.stageService.SubscribeOnEvent(IStageService.StageEventType.Complete,OnStageSuccess);
+      model.stageService.SubscribeOnEvent(IStageService.StageEventType.LeftFailed, OnStageFailed);
+      model.stageService.SubscribeOnEvent(IStageService.StageEventType.RightFailed, OnStageFailed);
+
+      SubscribePauseInput();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
-      => target.OnDestroyAsObservable().Subscribe(_ => Dispose());
+      => target.AttachDisposable(this);
 
     public void Dispose()
     {
-      if(viewContainer)
-        GameObject.Destroy(viewContainer.gameObject);
+      if (viewContainer)
+        viewContainer.gameObjectView.DestroyGameObject();
+
+      UnsubscribePauseInput();
     }
 
     public UIVisibleState GetVisibleState()
@@ -115,7 +83,9 @@ namespace LR.UI.GameScene.Stage
 
     private void CreateBeginPresenter()
     {
-      var model = new UIStageBeginPresenter.Model(this.model.beginInputActionPath, OnStageBeginInput,0.5f,0.5f);
+      var model = new UIStageBeginPresenter.Model(        
+        uiInputActionManager: this.model.uiInputActionManager,
+        stageService: this.model.stageService);
       var beginView = viewContainer.beginViewContainer;
       beginPresenter = new UIStageBeginPresenter(model, beginView);
       beginPresenter.AttachOnDestroy(viewContainer.gameObject);
@@ -123,7 +93,11 @@ namespace LR.UI.GameScene.Stage
 
     private void CreateFailPresenter()
     {
-      var model = new UIStageFailPresenter.Model(0.8f, 0.4f, this.model.restartInputActionPath,OnStageRestartInput);
+      var model = new UIStageFailPresenter.Model(
+        uiInputActionManager: this.model.uiInputActionManager,
+        indicatorService: this.model.uiManager,
+        stageService: this.model.stageService,
+        sceneProvider: this.model.sceneProvider);
       var failView = viewContainer.failViewContainer;
       failPresenter = new UIStageFailPresenter(model, failView);
       failPresenter.AttachOnDestroy(viewContainer.gameObject);
@@ -132,16 +106,13 @@ namespace LR.UI.GameScene.Stage
     private void CreateSuccessPresenter()
     {
       var model = new UIStageSuccessPresenter.Model(
-        0.5f,
-        this.model.restartInputActionPath,
-        this.model.nextInputActionPath,
-        this.model.lobbyInputActionPath,
-        OnStageRestartInput,
-        OnStageNextInput,
-        OnReturnToLobbyInput,
-        resourceManager: this.model.resourceManager,
         gameDataService: this.model.gameDataService,
-        inputActionFactory: this.model.inputActionFactory);
+        uiInputActionManager: this.model.uiInputActionManager,
+        indicatorService: this.model.uiManager,
+        stageService: this.model.stageService,
+        sceneProvider: this.model.sceneProvider,
+        quitButtonInputType: UIInputActionType.LeftLeft,
+        nextButtonInputType: UIInputActionType.LeftRight);
       var view = viewContainer.successViewContainer;
       successPresenter = new UIStageSuccessPresenter(model, view);
       successPresenter.AttachOnDestroy(viewContainer.gameObject);
@@ -153,32 +124,31 @@ namespace LR.UI.GameScene.Stage
         uiInputActionManager: this.model.uiInputActionManager,
         indicatorService: this.model.uiManager,
         sceneProvider: this.model.sceneProvider,
-        stageController: this.model.stageController);
+        stageService: this.model.stageService);
       var view = viewContainer.pauseViewContainer;
       pausePresenter = new UIStagePausePresenter(model, view);
-      successPresenter.AttachOnDestroy(viewContainer.gameObject);
+      pausePresenter.AttachOnDestroy(viewContainer.gameObject);
+    }
+
+    private void SubscribePauseInput()
+    {
+      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.Space, OnPauseInputPerformed);
+    }
+
+    private void UnsubscribePauseInput()
+    {
+      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.Space, OnPauseInputPerformed);
+    }
+
+    private void OnPauseInputPerformed()
+    {
+      if (model.stageService.GetState() != IStageService.State.Playing)
+        return;
+
+      pausePresenter.ShowAsync().Forget();
     }
 
     #region Callbacks
-    private void OnStageBeginInput()
-    {
-      beginPresenter.HideAsync().Forget();
-      IStageController stageController = LocalManager.instance.StageManager;
-      stageController.Begin();      
-
-      model.onBeginStage?.Invoke();
-    }
-
-    private void OnStageRestartInput()
-    {
-      successPresenter.HideAsync().Forget();
-      failPresenter.HideAsync().Forget();
-      IStageController stageController = LocalManager.instance.StageManager;
-      stageController.RestartAsync().Forget();
-      
-      model.onRestartStage?.Invoke();
-    }
-
     private void OnStageFailed()
     {
       failPresenter.ShowAsync().Forget();
@@ -186,21 +156,7 @@ namespace LR.UI.GameScene.Stage
 
     private void OnStageSuccess()
     {
-      successPresenter.ShowAsync(false).Forget();
-    }
-
-    private void OnReturnToLobbyInput()
-    {
-      GlobalManager.instance.GameDataService.SetSelectedStage(-1, -1);
-      ISceneProvider sceneProvider = GlobalManager.instance.SceneProvider;
-      sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
-    }
-
-    private void OnStageNextInput()
-    {
-      var table = GlobalManager.instance.Table.AddressableKeySO;
-      ISceneProvider sceneProvider = GlobalManager.instance.SceneProvider;
-      sceneProvider.ReloadCurrentSceneAsync().Forget();
+      successPresenter.ShowAsync().Forget();
     }
     #endregion
   }

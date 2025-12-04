@@ -144,25 +144,20 @@ public class LocalManager : MonoBehaviour
   private async UniTask CreateStageUIAsync()
   {
     var model = new UIStageRootPresenter.Model(
-   InputActionPaths.Keyboard.W, OnStageBegin,
-   InputActionPaths.Keyboard.Up, OnStageRestart,
-   InputActionPaths.Keyboard.A, OnReturnToLobby,
-   InputActionPaths.Keyboard.D, OnNextStage,
-   stageController: stageManager,
-   resourceManager: resourceManager,
-   gameDataService: GlobalManager.instance.GameDataService,
-   inputActionFactory: GlobalManager.instance.FactoryManager.InputActionFactory,
-   uiManager: GlobalManager.instance.UIManager,
-   sceneProvider: GlobalManager.instance.SceneProvider,
-   uiInputActionManager: GlobalManager.instance.UIInputManager);
+      stageService: stageManager,
+      resourceManager: resourceManager,
+      gameDataService: GlobalManager.instance.GameDataService,
+      uiManager: GlobalManager.instance.UIManager,
+      sceneProvider: GlobalManager.instance.SceneProvider,
+      uiInputActionManager: GlobalManager.instance.UIInputManager);
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
+    var key = table.Path.Ui + table.UIName.StageRoot;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UIStageRootViewContainer>(table.Path.Ui + table.UIName.StageRoot, root);
+    var view = await resourceManager.CreateAssetAsync<UIStageRootViewContainer>(key, root);
 
     var presenter = new UIStageRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
-
     presenter.ShowAsync().Forget();
   }
 
@@ -194,8 +189,8 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageController stageController = StageManager;
-    stageController.Complete();
+    IStageService stageService = StageManager;
+    stageService.Complete();
   }
 
   public void Debugging_StageLeftFail()
@@ -203,8 +198,8 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageController stageController = StageManager;
-    stageController.OnLeftFailed();
+    IStageService stageService = StageManager;
+    stageService.OnLeftFailed();
   }
 
   public void Debugging_StageRightFail()
@@ -212,8 +207,8 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageController stageController = StageManager;
-    stageController.OnRightFailed();
+    IStageService stageService = StageManager;
+    stageService.OnRightFailed();
   }
 
   public void Debugging_StageRestart()
@@ -221,8 +216,8 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageController stageController = StageManager;
-    stageController.RestartAsync().Forget();
+    IStageService stageService = StageManager;
+    stageService.RestartAsync().Forget();
   }
 
   public async void Debugging_LeftPlayerHPDamaged(int value)

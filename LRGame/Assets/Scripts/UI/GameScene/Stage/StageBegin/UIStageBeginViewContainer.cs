@@ -4,7 +4,8 @@ namespace LR.UI.GameScene.Stage
 {
   public class UIStageBeginViewContainer : MonoBehaviour
   {
-    public BaseLocalizeStringView textView;
-    public BaseCanvasGroupTweenView canvasGroupView;
+    public BaseGameObjectView gameObjectView;
+    public BaseImageView leftImageView;
+    public BaseImageView rightImageView;
   }
 }

@@ -18,4 +18,6 @@ public interface IGameDataService
   public void SetSelectedStage(int chapter, int stage);
 
   public void GetSelectedStage(out int chapter, out int stage);
+
+  public bool IsStageExist(int chapter, int stage);
 }

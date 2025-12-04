@@ -134,6 +134,55 @@ namespace LR.UI
         eventSet.onProgress -= onProgress;
     }
 
+    public void SubscribeOnCanceled(List<Direction> directions, UnityAction onCanceled)
+    {
+      foreach(var direction in directions)
+        SubscribeOnCanceled(direction, onCanceled);
+    }
+
+    public void SubscribeOnComplete(List<Direction> directions, UnityAction onComplete)
+    {
+      foreach(var direction in directions)
+        SubscribeOnComplete(direction, onComplete);
+    }
+
+    public void SubscribeOnPerformed(List<Direction> directions, UnityAction onPerformed)
+    {
+      foreach(var direction in directions)
+        SubscribeOnPerformed(direction, onPerformed);
+    }
+
+    public void SubscribeOnProgress(List<Direction> directions, UnityAction<float> onProgress)
+    {
+      foreach(var direction in directions)
+        SubscribeOnProgress(direction, onProgress);
+    }
+
+    public void UnsubscribeOnCanceled(List<Direction> directions, UnityAction onCanceled)
+    {
+      foreach(var direction in directions)
+        UnsubscribeOnCanceled(direction, onCanceled);
+    }
+
+    public void UnsubscribeOnComplete(List<Direction> directions, UnityAction onComplete)
+    {
+      foreach(var direction in directions)
+        UnsubscribeOnComplete(direction, onComplete);
+    }
+
+    public void UnsubscribeOnPerformed(List<Direction> directions, UnityAction onPerformed)
+    {
+      foreach(var direction in directions)
+        UnsubscribeOnPerformed(direction, onPerformed);
+    }
+
+    public void UnsubscribeOnProgress(List<Direction> directions, UnityAction<float> onProgress)
+    {
+      foreach(var direction in directions)
+        UnsubscribeOnProgress(direction, onProgress);
+    }
+
+
     public void UnsubscribeAll()
     {
       foreach(var eventSet in eventSets.Values)

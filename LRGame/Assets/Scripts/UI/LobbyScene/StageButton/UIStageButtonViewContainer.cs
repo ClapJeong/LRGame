@@ -5,7 +5,8 @@ namespace LR.UI.Lobby
   public class UIStageButtonViewContainer: MonoBehaviour
   {
     public BaseProgressSubmitView progressSubmitView;
-    public BaseImageView imageView;
+    public BaseImageView backGroundImageView;
+    public BaseImageView fillImageView;
     public BaseTMPView tmpView;
     public BaseRectView rectView;
   }

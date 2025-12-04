@@ -61,12 +61,14 @@ namespace LR.UI.Lobby
     public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Subscribe();
+      viewContainer.backgroundImageView.SetAlpha(1.0f);
       return UniTask.CompletedTask;
     }
 
     public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Unsubscribe();
+      viewContainer.backgroundImageView.SetAlpha(0.4f);
       return UniTask.CompletedTask;
     }
 
@@ -81,8 +83,8 @@ namespace LR.UI.Lobby
       var direction = model.inputActionType.ParseToDirection();
 
       viewContainer.quitProgressSubmitView.ResetAllProgress();
-      viewContainer.quitProgressSubmitView.SubscribeOnProgress(direction, value => viewContainer.quitImageView.SetFillAmount(value));
-      viewContainer.quitProgressSubmitView.SubscribeOnCanceled(direction, () => viewContainer.quitImageView.SetFillAmount(0.0f));
+      viewContainer.quitProgressSubmitView.SubscribeOnProgress(direction, viewContainer.fillImageView.SetFillAmount);
+      viewContainer.quitProgressSubmitView.SubscribeOnCanceled(direction, () => viewContainer.fillImageView.SetFillAmount(0.0f));
       viewContainer.quitProgressSubmitView.SubscribeOnComplete(direction, () => model.onQuit?.Invoke());
     }
 
@@ -90,7 +92,8 @@ namespace LR.UI.Lobby
     {
       viewContainer.quitProgressSubmitView.Cancel(model.inputActionType.ParseToDirection());
       viewContainer.quitProgressSubmitView.UnsubscribeAll();
-      viewContainer.quitImageView.SetFillAmount(0.0f);
+
+      viewContainer.fillImageView.SetFillAmount(0.0f);
     }
 
     private void SubscribeInputAction()
