@@ -1,19 +1,19 @@
-public static class UIInputActionTypeExtension
+public static class UIinputDirectionTypeExtension
 {
-  public static Direction ParseToDirection(this UIInputActionType inputActionDirection)
+  public static Direction ParseToDirection(this UIInputDirectionType inputActionDirection)
     => inputActionDirection switch
     {
-      UIInputActionType.LeftUP => Direction.Up,
-      UIInputActionType.LeftRight => Direction.Right,
-      UIInputActionType.LeftDown => Direction.Down,
-      UIInputActionType.LeftLeft => Direction.Left,
+      UIInputDirectionType.LeftUp => Direction.Up,
+      UIInputDirectionType.LeftRight => Direction.Right,
+      UIInputDirectionType.LeftDown => Direction.Down,
+      UIInputDirectionType.LeftLeft => Direction.Left,
 
-      UIInputActionType.RightUP => Direction.Up,
-      UIInputActionType.RightRight => Direction.Right,
-      UIInputActionType.RightDown => Direction.Down,
-      UIInputActionType.RightLeft => Direction.Left,
+      UIInputDirectionType.RightUP => Direction.Up,
+      UIInputDirectionType.RightRight => Direction.Right,
+      UIInputDirectionType.RightDown => Direction.Down,
+      UIInputDirectionType.RightLeft => Direction.Left,
 
-      UIInputActionType.Space => Direction.Space,
+      UIInputDirectionType.Space => Direction.Space,
 
       _ => throw new System.NotImplementedException(),
     };

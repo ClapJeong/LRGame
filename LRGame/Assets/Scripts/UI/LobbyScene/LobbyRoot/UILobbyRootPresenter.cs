@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace LR.UI.Lobby
 {
@@ -31,6 +33,8 @@ namespace LR.UI.Lobby
 
     private readonly Model model;
     private readonly UILobbyViewContainer viewContainer;
+
+    private IUIIndicatorService indicatorService => model.uiManager;
 
     private IUIIndicatorPresenter currentIndicator;
     private Dictionary<UIChapterButtonViewContainer, UIChapterButtonPresenter> chapterButtons = new();
@@ -144,9 +148,10 @@ namespace LR.UI.Lobby
       LayoutRebuilder.ForceRebuildLayoutImmediate(viewContainer.stageButtonRoot.GetComponent<RectTransform>());
       await UniTask.Yield();
 
-      IUIIndicatorService indicatorService = model.uiManager;
       currentIndicator = await indicatorService.GetNewAsync(viewContainer.indicatorRoot, firstView.rectView);
-      indicatorService.ReleaseIndicatorOnDestroy(currentIndicator, viewContainer.gameObject);
+      currentIndicator.SetLeftGuide(firstView.navigationView.GetNavigation());
+      currentIndicator.SetRightGuide(Direction.Right, Direction.Left);
+      indicatorService.ReleaseTopIndicatorOnDestroy(viewContainer.gameObject);
 
       IUIDepthService depthService = model.uiManager;
       depthService.RaiseDepth(firstView.gameObject);
@@ -179,23 +184,18 @@ namespace LR.UI.Lobby
 
     private void OnSelectedGameObjectEnter(GameObject target)
     {
-      IUIIndicatorService indicatorService = model.uiManager;
-
-      if (target.TryGetComponent<IRectView>(out var rectView) &&
-          target.TryGetComponent<UIChapterButtonViewContainer>(out var targetView) &&
+      if (target.TryGetComponent<UIChapterButtonViewContainer>(out var targetView) &&
           indicatorService.IsTopIndicatorIsThis(currentIndicator))
       {
-        currentIndicator.MoveAsync(rectView).Forget();
+        currentIndicator.MoveAsync(targetView.rectView).Forget();
+        currentIndicator.SetLeftGuide(targetView.navigationView.GetNavigation());
         chapterButtons[targetView].ShowAsync().Forget();
       }
     }
 
     private void OnSelectedGameObjectExit(GameObject target)
     {
-      IUIIndicatorService indicatorService = model.uiManager;
-
-      if (target.TryGetComponent<IRectView>(out var rectView) &&
-          target.TryGetComponent<UIChapterButtonViewContainer>(out var targetView) &&
+      if (target.TryGetComponent<UIChapterButtonViewContainer>(out var targetView) &&
           indicatorService.IsTopIndicatorIsThis(currentIndicator))
       {
         chapterButtons[targetView].HideAsync().Forget();

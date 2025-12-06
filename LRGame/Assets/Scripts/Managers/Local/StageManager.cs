@@ -86,7 +86,6 @@ public class StageManager : IStageService, IStageCreator
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
     SetState(IStageService.State.Success);
-    UnityEngine.Debug.Log("Complete!");
   }
 
   public void Begin()

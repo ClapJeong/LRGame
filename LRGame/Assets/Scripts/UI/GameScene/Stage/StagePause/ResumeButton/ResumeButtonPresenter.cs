@@ -11,13 +11,13 @@ namespace LR.UI.GameScene.Stage.PausePanel
   {
     public class Model
     {
-      public UIInputActionType inputActionType;
+      public UIInputDirectionType inputDirectionType;
       public UnityAction onSubmit;
       public IUIInputActionManager uiInputActionManager;
 
-      public Model(UIInputActionType inputActionType, UnityAction onSubmit, IUIInputActionManager uiInputActionManager)
+      public Model(UIInputDirectionType inputDirectionType, UnityAction onSubmit, IUIInputActionManager uiInputActionManager)
       {
-        this.inputActionType = inputActionType;
+        this.inputDirectionType = inputDirectionType;
         this.onSubmit = onSubmit;
         this.uiInputActionManager = uiInputActionManager;
       }
@@ -50,7 +50,7 @@ namespace LR.UI.GameScene.Stage.PausePanel
     public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
       viewContainer.gameObjectView.SetActive(false);
-      viewContainer.progressSubmitView.Cancel(model.inputActionType.ParseToDirection());
+      viewContainer.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
       subscribeHandle.Unsubscribe();
       return UniTask.CompletedTask;
     }
@@ -84,10 +84,10 @@ namespace LR.UI.GameScene.Stage.PausePanel
       subscribeHandle = new SubscribeHandle(
         onSubscribe: () =>
         {
-          model.uiInputActionManager.SubscribePerformedEvent(model.inputActionType, OnInputActionPerform);
-          model.uiInputActionManager.SubscribeCanceledEvent(model.inputActionType, OnInputActionCancel);
+          model.uiInputActionManager.SubscribePerformedEvent(model.inputDirectionType, OnInputActionPerform);
+          model.uiInputActionManager.SubscribeCanceledEvent(model.inputDirectionType, OnInputActionCancel);
 
-          var direction = model.inputActionType.ParseToDirection();
+          var direction = model.inputDirectionType.ParseToDirection();
           viewContainer.progressSubmitView.SubscribeOnProgress(direction, value =>
           {
             viewContainer.fillScaleView.SetLocalScale(Vector3.one * value);
@@ -104,8 +104,8 @@ namespace LR.UI.GameScene.Stage.PausePanel
         },
         onUnsubscribe: () =>
         {
-          model.uiInputActionManager.UnsubscribePerformedEvent(model.inputActionType, OnInputActionPerform);
-          model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputActionType, OnInputActionCancel);
+          model.uiInputActionManager.UnsubscribePerformedEvent(model.inputDirectionType, OnInputActionPerform);
+          model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputDirectionType, OnInputActionCancel);
 
           viewContainer.progressSubmitView.UnsubscribeAll();
         });

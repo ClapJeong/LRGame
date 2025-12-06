@@ -12,7 +12,7 @@ public interface IUIIndicatorService
 
   public bool TryGetTopIndicator(out IUIIndicatorPresenter current);
 
-  public IDisposable ReleaseIndicatorOnDestroy(IUIIndicatorPresenter indicator, GameObject target);
+  public IDisposable ReleaseTopIndicatorOnDestroy(GameObject target);
 
   public void ReleaseTopIndicator();
 

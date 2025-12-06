@@ -1,11 +1,19 @@
 using System;
 using System.Threading;
-using UnityEngine;
 
 public class CTSContainer : IDisposable
 {
   public CancellationTokenSource cts;
-  public CancellationToken token => cts.Token;
+  public CancellationToken token
+  {
+    get
+    {
+      isTokenCalled = true;
+      return cts.Token;
+    }
+  }
+
+  private bool isTokenCalled = false;
 
   public CTSContainer()
   {
@@ -22,16 +30,22 @@ public class CTSContainer : IDisposable
     }
   }
 
-  public void Cancel(bool regenerate = false)
+  public void Cancel()
+  {
+    if (!isTokenCalled)
+      return;
+
+    cts?.Cancel();
+  }
+
+  public void Create()
   {
     if(cts != null)
     {
-      cts.Cancel();
       cts.Dispose();
     }
 
-    cts = null;
-    if(regenerate)
-      cts = new CancellationTokenSource();
+    cts = new CancellationTokenSource();
+    isTokenCalled = false;
   }
 }

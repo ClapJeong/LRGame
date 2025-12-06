@@ -77,20 +77,20 @@ namespace LR.UI.GameScene.Stage
 
     private void CreateSubscribeHandle()
     {
-      var leftInputs = new List<UIInputActionType>()
+      var leftInputs = new List<UIInputDirectionType>()
             {
-              UIInputActionType.LeftUP,
-              UIInputActionType.LeftRight,
-              UIInputActionType.LeftDown,
-              UIInputActionType.LeftLeft,
+              UIInputDirectionType.LeftUp,
+              UIInputDirectionType.LeftRight,
+              UIInputDirectionType.LeftDown,
+              UIInputDirectionType.LeftLeft,
             };
 
-      var rightInputs = new List<UIInputActionType>()
+      var rightInputs = new List<UIInputDirectionType>()
             {
-              UIInputActionType.RightUP,
-              UIInputActionType.RightRight,
-              UIInputActionType.RightDown,
-              UIInputActionType.RightLeft,
+              UIInputDirectionType.RightUP,
+              UIInputDirectionType.RightRight,
+              UIInputDirectionType.RightDown,
+              UIInputDirectionType.RightLeft,
             };
 
       subscribeHandle = new SubscribeHandle(

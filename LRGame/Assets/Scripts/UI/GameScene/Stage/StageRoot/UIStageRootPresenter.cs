@@ -27,6 +27,8 @@ namespace LR.UI.GameScene.Stage
       }
     }
 
+    private static readonly UIInputDirectionType PauseEnterDirection = UIInputDirectionType.Space;
+
     private readonly Model model;
     private readonly UIStageRootViewContainer viewContainer;
 
@@ -110,9 +112,7 @@ namespace LR.UI.GameScene.Stage
         uiInputActionManager: this.model.uiInputActionManager,
         indicatorService: this.model.uiManager,
         stageService: this.model.stageService,
-        sceneProvider: this.model.sceneProvider,
-        quitButtonInputType: UIInputActionType.LeftLeft,
-        nextButtonInputType: UIInputActionType.LeftRight);
+        sceneProvider: this.model.sceneProvider);
       var view = viewContainer.successViewContainer;
       successPresenter = new UIStageSuccessPresenter(model, view);
       successPresenter.AttachOnDestroy(viewContainer.gameObject);
@@ -132,12 +132,12 @@ namespace LR.UI.GameScene.Stage
 
     private void SubscribePauseInput()
     {
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.Space, OnPauseInputPerformed);
+      model.uiInputActionManager.SubscribePerformedEvent(PauseEnterDirection, OnPauseInputPerformed);
     }
 
     private void UnsubscribePauseInput()
     {
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.Space, OnPauseInputPerformed);
+      model.uiInputActionManager.UnsubscribePerformedEvent(PauseEnterDirection, OnPauseInputPerformed);
     }
 
     private void OnPauseInputPerformed()

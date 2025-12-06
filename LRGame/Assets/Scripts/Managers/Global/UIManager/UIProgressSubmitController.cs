@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class UIProgressSubmitController: IUIProgressSubmitController
+public class UIProgressSubmitController : IUIProgressSubmitController
 {
-  private readonly IUISelectedGameObjectService selectedGameObjectService;
   private readonly Dictionary<Direction, InputAction> rightInputActions = new();
 
   private readonly List<Direction> currentPerforming = new();
@@ -13,8 +12,6 @@ public class UIProgressSubmitController: IUIProgressSubmitController
 
   public UIProgressSubmitController(IUISelectedGameObjectService selectedGameObjectService, InputActionFactory inputActionFactory)
   {
-    this.selectedGameObjectService = selectedGameObjectService;
-
     var table = GlobalManager.instance.Table.UISO.InputPaths;
     rightInputActions[Direction.Up] = inputActionFactory.Get(table.RightUPPath, context => OnInputAction(Direction.Up, context));
     rightInputActions[Direction.Right] = inputActionFactory.Get(table.RightRightPath, context => OnInputAction(Direction.Right, context));
@@ -25,8 +22,20 @@ public class UIProgressSubmitController: IUIProgressSubmitController
     selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnExit, OnSelectedGameObjectExit);
   }
 
+  public void Release(IUIProgressSubmitView view)
+  {
+    if (selectedView == view)
+      selectedView = null;
+  }
+
   private void OnInputAction(Direction direction, InputAction.CallbackContext context)
   {
+    if ((selectedView as UnityEngine.Object) == null)
+    {
+      selectedView = null;
+      return;
+    }
+
     switch (context.phase)
     {
       case InputActionPhase.Performed:

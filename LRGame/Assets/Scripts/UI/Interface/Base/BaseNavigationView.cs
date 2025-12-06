@@ -18,12 +18,14 @@ namespace LR.UI
 
     public void SetNavigation(Selectable up, Selectable right, Selectable down, Selectable left)
     {
-      var navigation = new Navigation();
-      navigation.mode = Navigation.Mode.Explicit;
-      navigation.selectOnUp = up;
-      navigation.selectOnRight = right;
-      navigation.selectOnDown = down;
-      navigation.selectOnLeft = left;
+      var navigation = new Navigation
+      {
+        mode = Navigation.Mode.Explicit,
+        selectOnUp = up,
+        selectOnRight = right,
+        selectOnDown = down,
+        selectOnLeft = left
+      };
 
       selectable.navigation = navigation;
     }
@@ -55,5 +57,8 @@ namespace LR.UI
 
       selectable.navigation = navigation;
     }
+
+    public Navigation GetNavigation()
+      => selectable.navigation;
   }
 }

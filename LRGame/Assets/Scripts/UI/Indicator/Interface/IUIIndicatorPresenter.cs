@@ -1,10 +1,10 @@
 using Cysharp.Threading.Tasks;
-using System.Threading;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LR.UI.Indicator
 {
-  public interface IUIIndicatorPresenter: IUIPresenter
+  public partial interface IUIIndicatorPresenter: IUIPresenter
   {
     public void ReInitialize(Transform root, IRectView targetRectView);
 

@@ -2,43 +2,25 @@ using UnityEngine;
 
 namespace LR.UI.Indicator
 {
-  public class BaseUIIndicatorView : MonoBehaviour, IGameObjectView, IRectView
+  public class BaseUIIndicatorView : MonoBehaviour
   {
-    [SerializeField] private BaseGameObjectView gameObjectView;
-    [SerializeField] private BaseRectView rectView;
+    [Header("[ Base ]")]
+    public BaseGameObjectView gameObjectView;
+    public BaseRectView rectView;
 
-    #region IRectView
-    public Vector2 GetCurrentRectSize()
-      => rectView.GetCurrentRectSize();
+    [Header("[ LeftInput ]")]
+    public BaseImageView leftUpImageView;
+    public BaseImageView leftRightImageView;
+    public BaseImageView leftDownImageView;
+    public BaseImageView leftLeftImageView;
 
-    public void SetAnchoredPosition(Vector2 anchoredPosition)
-      => rectView.SetAnchoredPosition(anchoredPosition);
+    [Header("[ RightInput ]")]
+    public BaseImageView rightUpImageView;
+    public BaseImageView rightRightImageView;
+    public BaseImageView rightDownImageView;
+    public BaseImageView rightLeftImageView;
 
-    public void SetPivot(Vector2 pivot)
-      => rectView.SetPivot(pivot);  
-
-    public void SetPosition(Vector2 position)
-      => rectView.SetPosition(position);
-
-    public void SetRect(Vector2 rect)
-      => rectView.SetRect(rect);
-
-    public Vector2 GetPosition()
-      => rectView.GetPosition();
-
-    public Vector2 GetAnchoredPosition()
-      => rectView.GetAnchoredPosition();
-    #endregion
-
-    #region IGameObjectView
-    public void SetActive(bool active)
-      =>gameObjectView.SetActive(active);
-
-    public void SetRoot(Transform root)
-      => gameObjectView.SetRoot(root);
-
-    public void DestroyGameObject()
-      => gameObjectView.DestroyGameObject();
-    #endregion
+    [Header("[ Space ]")]
+    public BaseImageView spaceImageView;
   }
 }

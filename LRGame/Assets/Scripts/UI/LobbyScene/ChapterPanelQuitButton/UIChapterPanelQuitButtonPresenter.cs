@@ -10,13 +10,13 @@ namespace LR.UI.Lobby
   {
     public class Model
     {
-      public UIInputActionType inputActionType;
+      public UIInputDirectionType inputDirectionType;
       public IUIInputActionManager uiInputActionManager;
       public UnityAction onQuit;
 
-      public Model(UIInputActionType inputActionType, IUIInputActionManager uiInputActionManager, UnityAction onQuit)
+      public Model(UIInputDirectionType inputDirectionType, IUIInputActionManager uiInputActionManager, UnityAction onQuit)
       {
-        this.inputActionType = inputActionType;
+        this.inputDirectionType = inputDirectionType;
         this.uiInputActionManager = uiInputActionManager;
         this.onQuit = onQuit;
       }
@@ -80,7 +80,7 @@ namespace LR.UI.Lobby
     #region Subscribes
     private void SubscribeSubmit()
     {
-      var direction = model.inputActionType.ParseToDirection();
+      var direction = model.inputDirectionType.ParseToDirection();
 
       viewContainer.quitProgressSubmitView.ResetAllProgress();
       viewContainer.quitProgressSubmitView.SubscribeOnProgress(direction, viewContainer.fillImageView.SetFillAmount);
@@ -90,7 +90,7 @@ namespace LR.UI.Lobby
 
     private void UnsubscribeSubmit()
     {
-      viewContainer.quitProgressSubmitView.Cancel(model.inputActionType.ParseToDirection());
+      viewContainer.quitProgressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
       viewContainer.quitProgressSubmitView.UnsubscribeAll();
 
       viewContainer.fillImageView.SetFillAmount(0.0f);
@@ -98,21 +98,21 @@ namespace LR.UI.Lobby
 
     private void SubscribeInputAction()
     {     
-      model.uiInputActionManager.SubscribePerformedEvent(model.inputActionType, OnInputLeftPerformed);
-      model.uiInputActionManager.SubscribeCanceledEvent(model.inputActionType, OnInputLeftCanceled);
+      model.uiInputActionManager.SubscribePerformedEvent(model.inputDirectionType, OnInputLeftPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(model.inputDirectionType, OnInputLeftCanceled);
     }
 
     private void UnsubscribeInputAction()
     {     
-      model.uiInputActionManager.UnsubscribePerformedEvent(model.inputActionType, OnInputLeftPerformed);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputActionType, OnInputLeftCanceled);
+      model.uiInputActionManager.UnsubscribePerformedEvent(model.inputDirectionType, OnInputLeftPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputDirectionType, OnInputLeftCanceled);
     }
 
     private void OnInputLeftPerformed()
-      => viewContainer.quitProgressSubmitView.Perform(model.inputActionType.ParseToDirection());
+      => viewContainer.quitProgressSubmitView.Perform(model.inputDirectionType.ParseToDirection());
 
     private void OnInputLeftCanceled()
-      => viewContainer.quitProgressSubmitView.Cancel(model.inputActionType.ParseToDirection());
+      => viewContainer.quitProgressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
     #endregion
   }
 }

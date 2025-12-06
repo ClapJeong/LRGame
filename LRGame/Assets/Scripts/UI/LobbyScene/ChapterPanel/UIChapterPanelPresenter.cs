@@ -4,8 +4,6 @@ using LR.UI.Lobby.ChapterPanel;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -33,13 +31,20 @@ namespace LR.UI.Lobby
         this.sceneProvider = sceneProvider;
         this.indicatorService = indicatorService;
       }
-    }    
+    }
+
+    private static readonly UIInputDirectionType Up = UIInputDirectionType.LeftUp;
+    private static readonly UIInputDirectionType Right = UIInputDirectionType.LeftRight;
+    private static readonly UIInputDirectionType Down = UIInputDirectionType.LeftDown;
+    private static readonly UIInputDirectionType Left = UIInputDirectionType.LeftLeft;
+    private static readonly UIInputDirectionType Back = UIInputDirectionType.Space;
+
     private readonly Model model;
     private readonly UIChapterPanelViewContainer viewContainer;
-    private readonly UIChapterPanelActionHolder actionHolder;
 
-    private Dictionary<UIInputActionType, IUIPresenter> directionPresenters = new();
-    private UIInputActionType currentSelectingDirection = UIInputActionType.Space;
+    private UIChapterPanelActionHolder actionHolder;
+    private Dictionary<UIInputDirectionType, IUIPresenter> directionPresenters = new();
+    private UIInputDirectionType currentSelectingDirection = UIInputDirectionType.Space;
     
     private UIVisibleState visibleState = UIVisibleState.None;
     private SubscribeHandle subscribeHandle;
@@ -54,81 +59,7 @@ namespace LR.UI.Lobby
 
       CreateQuitButtonPresenter();
       CreateStageButtonPresenters();
-
-      actionHolder = new UIChapterPanelActionHolder(
-        onUpPerformed: () =>
-        {
-          if (currentSelectingDirection != UIInputActionType.Space)
-            return;
-
-          currentSelectingDirection = UIInputActionType.LeftUP;
-          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.upStageButtonView.rectView).Forget();
-        },
-        onUpCanceled: () =>
-        {
-          if (currentSelectingDirection != UIInputActionType.LeftUP)
-            return;
-
-          currentSelectingDirection = UIInputActionType.Space;
-          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitButtonView.rectView).Forget();
-        },
-        onRightPerformed: () =>
-        {
-          if (currentSelectingDirection != UIInputActionType.Space)
-            return;
-
-          currentSelectingDirection = UIInputActionType.LeftRight;
-          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.rightStageButtonView.rectView).Forget();
-        },
-        onRightCanceled: () =>
-        {
-          if (currentSelectingDirection != UIInputActionType.LeftRight)
-            return;
-
-          currentSelectingDirection = UIInputActionType.Space;
-          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitButtonView.rectView).Forget();
-        },
-        onDownPerformed: () =>
-        {
-          if (currentSelectingDirection != UIInputActionType.Space)
-            return;
-
-          currentSelectingDirection = UIInputActionType.LeftDown;
-          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.downStageButtonView.rectView).Forget();
-        },
-        onDownCanceled: () =>
-        {
-          if (currentSelectingDirection != UIInputActionType.LeftDown)
-            return;
-
-          currentSelectingDirection = UIInputActionType.Space;
-          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitButtonView.rectView).Forget();
-        },
-        onLeftPerformed: () =>
-        {
-          if (currentSelectingDirection != UIInputActionType.Space)
-            return;
-
-          currentSelectingDirection = UIInputActionType.LeftLeft;
-          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.leftStageButtonView.rectView).Forget();
-        },
-        onLeftCanceled: () =>
-        {
-          if (currentSelectingDirection != UIInputActionType.LeftLeft)
-            return;
-
-          currentSelectingDirection = UIInputActionType.Space;
-          ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitButtonView.rectView).Forget();
-        });
-
+      CreateActionHolder();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -144,10 +75,18 @@ namespace LR.UI.Lobby
 
     public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      await model.indicatorService.GetNewAsync(viewContainer.indicatorRoot, viewContainer.quitButtonView.rectView);
+      var indicator = await model.indicatorService.GetNewAsync(viewContainer.indicatorRoot, viewContainer.quitButtonView.rectView);
+      indicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+      {
+        { Up.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable },
+        { Right.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable },
+        { Down.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable },
+        { Left.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable },
+      });
+      indicator.SetRightGuide(Direction.Space);
 
       subscribeHandle.Subscribe();
-      await ShowPresenterAsync(UIInputActionType.Space, isImmediately, token);
+      await ShowPresenterAsync(UIInputDirectionType.Space, isImmediately, token);
       RaiseDepth();
       viewContainer.gameObjectView.SetActive(true);
       visibleState = UIVisibleState.Showed;
@@ -170,7 +109,7 @@ namespace LR.UI.Lobby
     public void SetVisibleState(UIVisibleState visibleState)
       => this.visibleState = visibleState;
 
-    private async UniTask ShowPresenterAsync(UIInputActionType type, bool isImmediately, CancellationToken token)
+    private async UniTask ShowPresenterAsync(UIInputDirectionType type, bool isImmediately, CancellationToken token)
     {
       foreach (var pair in directionPresenters)
       {
@@ -188,108 +127,162 @@ namespace LR.UI.Lobby
     }
 
     #region Create
+    private void CreateActionHolder()
+    {
+      actionHolder = new UIChapterPanelActionHolder(
+        onUpPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Up, targetRectView: viewContainer.upStageButtonView.rectView),
+        onUpCanceled: () => OnEnterInput(requireDirectionType: Up, targetDirectionType: Back, targetRectView: viewContainer.quitButtonView.rectView),
+
+        onRightPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Right, targetRectView: viewContainer.rightStageButtonView.rectView),
+        onRightCanceled: () => OnEnterInput(requireDirectionType: Right, targetDirectionType: Back, targetRectView: viewContainer.quitButtonView.rectView),
+
+        onDownPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Down, targetRectView: viewContainer.downStageButtonView.rectView),
+        onDownCanceled: () => OnEnterInput(requireDirectionType: Down, targetDirectionType: Back, targetRectView: viewContainer.quitButtonView.rectView),
+
+        onLeftPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Left, targetRectView: viewContainer.leftStageButtonView.rectView),
+        onLeftCanceled: () => OnEnterInput(requireDirectionType: Left, targetDirectionType: Back, targetRectView: viewContainer.quitButtonView.rectView));
+    }
+
+    private void OnEnterInput(UIInputDirectionType requireDirectionType, UIInputDirectionType targetDirectionType, BaseRectView targetRectView)
+    {
+      if (currentSelectingDirection != requireDirectionType)
+        return;
+      currentSelectingDirection = targetDirectionType;
+
+      ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+
+      var topIndicator = model.indicatorService.GetTopIndicator();
+      var leftGuideDictionary = GetLeftGuideDictionary(targetDirectionType);
+      topIndicator.MoveAsync(targetRectView)
+        .ContinueWith(() =>
+        {
+          topIndicator.SetLeftGuide(leftGuideDictionary);
+          topIndicator.SetRightGuide(targetDirectionType.ParseToDirection());
+        })
+        .Forget();    
+    }
+
+    private Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType> GetLeftGuideDictionary(UIInputDirectionType targetDirectionType)
+    {
+      var indicatorLeftGuide = new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>();
+      if (targetDirectionType == Back)
+      {
+        indicatorLeftGuide[Up.ParseToDirection()] = IUIIndicatorPresenter.LeftGuideType.Movable;
+        indicatorLeftGuide[Right.ParseToDirection()] = IUIIndicatorPresenter.LeftGuideType.Movable;
+        indicatorLeftGuide[Down.ParseToDirection()] = IUIIndicatorPresenter.LeftGuideType.Movable;
+        indicatorLeftGuide[Left.ParseToDirection()] = IUIIndicatorPresenter.LeftGuideType.Movable;
+      }
+      else
+      {
+        indicatorLeftGuide[targetDirectionType.ParseToDirection().ParseOpposite()] = IUIIndicatorPresenter.LeftGuideType.Clamped;
+      }
+      return indicatorLeftGuide;
+    }
+
     private void CreateQuitButtonPresenter()
     {
+      var targetInputType = Back;
       var model = new UIChapterPanelQuitButtonPresenter.Model(
-        inputActionType: UIInputActionType.Space, 
+        inputDirectionType: targetInputType, 
         uiInputActionManager: this.model.uiInputActionManager,
         onQuit: () =>
         {
           HideAsync().Forget();
         });
       var view = viewContainer.quitButtonView;
-      directionPresenters[UIInputActionType.Space] = new UIChapterPanelQuitButtonPresenter(model, view);
-      directionPresenters[UIInputActionType.Space].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[UIInputActionType.Space].HideAsync().Forget();
+      directionPresenters[targetInputType] = new UIChapterPanelQuitButtonPresenter(model, view);
+      directionPresenters[targetInputType].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[targetInputType].HideAsync().Forget();
     }
 
     private void CreateStageButtonPresenters()
     {
+      var rightInputType = Right;
       var upModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter, 
         stage: 1,
-        inputType: UIInputActionType.RightUP,
+        inputType: UIInputDirectionType.RightUP,
         onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
       var upView = viewContainer.upStageButtonView;
-      directionPresenters[UIInputActionType.LeftUP] = new UIStageButtonPresenter(upModel, upView);
-      directionPresenters[UIInputActionType.LeftUP].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[UIInputActionType.LeftUP].HideAsync().Forget();
+      directionPresenters[Up] = new UIStageButtonPresenter(upModel, upView);
+      directionPresenters[Up].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[Up].HideAsync().Forget();
 
       var rightModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
         stage: 2,
-        inputType: UIInputActionType.RightRight,
+        inputType: UIInputDirectionType.RightRight,
         onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
       var rightView = viewContainer.rightStageButtonView;
-      directionPresenters[UIInputActionType.LeftRight] = new UIStageButtonPresenter(rightModel, rightView);
-      directionPresenters[UIInputActionType.LeftRight].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[UIInputActionType.LeftRight].HideAsync().Forget();
+      directionPresenters[Right] = new UIStageButtonPresenter(rightModel, rightView);
+      directionPresenters[Right].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[Right].HideAsync().Forget();
 
       var downModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
         stage: 3,
-        inputType: UIInputActionType.RightDown,
+        inputType: UIInputDirectionType.RightDown,
         onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
       var downView = viewContainer.downStageButtonView;
-      directionPresenters[UIInputActionType.LeftDown] = new UIStageButtonPresenter(downModel, downView);
-      directionPresenters[UIInputActionType.LeftDown].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[UIInputActionType.LeftDown].HideAsync().Forget();
+      directionPresenters[Down] = new UIStageButtonPresenter(downModel, downView);
+      directionPresenters[Down].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[Down].HideAsync().Forget();
 
       var leftModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
         stage: 4,
-        inputType: UIInputActionType.RightLeft,
+        inputType: UIInputDirectionType.RightLeft,
         onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
       var leftView = viewContainer.leftStageButtonView;
-      directionPresenters[UIInputActionType.LeftLeft] = new UIStageButtonPresenter(leftModel, leftView);
-      directionPresenters[UIInputActionType.LeftLeft].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[UIInputActionType.LeftLeft].HideAsync().Forget();
+      directionPresenters[Left] = new UIStageButtonPresenter(leftModel, leftView);
+      directionPresenters[Left].AttachOnDestroy(viewContainer.gameObject);
+      directionPresenters[Left].HideAsync().Forget();
     }
     #endregion
 
     #region InputActionSubscribes
     private void SubscribeInputActions()
     {
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftUP, actionHolder.OnUpPerformed);
-      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftUP, actionHolder.OnUpCanceled);
+      model.uiInputActionManager.SubscribePerformedEvent(Up, actionHolder.OnUpPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(Up, actionHolder.OnUpCanceled);
 
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftRight, actionHolder.OnRightPerformed);
-      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftRight, actionHolder.OnRightCanceled);      
+      model.uiInputActionManager.SubscribePerformedEvent(Right, actionHolder.OnRightPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(Right, actionHolder.OnRightCanceled);      
 
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftDown, actionHolder.OnDownPerformed);
-      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftDown, actionHolder.OnDownCanceled);
+      model.uiInputActionManager.SubscribePerformedEvent(Down, actionHolder.OnDownPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(Down, actionHolder.OnDownCanceled);
 
-      model.uiInputActionManager.SubscribePerformedEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftPerformed);
-      model.uiInputActionManager.SubscribeCanceledEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftCanceled);
+      model.uiInputActionManager.SubscribePerformedEvent(Left, actionHolder.OnLeftPerformed);
+      model.uiInputActionManager.SubscribeCanceledEvent(Left, actionHolder.OnLeftCanceled);
     }
 
     private void UnsubscribeInputActions()
     {
       model.indicatorService.ReleaseTopIndicator();
 
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftUP, actionHolder.OnUpPerformed);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftUP, actionHolder.OnUpCanceled);
+      model.uiInputActionManager.UnsubscribePerformedEvent(Up, actionHolder.OnUpPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(Up, actionHolder.OnUpCanceled);
 
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftRight, actionHolder.OnRightPerformed);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftRight, actionHolder.OnRightCanceled);
+      model.uiInputActionManager.UnsubscribePerformedEvent(Right, actionHolder.OnRightPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(Right, actionHolder.OnRightCanceled);
 
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftDown, actionHolder.OnDownPerformed);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftDown, actionHolder.OnDownCanceled);
+      model.uiInputActionManager.UnsubscribePerformedEvent(Down, actionHolder.OnDownPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(Down, actionHolder.OnDownCanceled);
 
-      model.uiInputActionManager.UnsubscribePerformedEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftPerformed);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(UIInputActionType.LeftLeft, actionHolder.OnLeftCanceled);
+      model.uiInputActionManager.UnsubscribePerformedEvent(Left, actionHolder.OnLeftPerformed);
+      model.uiInputActionManager.UnsubscribeCanceledEvent(Left, actionHolder.OnLeftCanceled);
     }
     #endregion
 

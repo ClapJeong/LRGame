@@ -9,5 +9,7 @@ namespace LR.UI
     public void AddNavigation(Direction direction, Selectable target);
 
     public void SetNavigation(Selectable up, Selectable right, Selectable down, Selectable left);
+
+    public Navigation GetNavigation();
   }
 }

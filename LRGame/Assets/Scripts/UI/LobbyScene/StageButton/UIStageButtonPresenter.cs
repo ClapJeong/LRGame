@@ -12,14 +12,14 @@ namespace LR.UI.Lobby
     {
       public int chapter;
       public int stage;
-      public UIInputActionType inputType;
+      public UIInputDirectionType inputType;
       public UnityAction onComplete;
 
       public IUIInputActionManager uiInputActionManager;
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
 
-      public Model(int chapter, int stage, UIInputActionType inputType, UnityAction onComplete, IUIInputActionManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(int chapter, int stage, UIInputDirectionType inputType, UnityAction onComplete, IUIInputActionManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.chapter = chapter;
         this.stage = stage;

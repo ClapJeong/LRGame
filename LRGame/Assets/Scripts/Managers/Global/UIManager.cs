@@ -12,7 +12,8 @@ public class UIManager : MonoBehaviour,
   IUIPresenterContainer, 
   IUISelectedGameObjectService,
   IUIIndicatorService,
-  IUIDepthService
+  IUIDepthService,
+  IUIProgressSubmitController
 {
   [System.Serializable]
   public class CanvasSet
@@ -88,8 +89,8 @@ public class UIManager : MonoBehaviour,
   #endregion
 
   #region IUIIndicatorService
-  public IDisposable ReleaseIndicatorOnDestroy(IUIIndicatorPresenter indicator, GameObject target)
-    => indicatorService.ReleaseIndicatorOnDestroy(indicator, target);
+  public IDisposable ReleaseTopIndicatorOnDestroy(GameObject target)
+    => indicatorService.ReleaseTopIndicatorOnDestroy(target);
 
   public IUIIndicatorPresenter GetTopIndicator()
     => indicatorService.GetTopIndicator();
@@ -115,6 +116,11 @@ public class UIManager : MonoBehaviour,
     =>depthService.RaiseDepth(targetSelectingGameObject);
 
   public void LowerDepth()
-    => depthService.LowerDepth();  
+    => depthService.LowerDepth();
+  #endregion
+
+  #region IUIProgressSubmitController
+  public void Release(IUIProgressSubmitView view)
+    => progressSubmitController.Release(view);
   #endregion
 }

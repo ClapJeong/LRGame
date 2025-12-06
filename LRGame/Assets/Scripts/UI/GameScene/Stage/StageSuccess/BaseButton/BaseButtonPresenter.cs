@@ -10,13 +10,13 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
   {
     public class Model
     {
-      public UIInputActionType inputActionType;
+      public UIInputDirectionType inputDirectionType;
       public IUIInputActionManager uiInputActionManager;
       public UnityAction onSubmit;
 
-      public Model(UIInputActionType inputActionType, IUIInputActionManager uiInputActionManager, UnityAction onSubmit)
+      public Model(UIInputDirectionType inputDirectionType, IUIInputActionManager uiInputActionManager, UnityAction onSubmit)
       {
-        this.inputActionType = inputActionType;
+        this.inputDirectionType = inputDirectionType;
         this.uiInputActionManager = uiInputActionManager;
         this.onSubmit = onSubmit;
       }
@@ -54,7 +54,7 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
 
     public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      viewContainer.progressSubmitView.Cancel(model.inputActionType.ParseToDirection());
+      viewContainer.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
       viewContainer.backgroundImageView.SetAlpha(0.4f);
       subscribeHandle.Unsubscribe();      
       return UniTask.CompletedTask;
@@ -74,10 +74,10 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
       subscribeHandle = new(
         onSubscribe: () =>
         {
-          model.uiInputActionManager.SubscribePerformedEvent(model.inputActionType, OnInputPerformed);
-          model.uiInputActionManager.SubscribeCanceledEvent(model.inputActionType, OnInputCanceled);
+          model.uiInputActionManager.SubscribePerformedEvent(model.inputDirectionType, OnInputPerformed);
+          model.uiInputActionManager.SubscribeCanceledEvent(model.inputDirectionType, OnInputCanceled);
 
-          var direction = model.inputActionType.ParseToDirection();
+          var direction = model.inputDirectionType.ParseToDirection();
           viewContainer.progressSubmitView.SubscribeOnProgress(direction, viewContainer.fillImageView.SetFillAmount);
           viewContainer.progressSubmitView.SubscribeOnCanceled(direction, () => viewContainer.fillImageView.SetFillAmount(0.0f));
           viewContainer.progressSubmitView.SubscribeOnComplete(direction, () =>
@@ -87,8 +87,8 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
         },
         onUnsubscribe: () =>
         {
-          model.uiInputActionManager.UnsubscribePerformedEvent(model.inputActionType, OnInputPerformed);
-          model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputActionType, OnInputCanceled);
+          model.uiInputActionManager.UnsubscribePerformedEvent(model.inputDirectionType, OnInputPerformed);
+          model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputDirectionType, OnInputCanceled);
 
           viewContainer.progressSubmitView.UnsubscribeAll();
         });
@@ -96,12 +96,12 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
 
     private void OnInputPerformed()
     {
-      viewContainer.progressSubmitView.Perform(model.inputActionType.ParseToDirection());
+      viewContainer.progressSubmitView.Perform(model.inputDirectionType.ParseToDirection());
     }
 
     private void OnInputCanceled()
     {
-      viewContainer.progressSubmitView.Cancel(model.inputActionType.ParseToDirection());
+      viewContainer.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
     }
   }
 }

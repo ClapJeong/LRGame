@@ -36,6 +36,8 @@ namespace LR.UI
 
     private void OnDestroy()
     {
+      IUIProgressSubmitController progressSubmitController = GlobalManager.instance.UIManager;
+      progressSubmitController.Release(this);
       updateDisposable?.Dispose();
     }
 

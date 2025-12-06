@@ -17,5 +17,7 @@ namespace LR.UI
     public Vector2 GetPosition();
 
     public Vector2 GetAnchoredPosition();
+
+    public Vector2 GetCenterPosition();
   }
 }

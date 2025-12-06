@@ -4,19 +4,19 @@ using UnityEngine.Events;
 
 public interface IUIInputActionManager: IDisposable
 {
-  public void SubscribePerformedEvent(UIInputActionType type, UnityAction onPerformed);
+  public void SubscribePerformedEvent(UIInputDirectionType type, UnityAction onPerformed);
 
-  public void UnsubscribePerformedEvent(UIInputActionType type, UnityAction onPerformed);
+  public void UnsubscribePerformedEvent(UIInputDirectionType type, UnityAction onPerformed);
 
-  public void SubscribeCanceledEvent(UIInputActionType type, UnityAction onCanceled);
+  public void SubscribeCanceledEvent(UIInputDirectionType type, UnityAction onCanceled);
 
-  public void UnsubscribeCanceledEvent(UIInputActionType type, UnityAction onCanceled);
+  public void UnsubscribeCanceledEvent(UIInputDirectionType type, UnityAction onCanceled);
 
-  public void SubscribePerformedEvent(List<UIInputActionType> types, UnityAction onPerformed);
+  public void SubscribePerformedEvent(List<UIInputDirectionType> types, UnityAction onPerformed);
 
-  public void UnsubscribePerformedEvent(List<UIInputActionType> types, UnityAction onPerformed);
+  public void UnsubscribePerformedEvent(List<UIInputDirectionType> types, UnityAction onPerformed);
 
-  public void SubscribeCanceledEvent(List<UIInputActionType> types, UnityAction onCanceled);
+  public void SubscribeCanceledEvent(List<UIInputDirectionType> types, UnityAction onCanceled);
 
-  public void UnsubscribeCanceledEvent(List<UIInputActionType> types, UnityAction onCanceled);
+  public void UnsubscribeCanceledEvent(List<UIInputDirectionType> types, UnityAction onCanceled);
 }

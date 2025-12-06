@@ -1,8 +1,9 @@
 using Cysharp.Threading.Tasks;
+using LR.UI.Indicator;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -30,10 +31,10 @@ namespace LR.UI.GameScene.Stage
       }
     }
 
-    private static readonly UIInputActionType QuitEnterInputType = UIInputActionType.LeftLeft;
-    private static readonly UIInputActionType QuitPressInputType = UIInputActionType.RightLeft;
-    private static readonly UIInputActionType RestartEnterInputType = UIInputActionType.LeftRight;
-    private static readonly UIInputActionType RestartPressInputType = UIInputActionType.RightRight;
+    private static readonly UIInputDirectionType QuitEnterInputType = UIInputDirectionType.LeftLeft;
+    private static readonly UIInputDirectionType QuitPressInputType = UIInputDirectionType.RightLeft;
+    private static readonly UIInputDirectionType RestartEnterInputType = UIInputDirectionType.LeftRight;
+    private static readonly UIInputDirectionType RestartPressInputType = UIInputDirectionType.RightRight;
 
     private readonly Model model;
     private readonly UIStageFailViewContainer viewContainer;    
@@ -57,6 +58,7 @@ namespace LR.UI.GameScene.Stage
       viewContainer.quitBackgroundImageView.SetAlpha(0.4f);
       viewContainer.restartBackgroundImageView.SetAlpha(0.4f);
       await model.indicatorService.GetNewAsync(viewContainer.indicatorRoot, viewContainer.noneRectView);
+      SetState(ButtonState.None);
       subscribeHandle.Subscribe();
       visibleState = UIVisibleState.Showed;
       viewContainer.gameObjectView.SetActive(true);
@@ -112,23 +114,42 @@ namespace LR.UI.GameScene.Stage
       }
 
       currentButtonState = state;
+      var topIndicator = model.indicatorService.GetTopIndicator();
       switch (currentButtonState)
       {
         case ButtonState.None:
-          model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.noneRectView).Forget();
+          {
+            topIndicator.MoveAsync(viewContainer.noneRectView).Forget();
+            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            {
+              { QuitEnterInputType.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftGuideType.Movable },
+              { RestartEnterInputType.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftGuideType.Movable }
+            });
+            topIndicator.SetRightGuide();
+          }          
           break;
 
         case ButtonState.Quit:
           {
             viewContainer.quitBackgroundImageView.SetAlpha(1.0f);
-            model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitRectView).Forget();
+            topIndicator.MoveAsync(viewContainer.quitRectView).Forget();
+            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            {
+              { QuitEnterInputType.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftGuideType.Clamped },
+            });
+            topIndicator.SetRightGuide(QuitEnterInputType.ParseToDirection());
           }          
           break;
 
         case ButtonState.Restart:
           {
             viewContainer.restartBackgroundImageView.SetAlpha(1.0f);
-            model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.restartRectView).Forget();
+            topIndicator.MoveAsync(viewContainer.restartRectView).Forget();
+            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            {
+              { RestartEnterInputType.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftGuideType.Clamped },
+            });
+            topIndicator.SetRightGuide(RestartPressInputType.ParseToDirection());
           }          
           break;
       }
@@ -148,6 +169,8 @@ namespace LR.UI.GameScene.Stage
         },
         onUnsubscribe: () =>
         {
+          model.indicatorService.ReleaseTopIndicator();
+
           UnsubscribeInputActions();
           UnsubscribeSubmits();
         });
@@ -258,6 +281,7 @@ namespace LR.UI.GameScene.Stage
       viewContainer.quitProgressSubmitView.SubscribeOnCanceled(quitPressDirection, () => viewContainer.quitFillImageView.SetFillAmount(0.0f));
       viewContainer.quitProgressSubmitView.SubscribeOnComplete(quitPressDirection, () =>
       {
+        Dispose();
         model.sceneProvider.LoadSceneAsync(SceneType.Lobby);
       });
 

@@ -80,7 +80,7 @@ public class ResourceManager : IResourceManager, IDisposable
       if (!cachedHandles.TryGetValue(location, out var handle))
         handle = await LoadAsync(location);
 
-      var createdGameObject = GameObject.Instantiate(handle.Result as GameObject, root);
+      var createdGameObject = await Addressables.InstantiateAsync(location, instantiateParameters: new(parent: root, false));
       createdLocations[createdGameObject] = location;
       
       if(typeof(T) == typeof(GameObject))     

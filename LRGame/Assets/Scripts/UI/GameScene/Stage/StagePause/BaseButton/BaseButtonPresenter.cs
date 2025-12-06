@@ -10,15 +10,15 @@ namespace LR.UI.GameScene.Stage.PausePanel
   {
     public class Model
     {
-      public UIInputActionType minInputActionType;
-      public UIInputActionType maxInputActionType;
+      public UIInputDirectionType mininputDirectionType;
+      public UIInputDirectionType maxinputDirectionType;
       public UnityAction onSubmit;
       public IUIInputActionManager uiInputActionManager;
 
-      public Model(UIInputActionType minInputActionType, UIInputActionType maxInputActionType, UnityAction onSubmit, IUIInputActionManager uiInputActionManager)
+      public Model(UIInputDirectionType mininputDirectionType, UIInputDirectionType maxinputDirectionType, UnityAction onSubmit, IUIInputActionManager uiInputActionManager)
       {
-        this.minInputActionType = minInputActionType;
-        this.maxInputActionType = maxInputActionType;
+        this.mininputDirectionType = mininputDirectionType;
+        this.maxinputDirectionType = maxinputDirectionType;
         this.onSubmit = onSubmit;
         this.uiInputActionManager = uiInputActionManager;
       }
@@ -41,12 +41,12 @@ namespace LR.UI.GameScene.Stage.PausePanel
       subscribeHandle = new SubscribeHandle(
         onSubscribe: () =>
         {
-          model.uiInputActionManager.SubscribePerformedEvent(model.maxInputActionType, OnMaxInputActionPerformed);
-          model.uiInputActionManager.SubscribeCanceledEvent(model.maxInputActionType, OnMaxInputActionCanceled);
-          model.uiInputActionManager.SubscribePerformedEvent(model.minInputActionType, OnMinInputActionPerformed);
-          model.uiInputActionManager.SubscribeCanceledEvent(model.minInputActionType, OnMinInputActionCanceled);
+          model.uiInputActionManager.SubscribePerformedEvent(model.maxinputDirectionType, OnMaxInputActionPerformed);
+          model.uiInputActionManager.SubscribeCanceledEvent(model.maxinputDirectionType, OnMaxInputActionCanceled);
+          model.uiInputActionManager.SubscribePerformedEvent(model.mininputDirectionType, OnMinInputActionPerformed);
+          model.uiInputActionManager.SubscribeCanceledEvent(model.mininputDirectionType, OnMinInputActionCanceled);
 
-          viewContainer.maxProgressSubmitView.SubscribeOnProgress(model.maxInputActionType.ParseToDirection(), value =>
+          viewContainer.maxProgressSubmitView.SubscribeOnProgress(model.maxinputDirectionType.ParseToDirection(), value =>
           {
             if (isProgressComplete())
               return;
@@ -60,7 +60,7 @@ namespace LR.UI.GameScene.Stage.PausePanel
               subscribeHandle.Unsubscribe();
             }
           });
-          viewContainer.maxProgressSubmitView.SubscribeOnCanceled(model.maxInputActionType.ParseToDirection(), () =>
+          viewContainer.maxProgressSubmitView.SubscribeOnCanceled(model.maxinputDirectionType.ParseToDirection(), () =>
           {
             if (isProgressComplete())
               return;
@@ -69,7 +69,7 @@ namespace LR.UI.GameScene.Stage.PausePanel
             maxProgress = 0.0f;
           });
 
-          viewContainer.minProgressSubmitView.SubscribeOnProgress(model.minInputActionType.ParseToDirection(), value =>
+          viewContainer.minProgressSubmitView.SubscribeOnProgress(model.mininputDirectionType.ParseToDirection(), value =>
           {
             if (isProgressComplete())
               return;
@@ -83,7 +83,7 @@ namespace LR.UI.GameScene.Stage.PausePanel
               subscribeHandle.Unsubscribe();
             }
           });
-          viewContainer.minProgressSubmitView.SubscribeOnCanceled(model.minInputActionType.ParseToDirection(), () =>
+          viewContainer.minProgressSubmitView.SubscribeOnCanceled(model.mininputDirectionType.ParseToDirection(), () =>
           {
             if (isProgressComplete())
               return;
@@ -94,10 +94,10 @@ namespace LR.UI.GameScene.Stage.PausePanel
         },
         onUnsubscribe: () =>
         {
-          model.uiInputActionManager.UnsubscribePerformedEvent(model.maxInputActionType, OnMaxInputActionPerformed);
-          model.uiInputActionManager.UnsubscribeCanceledEvent(model.maxInputActionType, OnMaxInputActionCanceled);
-          model.uiInputActionManager.UnsubscribePerformedEvent(model.minInputActionType, OnMinInputActionPerformed);
-          model.uiInputActionManager.UnsubscribeCanceledEvent(model.minInputActionType, OnMaxInputActionPerformed);
+          model.uiInputActionManager.UnsubscribePerformedEvent(model.maxinputDirectionType, OnMaxInputActionPerformed);
+          model.uiInputActionManager.UnsubscribeCanceledEvent(model.maxinputDirectionType, OnMaxInputActionCanceled);
+          model.uiInputActionManager.UnsubscribePerformedEvent(model.mininputDirectionType, OnMinInputActionPerformed);
+          model.uiInputActionManager.UnsubscribeCanceledEvent(model.mininputDirectionType, OnMaxInputActionPerformed);
 
           viewContainer.maxProgressSubmitView.UnsubscribeAll();
           viewContainer.minProgressSubmitView.UnsubscribeAll();
@@ -123,8 +123,8 @@ namespace LR.UI.GameScene.Stage.PausePanel
 
     public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      viewContainer.minProgressSubmitView.Cancel(model.minInputActionType.ParseToDirection());
-      viewContainer.maxProgressSubmitView.Cancel(model.maxInputActionType.ParseToDirection());
+      viewContainer.minProgressSubmitView.Cancel(model.mininputDirectionType.ParseToDirection());
+      viewContainer.maxProgressSubmitView.Cancel(model.maxinputDirectionType.ParseToDirection());
       viewContainer.gameObjectView.SetActive(false);
       subscribeHandle.Unsubscribe();
       return UniTask.CompletedTask;
@@ -144,15 +144,15 @@ namespace LR.UI.GameScene.Stage.PausePanel
       => minProgress + maxProgress > 1.0f;
 
     private void OnMaxInputActionPerformed()
-      => viewContainer.maxProgressSubmitView.Perform(model.maxInputActionType.ParseToDirection());
+      => viewContainer.maxProgressSubmitView.Perform(model.maxinputDirectionType.ParseToDirection());
 
     private void OnMaxInputActionCanceled()
-      => viewContainer.maxProgressSubmitView.Cancel(model.maxInputActionType.ParseToDirection());
+      => viewContainer.maxProgressSubmitView.Cancel(model.maxinputDirectionType.ParseToDirection());
 
     private void OnMinInputActionPerformed()
-      => viewContainer.minProgressSubmitView.Perform(model.minInputActionType.ParseToDirection());
+      => viewContainer.minProgressSubmitView.Perform(model.mininputDirectionType.ParseToDirection());
 
     private void OnMinInputActionCanceled()
-      => viewContainer.minProgressSubmitView.Cancel(model.minInputActionType.ParseToDirection());
+      => viewContainer.minProgressSubmitView.Cancel(model.mininputDirectionType.ParseToDirection());
   }
 }

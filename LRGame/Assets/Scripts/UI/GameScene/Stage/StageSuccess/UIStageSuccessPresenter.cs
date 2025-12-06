@@ -1,9 +1,10 @@
 using Cysharp.Threading.Tasks;
 using LR.UI.GameScene.Stage.SuccessPanel;
+using LR.UI.Indicator;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -23,20 +24,22 @@ namespace LR.UI.GameScene.Stage
       public IStageService stageService;
       public ISceneProvider sceneProvider;
 
-      public UIInputActionType quitButtonInputType;
-      public UIInputActionType nextButtonInputType;
-
-      public Model(IGameDataService gameDataService, IUIInputActionManager uiInputActionManager, IUIIndicatorService indicatorService, IStageService stageService, ISceneProvider sceneProvider, UIInputActionType quitButtonInputType, UIInputActionType nextButtonInputType)
+      public Model(IGameDataService gameDataService, IUIInputActionManager uiInputActionManager, IUIIndicatorService indicatorService, IStageService stageService, ISceneProvider sceneProvider)
       {
         this.gameDataService = gameDataService;
         this.uiInputActionManager = uiInputActionManager;
         this.indicatorService = indicatorService;
         this.stageService = stageService;
         this.sceneProvider = sceneProvider;
-        this.quitButtonInputType = quitButtonInputType;
-        this.nextButtonInputType = nextButtonInputType;
       }
     }
+
+    private static readonly UIInputDirectionType QuitEnterDirection = UIInputDirectionType.LeftLeft;
+    private static readonly UIInputDirectionType NextEnterDirection = UIInputDirectionType.LeftRight;
+
+    private static readonly UIInputDirectionType QuitPressDirection = UIInputDirectionType.RightLeft;
+    private static readonly UIInputDirectionType NextPressDirection = UIInputDirectionType.RightRight;
+    private static readonly UIInputDirectionType RestartPressDirection = UIInputDirectionType.Space;
 
     private readonly Model model;
     private readonly UIStageSuccessViewContainer viewContainer;
@@ -114,27 +117,44 @@ namespace LR.UI.GameScene.Stage
           break;
       }
 
+      var topIndicator = model.indicatorService.GetTopIndicator();
       currentState = state;
       switch (currentState)
       {
         case ButtonState.Restart:
           {
-            model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.restartViewContainer.rectView).Forget();
             restartButtonPresenter.ShowAsync().Forget();
+            topIndicator.MoveAsync(viewContainer.restartViewContainer.rectView).Forget();
+            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            {
+              { QuitEnterDirection.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftGuideType.Movable },
+              { NextEnterDirection.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftGuideType.Movable },
+            });
+            topIndicator.SetRightGuide(RestartPressDirection.ParseToDirection());
           }
           break;
 
         case ButtonState.Quit:
           {
-            model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.quitViewContainer.rectView).Forget();
             quitButtonPresenter.ShowAsync().Forget();
+            topIndicator.MoveAsync(viewContainer.quitViewContainer.rectView).Forget();
+            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            {
+              { QuitEnterDirection.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftGuideType.Clamped },
+            });
+            topIndicator.SetRightGuide(QuitPressDirection.ParseToDirection());
           }
           break;
 
         case ButtonState.Next:
           {
-            model.indicatorService.GetTopIndicator().MoveAsync(viewContainer.nextViewContainer.rectView).Forget();
             nextButtonPresenter.ShowAsync().Forget();
+            topIndicator.MoveAsync(viewContainer.nextViewContainer.rectView).Forget();
+            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            {
+              { NextEnterDirection.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftGuideType.Clamped },
+            });
+            topIndicator.SetRightGuide(NextPressDirection.ParseToDirection());
           }
           break;
       }
@@ -143,21 +163,23 @@ namespace LR.UI.GameScene.Stage
     private void CreateQuitPresenter()
     {
       var model = new BaseButtonPresenter.Model(
-        inputActionType: UIInputActionType.RightLeft,
+        inputDirectionType: QuitPressDirection,
         uiInputActionManager: this.model.uiInputActionManager,
         onSubmit: () =>
         {
+          Dispose();
           this.model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
         });
       var view = viewContainer.quitViewContainer;
       quitButtonPresenter = new BaseButtonPresenter(model, view);
+      quitButtonPresenter.AttachOnDestroy(viewContainer.gameObject);
       quitButtonPresenter.HideAsync().Forget();
     }
 
     private void CreateRestartPresenter()
     {
       var model = new CenterButtonPresenter.Model(
-        inputActionType: UIInputActionType.Space,
+        inputDirectionType: RestartPressDirection,
         uiInputActionManager: this.model.uiInputActionManager,
         onSubmit: () =>
         {
@@ -166,13 +188,14 @@ namespace LR.UI.GameScene.Stage
         });
       var view = viewContainer.restartViewContainer;
       restartButtonPresenter = new CenterButtonPresenter(model, view);
+      restartButtonPresenter.AttachOnDestroy(viewContainer.gameObject);
       restartButtonPresenter.HideAsync().Forget();
     }
 
     private void CreateNextPresenter()
     {
       var model = new BaseButtonPresenter.Model(
-        inputActionType: UIInputActionType.RightRight,
+        inputDirectionType: NextPressDirection,
         uiInputActionManager: this.model.uiInputActionManager,
         onSubmit: () =>
         {
@@ -189,6 +212,7 @@ namespace LR.UI.GameScene.Stage
         });
       var view = viewContainer.nextViewContainer;
       nextButtonPresenter = new BaseButtonPresenter(model, view);
+      nextButtonPresenter.AttachOnDestroy(viewContainer.gameObject);
       nextButtonPresenter.HideAsync().Forget();
     }
 
@@ -198,21 +222,21 @@ namespace LR.UI.GameScene.Stage
       subscribeHandle = new(
         onSubscribe: () =>
         {
-          model.uiInputActionManager.SubscribePerformedEvent(model.quitButtonInputType, OnQuitButtonEnter);
-          model.uiInputActionManager.SubscribeCanceledEvent(model.quitButtonInputType, OnQuitButtonExit);
+          model.uiInputActionManager.SubscribePerformedEvent(QuitEnterDirection, OnQuitButtonEnter);
+          model.uiInputActionManager.SubscribeCanceledEvent(QuitEnterDirection, OnQuitButtonExit);
 
-          model.uiInputActionManager.SubscribePerformedEvent(model.nextButtonInputType, OnNextButtonEnter);
-          model.uiInputActionManager.SubscribeCanceledEvent(model.nextButtonInputType, OnNextButtonExit);
+          model.uiInputActionManager.SubscribePerformedEvent(NextEnterDirection, OnNextButtonEnter);
+          model.uiInputActionManager.SubscribeCanceledEvent(NextEnterDirection, OnNextButtonExit);
         },
         onUnsubscribe: () =>
         {
           model.indicatorService.ReleaseTopIndicator();
 
-          model.uiInputActionManager.UnsubscribePerformedEvent(model.quitButtonInputType, OnQuitButtonEnter);
-          model.uiInputActionManager.UnsubscribeCanceledEvent(model.quitButtonInputType, OnQuitButtonExit);
+          model.uiInputActionManager.UnsubscribePerformedEvent(QuitEnterDirection, OnQuitButtonEnter);
+          model.uiInputActionManager.UnsubscribeCanceledEvent(QuitEnterDirection, OnQuitButtonExit);
 
-          model.uiInputActionManager.UnsubscribePerformedEvent(model.nextButtonInputType, OnNextButtonEnter);
-          model.uiInputActionManager.UnsubscribeCanceledEvent(model.nextButtonInputType, OnNextButtonExit);
+          model.uiInputActionManager.UnsubscribePerformedEvent(NextEnterDirection, OnNextButtonEnter);
+          model.uiInputActionManager.UnsubscribeCanceledEvent(NextEnterDirection, OnNextButtonExit);
 
           quitButtonPresenter.HideAsync().Forget();
           restartButtonPresenter.HideAsync().Forget();

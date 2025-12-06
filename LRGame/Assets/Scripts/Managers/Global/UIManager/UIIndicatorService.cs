@@ -3,6 +3,7 @@ using LR.UI;
 using LR.UI.Indicator;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -25,13 +26,12 @@ public class UIIndicatorService : IUIIndicatorService
   }
 
 
-  public IDisposable ReleaseIndicatorOnDestroy(IUIIndicatorPresenter indicator, GameObject target)
+  public IDisposable ReleaseTopIndicatorOnDestroy(GameObject target)
     => target
             .OnDestroyAsObservable()
             .Subscribe(_ =>
             {
-              indicator.Disable(disableRoot);
-              disabledIndicators.Push(indicator);
+              ReleaseTopIndicator();
             });
 
   public IUIIndicatorPresenter GetTopIndicator()
@@ -50,7 +50,7 @@ public class UIIndicatorService : IUIIndicatorService
       return topIndicator;
     }
     else
-    {
+    {      
       var newIndicator = await CreateAsync(root, beginTarget);
       enableIndicators.Push(newIndicator);
       return newIndicator;
@@ -71,6 +71,7 @@ public class UIIndicatorService : IUIIndicatorService
   {
     var baseView = await resourceManager.CreateAssetAsync<BaseUIIndicatorView>(indicatorKey, root);
     var basePresenter = new BaseUIIndicatorPresenter(root, beginTarget, baseView);
+    baseView.name = $"Indicator: {basePresenter.GetHashCode()}";
     return basePresenter;
   }
 }

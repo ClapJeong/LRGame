@@ -17,28 +17,23 @@ namespace LR.UI
       }
     }
 
-    private void Awake()
-    {
-      image = GetComponent<Image>();
-    }
-
     public void SetAlpha(float alpha)
     {
-      var color = image.color;
+      var color = Image.color;
       color.a = alpha;
-      image.color = color;
+      Image.color = color;
     }
 
     public void SetColor(Color color)
-      => image.color = color;
+      => Image.color = color;
 
     public void SetEnable(bool enable)
-      => image.enabled = enable;
+      => Image.enabled = enable;
 
     public void SetFillAmount(float value)
-      => image.fillAmount = value;
+      => Image.fillAmount = value;
 
     public void SetSprite(Sprite sprite)
-      => image.sprite = sprite;
+      => Image.sprite = sprite;
   }
 }

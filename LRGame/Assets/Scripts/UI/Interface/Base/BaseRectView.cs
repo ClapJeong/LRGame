@@ -39,5 +39,13 @@ namespace LR.UI
 
     public Vector2 GetAnchoredPosition()
       => RectTransform.anchoredPosition;
+
+    public Vector2 GetCenterPosition()
+    {
+      Vector2 pivotOffset = (new Vector2(0.5f, 0.5f) - RectTransform.pivot);
+      Vector2 size = RectTransform.rect.size;
+
+      return (Vector2)RectTransform.position + Vector2.Scale(size, pivotOffset);
+    }
   }
 }
