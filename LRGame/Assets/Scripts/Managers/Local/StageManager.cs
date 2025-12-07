@@ -4,18 +4,23 @@ using UnityEngine.Events;
 
 public class StageManager : IStageService, IStageCreator
 {
-  private readonly PlayerService playerSetupService;
-  private readonly TriggerTileService triggerTileSetupService;
-  private readonly Dictionary<IStageService.StageEventType, UnityEvent> stageEvents = new();
   private readonly IResourceManager resourceManager;
   private readonly ISceneProvider sceneProvider;
+  private readonly ICameraService cameraService;
+
+  private readonly PlayerService playerSetupService;
+  private readonly TriggerTileService triggerTileSetupService;
+
+  private readonly Dictionary<IStageService.StageEventType, UnityEvent> stageEvents = new();  
 
   private IStageService.State stageState = IStageService.State.Ready;
 
-  public StageManager(IResourceManager resourceManager, ISceneProvider sceneProvider)
+  public StageManager(IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService)
   {
     this.resourceManager = resourceManager;
     this.sceneProvider = sceneProvider;
+    this.cameraService = cameraService;
+
     playerSetupService = new PlayerService();
     triggerTileSetupService = new TriggerTileService();
   }
@@ -29,6 +34,7 @@ public class StageManager : IStageService, IStageCreator
     {
       var stageDataContainer = await resourceManager.CreateAssetAsync<StageDataContainer>(key);
 
+      SetupCamera(stageDataContainer);
       SetupPlayers(stageDataContainer);
       SetupTriggers(stageDataContainer);
       SetupDynamicObstacles(stageDataContainer);
@@ -43,6 +49,10 @@ public class StageManager : IStageService, IStageCreator
   }
   #endregion
 
+  private void SetupCamera(StageDataContainer stageData)
+  {
+    cameraService.SetSize(stageData.CameraSize);
+  }
   private void SetupPlayers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
     IStageObjectSetupService<IPlayerPresenter> stageObjectSetupService = playerSetupService;

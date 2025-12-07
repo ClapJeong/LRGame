@@ -14,14 +14,29 @@ public class LocalManager : MonoBehaviour
   private StageManager stageManager;
   public StageManager StageManager => stageManager;
 
+  [SerializeField] private CameraService cameraService;
+  public CameraService CameraService => cameraService;
+
   private IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
   private ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
 
-  private async void Awake()
+  private void Awake()
   {
     instance = this;
     InitializeManagers();
+    InitializeSceneAsync().Forget();
+  }
 
+  private void InitializeManagers()
+  {
+    stageManager = new StageManager(
+      resourceManager: GlobalManager.instance.ResourceManager,
+      sceneProvider: GlobalManager.instance.SceneProvider,
+      cameraService: cameraService);
+  }
+
+  private async UniTask InitializeSceneAsync()
+  {
     switch (sceneType)
     {
       case SceneType.Initialize:
@@ -46,23 +61,15 @@ public class LocalManager : MonoBehaviour
         break;
 
       case SceneType.Game:
-        { 
+        {
           await CreateFirstUIAsync();
           GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
           var index = chapter * 4 + stage;
           await CreateStageAsync(index);
         }
         break;
-    }   
+    }
   }
-
-  private void InitializeManagers()
-  {
-    stageManager = new StageManager(
-      resourceManager: GlobalManager.instance.ResourceManager,
-      sceneProvider: GlobalManager.instance.SceneProvider);
-  }
-
   private async UniTask CreateStageAsync(int index)
   {
     await StageManager.CreateAsync(index, true);
@@ -165,22 +172,6 @@ public class LocalManager : MonoBehaviour
   {
     var label = GlobalManager.instance.Table.AddressableKeySO.Label.PreLoad;
     await resourceManager.LoadAssetsAsync(label);
-  }
-
-  private void OnStageBegin()
-  {
-  }
-
-  private void OnStageRestart()
-  {
-  }
-
-  private void OnReturnToLobby()
-  {
-  }
-
-  private void OnNextStage()
-  {
   }
 
   #region DebugginMethods
