@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 4142683392115310766}
   - component: {fileID: 7208845533137128015}
   - component: {fileID: 1239745119038602213}
-  - component: {fileID: 443839191681720671}
+  - component: {fileID: 2266323841954161097}
   m_Layer: 5
   m_Name: quit
   m_TagString: Untagged
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
---- !u!114 &443839191681720671
+--- !u!114 &2266323841954161097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,10 +228,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 782857907239678027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8563245c1fc88434490878a08041c646, type: 3}
+  m_Script: {fileID: 11500000, guid: b18eb220b39d4c643adcaedd1b63247c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.PausePanel.BaseButtonViewContainer
-  gameObjectView: {fileID: 4142683392115310766}
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.PausePanel.BaseButtonView
   baseRectView: {fileID: 1239745119038602213}
   minProgressSubmitView: {fileID: 4614311662049983956}
   minImageView: {fileID: 1433288420135874423}
@@ -938,11 +937,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f5ccce6dc56894fb4ac1d9fba88ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStagePauseViewContainer
-  gameObjectView: {fileID: 2893234074088475897}
   IndicatorRoot: {fileID: 1161226429907374786}
-  resumeButtonViewContainer: {fileID: 6350151697727788506}
-  restartButtonViewContainer: {fileID: 311103444578279415}
-  quitButtonViewContainer: {fileID: 443839191681720671}
+  resumeButtonViewContainer: {fileID: 4784316440943829906}
+  restartButtonViewContainer: {fileID: 1839236245902688253}
+  quitButtonViewContainer: {fileID: 2266323841954161097}
 --- !u!114 &2893234074088475897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,7 +1138,7 @@ GameObject:
   - component: {fileID: 7516437123062856084}
   - component: {fileID: 1783872806170430282}
   - component: {fileID: 42105300337337296}
-  - component: {fileID: 311103444578279415}
+  - component: {fileID: 1839236245902688253}
   m_Layer: 5
   m_Name: Restart
   m_TagString: Untagged
@@ -1244,7 +1242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
---- !u!114 &311103444578279415
+--- !u!114 &1839236245902688253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1253,10 +1251,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7994793472766220750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8563245c1fc88434490878a08041c646, type: 3}
+  m_Script: {fileID: 11500000, guid: b18eb220b39d4c643adcaedd1b63247c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.PausePanel.BaseButtonViewContainer
-  gameObjectView: {fileID: 7516437123062856084}
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.PausePanel.BaseButtonView
   baseRectView: {fileID: 42105300337337296}
   minProgressSubmitView: {fileID: 306014394174678273}
   minImageView: {fileID: 7926727356395911065}
@@ -1273,10 +1270,10 @@ GameObject:
   - component: {fileID: 3122997773083925518}
   - component: {fileID: 857902953794820049}
   - component: {fileID: 4787303294044485143}
-  - component: {fileID: 6350151697727788506}
   - component: {fileID: 1484904381134491811}
   - component: {fileID: 3843664327357758817}
   - component: {fileID: 2438739537884255331}
+  - component: {fileID: 4784316440943829906}
   m_Layer: 5
   m_Name: Resume
   m_TagString: Untagged
@@ -1343,22 +1340,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6350151697727788506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8781327925959874184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 685addb7263b4304d8807d384d94d46f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.PausePanel.ResumeButtonViewContainer
-  gameObjectView: {fileID: 1484904381134491811}
-  progressSubmitView: {fileID: 3843664327357758817}
-  fillScaleView: {fileID: 7659895520584236411}
-  rectView: {fileID: 2438739537884255331}
 --- !u!114 &1484904381134491811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1395,6 +1376,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
+--- !u!114 &4784316440943829906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8781327925959874184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa0206075daa0f4a982c6d7c448a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.PausePanel.ResumeButtonView
+  progressSubmitView: {fileID: 3843664327357758817}
+  fillScaleView: {fileID: 7659895520584236411}
+  rectView: {fileID: 2438739537884255331}
 --- !u!1 &9000282441417558842
 GameObject:
   m_ObjectHideFlags: 0

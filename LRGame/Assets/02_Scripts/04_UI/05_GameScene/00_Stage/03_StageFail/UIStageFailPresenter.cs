@@ -37,55 +37,47 @@ namespace LR.UI.GameScene.Stage
     private static readonly UIInputDirectionType RestartPressInputType = UIInputDirectionType.RightRight;
 
     private readonly Model model;
-    private readonly UIStageFailViewContainer viewContainer;    
+    private readonly UIStageFailView view;    
 
-    private UIVisibleState visibleState;
     private SubscribeHandle subscribeHandle;
     private ButtonState currentButtonState;
+    private IUIIndicatorPresenter currentIndicator;
 
-    public UIStageFailPresenter(Model model, UIStageFailViewContainer viewContainer)
+    public UIStageFailPresenter(Model model, UIStageFailView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
 
-      viewContainer.gameObjectView.SetActive(false);
-      visibleState = UIVisibleState.Hided;
       CreateSubscribeHandle();
     }
 
-    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      viewContainer.quitBackgroundImageView.SetAlpha(0.4f);
-      viewContainer.restartBackgroundImageView.SetAlpha(0.4f);
-      await model.indicatorService.GetNewAsync(viewContainer.indicatorRoot, viewContainer.noneRectView);
-      SetState(ButtonState.None);
+      await GetNewIndicatorAsync();
       subscribeHandle.Subscribe();
-      visibleState = UIVisibleState.Showed;
-      viewContainer.gameObjectView.SetActive(true);
-      await UniTask.CompletedTask;
+      SetState(ButtonState.None);      
+      await view.ShowAsync(isImmediately, token);
     }
 
-    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
+      if (currentIndicator != null)
+        ReleaseIndicator();
       subscribeHandle.Unsubscribe();
-      viewContainer.gameObjectView.SetActive(false);
-      visibleState = UIVisibleState.Hided;
-      await UniTask.CompletedTask;
+      await view.HideAsync(isImmediately, token);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
       => target.AttachDisposable(this);
 
     public UIVisibleState GetVisibleState()
-      => visibleState;
-
-    public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new NotImplementedException();
-    }
+      => view.GetVisibleState();
 
     public void Dispose()
     {
+      if (currentIndicator != null)
+        ReleaseIndicator();
+
       subscribeHandle.Dispose();
     }
 
@@ -100,15 +92,15 @@ namespace LR.UI.GameScene.Stage
 
         case ButtonState.Quit:
           {
-            viewContainer.quitBackgroundImageView.SetAlpha(0.4f);
-            viewContainer.quitProgressSubmitView.Cancel(QuitPressInputType.ParseToDirection());
+            view.quitBackgroundImageView.SetAlpha(0.4f);
+            view.quitProgressSubmitView.Cancel(QuitPressInputType.ParseToDirection());
           }          
           break;
 
         case ButtonState.Restart:
           {
-            viewContainer.restartBackgroundImageView.SetAlpha(0.4f);
-            viewContainer.restartProgressSubmitView.Cancel(RestartPressInputType.ParseToDirection());
+            view.restartBackgroundImageView.SetAlpha(0.4f);
+            view.restartProgressSubmitView.Cancel(RestartPressInputType.ParseToDirection());
           }          
           break;
       }
@@ -119,7 +111,7 @@ namespace LR.UI.GameScene.Stage
       {
         case ButtonState.None:
           {
-            topIndicator.MoveAsync(viewContainer.noneRectView).Forget();
+            topIndicator.MoveAsync(view.noneRectView).Forget();
             topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
             {
               { QuitEnterInputType.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftGuideType.Movable },
@@ -131,8 +123,8 @@ namespace LR.UI.GameScene.Stage
 
         case ButtonState.Quit:
           {
-            viewContainer.quitBackgroundImageView.SetAlpha(1.0f);
-            topIndicator.MoveAsync(viewContainer.quitRectView).Forget();
+            view.quitBackgroundImageView.SetAlpha(1.0f);
+            topIndicator.MoveAsync(view.quitRectView).Forget();
             topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
             {
               { QuitEnterInputType.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftGuideType.Clamped },
@@ -143,8 +135,8 @@ namespace LR.UI.GameScene.Stage
 
         case ButtonState.Restart:
           {
-            viewContainer.restartBackgroundImageView.SetAlpha(1.0f);
-            topIndicator.MoveAsync(viewContainer.restartRectView).Forget();
+            view.restartBackgroundImageView.SetAlpha(1.0f);
+            topIndicator.MoveAsync(view.restartRectView).Forget();
             topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
             {
               { RestartEnterInputType.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftGuideType.Clamped },
@@ -159,6 +151,17 @@ namespace LR.UI.GameScene.Stage
       => currentButtonState == state;
     #endregion
 
+    private async UniTask GetNewIndicatorAsync()
+    {
+      currentIndicator = await model.indicatorService.GetNewAsync(view.indicatorRoot, view.noneRectView);
+    }
+
+    private void ReleaseIndicator()
+    {
+      model.indicatorService.ReleaseTopIndicator();
+      currentIndicator = null;
+    }
+
     private void CreateSubscribeHandle()
     {
       subscribeHandle = new(
@@ -169,8 +172,6 @@ namespace LR.UI.GameScene.Stage
         },
         onUnsubscribe: () =>
         {
-          model.indicatorService.ReleaseTopIndicator();
-
           UnsubscribeInputActions();
           UnsubscribeSubmits();
         });
@@ -220,7 +221,7 @@ namespace LR.UI.GameScene.Stage
       if (IsCurrentState(ButtonState.Quit) == false)
         return;
 
-      viewContainer.quitProgressSubmitView.Cancel(QuitPressInputType.ParseToDirection());
+      view.quitProgressSubmitView.Cancel(QuitPressInputType.ParseToDirection());
       SetState(ButtonState.None);
     }
 
@@ -229,7 +230,7 @@ namespace LR.UI.GameScene.Stage
       if (IsCurrentState(ButtonState.Quit) == false)
         return;
 
-      viewContainer.quitProgressSubmitView.Perform(QuitPressInputType.ParseToDirection());
+      view.quitProgressSubmitView.Perform(QuitPressInputType.ParseToDirection());
     }
 
     private void OnQuitButtonCanceled()
@@ -237,7 +238,7 @@ namespace LR.UI.GameScene.Stage
       if (IsCurrentState(ButtonState.Quit) == false)
         return;
 
-      viewContainer.quitProgressSubmitView.Cancel(QuitPressInputType.ParseToDirection());
+      view.quitProgressSubmitView.Cancel(QuitPressInputType.ParseToDirection());
     }
 
     private void OnRestartEnter()
@@ -253,7 +254,7 @@ namespace LR.UI.GameScene.Stage
       if (IsCurrentState(ButtonState.Restart) == false)
         return;
 
-      viewContainer.restartProgressSubmitView.Cancel(RestartPressInputType.ParseToDirection());
+      view.restartProgressSubmitView.Cancel(RestartPressInputType.ParseToDirection());
       SetState(ButtonState.None);
     }
 
@@ -262,14 +263,15 @@ namespace LR.UI.GameScene.Stage
       if (IsCurrentState(ButtonState.Restart) == false)
         return;
 
-      viewContainer.restartProgressSubmitView.Perform(RestartPressInputType.ParseToDirection());
+      view.restartProgressSubmitView.Perform(RestartPressInputType.ParseToDirection());
     }
 
     private void OnRestartCanceled()
     {
       if (IsCurrentState(ButtonState.Restart) == false)
         return;
-      viewContainer.restartProgressSubmitView.Cancel(RestartPressInputType.ParseToDirection());
+
+      view.restartProgressSubmitView.Cancel(RestartPressInputType.ParseToDirection());
     }
     #endregion
 
@@ -277,28 +279,28 @@ namespace LR.UI.GameScene.Stage
     private void SubscribeSubmits()
     {
       var quitPressDirection = QuitPressInputType.ParseToDirection();
-      viewContainer.quitProgressSubmitView.SubscribeOnProgress(quitPressDirection, viewContainer.quitFillImageView.SetFillAmount);
-      viewContainer.quitProgressSubmitView.SubscribeOnCanceled(quitPressDirection, () => viewContainer.quitFillImageView.SetFillAmount(0.0f));
-      viewContainer.quitProgressSubmitView.SubscribeOnComplete(quitPressDirection, () =>
+      view.quitProgressSubmitView.SubscribeOnProgress(quitPressDirection, view.quitFillImageView.SetFillAmount);
+      view.quitProgressSubmitView.SubscribeOnCanceled(quitPressDirection, () => view.quitFillImageView.SetFillAmount(0.0f));
+      view.quitProgressSubmitView.SubscribeOnComplete(quitPressDirection, () =>
       {
         Dispose();
         model.sceneProvider.LoadSceneAsync(SceneType.Lobby);
       });
 
       var restartDirection = RestartPressInputType.ParseToDirection();
-      viewContainer.restartProgressSubmitView.SubscribeOnProgress(restartDirection, viewContainer.restartFillImageView.SetFillAmount);
-      viewContainer.restartProgressSubmitView.SubscribeOnCanceled(restartDirection, () => viewContainer.restartFillImageView.SetFillAmount(0.0f));
-      viewContainer.restartProgressSubmitView.SubscribeOnComplete(restartDirection, () =>
+      view.restartProgressSubmitView.SubscribeOnProgress(restartDirection, view.restartFillImageView.SetFillAmount);
+      view.restartProgressSubmitView.SubscribeOnCanceled(restartDirection, () => view.restartFillImageView.SetFillAmount(0.0f));
+      view.restartProgressSubmitView.SubscribeOnComplete(restartDirection, () =>
       {
-        HideAsync().Forget();
+        DeactivateAsync().Forget();
         model.stageService.RestartAsync().Forget();
       });
     }
 
     private void UnsubscribeSubmits()
     {
-      viewContainer.quitProgressSubmitView.UnsubscribeAll();
-      viewContainer.restartProgressSubmitView.UnsubscribeAll();
+      view.quitProgressSubmitView.UnsubscribeAll();
+      view.restartProgressSubmitView.UnsubscribeAll();
     }
     #endregion
   }

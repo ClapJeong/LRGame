@@ -26,18 +26,17 @@ namespace LR.UI.GameScene.Stage
     
 
     private readonly Model model;
-    private readonly UIStageBeginViewContainer viewContainer;
+    private readonly UIStageBeginView view;
 
-    private UIVisibleState visibleState = UIVisibleState.None;
     private SubscribeHandle subscribeHandle;
 
     private int leftPerfomedCount;
     private int rightPerfomedCount;
 
-    public UIStageBeginPresenter(Model model, UIStageBeginViewContainer viewContainer)
+    public UIStageBeginPresenter(Model model, UIStageBeginView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
 
       CreateSubscribeHandle();
     }
@@ -51,28 +50,19 @@ namespace LR.UI.GameScene.Stage
     }
 
     public UIVisibleState GetVisibleState()
-      => visibleState;
+      => view.GetVisibleState();
 
-    public void SetVisibleState(UIVisibleState visibleState)
-      => this.visibleState = visibleState;
-
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Unsubscribe();
-      viewContainer.gameObjectView.SetActive(false);
-      visibleState = UIVisibleState.Hided;
-      return UniTask.CompletedTask;
+      await view.HideAsync(isImmediately, token);
     }
 
 
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      viewContainer.leftImageView.SetAlpha(0.4f);
-      viewContainer.rightImageView.SetAlpha(0.4f);
       subscribeHandle.Subscribe();
-      viewContainer.gameObjectView.SetActive(true);
-      visibleState = UIVisibleState.Showed;
-      return UniTask.CompletedTask;
+      await view.ShowAsync(isImmediately, token);
     }
 
     private void CreateSubscribeHandle()
@@ -115,7 +105,7 @@ namespace LR.UI.GameScene.Stage
     private void OnLeftPerformed()
     {
       leftPerfomedCount++;
-      viewContainer.leftImageView.SetAlpha(1.0f);
+      view.leftImageView.SetAlpha(1.0f);
 
       if (IsPlayble())
         BeginStage();
@@ -125,13 +115,13 @@ namespace LR.UI.GameScene.Stage
     {
       leftPerfomedCount--;
       if (leftPerfomedCount == 0)
-        viewContainer.leftImageView.SetAlpha(0.4f);
+        view.leftImageView.SetAlpha(0.4f);
     }
 
     private void OnRightPerformed()
     {
       rightPerfomedCount++;
-      viewContainer.rightImageView.SetAlpha(1.0f);
+      view.rightImageView.SetAlpha(1.0f);
 
       if (IsPlayble())
         BeginStage();
@@ -141,7 +131,7 @@ namespace LR.UI.GameScene.Stage
     {
       rightPerfomedCount--;
       if (rightPerfomedCount == 0)
-        viewContainer.rightImageView.SetAlpha(0.4f);
+        view.rightImageView.SetAlpha(0.4f);
     }
 
     private bool IsPlayble()
@@ -150,7 +140,7 @@ namespace LR.UI.GameScene.Stage
     private void BeginStage()
     {
       model.stageService.Begin();
-      HideAsync().Forget();
+      DeactivateAsync().Forget();
     }
   }
 }

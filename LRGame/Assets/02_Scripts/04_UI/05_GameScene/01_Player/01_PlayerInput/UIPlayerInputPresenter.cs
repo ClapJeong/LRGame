@@ -11,100 +11,86 @@ namespace LR.UI.GameScene.Player
   {
     public class Model
     {
+      public IPlayerInputActionController inputActionController;
 
+      public Model(IPlayerInputActionController inputActionController)
+      {
+        this.inputActionController = inputActionController;
+      }
     }
 
     private readonly Model model;
-    private readonly UIPlayerInputViewContainer leftViewContainer;
-    private readonly UIPlayerInputViewContainer rightViewContainer;
+    private readonly UIPlayerInputView view;
     private readonly int activeHash = Animator.StringToHash("Active");
 
-    public UIPlayerInputPresenter(
-      Model model,
-      UIPlayerInputViewContainer leftViewContainer,
-      IPlayerInputActionController leftInputController,
-      UIPlayerInputViewContainer rightViewContainer,
-      IPlayerInputActionController rightInputController)
+    public UIPlayerInputPresenter(Model model, UIPlayerInputView view)
     {
       this.model = model;
-      this.leftViewContainer = leftViewContainer;
-      this.rightViewContainer = rightViewContainer;
+      this.view = view;
 
-      leftInputController.SubscribeOnPerformed(direction=>
-      {
-        var view = direction switch
-        {
-          Direction.Up => leftViewContainer.upView,
-          Direction.Down => leftViewContainer.downView,
-          Direction.Left => leftViewContainer.leftView,
-          Direction.Right => leftViewContainer.rightView,
-          _=>throw new System.NotImplementedException(),
-        };
-        view.SetBool(activeHash, true);
-      });
-      leftInputController.SubscribeOnCanceled(direction =>
-      {
-        var view = direction switch
-        {
-          Direction.Up => leftViewContainer.upView,
-          Direction.Down => leftViewContainer.downView,
-          Direction.Left => leftViewContainer.leftView,
-          Direction.Right => leftViewContainer.rightView,
-          _ => throw new System.NotImplementedException(),
-        };
-        view.SetBool(activeHash, false);
-      });
-      rightInputController.SubscribeOnPerformed(direction =>
-      {
-        var view = direction switch
-        {
-          Direction.Up => rightViewContainer.upView,
-          Direction.Down => rightViewContainer.downView,
-          Direction.Left => rightViewContainer.leftView,
-          Direction.Right => rightViewContainer.rightView,
-          _ => throw new System.NotImplementedException(),
-        };
-        view.SetBool(activeHash, true);
-      });
-      rightInputController.SubscribeOnCanceled(direction =>
-      {
-        var view = direction switch
-        {
-          Direction.Up => rightViewContainer.upView,
-          Direction.Down => rightViewContainer.downView,
-          Direction.Left => rightViewContainer.leftView,
-          Direction.Right => rightViewContainer.rightView,
-          _ => throw new System.NotImplementedException(),
-        };
-        view.SetBool(activeHash, false);
-      });
+      SubscribeInputActionController();
     }
 
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      return UniTask.CompletedTask;
+      await view.ShowAsync(isImmediately, token);
     }
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      return UniTask.CompletedTask;
+      await view.HideAsync(isImmediately, token);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
-      => target.OnDestroyAsObservable().Subscribe(_ => Dispose());
+      => target.AttachDisposable(this);
 
     public UIVisibleState GetVisibleState()
-    {
-      return UIVisibleState.Showed;
-    }
-
-    public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new NotImplementedException();
-    }
+      => view.GetVisibleState();
 
     public void Dispose()
     {
+      UnsubscribeInputActionController();
+
+      if (view)
+        view.DestroySelf();
+    }
+
+    private void SubscribeInputActionController()
+    {
+      model.inputActionController.SubscribeOnPerformed(OnInputActionPerformed);
+      model.inputActionController.SubscribeOnCanceled(OnInputActionCanceled);
+    }
+    
+    private void UnsubscribeInputActionController()
+    {
+      model.inputActionController.UnsubscribePerfoemd(OnInputActionPerformed);
+      model.inputActionController.UnsubscribeCanceled(OnInputActionCanceled);
+    }
+
+    private void OnInputActionPerformed(Direction direction)
+    {
+      var animatorView = direction switch
+      {
+        Direction.Up => view.upAnimator,
+        Direction.Down => view.downAnimator,
+        Direction.Left => view.leftAnimator,
+        Direction.Right => view.rightAnimator,
+        _ => throw new System.NotImplementedException(),
+      };
+      animatorView.SetBool(activeHash, true);
+    }
+
+    private void OnInputActionCanceled(Direction direction)
+    {
+      var animatorView = direction switch
+      {
+        Direction.Up => view.upAnimator,
+        Direction.Down => view.downAnimator,
+        Direction.Left => view.leftAnimator,
+        Direction.Right => view.rightAnimator,
+        _ => throw new System.NotImplementedException(),
+      };
+      animatorView.SetBool(activeHash, false);
     }
   }
 }

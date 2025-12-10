@@ -20,32 +20,28 @@ namespace LR.UI.Indicator
 
     private const float BlinkInterval = 0.3f;
 
+    private readonly Transform disableRoot;
     private readonly BaseUIIndicatorView view;
     private readonly CTSContainer moveCTS = new();
     private readonly CTSContainer blinkCTS = new();
 
     private UniTask blinkTask;
 
-    public BaseUIIndicatorPresenter(Transform root, IRectView targetRect, BaseUIIndicatorView view)
+    public BaseUIIndicatorPresenter(Transform root, IRectView targetRect, BaseUIIndicatorView view, Transform disableRoot)
     {
       this.view = view;
-      view.gameObjectView.SetRoot(root);
+      this.disableRoot = disableRoot;
+
+      view.transform.SetParent(root);
       view.rectView.SetPosition(targetRect.GetPosition());
       view.rectView.SetRect(targetRect.GetCurrentRectSize());
     }
 
     public void ReInitialize(Transform root, IRectView targetRectView)
     {
-      view.gameObjectView.SetRoot(root);
+      view.transform.SetParent(root);
       view.rectView.SetPosition(targetRectView.GetPosition());
-      view.rectView.SetRect(targetRectView.GetCurrentRectSize());      
-    }
-
-    public void Disable(Transform disabledRoot)
-    {
-      view.gameObjectView.SetRoot(disabledRoot);
-      moveCTS.Cancel();
-      blinkCTS.Cancel();
+      view.rectView.SetRect(targetRectView.GetCurrentRectSize());
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -53,8 +49,8 @@ namespace LR.UI.Indicator
 
     public void Dispose()
     {
-      if(view)
-      view.gameObjectView.DestroyGameObject();
+      if (view)
+        view.DestroySelf();
 
       moveCTS.Dispose();
       blinkCTS.Dispose();
@@ -103,23 +99,20 @@ namespace LR.UI.Indicator
       }
     }
 
-    public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new NotImplementedException();
-    }
-
     public UIVisibleState GetVisibleState()
+      => view.GetVisibleState();
+
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      throw new NotImplementedException();
+      await view.ShowAsync(isImmediately, token);
     }
 
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
-    {
-      return UniTask.CompletedTask;
-    }
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
-    {
-      return UniTask.CompletedTask;
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
+    {      
+      moveCTS.Cancel();
+      blinkCTS.Cancel();
+      await view.HideAsync(isImmediately, token);
+      view.transform.SetParent(disableRoot);
     }
 
     public void SetLeftGuide(Direction direction, LeftGuideType guideType)

@@ -5,6 +5,10 @@ namespace LR.UI
 {
   public interface IUIProgressSubmitView
   {
+    public void Enable(bool isEnable);
+
+    public bool IsEnable(); 
+
     public void Perform(Direction direction);
 
     public void Cancel(Direction direction);
@@ -40,8 +44,6 @@ namespace LR.UI
     public void UnsubscribeOnProgress(List<Direction> directions, UnityAction<float> onProgress);
 
     public void UnsubscribeOnComplete(List<Direction> directions, UnityAction onComplete);
-
-
 
     public void UnsubscribeAll();
 

@@ -113,7 +113,7 @@ public class LocalManager : MonoBehaviour
 
     var presenter = new UIPreloadingPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
-    presenter.ShowAsync().Forget();
+    presenter.ActivateAsync().Forget();
   }
 
   private async UniTask CreateLobbyUIAsync()
@@ -127,11 +127,11 @@ public class LocalManager : MonoBehaviour
       sceneProvider: GlobalManager.instance.SceneProvider);
 
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UILobbyViewContainer>(table.Path.Ui + table.UIName.LobbyRoot, root);
+    var view = await resourceManager.CreateAssetAsync<UILobbyRootView>(table.Path.Ui + table.UIName.LobbyRoot, root);
 
     var presenter = new UILobbyRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
-    presenter.ShowAsync().Forget();
+    presenter.ActivateAsync().Forget();
   }
 
   private async UniTask CreatePlayerUIAsync()
@@ -141,11 +141,11 @@ public class LocalManager : MonoBehaviour
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UIPlayerRootViewContainer>(table.Path.Ui + table.UIName.PlayerRoot, root);
+    var view = await resourceManager.CreateAssetAsync<UIPlayerRootView>(table.Path.Ui + table.UIName.PlayerRoot, root);
 
     var presenter = new UIPlayerRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
-    presenter.ShowAsync().Forget();
+    presenter.ActivateAsync().Forget();
   }
 
   private async UniTask CreateStageUIAsync()
@@ -161,11 +161,11 @@ public class LocalManager : MonoBehaviour
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var key = table.Path.Ui + table.UIName.StageRoot;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UIStageRootViewContainer>(key, root);
+    var view = await resourceManager.CreateAssetAsync<UIStageRootView>(key, root);
 
     var presenter = new UIStageRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
-    presenter.ShowAsync().Forget();
+    presenter.ActivateAsync().Forget();
   }
 
   private async UniTask LoadPreloadAsync()

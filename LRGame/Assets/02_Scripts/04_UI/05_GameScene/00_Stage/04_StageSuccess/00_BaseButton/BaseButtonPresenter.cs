@@ -23,18 +23,16 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
     }
 
     private readonly Model model;
-    private readonly BaseButtonViewContainer viewContainer;
+    private readonly BaseButtonView view;
 
     private SubscribeHandle subscribeHandle;
 
-    public BaseButtonPresenter(Model model, BaseButtonViewContainer viewContainer)
+    public BaseButtonPresenter(Model model, BaseButtonView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
 
       CreateSubscribeHandle();
-
-      viewContainer.backgroundImageView.SetAlpha(0.4f);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -45,29 +43,21 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
       subscribeHandle.Dispose();
     }
 
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Subscribe();
-      viewContainer.backgroundImageView.SetAlpha(1.0f);
-      return UniTask.CompletedTask;
+      await view.ShowAsync(isImmediately, token);
     }
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      viewContainer.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
-      viewContainer.backgroundImageView.SetAlpha(0.4f);
+      view.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());      
       subscribeHandle.Unsubscribe();      
-      return UniTask.CompletedTask;
+      await view.HideAsync(isImmediately, token);
     }
 
-    public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new NotImplementedException();
-    }
     public UIVisibleState GetVisibleState()
-    {
-      throw new NotImplementedException();
-    }
+      => view.GetVisibleState();
 
     private void CreateSubscribeHandle()
     {
@@ -78,9 +68,9 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
           model.uiInputActionManager.SubscribeCanceledEvent(model.inputDirectionType, OnInputCanceled);
 
           var direction = model.inputDirectionType.ParseToDirection();
-          viewContainer.progressSubmitView.SubscribeOnProgress(direction, viewContainer.fillImageView.SetFillAmount);
-          viewContainer.progressSubmitView.SubscribeOnCanceled(direction, () => viewContainer.fillImageView.SetFillAmount(0.0f));
-          viewContainer.progressSubmitView.SubscribeOnComplete(direction, () =>
+          view.progressSubmitView.SubscribeOnProgress(direction, view.fillImageView.SetFillAmount);
+          view.progressSubmitView.SubscribeOnCanceled(direction, () => view.fillImageView.SetFillAmount(0.0f));
+          view.progressSubmitView.SubscribeOnComplete(direction, () =>
           {
             model.onSubmit?.Invoke();
           });
@@ -90,18 +80,18 @@ namespace LR.UI.GameScene.Stage.SuccessPanel
           model.uiInputActionManager.UnsubscribePerformedEvent(model.inputDirectionType, OnInputPerformed);
           model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputDirectionType, OnInputCanceled);
 
-          viewContainer.progressSubmitView.UnsubscribeAll();
+          view.progressSubmitView.UnsubscribeAll();
         });
     }
 
     private void OnInputPerformed()
     {
-      viewContainer.progressSubmitView.Perform(model.inputDirectionType.ParseToDirection());
+      view.progressSubmitView.Perform(model.inputDirectionType.ParseToDirection());
     }
 
     private void OnInputCanceled()
     {
-      viewContainer.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
+      view.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
     }
   }
 }

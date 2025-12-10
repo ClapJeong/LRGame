@@ -1,11 +1,12 @@
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 namespace LR.UI.Indicator
 {
-  public class BaseUIIndicatorView : MonoBehaviour
+  public class BaseUIIndicatorView : BaseUIView
   {
     [Header("[ Base ]")]
-    public BaseGameObjectView gameObjectView;
     public BaseRectView rectView;
 
     [Header("[ LeftInput ]")]
@@ -22,5 +23,19 @@ namespace LR.UI.Indicator
 
     [Header("[ Space ]")]
     public BaseImageView spaceImageView;
+
+    public override UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    {
+      gameObject.SetActive(false);
+      visibleState = UIVisibleState.Hidden;
+      return UniTask.CompletedTask;
+    }
+
+    public override UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    {
+      gameObject.SetActive(true);
+      visibleState = UIVisibleState.Showen;
+      return UniTask.CompletedTask;
+    }
   }
 }

@@ -52,22 +52,20 @@ namespace LR.UI.GameScene.Stage
     private static readonly UIInputDirectionType QuitMaxDirection = UIInputDirectionType.RightDown;
 
     private readonly Model model;
-    private readonly UIStagePauseViewContainer viewContainer;    
+    private readonly UIStagePauseView view;    
 
     private ResumeButtonPresenter resumePresenter;
     private BaseButtonPresenter restartPresenter;
     private BaseButtonPresenter quitPresenter;
 
-    private UIVisibleState visibleState = UIVisibleState.None;
     private SelectingState currentState;
     private SubscribeHandle subscribeHandle;
+    private IUIIndicatorPresenter currentIndicator;
 
-    public UIStagePausePresenter(Model model, UIStagePauseViewContainer viewContainer)
+    public UIStagePausePresenter(Model model, UIStagePauseView view)
     {
-      this.viewContainer = viewContainer;
+      this.view = view;
       this.model = model;
-
-      visibleState = UIVisibleState.Hided;
 
       CreateSubscribeHandle();
 
@@ -75,8 +73,9 @@ namespace LR.UI.GameScene.Stage
       CreateQuitPresenter();
       CreateRestartPresenter();
 
-      visibleState = UIVisibleState.Hided;
-      viewContainer.gameObjectView.SetActive(false);
+      resumePresenter.DeactivateAsync().Forget();
+      restartPresenter.DeactivateAsync().Forget();
+      quitPresenter.DeactivateAsync().Forget();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -84,48 +83,38 @@ namespace LR.UI.GameScene.Stage
 
     public void Dispose()
     {
+      if (currentIndicator != null)
+        ReleaseIndicator();
+
       subscribeHandle.Dispose();
+      if (view)
+        view.DestroySelf();
     }
 
-    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      await model.indicatorService.GetNewAsync(viewContainer.IndicatorRoot, viewContainer.resumeButtonViewContainer.rectView);
-      model.stageService.Pause();
-      SetState(SelectingState.Resume);
+      await GetNewIndicatorAsync();
+      model.stageService.Pause();      
       subscribeHandle.Subscribe();
-      viewContainer.gameObjectView.SetActive(true);
-      visibleState = UIVisibleState.Showed;
-      await UniTask.CompletedTask;
+      SetState(SelectingState.Resume);
+      await view.ShowAsync(isImmediately, token);
     }
 
-    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
+      if(currentIndicator != null)
+        ReleaseIndicator();
       SetState(SelectingState.None);
-      subscribeHandle.Unsubscribe();
-      viewContainer.gameObjectView.SetActive(false);
-      visibleState = UIVisibleState.Hided;
-      model.stageService.Resume();
-      await UniTask.CompletedTask;
+      subscribeHandle.Unsubscribe();      
+      await view.HideAsync(isImmediately, token);
     }
-
-    public void SetVisibleState(UIVisibleState visibleState)
-      => this.visibleState = visibleState;
 
     public UIVisibleState GetVisibleState()
-      => visibleState;
+      => view.GetVisibleState();
 
     private void CreateSubscribeHandle()
     {
-      subscribeHandle = new SubscribeHandle(
-        onSubscribe: () =>
-        {
-          SubscribeInputActions();
-        },
-        onUnsubscribe: () =>
-        {
-          UnsubscribeInputActions();
-          model.indicatorService.ReleaseTopIndicator();
-        });
+      subscribeHandle = new SubscribeHandle(SubscribeInputActions, UnsubscribeInputActions);
     }
 
     private void SetState(SelectingState selectingType)
@@ -136,19 +125,21 @@ namespace LR.UI.GameScene.Stage
         case SelectingState.None:break;
 
         case SelectingState.Resume:
-          resumePresenter.HideAsync().Forget();
+          resumePresenter.DeactivateAsync().Forget();
           break;
 
         case SelectingState.Restart:
-          restartPresenter.HideAsync().Forget();
+          restartPresenter.DeactivateAsync().Forget();
           break;
 
         case SelectingState.Quit:
-          quitPresenter.HideAsync().Forget();
+          quitPresenter.DeactivateAsync().Forget();
           break;
       }
 
-      var topIndicator = model.indicatorService.GetTopIndicator();
+      if (model.indicatorService.TryGetTopIndicator(out var topIndicator) == false)
+        return;
+      
       currentState = selectingType;
       switch (currentState)
       {
@@ -161,7 +152,7 @@ namespace LR.UI.GameScene.Stage
 
         case SelectingState.Resume:
           {
-            resumePresenter.ShowAsync().Forget();
+            resumePresenter.ActivateAsync().Forget();
             
             var leftGuide = new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>();
             foreach (var directionType in QuitButtonEnterDirectionTypes)
@@ -169,7 +160,7 @@ namespace LR.UI.GameScene.Stage
             foreach (var directionType in RestartButtonEnterDirectionTypes)
               leftGuide.Add(directionType.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable);
 
-            topIndicator.MoveAsync(viewContainer.resumeButtonViewContainer.rectView)
+            topIndicator.MoveAsync(view.resumeButtonViewContainer.rectView)
               .ContinueWith(() =>
               {
                 topIndicator.SetLeftGuide(leftGuide);
@@ -180,12 +171,12 @@ namespace LR.UI.GameScene.Stage
 
         case SelectingState.Restart:
           {
-            restartPresenter.ShowAsync().Forget();
+            restartPresenter.ActivateAsync().Forget();
             var leftGuide = new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>();
             foreach (var directionType in RestartButtonEnterDirectionTypes)
               leftGuide.Add(directionType.ParseToDirection().ParseOpposite(), IUIIndicatorPresenter.LeftGuideType.Clamped);
 
-            topIndicator.MoveAsync(viewContainer.restartButtonViewContainer.baseRectView)
+            topIndicator.MoveAsync(view.restartButtonViewContainer.baseRectView)
               .ContinueWith(() =>
               {
                 topIndicator.SetLeftGuide(leftGuide);
@@ -197,12 +188,12 @@ namespace LR.UI.GameScene.Stage
 
         case SelectingState.Quit:
           {
-            quitPresenter.ShowAsync().Forget();
+            quitPresenter.ActivateAsync().Forget();
             var leftGuide = new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>();
             foreach (var directionType in QuitButtonEnterDirectionTypes)
               leftGuide.Add(directionType.ParseToDirection().ParseOpposite(), IUIIndicatorPresenter.LeftGuideType.Clamped);
 
-            topIndicator.MoveAsync(viewContainer.quitButtonViewContainer.baseRectView)
+            topIndicator.MoveAsync(view.quitButtonViewContainer.baseRectView)
               .ContinueWith(() =>
               {
                 topIndicator.SetLeftGuide(leftGuide);
@@ -220,12 +211,13 @@ namespace LR.UI.GameScene.Stage
         inputDirectionType: UIInputDirectionType.Space,
         onSubmit: () =>
         {
-          HideAsync().Forget();          
+          this.model.stageService.Resume();
+          DeactivateAsync().Forget();          
         },
         uiInputActionManager: this.model.uiInputActionManager);
-      var view = viewContainer.resumeButtonViewContainer;
+      var view = this.view.resumeButtonViewContainer;
       resumePresenter = new ResumeButtonPresenter(model, view);
-      resumePresenter.AttachOnDestroy(viewContainer.gameObject);
+      resumePresenter.AttachOnDestroy(this.view.gameObject);
     }
 
     private void CreateRestartPresenter()
@@ -236,12 +228,12 @@ namespace LR.UI.GameScene.Stage
         onSubmit: () =>
         {
           this.model.stageService.RestartAsync().Forget();
-          HideAsync().Forget();
+          DeactivateAsync().Forget();
         },
         uiInputActionManager: this.model.uiInputActionManager);
-      var view = viewContainer.restartButtonViewContainer;
+      var view = this.view.restartButtonViewContainer;
       restartPresenter = new BaseButtonPresenter(model, view);
-      restartPresenter.AttachOnDestroy(viewContainer.gameObject);
+      restartPresenter.AttachOnDestroy(this.view.gameObject);
     }
 
     private void CreateQuitPresenter() 
@@ -255,9 +247,20 @@ namespace LR.UI.GameScene.Stage
           this.model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
         },
         uiInputActionManager: this.model.uiInputActionManager);
-      var view = viewContainer.quitButtonViewContainer;
+      var view = this.view.quitButtonViewContainer;
       quitPresenter = new BaseButtonPresenter(model, view);
-      quitPresenter.AttachOnDestroy(viewContainer.gameObject);
+      quitPresenter.AttachOnDestroy(this.view.gameObject);
+    }
+
+    private async UniTask GetNewIndicatorAsync()
+    {
+      currentIndicator = await model.indicatorService.GetNewAsync(view.IndicatorRoot, view.resumeButtonViewContainer.rectView);
+    }
+
+    private void ReleaseIndicator()
+    {      
+      model.indicatorService.ReleaseTopIndicator();
+      currentIndicator = null;
     }
 
     #region Subscribes

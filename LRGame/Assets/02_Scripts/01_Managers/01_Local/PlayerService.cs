@@ -23,8 +23,8 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
   public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
     var setupData = data as SetupData;
-    leftPlayer = await CreateLeftPlayer(setupData.leftPosition);
-    rightPlayer = await CreateRighPlayer(setupData.rightPosition);
+    leftPlayer = await CreateLeftPlayerAsync(setupData.leftPosition);
+    rightPlayer = await CreateRighPlayerAsync(setupData.rightPosition);
 
     leftPlayer.Enable(isEnableImmediately);
     rightPlayer.Enable(isEnableImmediately);
@@ -40,7 +40,7 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
     rightPlayer.EnableAllInputActions(false);
   }
 
-  private async UniTask<IPlayerPresenter> CreateLeftPlayer(Vector3 startPosition)
+  private async UniTask<IPlayerPresenter> CreateLeftPlayerAsync(Vector3 startPosition)
   {
     var modelSO = GlobalManager.instance.Table.LeftPlayerModelSO;
     var leftPlayerKey = 
@@ -67,7 +67,7 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
     return presenter;
   }
 
-  private async UniTask<IPlayerPresenter> CreateRighPlayer(Vector3 startPosition)
+  private async UniTask<IPlayerPresenter> CreateRighPlayerAsync(Vector3 startPosition)
   {
     var modelSO = GlobalManager.instance.Table.RightPlayerModelSO;
     var rightPlayerKey =

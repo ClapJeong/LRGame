@@ -1,11 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Components;
 
 namespace LR.UI.Preloading
 {
@@ -24,31 +20,26 @@ namespace LR.UI.Preloading
       this.view = view;
     }
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       return UniTask.CompletedTask;
     }
 
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       return UniTask.CompletedTask;
     }
-
-    public void SetVisibleState(UIVisibleState visibleState)
-      => throw new System.NotImplementedException();
 
     public UIVisibleState GetVisibleState()
-      => UIVisibleState.Showed;
+      => view.GetVisibleState();
 
     public void Dispose()
     {
       if (view)
-        GameObject.Destroy(view.gameObject);
+        view.DestroySelf();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
-      => target
-      .OnDestroyAsObservable()
-      .Subscribe(_ => Dispose());
+      => target.AttachDisposable(this);
   }
 }

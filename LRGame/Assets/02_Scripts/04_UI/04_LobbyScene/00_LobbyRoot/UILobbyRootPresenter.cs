@@ -32,36 +32,31 @@ namespace LR.UI.Lobby
     }
 
     private readonly Model model;
-    private readonly UILobbyViewContainer viewContainer;
+    private readonly UILobbyRootView view;
 
     private IUIIndicatorService indicatorService => model.uiManager;
 
     private IUIIndicatorPresenter currentIndicator;
-    private Dictionary<UIChapterButtonViewContainer, UIChapterButtonPresenter> chapterButtons = new();
+    private Dictionary<UIChapterButtonView, UIChapterButtonPresenter> chapterButtons = new();
 
-    public UILobbyRootPresenter(Model model, UILobbyViewContainer viewContainer)
+    public UILobbyRootPresenter(Model model, UILobbyRootView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
 
       RegisterContainer();
       CreateChapterButtonsAsync().Forget();
     }
 
     public UIVisibleState GetVisibleState()
-      => UIVisibleState.Showed;
+      => view.GetVisibleState();
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       return UniTask.CompletedTask;
     }
 
-    public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       return UniTask.CompletedTask;
     }
@@ -75,13 +70,13 @@ namespace LR.UI.Lobby
       LowerDepth();
       UnsubscribeSelectedGameObjectService();
 
-      if (viewContainer)
-        viewContainer.BaseGameObjectView.DestroyGameObject();      
+      if (view)
+        view.DestroySelf();
     }
 
     private async UniTask CreateChapterButtonsAsync()
     {
-      var navigationsView = new List<UIChapterButtonViewContainer>();
+      var navigationsView = new List<UIChapterButtonView>();
       var testChapterCount = 3;
       for (int i = 0; i < testChapterCount; i++)
       {
@@ -90,16 +85,17 @@ namespace LR.UI.Lobby
         var table = GlobalManager.instance.Table.AddressableKeySO;
         var key = table.Path.Ui + table.UIName.LobbyChapterButton;
         var model = new UIChapterButtonPresenter.Model(
+          chapter: chapter,
+          panelRoot: this.view.chapterPanelRoot,
           depthService: this.model.uiManager,
           uiInputActionManager: this.model.uiInputManager,
           resourceManager: this.model.resourceManager,
-          chapter: chapter,
           gameDataService: this.model.gameDataService,
           sceneProvider: this.model.sceneProvider,
           indicatorService: this.model.uiManager);
-        var view = await this.model.resourceManager.CreateAssetAsync<UIChapterButtonViewContainer>(key, viewContainer.stageButtonRoot);
+        var view = await this.model.resourceManager.CreateAssetAsync<UIChapterButtonView>(key, this.view.stageButtonRoot);
         view.name = $"ChapterView_{i}";
-        var presenter = new UIChapterButtonPresenter(model, view, viewContainer.chapterPanelRoot);
+        var presenter = new UIChapterButtonPresenter(model, view);
         presenter.AttachOnDestroy(view.gameObject);
 
         chapterButtons[view] = presenter;
@@ -109,7 +105,7 @@ namespace LR.UI.Lobby
       InitializeNavigations(navigationsView);
     }
 
-    private void InitializeNavigations(List<UIChapterButtonViewContainer> navigationViews)
+    private void InitializeNavigations(List<UIChapterButtonView> navigationViews)
     {
       for(int i = 0; i < navigationViews.Count; i++)
       {
@@ -143,15 +139,15 @@ namespace LR.UI.Lobby
     }
 
     #region Depths
-    private async void RaiseDepth(UIChapterButtonViewContainer firstView)
+    private async void RaiseDepth(UIChapterButtonView firstView)
     {
-      LayoutRebuilder.ForceRebuildLayoutImmediate(viewContainer.stageButtonRoot.GetComponent<RectTransform>());
+      LayoutRebuilder.ForceRebuildLayoutImmediate(view.stageButtonRoot.GetComponent<RectTransform>());
       await UniTask.Yield();
 
-      currentIndicator = await indicatorService.GetNewAsync(viewContainer.indicatorRoot, firstView.rectView);
+      currentIndicator = await indicatorService.GetNewAsync(view.indicatorRoot, firstView.rectView);
       currentIndicator.SetLeftGuide(firstView.navigationView.GetNavigation());
       currentIndicator.SetRightGuide(Direction.Right, Direction.Left);
-      indicatorService.ReleaseTopIndicatorOnDestroy(viewContainer.gameObject);
+      indicatorService.ReleaseTopIndicatorOnDestroy(view.gameObject);
 
       IUIDepthService depthService = model.uiManager;
       depthService.RaiseDepth(firstView.gameObject);
@@ -184,21 +180,21 @@ namespace LR.UI.Lobby
 
     private void OnSelectedGameObjectEnter(GameObject target)
     {
-      if (target.TryGetComponent<UIChapterButtonViewContainer>(out var targetView) &&
+      if (target.TryGetComponent<UIChapterButtonView>(out var targetView) &&
           indicatorService.IsTopIndicatorIsThis(currentIndicator))
       {
         currentIndicator.MoveAsync(targetView.rectView).Forget();
         currentIndicator.SetLeftGuide(targetView.navigationView.GetNavigation());
-        chapterButtons[targetView].ShowAsync().Forget();
+        chapterButtons[targetView].ActivateAsync().Forget();
       }
     }
 
     private void OnSelectedGameObjectExit(GameObject target)
     {
-      if (target.TryGetComponent<UIChapterButtonViewContainer>(out var targetView) &&
+      if (target.TryGetComponent<UIChapterButtonView>(out var targetView) &&
           indicatorService.IsTopIndicatorIsThis(currentIndicator))
       {
-        chapterButtons[targetView].HideAsync().Forget();
+        chapterButtons[targetView].DeactivateAsync().Forget();
       }
     }
   }

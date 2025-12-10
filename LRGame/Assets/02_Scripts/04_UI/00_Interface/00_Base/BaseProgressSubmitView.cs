@@ -26,6 +26,7 @@ namespace LR.UI
     }
 
     private readonly Dictionary<Direction, EventSet> eventSets = new();
+    private bool isEnable = true;
     private IDisposable updateDisposable;
     private UISO uiSO;
 
@@ -40,6 +41,13 @@ namespace LR.UI
       progressSubmitController.Release(this);
       updateDisposable?.Dispose();
     }
+
+    public void Enable(bool isEnable)
+      => isEnable = true;
+
+    public bool IsEnable()
+      => isEnable;
+
 
     public void Cancel(Direction direction)
     {

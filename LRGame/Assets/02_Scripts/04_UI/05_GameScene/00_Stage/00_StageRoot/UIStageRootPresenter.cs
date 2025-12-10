@@ -30,26 +30,29 @@ namespace LR.UI.GameScene.Stage
     private static readonly UIInputDirectionType PauseEnterDirection = UIInputDirectionType.Space;
 
     private readonly Model model;
-    private readonly UIStageRootViewContainer viewContainer;
+    private readonly UIStageRootView view;
 
     private UIStageBeginPresenter beginPresenter;
     private UIStageFailPresenter failPresenter;
     private UIStageSuccessPresenter successPresenter;
     private UIStagePausePresenter pausePresenter;
 
-    public UIStageRootPresenter(Model model, UIStageRootViewContainer viewContainer)
+    public UIStageRootPresenter(Model model, UIStageRootView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
 
       CreateBeginPresenter();
       CreateFailPresenter();
       CreateSuccessPresenter();
       CreatePausePresenter();
 
-      beginPresenter.ShowAsync(true).Forget();
+      beginPresenter.ActivateAsync(true).Forget();
+      failPresenter.DeactivateAsync().Forget();
+      successPresenter.DeactivateAsync().Forget();
+      pausePresenter.DeactivateAsync().Forget();
 
-      model.stageService.SubscribeOnEvent(IStageService.StageEventType.Complete,OnStageSuccess);
+      model.stageService.SubscribeOnEvent(IStageService.StageEventType.Complete, OnStageSuccess);
       model.stageService.SubscribeOnEvent(IStageService.StageEventType.LeftFailed, OnStageFailed);
       model.stageService.SubscribeOnEvent(IStageService.StageEventType.RightFailed, OnStageFailed);
 
@@ -61,26 +64,23 @@ namespace LR.UI.GameScene.Stage
 
     public void Dispose()
     {
-      if (viewContainer)
-        viewContainer.gameObjectView.DestroyGameObject();
+      if (view)
+        view.DestroySelf();
 
       UnsubscribePauseInput();
     }
 
     public UIVisibleState GetVisibleState()
-      => UIVisibleState.Showed;
+      => UIVisibleState.Showen;
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      return UniTask.CompletedTask;
+      await view.HideAsync(isImmediately, token);
     }
 
-    public void SetVisibleState(UIVisibleState visibleState)
-      => throw new NotImplementedException();
-
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      return UniTask.CompletedTask;
+      await view.ShowAsync(isImmediately, token);
     }
 
     private void CreateBeginPresenter()
@@ -88,9 +88,9 @@ namespace LR.UI.GameScene.Stage
       var model = new UIStageBeginPresenter.Model(        
         uiInputActionManager: this.model.uiInputActionManager,
         stageService: this.model.stageService);
-      var beginView = viewContainer.beginViewContainer;
+      var beginView = view.beginViewContainer;
       beginPresenter = new UIStageBeginPresenter(model, beginView);
-      beginPresenter.AttachOnDestroy(viewContainer.gameObject);
+      beginPresenter.AttachOnDestroy(view.gameObject);
     }
 
     private void CreateFailPresenter()
@@ -100,9 +100,9 @@ namespace LR.UI.GameScene.Stage
         indicatorService: this.model.uiManager,
         stageService: this.model.stageService,
         sceneProvider: this.model.sceneProvider);
-      var failView = viewContainer.failViewContainer;
+      var failView = view.failViewContainer;
       failPresenter = new UIStageFailPresenter(model, failView);
-      failPresenter.AttachOnDestroy(viewContainer.gameObject);
+      failPresenter.AttachOnDestroy(view.gameObject);
     }
 
     private void CreateSuccessPresenter()
@@ -113,9 +113,9 @@ namespace LR.UI.GameScene.Stage
         indicatorService: this.model.uiManager,
         stageService: this.model.stageService,
         sceneProvider: this.model.sceneProvider);
-      var view = viewContainer.successViewContainer;
+      var view = this.view.successViewContainer;
       successPresenter = new UIStageSuccessPresenter(model, view);
-      successPresenter.AttachOnDestroy(viewContainer.gameObject);
+      successPresenter.AttachOnDestroy(this.view.gameObject);
     }
 
     private void CreatePausePresenter()
@@ -125,9 +125,9 @@ namespace LR.UI.GameScene.Stage
         indicatorService: this.model.uiManager,
         sceneProvider: this.model.sceneProvider,
         stageService: this.model.stageService);
-      var view = viewContainer.pauseViewContainer;
+      var view = this.view.pauseViewContainer;
       pausePresenter = new UIStagePausePresenter(model, view);
-      pausePresenter.AttachOnDestroy(viewContainer.gameObject);
+      pausePresenter.AttachOnDestroy(this.view.gameObject);
     }
 
     private void SubscribePauseInput()
@@ -145,18 +145,18 @@ namespace LR.UI.GameScene.Stage
       if (model.stageService.GetState() != IStageService.State.Playing)
         return;
 
-      pausePresenter.ShowAsync().Forget();
+      pausePresenter.ActivateAsync().Forget();
     }
 
     #region Callbacks
     private void OnStageFailed()
     {
-      failPresenter.ShowAsync().Forget();
+      failPresenter.ActivateAsync().Forget();
     }
 
     private void OnStageSuccess()
     {
-      successPresenter.ShowAsync().Forget();
+      successPresenter.ActivateAsync().Forget();
     }
     #endregion
   }

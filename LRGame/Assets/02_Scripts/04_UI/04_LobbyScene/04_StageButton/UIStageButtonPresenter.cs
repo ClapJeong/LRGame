@@ -32,19 +32,18 @@ namespace LR.UI.Lobby
     }
 
     private readonly Model model;
-    private readonly UIStageButtonViewContainer viewContainer;
+    private readonly UIStageButtonView view;
 
-    private UIVisibleState visibleState;
     private SubscribeHandle subscribeHandle;
 
-    public UIStageButtonPresenter(Model model, UIStageButtonViewContainer viewContainer)
+    public UIStageButtonPresenter(Model model, UIStageButtonView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
       CreateSubscribeHandle();
 
-      viewContainer.backGroundImageView.SetAlpha(0.4f);
-      viewContainer.tmpView.SetText(model.stage.ToString());
+      view.HideAsync(true).Forget();
+      view.tmpView.SetText(model.stage.ToString());
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -55,27 +54,20 @@ namespace LR.UI.Lobby
       subscribeHandle.Dispose();
     }
 
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Subscribe();
-      viewContainer.backGroundImageView.SetAlpha(1.0f);
-      visibleState = UIVisibleState.Showed;
-      return UniTask.CompletedTask;
+      await view.ShowAsync(isImmediately, token);
     }
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Unsubscribe();
-      viewContainer.backGroundImageView.SetAlpha(0.4f);
-      visibleState = UIVisibleState.Hided;
-      return UniTask.CompletedTask;
+      await view.HideAsync(isImmediately, token);
     }
 
-    public void SetVisibleState(UIVisibleState visibleState)
-      => this.visibleState = visibleState;
-
     public UIVisibleState GetVisibleState()
-      => visibleState;
+      => view.GetVisibleState();
 
     private void CreateSubscribeHandle()
     {
@@ -97,13 +89,13 @@ namespace LR.UI.Lobby
     {
       var direction = model.inputType.ParseToDirection();
 
-      viewContainer.progressSubmitView.SubscribeOnProgress(direction, viewContainer.fillImageView.SetFillAmount);
-      viewContainer.progressSubmitView.SubscribeOnComplete(direction, OnProgressComplete);
+      view.progressSubmitView.SubscribeOnProgress(direction, view.fillImageView.SetFillAmount);
+      view.progressSubmitView.SubscribeOnComplete(direction, OnProgressComplete);
     }
 
     private void OnProgressComplete()
     {
-      viewContainer.progressSubmitView.UnsubscribeAll();
+      view.progressSubmitView.UnsubscribeAll();
 
       model.onComplete?.Invoke();
 
@@ -118,9 +110,9 @@ namespace LR.UI.Lobby
 
     private void UnsubscribeSubmitView()
     {
-      viewContainer.progressSubmitView.Cancel(model.inputType.ParseToDirection());
-      viewContainer.progressSubmitView.UnsubscribeAll();
-      viewContainer.fillImageView.SetFillAmount(0.0f);
+      view.progressSubmitView.Cancel(model.inputType.ParseToDirection());
+      view.progressSubmitView.UnsubscribeAll();
+      view.fillImageView.SetFillAmount(0.0f);
     }
 
     private void SubscribeInputAction()
@@ -136,10 +128,10 @@ namespace LR.UI.Lobby
     }
 
     private void OnInputPerformed()
-      => viewContainer.progressSubmitView.Perform(model.inputType.ParseToDirection());
+      => view.progressSubmitView.Perform(model.inputType.ParseToDirection());
 
     private void OnInputCanceled()
-      => viewContainer.progressSubmitView.Cancel(model.inputType.ParseToDirection());
+      => view.progressSubmitView.Cancel(model.inputType.ParseToDirection());
     #endregion
   }
 }

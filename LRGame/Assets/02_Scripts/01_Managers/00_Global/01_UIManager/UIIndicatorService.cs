@@ -47,6 +47,7 @@ public class UIIndicatorService : IUIIndicatorService
     {
       enableIndicators.Push(topIndicator);
       topIndicator.ReInitialize(root, beginTarget);
+      await topIndicator.ActivateAsync();
       return topIndicator;
     }
     else
@@ -60,7 +61,7 @@ public class UIIndicatorService : IUIIndicatorService
   public void ReleaseTopIndicator()
   {
     var disabledIndicator = enableIndicators.Pop();
-    disabledIndicator.Disable(disableRoot);
+    disabledIndicator.DeactivateAsync();
     disabledIndicators.Push(disabledIndicator);
   }
 
@@ -70,7 +71,7 @@ public class UIIndicatorService : IUIIndicatorService
   private async UniTask<IUIIndicatorPresenter> CreateAsync(Transform root, IRectView beginTarget)
   {
     var baseView = await resourceManager.CreateAssetAsync<BaseUIIndicatorView>(indicatorKey, root);
-    var basePresenter = new BaseUIIndicatorPresenter(root, beginTarget, baseView);
+    var basePresenter = new BaseUIIndicatorPresenter(root, beginTarget, baseView, disableRoot);
     baseView.name = $"Indicator: {basePresenter.GetHashCode()}";
     return basePresenter;
   }

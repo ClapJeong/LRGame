@@ -11,116 +11,90 @@ namespace LR.UI.GameScene.Player
   {
     public class Model
     {
-      public int leftMaxHP;
-      public int rightMaxHP;
+      public int maxHP;
       public IStageService stageService;
+      public IPlayerHPController hpController;
 
-      public Model(int leftMaxHP, int rightMaxHP, IStageService stageService)
+      public Model(int maxHP, IStageService stageService, IPlayerHPController hpController)
       {
-        this.leftMaxHP = leftMaxHP;
-        this.rightMaxHP = rightMaxHP;
+        this.maxHP = maxHP;
         this.stageService = stageService;
+        this.hpController = hpController;
       }
     }
 
     private readonly Model model;
-    private readonly IPlayerHPController leftHPController;
-    private readonly UIPlayerHPViewContainer leftViewContainer;
-    private readonly IPlayerHPController rightHPController;
-    private readonly UIPlayerHPViewContainer rightViewContainer;
+    private readonly UIPlayerHPView view;
 
-    public UIPlayerHPPresenter(
-      Model model, 
-      UIPlayerHPViewContainer leftViewContainer,
-      IPlayerHPController leftHPController,
-      UIPlayerHPViewContainer rightViewContainer,
-      IPlayerHPController rightHPController)
+    public UIPlayerHPPresenter(Model model, UIPlayerHPView view)
     {
       this.model = model;
-      this.leftViewContainer = leftViewContainer;
-      this.leftHPController = leftHPController;
-      this.rightViewContainer = rightViewContainer;
-      this.rightHPController = rightHPController;
+      this.view = view;
 
       InitializeHPObjects();
       SubscribePresenters();
-
-      model.stageService.SubscribeOnEvent(IStageService.StageEventType.Restart, InitializeHPObjects);
+      SubscribeStageEvent();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
-      => target.OnDestroyAsObservable().Subscribe(_ => Dispose());
+      => target.AttachDisposable(this);
 
     public void Dispose()
     {
-      GlobalManager.instance.UIManager.Remove(this);
       UnsubscribePresenters();
-      model.stageService?.UnsubscribeOnEvent(IStageService.StageEventType.Restart, InitializeHPObjects);
+      UnsubscribeStageEvent();
+      if (view)
+        view.DestroySelf();      
     }
 
     public UIVisibleState GetVisibleState()
+      => view.GetVisibleState();
+
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      throw new NotImplementedException();
+      await view.HideAsync(isImmediately, token);
     }
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      return UniTask.CompletedTask;
+      await view.ShowAsync(isImmediately, token);
     }
-
-    public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new NotImplementedException();
-    }
-
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
-    {
-      return UniTask.CompletedTask;
-    }
-
 
     private void InitializeHPObjects()
     {
-      for(int i=0;i<leftViewContainer.hpObjects.Count;i++)
+      for(int i=0;i< view.hpObjects.Count;i++)
       {
-        var isActive = i < model.leftMaxHP;
-        leftViewContainer.hpObjects[i].SetActive(isActive);
-      }
-
-      for (int i = 0; i < rightViewContainer.hpObjects.Count; i++)
-      {
-        var isActive = i < model.rightMaxHP;
-        rightViewContainer.hpObjects[i].SetActive(isActive);
+        var isActive = i < model.maxHP;
+        view.hpObjects[i].SetActive(isActive);
       }
     }
 
     private void SubscribePresenters()
     {
-      leftHPController.SubscribeOnHPChanged(OnLeftHPChanged);
-      rightHPController.SubscribeOnHPChanged(OnRightHPChanged);
+      model.hpController.SubscribeOnHPChanged(OnHPChanged);
     }
 
     private void UnsubscribePresenters()
     {
-      leftHPController?.UnsubscribeOnHPChanged(OnLeftHPChanged);
-      rightHPController?.UnsubscribeOnHPChanged(OnRightHPChanged);
+      model.hpController.UnsubscribeOnHPChanged(OnHPChanged);
     }
 
-    private void OnLeftHPChanged(int currentHp)
+    private void SubscribeStageEvent()
     {
-      for (int i = 0; i < leftViewContainer.hpObjects.Count; i++)
-      {
-        var isActive = i < currentHp;
-        leftViewContainer.hpObjects[i].SetActive(isActive);
-      }
+      model.stageService.SubscribeOnEvent(IStageService.StageEventType.Restart, InitializeHPObjects);
     }
 
-    private void OnRightHPChanged(int currentHp)
+    private void UnsubscribeStageEvent()
     {
-      for (int i = 0; i < rightViewContainer.hpObjects.Count; i++)
+      model.stageService.UnsubscribeOnEvent(IStageService.StageEventType.Restart, InitializeHPObjects);
+    }
+
+    private void OnHPChanged(int currentHp)
+    {
+      for (int i = 0; i < view.hpObjects.Count; i++)
       {
         var isActive = i < currentHp;
-        rightViewContainer.hpObjects[i].SetActive(isActive);
+        view.hpObjects[i].SetActive(isActive);
       }
     }
   }

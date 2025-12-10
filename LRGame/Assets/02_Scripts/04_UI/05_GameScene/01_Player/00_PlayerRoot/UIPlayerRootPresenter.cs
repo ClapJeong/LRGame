@@ -20,90 +20,116 @@ namespace LR.UI.GameScene.Player
     }
 
     private readonly Model model;
-    private readonly UIPlayerRootViewContainer viewContainer;
+    private readonly UIPlayerRootView view;
 
-    private UIPlayerInputPresenter inputPresenter;
-    private UIPlayerHPPresenter hpPresenter;
+    private bool isAllPresentersCreated = false;
 
-    public UIPlayerRootPresenter(Model model, UIPlayerRootViewContainer viewContainer)
+    private UIPlayerInputPresenter leftInputActionPresenter;
+    private UIPlayerHPPresenter leftHPPresenter;
+
+    private UIPlayerInputPresenter rightInputActionPresenter;
+    private UIPlayerHPPresenter rightHPPresenter;
+
+    public UIPlayerRootPresenter(Model model, UIPlayerRootView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
 
-      CreateInputPresenterAsync().Forget();
-      CreateHPPresenterAsync().Forget();
+      UniTask.WhenAll(
+        CreateLeftInputPresenterAsync(),
+        CreateLeftHPPresenterAsync(),
+        CreateRightInputPresenterAsync(),
+        CreateRightHPPresenterAsync())
+        .ContinueWith(() => isAllPresentersCreated = true)
+        .Forget();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
-      => target.OnDestroyAsObservable().Subscribe(_ => Dispose());
+      => target.AttachDisposable(this);
 
     public void Dispose()
     {
-      if (viewContainer)
-        GameObject.Destroy(viewContainer.gameObject);
+      if (view)
+        view.DestroySelf();
     }
 
     public UIVisibleState GetVisibleState()
+      => view.GetVisibleState();
+
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      throw new NotImplementedException();
+      if (isAllPresentersCreated == false)
+        await UniTask.WaitUntil(() => isAllPresentersCreated);
+
+      await leftInputActionPresenter.DeactivateAsync(isImmediately, token);
+      await leftHPPresenter.DeactivateAsync(isImmediately, token);
+
+      await rightInputActionPresenter.DeactivateAsync(isImmediately, token);
+      await rightHPPresenter.DeactivateAsync(isImmediately, token);
     }
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      return UniTask.CompletedTask;
+      if (isAllPresentersCreated == false)
+        await UniTask.WaitUntil(() => isAllPresentersCreated);
+
+      await leftInputActionPresenter.ActivateAsync(isImmediately, token);
+      await leftHPPresenter.ActivateAsync(isImmediately, token);
+
+      await rightInputActionPresenter.ActivateAsync(isImmediately, token);
+      await rightHPPresenter.ActivateAsync(isImmediately, token);
     }
 
-    public void SetVisibleState(UIVisibleState visibleState)
+    private async UniTask CreateLeftInputPresenterAsync()
     {
-      throw new NotImplementedException();
+      IPlayerPresenter leftPlayerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+
+      var model = new UIPlayerInputPresenter.Model(leftPlayerPresenter);
+      var view = this.view.leftInputViewContainer;
+
+      leftInputActionPresenter = new UIPlayerInputPresenter(model, view);
+      leftInputActionPresenter.AttachOnDestroy(view.gameObject);
     }
 
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    private async UniTask CreateRightInputPresenterAsync()
     {
-      return UniTask.CompletedTask;
+      IPlayerPresenter leftPlayerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+
+      var model = new UIPlayerInputPresenter.Model(leftPlayerPresenter);
+      var view = this.view.rightInputViewContainer;
+
+      rightInputActionPresenter = new UIPlayerInputPresenter(model, view);
+      rightInputActionPresenter.AttachOnDestroy(view.gameObject);
     }
 
-    private async UniTask CreateInputPresenterAsync()
+    private async UniTask CreateLeftHPPresenterAsync()
     {
-      var model = new UIPlayerInputPresenter.Model();
-
-      var leftView = viewContainer.leftInputViewContainer;
-      IPlayerPresenter leftPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
-
-      var rightView = viewContainer.rightInputViewContainer;
-      IPlayerPresenter rightPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
-
-      inputPresenter = new UIPlayerInputPresenter(
-        model,
-        leftView,
-        leftInputController: leftPresenter,
-        rightView,
-        rightInputController: rightPresenter);
-      inputPresenter.AttachOnDestroy(viewContainer.gameObject);
-    }
-
-    private async UniTask CreateHPPresenterAsync()
-    {
-      var table = GlobalManager.instance.Table;
-
-      var model = new UIPlayerHPPresenter.Model(
-        table.LeftPlayerModelSO.HP.MaxHP,
-        table.RightPlayerModelSO.HP.MaxHP,
-        this.model.stageManager);
-
-      var leftView = viewContainer.leftHPViewContainer;
+      var leftPlayerTable = GlobalManager.instance.Table.LeftPlayerModelSO;
       IPlayerPresenter leftPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Left);
 
-      var rightView = viewContainer.rightHPViewContainer;
+      var model = new UIPlayerHPPresenter.Model(
+        maxHP: leftPlayerTable.HP.MaxHP,
+        stageService: this.model.stageManager,
+        hpController: leftPresenter);
+      var view = this.view.leftHPViewContainer;
+
+      leftHPPresenter = new UIPlayerHPPresenter(model, view);
+      leftHPPresenter.AttachOnDestroy(view.gameObject);
+    }
+
+    private async UniTask CreateRightHPPresenterAsync()
+    {
+      var rightPlayerTable = GlobalManager.instance.Table.RightPlayerModelSO;
       IPlayerPresenter rightPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Right);
 
-      hpPresenter = new UIPlayerHPPresenter(
-        model,
-        leftView,
-        leftHPController: leftPresenter,
-        rightView,
-        rightHPController: rightPresenter);
-      hpPresenter.AttachOnDestroy(viewContainer.gameObject);
+      var model = new UIPlayerHPPresenter.Model(
+        maxHP: rightPlayerTable.HP.MaxHP,
+        stageService: this.model.stageManager,
+        hpController: rightPresenter);
+      var view = this.view.rightHPViewContainer;
+
+      rightHPPresenter = new UIPlayerHPPresenter(model, view);
+      rightHPPresenter.AttachOnDestroy(view.gameObject);
     }
   }
 }

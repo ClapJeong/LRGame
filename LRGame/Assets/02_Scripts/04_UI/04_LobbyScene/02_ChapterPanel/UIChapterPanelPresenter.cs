@@ -14,9 +14,9 @@ namespace LR.UI.Lobby
     public class Model
     {
       public int chapter;
-      public IUIDepthService depthService;
-      public IUIInputActionManager uiInputActionManager;
       public UnityAction onHide;
+      public IUIDepthService depthService;
+      public IUIInputActionManager uiInputActionManager;      
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
       public IUIIndicatorService indicatorService;
@@ -40,22 +40,21 @@ namespace LR.UI.Lobby
     private static readonly UIInputDirectionType Back = UIInputDirectionType.Space;
 
     private readonly Model model;
-    private readonly UIChapterPanelViewContainer viewContainer;
+    private readonly UIChapterPanelView view;
 
     private UIChapterPanelActionHolder actionHolder;
     private Dictionary<UIInputDirectionType, IUIPresenter> directionPresenters = new();
     private UIInputDirectionType currentSelectingDirection = UIInputDirectionType.Space;
+    private IUIIndicatorPresenter currentIndicator;
     
-    private UIVisibleState visibleState = UIVisibleState.None;
     private SubscribeHandle subscribeHandle;
 
-    public UIChapterPanelPresenter(Model model, UIChapterPanelViewContainer viewContainer)
+    public UIChapterPanelPresenter(Model model, UIChapterPanelView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
-      subscribeHandle = new SubscribeHandle(SubscribeInputActions, UnsubscribeInputActions);
+      this.view = view;
 
-      viewContainer.gameObjectView.SetActive(false);
+      subscribeHandle = new SubscribeHandle(SubscribeInputActions, UnsubscribeInputActions);
 
       CreateQuitButtonPresenter();
       CreateStageButtonPresenters();
@@ -67,80 +66,94 @@ namespace LR.UI.Lobby
   
     public void Dispose()
     {
+      if (currentIndicator != null)
+        ReleaseIndicator();
+
       subscribeHandle.Dispose();
 
-      if (viewContainer)
-        viewContainer.gameObjectView.DestroyGameObject();      
+      if (view)
+        view.DestroySelf();
     }
 
-    public async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      var indicator = await model.indicatorService.GetNewAsync(viewContainer.indicatorRoot, viewContainer.quitButtonView.rectView);
-      indicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+      await CreateAndSubscribeIndicatorAsync();
+      RaiseDepth();
+      subscribeHandle.Subscribe();
+      await ActivatePresenterAsync(UIInputDirectionType.Space, isImmediately, token);
+      await view.ShowAsync(isImmediately, token);
+    }
+
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
+    {
+      model.onHide?.Invoke();
+
+      if (currentIndicator != null)
+      {
+        LowerDepth();
+        ReleaseIndicator();
+      }
+      subscribeHandle.Unsubscribe();      
+      await DeactivateAllPresenters(isImmediately, token);
+      await view.HideAsync(isImmediately, token);
+    }
+
+    public UIVisibleState GetVisibleState()
+      => view.GetVisibleState();
+
+    private async UniTask ActivatePresenterAsync(UIInputDirectionType type, bool isImmediately, CancellationToken token)
+    {
+      foreach (var pair in directionPresenters)
+      {
+        if (pair.Key == type)
+          await pair.Value.ActivateAsync(isImmediately, token);
+        else
+          await pair.Value.DeactivateAsync(isImmediately, token);
+      }        
+    }
+
+    private async UniTask DeactivateAllPresenters(bool isImmediately, CancellationToken token)
+    {
+      foreach (var presenter in directionPresenters.Values)
+        await presenter.DeactivateAsync(isImmediately, token);
+    }
+
+    #region Indicator
+    private async UniTask CreateAndSubscribeIndicatorAsync()
+    {
+      currentIndicator = await model.indicatorService.GetNewAsync(view.indicatorRoot, view.quitButtonView.rectView);
+      currentIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
       {
         { Up.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable },
         { Right.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable },
         { Down.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable },
         { Left.ParseToDirection(), IUIIndicatorPresenter.LeftGuideType.Movable },
       });
-      indicator.SetRightGuide(Direction.Space);
-
-      subscribeHandle.Subscribe();
-      await ShowPresenterAsync(UIInputDirectionType.Space, isImmediately, token);
-      RaiseDepth();
-      viewContainer.gameObjectView.SetActive(true);
-      visibleState = UIVisibleState.Showed;
+      currentIndicator.SetRightGuide(Direction.Space);
     }
 
-    public async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    private void ReleaseIndicator()
     {
-      model.onHide?.Invoke();
-
-      subscribeHandle.Unsubscribe();      
-      await HideAllPresenters(isImmediately, token);
-      LowerDepth();
-      viewContainer.gameObjectView.SetActive(false);
-      visibleState = UIVisibleState.Hided;
+      model.indicatorService.ReleaseTopIndicator();
+      currentIndicator = null;
     }
-
-    public UIVisibleState GetVisibleState()
-      => visibleState;
-
-    public void SetVisibleState(UIVisibleState visibleState)
-      => this.visibleState = visibleState;
-
-    private async UniTask ShowPresenterAsync(UIInputDirectionType type, bool isImmediately, CancellationToken token)
-    {
-      foreach (var pair in directionPresenters)
-      {
-        if (pair.Key == type)
-          await pair.Value.ShowAsync(isImmediately, token);
-        else
-          await pair.Value.HideAsync(isImmediately, token);
-      }        
-    }
-
-    private async UniTask HideAllPresenters(bool isImmediately, CancellationToken token)
-    {
-      foreach (var presenter in directionPresenters.Values)
-        await presenter.HideAsync(isImmediately, token);
-    }
+    #endregion
 
     #region Create
     private void CreateActionHolder()
     {
       actionHolder = new UIChapterPanelActionHolder(
-        onUpPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Up, targetRectView: viewContainer.upStageButtonView.rectView),
-        onUpCanceled: () => OnEnterInput(requireDirectionType: Up, targetDirectionType: Back, targetRectView: viewContainer.quitButtonView.rectView),
+        onUpPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Up, targetRectView: view.upStageButtonView.rectView),
+        onUpCanceled: () => OnEnterInput(requireDirectionType: Up, targetDirectionType: Back, targetRectView: view.quitButtonView.rectView),
 
-        onRightPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Right, targetRectView: viewContainer.rightStageButtonView.rectView),
-        onRightCanceled: () => OnEnterInput(requireDirectionType: Right, targetDirectionType: Back, targetRectView: viewContainer.quitButtonView.rectView),
+        onRightPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Right, targetRectView: view.rightStageButtonView.rectView),
+        onRightCanceled: () => OnEnterInput(requireDirectionType: Right, targetDirectionType: Back, targetRectView: view.quitButtonView.rectView),
 
-        onDownPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Down, targetRectView: viewContainer.downStageButtonView.rectView),
-        onDownCanceled: () => OnEnterInput(requireDirectionType: Down, targetDirectionType: Back, targetRectView: viewContainer.quitButtonView.rectView),
+        onDownPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Down, targetRectView: view.downStageButtonView.rectView),
+        onDownCanceled: () => OnEnterInput(requireDirectionType: Down, targetDirectionType: Back, targetRectView: view.quitButtonView.rectView),
 
-        onLeftPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Left, targetRectView: viewContainer.leftStageButtonView.rectView),
-        onLeftCanceled: () => OnEnterInput(requireDirectionType: Left, targetDirectionType: Back, targetRectView: viewContainer.quitButtonView.rectView));
+        onLeftPerformed: () => OnEnterInput(requireDirectionType: Back, targetDirectionType: Left, targetRectView: view.leftStageButtonView.rectView),
+        onLeftCanceled: () => OnEnterInput(requireDirectionType: Left, targetDirectionType: Back, targetRectView: view.quitButtonView.rectView));
     }
 
     private void OnEnterInput(UIInputDirectionType requireDirectionType, UIInputDirectionType targetDirectionType, BaseRectView targetRectView)
@@ -149,7 +162,7 @@ namespace LR.UI.Lobby
         return;
       currentSelectingDirection = targetDirectionType;
 
-      ShowPresenterAsync(currentSelectingDirection, false, default).Forget();
+      ActivatePresenterAsync(currentSelectingDirection, false, default).Forget();
 
       var topIndicator = model.indicatorService.GetTopIndicator();
       var leftGuideDictionary = GetLeftGuideDictionary(targetDirectionType);
@@ -187,12 +200,12 @@ namespace LR.UI.Lobby
         uiInputActionManager: this.model.uiInputActionManager,
         onQuit: () =>
         {
-          HideAsync().Forget();
+          DeactivateAsync().Forget();
         });
-      var view = viewContainer.quitButtonView;
+      var view = this.view.quitButtonView;
       directionPresenters[targetInputType] = new UIChapterPanelQuitButtonPresenter(model, view);
-      directionPresenters[targetInputType].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[targetInputType].HideAsync().Forget();
+      directionPresenters[targetInputType].AttachOnDestroy(this.view.gameObject);
+      directionPresenters[targetInputType].DeactivateAsync().Forget();
     }
 
     private void CreateStageButtonPresenters()
@@ -206,10 +219,10 @@ namespace LR.UI.Lobby
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
-      var upView = viewContainer.upStageButtonView;
+      var upView = view.upStageButtonView;
       directionPresenters[Up] = new UIStageButtonPresenter(upModel, upView);
-      directionPresenters[Up].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[Up].HideAsync().Forget();
+      directionPresenters[Up].AttachOnDestroy(view.gameObject);
+      directionPresenters[Up].DeactivateAsync().Forget();
 
       var rightModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
@@ -219,10 +232,10 @@ namespace LR.UI.Lobby
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
-      var rightView = viewContainer.rightStageButtonView;
+      var rightView = view.rightStageButtonView;
       directionPresenters[Right] = new UIStageButtonPresenter(rightModel, rightView);
-      directionPresenters[Right].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[Right].HideAsync().Forget();
+      directionPresenters[Right].AttachOnDestroy(view.gameObject);
+      directionPresenters[Right].DeactivateAsync().Forget();
 
       var downModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
@@ -232,10 +245,10 @@ namespace LR.UI.Lobby
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
-      var downView = viewContainer.downStageButtonView;
+      var downView = view.downStageButtonView;
       directionPresenters[Down] = new UIStageButtonPresenter(downModel, downView);
-      directionPresenters[Down].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[Down].HideAsync().Forget();
+      directionPresenters[Down].AttachOnDestroy(view.gameObject);
+      directionPresenters[Down].DeactivateAsync().Forget();
 
       var leftModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter,
@@ -245,10 +258,10 @@ namespace LR.UI.Lobby
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,
         sceneProvider: model.sceneProvider);
-      var leftView = viewContainer.leftStageButtonView;
+      var leftView = view.leftStageButtonView;
       directionPresenters[Left] = new UIStageButtonPresenter(leftModel, leftView);
-      directionPresenters[Left].AttachOnDestroy(viewContainer.gameObject);
-      directionPresenters[Left].HideAsync().Forget();
+      directionPresenters[Left].AttachOnDestroy(view.gameObject);
+      directionPresenters[Left].DeactivateAsync().Forget();
     }
     #endregion
 
@@ -269,9 +282,7 @@ namespace LR.UI.Lobby
     }
 
     private void UnsubscribeInputActions()
-    {
-      model.indicatorService.ReleaseTopIndicator();
-
+    {      
       model.uiInputActionManager.UnsubscribePerformedEvent(Up, actionHolder.OnUpPerformed);
       model.uiInputActionManager.UnsubscribeCanceledEvent(Up, actionHolder.OnUpCanceled);
 

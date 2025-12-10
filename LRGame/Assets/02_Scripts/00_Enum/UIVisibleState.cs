@@ -5,8 +5,8 @@ public enum UIVisibleState
   None,
 
   Showing,
-  Showed,
+  Showen,
 
   Hiding,
-  Hided,
+  Hidden,
 }

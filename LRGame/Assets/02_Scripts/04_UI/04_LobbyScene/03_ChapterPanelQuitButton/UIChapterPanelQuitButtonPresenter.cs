@@ -23,14 +23,14 @@ namespace LR.UI.Lobby
     }
 
     private readonly Model model;
-    private readonly UIChapterPanelQuitButtonViewContainer viewContainer;
+    private readonly UIChapterPanelQuitButtonView view;
 
     private readonly SubscribeHandle subscribeHandle;
 
-    public UIChapterPanelQuitButtonPresenter(Model model, UIChapterPanelQuitButtonViewContainer viewContainer)
+    public UIChapterPanelQuitButtonPresenter(Model model, UIChapterPanelQuitButtonView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
 
       subscribeHandle = new SubscribeHandle( 
         ()=>
@@ -53,47 +53,38 @@ namespace LR.UI.Lobby
       subscribeHandle.Dispose();
     }
 
-    public UIVisibleState GetVisibleState()
-    {
-      return UIVisibleState.None;
-    }
-
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Subscribe();
-      viewContainer.backgroundImageView.SetAlpha(1.0f);
-      return UniTask.CompletedTask;
+      await view.ShowAsync(isImmediately, token);
     }
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Unsubscribe();
-      viewContainer.backgroundImageView.SetAlpha(0.4f);
-      return UniTask.CompletedTask;
+      await view.HideAsync(isImmediately, token);
     }
 
-    public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new NotImplementedException();
-    }
+    public UIVisibleState GetVisibleState()
+      => view.GetVisibleState();
 
     #region Subscribes
     private void SubscribeSubmit()
     {
       var direction = model.inputDirectionType.ParseToDirection();
 
-      viewContainer.quitProgressSubmitView.ResetAllProgress();
-      viewContainer.quitProgressSubmitView.SubscribeOnProgress(direction, viewContainer.fillImageView.SetFillAmount);
-      viewContainer.quitProgressSubmitView.SubscribeOnCanceled(direction, () => viewContainer.fillImageView.SetFillAmount(0.0f));
-      viewContainer.quitProgressSubmitView.SubscribeOnComplete(direction, () => model.onQuit?.Invoke());
+      view.quitProgressSubmitView.ResetAllProgress();
+      view.quitProgressSubmitView.SubscribeOnProgress(direction, view.fillImageView.SetFillAmount);
+      view.quitProgressSubmitView.SubscribeOnCanceled(direction, () => view.fillImageView.SetFillAmount(0.0f));
+      view.quitProgressSubmitView.SubscribeOnComplete(direction, () => model.onQuit?.Invoke());
     }
 
     private void UnsubscribeSubmit()
     {
-      viewContainer.quitProgressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
-      viewContainer.quitProgressSubmitView.UnsubscribeAll();
+      view.quitProgressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
+      view.quitProgressSubmitView.UnsubscribeAll();
 
-      viewContainer.fillImageView.SetFillAmount(0.0f);
+      view.fillImageView.SetFillAmount(0.0f);
     }
 
     private void SubscribeInputAction()
@@ -109,10 +100,10 @@ namespace LR.UI.Lobby
     }
 
     private void OnInputLeftPerformed()
-      => viewContainer.quitProgressSubmitView.Perform(model.inputDirectionType.ParseToDirection());
+      => view.quitProgressSubmitView.Perform(model.inputDirectionType.ParseToDirection());
 
     private void OnInputLeftCanceled()
-      => viewContainer.quitProgressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
+      => view.quitProgressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
     #endregion
   }
 }

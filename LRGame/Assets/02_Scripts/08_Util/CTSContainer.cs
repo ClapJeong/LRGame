@@ -40,10 +40,7 @@ public class CTSContainer : IDisposable
 
   public void Create()
   {
-    if(cts != null)
-    {
-      cts.Dispose();
-    }
+    cts?.Dispose();
 
     cts = new CancellationTokenSource();
     isTokenCalled = false;

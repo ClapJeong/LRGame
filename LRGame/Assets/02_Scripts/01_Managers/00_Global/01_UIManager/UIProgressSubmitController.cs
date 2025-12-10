@@ -36,6 +36,9 @@ public class UIProgressSubmitController : IUIProgressSubmitController
       return;
     }
 
+    if (selectedView.IsEnable() == false)
+      return;
+
     switch (context.phase)
     {
       case InputActionPhase.Performed:

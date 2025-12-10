@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7630923980591184533}
   - component: {fileID: 1620295343915059251}
   - component: {fileID: 1125301193524002061}
-  - component: {fileID: 1075275425435748217}
   - component: {fileID: 6414841468270271814}
+  - component: {fileID: 1970838545359079412}
   m_Layer: 5
   m_Name: UIStageRoot
   m_TagString: Untagged
@@ -104,23 +104,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1075275425435748217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4050641826224065189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be4dfaacb0208049ad240b22ff4b6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Stage.UIStageRootViewContainer
-  gameObjectView: {fileID: 6414841468270271814}
-  beginViewContainer: {fileID: 2868320795155581722}
-  failViewContainer: {fileID: 6274141333954026363}
-  successViewContainer: {fileID: 7806550513052602330}
-  pauseViewContainer: {fileID: 6690942859950012458}
 --- !u!114 &6414841468270271814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +116,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a1b429dbbc2cef4898c214480f9153c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseGameObjectView
+--- !u!114 &1970838545359079412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4050641826224065189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ec1543663422e4292feff5d9f123ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStageRootView
+  beginViewContainer: {fileID: 1191137236941817147}
+  failViewContainer: {fileID: 1523434748020806426}
+  successViewContainer: {fileID: 8280438717281292706}
+  pauseViewContainer: {fileID: 6690942859950012458}
 --- !u!1 &5055474317843910790
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,17 +386,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7824171980539763542, guid: 88a11681cd74a9944859417a652add8f, type: 3}
   m_PrefabInstance: {fileID: 3539707444065918029}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7806550513052602330 stripped
+--- !u!114 &8280438717281292706 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6722151850780267415, guid: 88a11681cd74a9944859417a652add8f, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4896985160126008815, guid: 88a11681cd74a9944859417a652add8f, type: 3}
   m_PrefabInstance: {fileID: 3539707444065918029}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d96cdfe9ece50224e9255a9552fb3a13, type: 3}
+  m_Script: {fileID: 11500000, guid: 10eceeaca6d3a2c469d7501fde4f9d0a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.UIStageSuccessViewContainer
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStageSuccessView
 --- !u!1001 &6718628279268379839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -495,22 +494,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3998b54eaffa1544b913199a348958a6, type: 3}
---- !u!224 &1970675249480128381 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5072287246917655490, guid: 3998b54eaffa1544b913199a348958a6, type: 3}
-  m_PrefabInstance: {fileID: 6718628279268379839}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6274141333954026363 stripped
+--- !u!114 &1523434748020806426 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 733918099841177540, guid: 3998b54eaffa1544b913199a348958a6, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5195200164832993189, guid: 3998b54eaffa1544b913199a348958a6, type: 3}
   m_PrefabInstance: {fileID: 6718628279268379839}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 768b8f9215a24ff4d95da853dc4d2ccf, type: 3}
+  m_Script: {fileID: 11500000, guid: 81c1443e452a91e4aace552d9f309957, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.UIStageFailViewContainer
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStageFailView
+--- !u!224 &1970675249480128381 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5072287246917655490, guid: 3998b54eaffa1544b913199a348958a6, type: 3}
+  m_PrefabInstance: {fileID: 6718628279268379839}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8051504643473607671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -608,17 +607,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1add5ef7fd428664e899ca41538dadc4, type: 3}
---- !u!114 &2868320795155581722 stripped
+--- !u!114 &1191137236941817147 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5220483684539973869, guid: 1add5ef7fd428664e899ca41538dadc4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 9168051007136943820, guid: 1add5ef7fd428664e899ca41538dadc4, type: 3}
   m_PrefabInstance: {fileID: 8051504643473607671}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c60a885db7e1224aacd565f7305dabd, type: 3}
+  m_Script: {fileID: 11500000, guid: f0c28a3101b96c34c80781dbb46d5dc3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.UIStageBeginViewContainer
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStageBeginView
 --- !u!224 &6801804983207936860 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3591740861956769963, guid: 1add5ef7fd428664e899ca41538dadc4, type: 3}

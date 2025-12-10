@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 8454340697691412808}
   - component: {fileID: 7340293952627821527}
   - component: {fileID: 8231614357060078259}
-  - component: {fileID: 1906844029044626144}
+  - component: {fileID: 8683517009991661713}
   m_Layer: 5
   m_Name: Right
   m_TagString: Untagged
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &1906844029044626144
+--- !u!114 &8683517009991661713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -408,13 +408,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1888692104672259293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b5a5b90d0f0fa409d2e618f4cdb2bc, type: 3}
+  m_Script: {fileID: 11500000, guid: cf920b1efe2fcfc40b9e9ed6190ed4cd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.UIPlayerInputViewContainer
-  upView: {fileID: 1984709692433923466}
-  downView: {fileID: 1980030485180113879}
-  leftView: {fileID: 6808286405299446036}
-  rightView: {fileID: 6777870794308902338}
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerInputView
+  upAnimator: {fileID: 1984709692433923466}
+  downAnimator: {fileID: 1980030485180113879}
+  leftAnimator: {fileID: 6808286405299446036}
+  rightAnimator: {fileID: 6777870794308902338}
 --- !u!1 &2229572896960366520
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,7 +1199,7 @@ GameObject:
   - component: {fileID: 3277730369710267571}
   - component: {fileID: 7608175066031062320}
   - component: {fileID: 3737110167444657294}
-  - component: {fileID: 8434154293377792840}
+  - component: {fileID: 2621355717852941719}
   m_Layer: 5
   m_Name: Left
   m_TagString: Untagged
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &8434154293377792840
+--- !u!114 &2621355717852941719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1279,13 +1279,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5509873071400341843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b5a5b90d0f0fa409d2e618f4cdb2bc, type: 3}
+  m_Script: {fileID: 11500000, guid: cf920b1efe2fcfc40b9e9ed6190ed4cd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.UIPlayerInputViewContainer
-  upView: {fileID: 48644704253762883}
-  downView: {fileID: 5495758401550151253}
-  leftView: {fileID: 1593918017405120886}
-  rightView: {fileID: 2649966817939330317}
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerInputView
+  upAnimator: {fileID: 48644704253762883}
+  downAnimator: {fileID: 5495758401550151253}
+  leftAnimator: {fileID: 1593918017405120886}
+  rightAnimator: {fileID: 2649966817939330317}
 --- !u!1 &8968944441138058273
 GameObject:
   m_ObjectHideFlags: 0

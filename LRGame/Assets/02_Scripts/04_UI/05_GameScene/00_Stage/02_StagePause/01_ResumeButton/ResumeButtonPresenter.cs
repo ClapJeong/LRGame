@@ -3,7 +3,6 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace LR.UI.GameScene.Stage.PausePanel
 {
@@ -24,17 +23,15 @@ namespace LR.UI.GameScene.Stage.PausePanel
     }
 
     private readonly Model model;
-    private readonly ResumeButtonViewContainer viewContainer;
+    private readonly ResumeButtonView view;
 
     private SubscribeHandle subscribeHandle;
 
-    public ResumeButtonPresenter(Model model, ResumeButtonViewContainer viewContainer)
+    public ResumeButtonPresenter(Model model, ResumeButtonView view)
     {
       this.model = model;
-      this.viewContainer = viewContainer;
+      this.view = view;
 
-      viewContainer.fillScaleView.SetLocalScale(Vector3.zero);
-      viewContainer.gameObjectView.SetActive(false);
       CreateSubscribeHandle();
     }
 
@@ -47,37 +44,27 @@ namespace LR.UI.GameScene.Stage.PausePanel
     }
 
 
-    public UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      viewContainer.gameObjectView.SetActive(false);
-      viewContainer.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
+      view.progressSubmitView.Cancel(model.inputDirectionType.ParseToDirection());
       subscribeHandle.Unsubscribe();
-      return UniTask.CompletedTask;
+      await view.HideAsync(isImmediately, token);
     }
 
-    public UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
-    {
-      viewContainer.gameObjectView.SetActive(true);
-      viewContainer.fillScaleView.SetLocalScale(Vector3.zero);
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
+    {     
       subscribeHandle.Subscribe();
-      return UniTask.CompletedTask;
-    }
-
-    public void SetVisibleState(UIVisibleState visibleState)
-    {
-      throw new NotImplementedException();
+      await view.ShowAsync(isImmediately, token);
     }
 
     public UIVisibleState GetVisibleState()
-    {
-      throw new NotImplementedException();
-    }    
+      => view.GetVisibleState();
 
     private void OnInputActionPerform()
-      => viewContainer.progressSubmitView.Perform(Direction.Space);
+      => view.progressSubmitView.Perform(Direction.Space);
 
     private void OnInputActionCancel()
-      => viewContainer.progressSubmitView.Cancel(Direction.Space);
+      => view.progressSubmitView.Cancel(Direction.Space);
 
     private void CreateSubscribeHandle()
     {
@@ -88,27 +75,29 @@ namespace LR.UI.GameScene.Stage.PausePanel
           model.uiInputActionManager.SubscribeCanceledEvent(model.inputDirectionType, OnInputActionCancel);
 
           var direction = model.inputDirectionType.ParseToDirection();
-          viewContainer.progressSubmitView.SubscribeOnProgress(direction, value =>
-          {
-            viewContainer.fillScaleView.SetLocalScale(Vector3.one * value);
-          });
-          viewContainer.progressSubmitView.SubscribeOnCanceled(direction, () =>
-          {
-            viewContainer.fillScaleView.SetLocalScale(Vector3.zero);
-          });
-          viewContainer.progressSubmitView.SubscribeOnComplete(direction, () =>
-          {
-            model.onSubmit?.Invoke();
-            subscribeHandle.Unsubscribe();
-          });
+          view.progressSubmitView.SubscribeOnProgress(direction, OnSubmitProgress);
+          view.progressSubmitView.SubscribeOnCanceled(direction, OnSubmitCancel);
+          view.progressSubmitView.SubscribeOnComplete(direction, OnSubmitComplete);
         },
         onUnsubscribe: () =>
         {
           model.uiInputActionManager.UnsubscribePerformedEvent(model.inputDirectionType, OnInputActionPerform);
           model.uiInputActionManager.UnsubscribeCanceledEvent(model.inputDirectionType, OnInputActionCancel);
 
-          viewContainer.progressSubmitView.UnsubscribeAll();
+          view.progressSubmitView.UnsubscribeAll();
         });
+    }
+
+    private void OnSubmitProgress(float value)
+      => view.fillScaleView.SetLocalScale(Vector3.one * value);
+
+    private void OnSubmitCancel()
+      => view.fillScaleView.SetLocalScale(Vector3.zero);
+
+    private void OnSubmitComplete()
+    {
+      model.onSubmit?.Invoke();
+      subscribeHandle.Unsubscribe();
     }
   }
 }

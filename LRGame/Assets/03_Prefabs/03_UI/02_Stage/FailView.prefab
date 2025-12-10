@@ -472,9 +472,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5072287246917655490}
-  - component: {fileID: 733918099841177540}
   - component: {fileID: 8877748065541143131}
   - component: {fileID: 5285388666967264089}
+  - component: {fileID: 5195200164832993189}
   m_Layer: 5
   m_Name: FailView
   m_TagString: Untagged
@@ -506,29 +506,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &733918099841177540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5011085730612192901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 768b8f9215a24ff4d95da853dc4d2ccf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.UIStageFailViewContainer
-  gameObjectView: {fileID: 5285388666967264089}
-  noneRectView: {fileID: 7349711888884411773}
-  indicatorRoot: {fileID: 3507033128758951713}
-  quitRectView: {fileID: 1296103788445902781}
-  quitProgressSubmitView: {fileID: 2451480667267956568}
-  quitBackgroundImageView: {fileID: 6794380494604328884}
-  quitFillImageView: {fileID: 5345508464485346759}
-  restartRectView: {fileID: 5337025637013454511}
-  restartProgressSubmitView: {fileID: 2818359197993454241}
-  restartBackgroundImageView: {fileID: 5828503634001014297}
-  restartFillImageView: {fileID: 1443522061782258598}
 --- !u!114 &8877748065541143131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,6 +530,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a1b429dbbc2cef4898c214480f9153c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseGameObjectView
+--- !u!114 &5195200164832993189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5011085730612192901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c1443e452a91e4aace552d9f309957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStageFailView
+  noneRectView: {fileID: 7349711888884411773}
+  indicatorRoot: {fileID: 3507033128758951713}
+  quitRectView: {fileID: 1296103788445902781}
+  quitProgressSubmitView: {fileID: 2451480667267956568}
+  quitBackgroundImageView: {fileID: 6794380494604328884}
+  quitFillImageView: {fileID: 5345508464485346759}
+  restartRectView: {fileID: 5337025637013454511}
+  restartProgressSubmitView: {fileID: 2818359197993454241}
+  restartBackgroundImageView: {fileID: 5828503634001014297}
+  restartFillImageView: {fileID: 1443522061782258598}
 --- !u!1 &5383062764102200876
 GameObject:
   m_ObjectHideFlags: 0
