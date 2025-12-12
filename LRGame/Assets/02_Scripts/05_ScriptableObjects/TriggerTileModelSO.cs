@@ -3,20 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TriggerTileSO", menuName = "SO/TriggerTile")]
 public class TriggerTileModelSO : ScriptableObject
 {
-  [System.Serializable]
-  public class ClearTriggerData
-  {
+  [field: SerializeField] public ClearTriggerData ClearTrigger {  get; set; }
 
-  }
-  [SerializeField] private ClearTriggerData clearTrigger;
-  public ClearTriggerData ClearTrigger => clearTrigger;
-
-  [System.Serializable]
-  public class SpikeTriggerData
-  {
-    [SerializeField] private BounceData bounceData;
-    public BounceData BounceData => bounceData;
-  }
-  [SerializeField] private SpikeTriggerData spikeTrigger;
-  public SpikeTriggerData SpikeTrigger => spikeTrigger;
+  [field: SerializeField] public SpikeTriggerData SpikeTrigger { get; set; }
 }

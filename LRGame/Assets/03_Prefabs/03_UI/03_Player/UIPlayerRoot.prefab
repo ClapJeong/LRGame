@@ -154,8 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerRootView
   leftInputViewContainer: {fileID: 1454254026064938921}
   rightInputViewContainer: {fileID: 5245688343718884015}
-  leftHPViewContainer: {fileID: 3511718853869256668}
-  rightHPViewContainer: {fileID: 9061607703351552435}
+  leftEnergyView: {fileID: 2367065540280873545}
+  rightEnergyView: {fileID: 8648177334462296278}
 --- !u!1001 &3480826729563949630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -377,30 +377,30 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
---- !u!114 &3511718853869256668 stripped
+--- !u!114 &2367065540280873545 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7587010818428598821, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8732437913210599344, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
   m_PrefabInstance: {fileID: 6482469410506294777}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88586965f0b5d6b4d85b224f211245e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 7dd524cc5722e774eb55510967b37b00, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerHPViewContainer
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerEnergyView
 --- !u!224 &3810526065801438197 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7861014259770484236, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
   m_PrefabInstance: {fileID: 6482469410506294777}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9061607703351552435 stripped
+--- !u!114 &8648177334462296278 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2609580516397427786, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2446058102435738927, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
   m_PrefabInstance: {fileID: 6482469410506294777}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88586965f0b5d6b4d85b224f211245e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 7dd524cc5722e774eb55510967b37b00, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerHPViewContainer
+  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerEnergyView

@@ -1,34 +1,35 @@
-using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading;
 
-public class PlayerStateController : IPlayerStateController
+namespace LR.Stage.Player
 {
-  private Dictionary<PlayerStateType, IPlayerState> states = new();
-  private IPlayerState currentState = null;
-
-  public void AddState(PlayerStateType type, IPlayerState state)
-    => states[type] = state;
-
-  public void RemoveState(PlayerStateType type, IPlayerState state)
+  public class PlayerStateController : IPlayerStateController
   {
-    if(states.ContainsKey(type))
-      states.Remove(type);
-  }
+    private Dictionary<PlayerStateType, IPlayerState> states = new();
+    private IPlayerState currentState = null;
 
-  public void ChangeState(PlayerStateType type)
-  {
-    currentState?.OnExit();
-    currentState = states[type];
-    currentState.OnEnter();
-  }
-  public void FixedUpdate()
-  {
-    currentState.FixedUpdate();
-  }
+    public void AddState(PlayerStateType type, IPlayerState state)
+      => states[type] = state;
 
-  public void Dispose()
-  {
-    
+    public void RemoveState(PlayerStateType type, IPlayerState state)
+    {
+      if (states.ContainsKey(type))
+        states.Remove(type);
+    }
+
+    public void ChangeState(PlayerStateType type)
+    {
+      currentState?.OnExit();
+      currentState = states[type];
+      currentState.OnEnter();
+    }
+    public void FixedUpdate()
+    {
+      currentState.FixedUpdate();
+    }
+
+    public void Dispose()
+    {
+
+    }
   }
 }

@@ -1,6 +1,6 @@
-using UnityEngine;
-using UnityEngine.Events;
-
-public interface ITriggerTilePresenter: IStageObjectController
+namespace LR.Stage.TriggerTile
 {
+  public interface ITriggerTilePresenter : IStageObjectController
+  {
+  }
 }

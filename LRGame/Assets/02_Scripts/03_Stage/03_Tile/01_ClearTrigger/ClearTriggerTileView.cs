@@ -1,55 +1,58 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ClearTriggerTileView : MonoBehaviour, ITriggerTileView
+namespace LR.Stage.TriggerTile
 {
-  [SerializeField] private TriggerTileType triggerTileType;
-  [SerializeField] private Animator animator;
-
-  private readonly int enterHash = Animator.StringToHash("Enter");
-
-  private UnityAction<Collider2D> onEnter;
-  private UnityAction<Collider2D> onExit;
-  private new bool enabled = true;
-
-  public TriggerTileType GetTriggerType()
-    => triggerTileType;
-
-  public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
+  public class ClearTriggerTileView : MonoBehaviour, ITriggerTileView
   {
-    this.onEnter -= onEnter;
-    this.onEnter += onEnter;
-  }
+    [SerializeField] private TriggerTileType triggerTileType;
+    [SerializeField] private Animator animator;
 
-  public void SubscribeOnExit(UnityAction<Collider2D> onExit)
-  {
-    this.onExit -= onExit;
-    this.onExit += onExit;
-  }
+    private readonly int enterHash = Animator.StringToHash("Enter");
 
-  public void UnsubscribeOnEnter(UnityAction<Collider2D> onEnter)
-  {
-    this.onEnter -= onEnter;
-  }
+    private UnityAction<Collider2D> onEnter;
+    private UnityAction<Collider2D> onExit;
+    private new bool enabled = true;
 
-  public void UnsubscribeOnExit(UnityAction<Collider2D> onExit)
-  {
-    this.onExit -= onExit;
-  }
+    public TriggerTileType GetTriggerType()
+      => triggerTileType;
 
-  private void OnTriggerEnter2D(Collider2D collision)
-  {
-    if (!enabled) return;
+    public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
+    {
+      this.onEnter -= onEnter;
+      this.onEnter += onEnter;
+    }
 
-    onEnter?.Invoke(collision);
-    animator.SetBool(enterHash, true);
-  }
+    public void SubscribeOnExit(UnityAction<Collider2D> onExit)
+    {
+      this.onExit -= onExit;
+      this.onExit += onExit;
+    }
 
-  private void OnTriggerExit2D(Collider2D collision)
-  {
-    if (!enabled) return;
+    public void UnsubscribeOnEnter(UnityAction<Collider2D> onEnter)
+    {
+      this.onEnter -= onEnter;
+    }
 
-    onExit?.Invoke(collision);
-    animator.SetBool(enterHash, false);
+    public void UnsubscribeOnExit(UnityAction<Collider2D> onExit)
+    {
+      this.onExit -= onExit;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+      if (!enabled) return;
+
+      onEnter?.Invoke(collision);
+      animator.SetBool(enterHash, true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+      if (!enabled) return;
+
+      onExit?.Invoke(collision);
+      animator.SetBool(enterHash, false);
+    }
   }
 }

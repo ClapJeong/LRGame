@@ -63,8 +63,8 @@ namespace ScriptableEvent
     private readonly List<ScriptableLocaleEventListener> setLocaleListeners = new();
     private readonly List<StageListnerSet> stageListeners = new();
     private readonly List<GameDataListnerSet> gameDataListnerSets = new();
-    private readonly List<ScriptableHPEventListener> leftHPListnerListeners = new();
-    private readonly List<ScriptableHPEventListener> rightHPListnerListeners = new();
+    private readonly List<ScriptableEnergyEventListener> leftEnergyListners = new();
+    private readonly List<ScriptableEnergyEventListener> rightEnergyListners = new();
 
     public static ScriptableEventSO instance;
 
@@ -137,29 +137,29 @@ namespace ScriptableEvent
     #endregion
 
     #region HP
-    public void OnLeftHPChanged(int value)
+    public void OnLeftEnergyChanged(float normalizedValue)
     {
-      for (int i = 0; i < leftHPListnerListeners.Count; i++)
-        leftHPListnerListeners[i].Raise(value);
+      for (int i = 0; i < leftEnergyListners.Count; i++)
+        leftEnergyListners[i].Raise(normalizedValue);
     }
 
-    public void RegisterLeftHPEvent(ScriptableHPEventListener listener)
-      => leftHPListnerListeners.Add(listener);
+    public void RegisterLeftEnergyEvent(ScriptableEnergyEventListener listener)
+      => leftEnergyListners.Add(listener);
 
-    public void UnregisterLeftHPEvent(ScriptableHPEventListener listener)
-      => leftHPListnerListeners.Remove(listener);
+    public void UnregisterLeftEnergyEvent(ScriptableEnergyEventListener listener)
+      => leftEnergyListners.Remove(listener);
 
-    public void OnRightHPChanged(int value)
+    public void OnRightEnergyChanged(float normalizedValue)
     {
-      for (int i = 0; i < rightHPListnerListeners.Count; i++)
-        rightHPListnerListeners[i].Raise(value);
+      for (int i = 0; i < rightEnergyListners.Count; i++)
+        rightEnergyListners[i].Raise(normalizedValue);
     }
 
-    public void RegisterRightHPEvent(ScriptableHPEventListener listener)
-      => rightHPListnerListeners.Add(listener);
+    public void RegisterRightEnergyEvent(ScriptableEnergyEventListener listener)
+      => rightEnergyListners.Add(listener);
 
-    public void UnregisterRightHPEvent(ScriptableHPEventListener listener)
-      => rightHPListnerListeners.Remove(listener);
+    public void UnregisterRightEnergyEvent(ScriptableEnergyEventListener listener)
+      => rightEnergyListners.Remove(listener);
     #endregion
   }
 }

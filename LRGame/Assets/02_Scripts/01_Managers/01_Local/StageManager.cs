@@ -1,6 +1,9 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using LR.Stage.Player;
+using LR.Stage.TriggerTile;
+using LR.Stage;
 
 public class StageManager : IStageService, IStageCreator
 {

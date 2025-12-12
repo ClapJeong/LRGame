@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using LR.Stage.Player;
 
 public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageObjectControlService<IPlayerPresenter>
 {
@@ -36,8 +37,12 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
 
   public void Release()
   {
-    leftPlayer.EnableAllInputActions(false);
-    rightPlayer.EnableAllInputActions(false);
+    leftPlayer
+      .GetInputActionController()
+      .EnableAllInputActions(false);
+    rightPlayer
+      .GetInputActionController()
+      .EnableAllInputActions(false);
   }
 
   private async UniTask<IPlayerPresenter> CreateLeftPlayerAsync(Vector3 startPosition)
@@ -55,7 +60,9 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       startPosition);
     var presenter = new BasePlayerPresenter(playerType, leftView, model);
 
-    presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
+    presenter
+      .GetInputActionController()
+      .CreateMoveInputAction(new Dictionary<string, Direction>()
     {
       { InputActionPaths.ParshPath(modelSO.Movement.UpKeyCode), Direction.Up },
       { InputActionPaths.ParshPath(modelSO.Movement.RightKeyCode), Direction.Right },
@@ -82,7 +89,9 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
           startPosition);
     var presenter = new BasePlayerPresenter(playerType, rightView, model);
 
-    presenter.CreateMoveInputAction(new Dictionary<string, Direction>()
+    presenter
+      .GetInputActionController()
+      .CreateMoveInputAction(new Dictionary<string, Direction>()
     {
       { InputActionPaths.ParshPath(modelSO.Movement.UpKeyCode), Direction.Up },
       { InputActionPaths.ParshPath(modelSO.Movement.RightKeyCode), Direction.Right },
@@ -96,8 +105,12 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
 
   public void EnableAll(bool isEnable)
   {
-    leftPlayer.EnableAllInputActions(isEnable);
-    rightPlayer.EnableAllInputActions(isEnable);
+    leftPlayer
+      .GetInputActionController()
+      .EnableAllInputActions(isEnable);
+    rightPlayer
+      .GetInputActionController()
+      .EnableAllInputActions(isEnable);
   }
 
   public void RestartAll()

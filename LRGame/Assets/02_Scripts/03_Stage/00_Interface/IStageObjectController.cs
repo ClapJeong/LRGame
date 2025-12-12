@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public interface IStageObjectController
+namespace LR.Stage
 {
-  public void Enable(bool enable);
+  public interface IStageObjectController
+  {
+    public void Enable(bool enable);
 
-  public void Restart();
+    public void Restart();
+  }
 }

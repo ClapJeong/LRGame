@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using UnityEngine;
+using LR.Stage;
 
 public interface IStageObjectSetupService<T>
 {

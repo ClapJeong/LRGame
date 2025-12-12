@@ -1,50 +1,53 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpikeTriggerTileView : MonoBehaviour, ITriggerTileView
+namespace LR.Stage.TriggerTile
 {
-  [SerializeField] private TriggerTileType triggerTileType;
-
-  private bool enable = true;
-  private UnityAction<Collider2D> onEnter;
-  private UnityAction<Collider2D> onExit;
-
-  public TriggerTileType GetTriggerType()
-    => triggerTileType;
-
-  public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
+  public class SpikeTriggerTileView : MonoBehaviour, ITriggerTileView
   {
-    this.onEnter -= onEnter;
-    this.onEnter += onEnter;
-  }
+    [SerializeField] private TriggerTileType triggerTileType;
 
-  public void SubscribeOnExit(UnityAction<Collider2D> onExit)
-  {
-    this.onExit -= onExit;
-    this.onExit += onExit;
-  }
+    private bool enable = true;
+    private UnityAction<Collider2D> onEnter;
+    private UnityAction<Collider2D> onExit;
 
-  public void UnsubscribeOnEnter(UnityAction<Collider2D> onEnter)
-  {
-    this.onEnter -= onEnter;
-  }
+    public TriggerTileType GetTriggerType()
+      => triggerTileType;
 
-  public void UnsubscribeOnExit(UnityAction<Collider2D> onExit)
-  {
-    this.onExit -= onExit;
-  }
+    public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
+    {
+      this.onEnter -= onEnter;
+      this.onEnter += onEnter;
+    }
 
-  private void OnTriggerEnter2D(Collider2D collision)
-  {
-    if (!enable) return;
+    public void SubscribeOnExit(UnityAction<Collider2D> onExit)
+    {
+      this.onExit -= onExit;
+      this.onExit += onExit;
+    }
 
-    onEnter?.Invoke(collision);
-  }
+    public void UnsubscribeOnEnter(UnityAction<Collider2D> onEnter)
+    {
+      this.onEnter -= onEnter;
+    }
 
-  private void OnTriggerExit2D(Collider2D collision)
-  {
-    if (!enable) return;
+    public void UnsubscribeOnExit(UnityAction<Collider2D> onExit)
+    {
+      this.onExit -= onExit;
+    }
 
-    onExit?.Invoke(collision);
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+      if (!enable) return;
+
+      onEnter?.Invoke(collision);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+      if (!enable) return;
+
+      onExit?.Invoke(collision);
+    }
   }
 }

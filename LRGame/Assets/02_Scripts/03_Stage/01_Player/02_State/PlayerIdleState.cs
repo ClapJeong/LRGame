@@ -1,37 +1,44 @@
-using Unity.VisualScripting;
-using UnityEngine.InputSystem;
-
-public class PlayerIdleState : IPlayerState
+namespace LR.Stage.Player
 {
-  private readonly IPlayerMoveController moveController;
-  private readonly IPlayerInputActionController inputActionController;
-  private readonly IPlayerStateController playerStateController;
-
-
-  public PlayerIdleState(IPlayerMoveController moveController, IPlayerInputActionController inputActionController, IPlayerStateController stateController)
+  public class PlayerIdleState : IPlayerState
   {
-    this.moveController = moveController;
-    this.inputActionController = inputActionController;
-    this.playerStateController = stateController;
-  }
+    private readonly IPlayerMoveController moveController;
+    private readonly IPlayerInputActionController inputActionController;
+    private readonly IPlayerStateController playerStateController;
+    private readonly IPlayerEnergyUpdater energyUpdater;
 
-  public void FixedUpdate()
-  {
-    moveController.ApplyMoveDeceleration();
-  }
 
-  public void OnEnter()
-  {
-    inputActionController.SubscribeOnPerformed(OnMovePerformed);
-  }
+    public PlayerIdleState(
+      IPlayerMoveController moveController, 
+      IPlayerInputActionController inputActionController, 
+      IPlayerStateController stateController,
+      IPlayerEnergyUpdater energyUpdater)
+    {
+      this.moveController = moveController;
+      this.inputActionController = inputActionController;
+      this.playerStateController = stateController;
+      this.energyUpdater = energyUpdater;
+    }
 
-  public void OnExit()
-  {
-    inputActionController.UnsubscribePerfoemd(OnMovePerformed);
-  }
+    public void FixedUpdate()
+    {
+      moveController.ApplyMoveDeceleration();
+      energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
+    }
 
-  private void OnMovePerformed(Direction direction)
-  {
-    playerStateController.ChangeState(PlayerStateType.Move);
+    public void OnEnter()
+    {
+      inputActionController.SubscribeOnPerformed(OnMovePerformed);
+    }
+
+    public void OnExit()
+    {
+      inputActionController.UnsubscribePerfoemd(OnMovePerformed);
+    }
+
+    private void OnMovePerformed(Direction direction)
+    {
+      playerStateController.ChangeState(PlayerStateType.Move);
+    }
   }
 }

@@ -1,9 +1,13 @@
-public interface IPlayerPresenter:
-  IStageObjectController,
-  IPlayerMoveController, 
-  IPlayerInputActionController,
-  IPlayerHPController, 
-  IPlayerReactionController,
-  IPlayerStateController
+namespace LR.Stage.Player
 {
+  public interface IPlayerPresenter: IStageObjectController
+  {
+    public IPlayerMoveController GetMoveController();
+
+    public IPlayerInputActionController GetInputActionController();
+
+    public IPlayerEnergyController GetEnergyController();
+
+    public IPlayerReactionController GetReactionController();
+  }
 }

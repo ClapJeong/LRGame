@@ -1,11 +1,14 @@
 using System;
 using UnityEngine;
 
-public interface IPlayerMoveController : IDisposable
+namespace LR.Stage.Player
 {
-  public void SetLinearVelocity(Vector3 velocity);
+  public interface IPlayerMoveController : IDisposable
+  {
+    public void SetLinearVelocity(Vector3 velocity);
 
-  public void ApplyMoveAcceleration();
+    public void ApplyMoveAcceleration();
 
-  public void ApplyMoveDeceleration();
+    public void ApplyMoveDeceleration();
+  }
 }

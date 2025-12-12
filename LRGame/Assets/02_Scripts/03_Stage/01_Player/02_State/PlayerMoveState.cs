@@ -1,39 +1,44 @@
-using UnityEngine;
-
-public class PlayerMoveState : IPlayerState
+namespace LR.Stage.Player
 {
-  private readonly IPlayerStateController stateController;
-  private readonly IPlayerInputActionController inputActionController;
-  private readonly IPlayerMoveController moveController;  
-
-  public PlayerMoveState(     
-    IPlayerMoveController moveController,
-    IPlayerInputActionController inputActionController,
-    IPlayerStateController stateController)
+  public class PlayerMoveState : IPlayerState
   {
-    this.stateController = stateController;
-    this.inputActionController = inputActionController;
-    this.moveController = moveController;
-  }
+    private readonly IPlayerStateController stateController;
+    private readonly IPlayerInputActionController inputActionController;
+    private readonly IPlayerMoveController moveController;
+    private readonly IPlayerEnergyUpdater energyUpdater;
 
-  public void FixedUpdate()
-  {
-    moveController.ApplyMoveAcceleration();
-  }
+    public PlayerMoveState(
+      IPlayerMoveController moveController,
+      IPlayerInputActionController inputActionController,
+      IPlayerStateController stateController,
+      IPlayerEnergyUpdater energyUpdater)
+    {
+      this.stateController = stateController;
+      this.inputActionController = inputActionController;
+      this.moveController = moveController;
+      this.energyUpdater = energyUpdater;
+    }
 
-  public void OnEnter()
-  {
-    inputActionController.SubscribeOnCanceled(OnMoveCanceled);
-  }
+    public void FixedUpdate()
+    {
+      moveController.ApplyMoveAcceleration();
+      energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
+    }
 
-  public void OnExit()
-  {
-    inputActionController.UnsubscribeCanceled(OnMoveCanceled);
-  }
+    public void OnEnter()
+    {
+      inputActionController.SubscribeOnCanceled(OnMoveCanceled);
+    }
 
-  private void OnMoveCanceled(Direction direction)
-  {
-    if(inputActionController.IsAnyInput() == false)
-      stateController.ChangeState(PlayerStateType.Idle);
+    public void OnExit()
+    {
+      inputActionController.UnsubscribeCanceled(OnMoveCanceled);
+    }
+
+    private void OnMoveCanceled(Direction direction)
+    {
+      if (inputActionController.IsAnyInput() == false)
+        stateController.ChangeState(PlayerStateType.Idle);
+    }
   }
 }

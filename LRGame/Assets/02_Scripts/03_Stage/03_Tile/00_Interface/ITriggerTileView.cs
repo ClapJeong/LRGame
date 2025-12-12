@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public interface ITriggerTileView: ITriggerEventSubscriber
+namespace LR.Stage.TriggerTile
 {
-  public TriggerTileType GetTriggerType();
+  public interface ITriggerTileView : ITriggerEventSubscriber
+  {
+    public TriggerTileType GetTriggerType();
+  }
 }

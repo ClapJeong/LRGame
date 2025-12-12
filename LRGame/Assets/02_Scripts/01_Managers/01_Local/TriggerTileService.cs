@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using LR.Stage.TriggerTile;
 
 public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectControlService<ITriggerTilePresenter>
 {
@@ -56,7 +56,9 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.Spike:
           {
-            var model = new SpikeTriggerTilePresenter.Model(null,GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger.BounceData);
+            var model = new SpikeTriggerTilePresenter.Model(
+              GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger,
+              onEnter: null);
             var spikeTriggerTileView = view as SpikeTriggerTileView;
             var presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
             presenter.Enable(isEnableImmediately);

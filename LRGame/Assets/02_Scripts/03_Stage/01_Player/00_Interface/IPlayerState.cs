@@ -1,9 +1,11 @@
-
-public interface IPlayerState
+namespace LR.Stage.Player
 {
-  public void OnEnter();
+  public interface IPlayerState
+  {
+    public void OnEnter();
 
-  public void OnExit();
+    public void OnExit();
 
-  public void FixedUpdate();
+    public void FixedUpdate();
+  }
 }

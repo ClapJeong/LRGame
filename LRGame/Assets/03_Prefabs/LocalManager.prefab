@@ -58,10 +58,10 @@ GameObject:
   - component: {fileID: 8863850931480651792}
   - component: {fileID: 5491912365020933804}
   - component: {fileID: 4035836715977570532}
-  - component: {fileID: 5907065657363249980}
-  - component: {fileID: 4609924618964181320}
-  - component: {fileID: 4299952144468930979}
-  - component: {fileID: 631745838494098255}
+  - component: {fileID: 1019067024461367604}
+  - component: {fileID: 7691343428580785445}
+  - component: {fileID: 2827755220953798046}
+  - component: {fileID: 3687149011164336040}
   m_Layer: 0
   m_Name: DebuggingEventRoot
   m_TagString: Untagged
@@ -196,7 +196,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5907065657363249980
+--- !u!114 &1019067024461367604
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,9 +205,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1516448259212712605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e760ea772d431184e9ccac2e491d8269, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d69fe0d0e9f84a8db097e5c41891f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableHPEventListener
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableEnergyEventListener
   playerType: 0
   type: 0
   action:
@@ -215,7 +215,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2591406199023073449}
         m_TargetAssemblyTypeName: LocalManager, Assembly-CSharp
-        m_MethodName: Debugging_LeftPlayerHPDamaged
+        m_MethodName: Debugging_LeftPlayeEnergyDamaged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -225,7 +225,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4609924618964181320
+--- !u!114 &7691343428580785445
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,9 +234,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1516448259212712605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e760ea772d431184e9ccac2e491d8269, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d69fe0d0e9f84a8db097e5c41891f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableHPEventListener
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableEnergyEventListener
   playerType: 0
   type: 1
   action:
@@ -244,7 +244,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2591406199023073449}
         m_TargetAssemblyTypeName: LocalManager, Assembly-CSharp
-        m_MethodName: Debugging_LeftPlayerHPRestored
+        m_MethodName: Debugging_LeftPlayerEnergyRestored
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -254,7 +254,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4299952144468930979
+--- !u!114 &2827755220953798046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,9 +263,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1516448259212712605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e760ea772d431184e9ccac2e491d8269, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d69fe0d0e9f84a8db097e5c41891f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableHPEventListener
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableEnergyEventListener
   playerType: 1
   type: 0
   action:
@@ -273,7 +273,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2591406199023073449}
         m_TargetAssemblyTypeName: LocalManager, Assembly-CSharp
-        m_MethodName: Debugging_RightPlayerHPDamaged
+        m_MethodName: Debugging_RightPlayerEnergyDamaged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -283,7 +283,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &631745838494098255
+--- !u!114 &3687149011164336040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,9 +292,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1516448259212712605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e760ea772d431184e9ccac2e491d8269, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d69fe0d0e9f84a8db097e5c41891f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableHPEventListener
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableEnergyEventListener
   playerType: 1
   type: 1
   action:
@@ -302,7 +302,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2591406199023073449}
         m_TargetAssemblyTypeName: LocalManager, Assembly-CSharp
-        m_MethodName: Debugging_RightPlayerHPRestored
+        m_MethodName: Debugging_RightPlayerEnergyRestored
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

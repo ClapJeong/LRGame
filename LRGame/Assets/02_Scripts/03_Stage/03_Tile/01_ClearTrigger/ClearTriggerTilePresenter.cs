@@ -1,42 +1,45 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ClearTriggerTilePresenter : ITriggerTilePresenter
+namespace LR.Stage.TriggerTile
 {
-  public class Model
+  public class ClearTriggerTilePresenter : ITriggerTilePresenter
   {
-    public UnityAction<Collider2D> onEnter;
-    public UnityAction<Collider2D> onExit;
-
-    public Model(UnityAction<Collider2D> onEnter,UnityAction<Collider2D> onExit)
+    public class Model
     {
-      this.onEnter = onEnter;
-      this.onExit = onExit;
+      public UnityAction<Collider2D> onEnter;
+      public UnityAction<Collider2D> onExit;
+
+      public Model(UnityAction<Collider2D> onEnter, UnityAction<Collider2D> onExit)
+      {
+        this.onEnter = onEnter;
+        this.onExit = onExit;
+      }
     }
-  }
 
-  private readonly Model model;
-  private readonly ClearTriggerTileView view;
+    private readonly Model model;
+    private readonly ClearTriggerTileView view;
 
-  private ITriggerEventSubscriber subscriber;
+    private ITriggerEventSubscriber subscriber;
 
-  public ClearTriggerTilePresenter(Model model, ClearTriggerTileView view)
-  {
-    this.model = model;
-    this.view = view;
+    public ClearTriggerTilePresenter(Model model, ClearTriggerTileView view)
+    {
+      this.model = model;
+      this.view = view;
 
-    subscriber = view;
-    subscriber.SubscribeOnEnter(model.onEnter);
-    subscriber.SubscribeOnExit(model.onExit);
-  }
+      subscriber = view;
+      subscriber.SubscribeOnEnter(model.onEnter);
+      subscriber.SubscribeOnExit(model.onExit);
+    }
 
-  public void Enable(bool enabled)
-  {
-    
-  }
+    public void Enable(bool enabled)
+    {
 
-  public void Restart()
-  {
-    
+    }
+
+    public void Restart()
+    {
+
+    }
   }
 }

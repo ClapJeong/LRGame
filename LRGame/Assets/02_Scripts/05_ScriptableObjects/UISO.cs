@@ -3,14 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UISO", menuName = "SO/UI")]
 public class UISO : ScriptableObject
 {
-  [SerializeField] private UIInputActionPaths inputPaths;
-  public UIInputActionPaths InputPaths => inputPaths;
+  [field: SerializeField] public UIInputActionPaths InputPaths {  get; set; }
 
-  [Space(5)]
-  [SerializeField] private float indicatorDuration;
-  public float IndicatorDuration => indicatorDuration;
+  [field: SerializeField] public float IndicatorDuration {  get; set; }
 
-  [Space(5)]
-  [SerializeField] private float progressSubmitDuration;
-  public float ProgressSubmitDuration => progressSubmitDuration;
+  [field: SerializeField] public float ProgressSubmitDuration {  get; set; }
 }

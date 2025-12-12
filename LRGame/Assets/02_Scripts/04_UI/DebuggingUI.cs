@@ -43,10 +43,10 @@ namespace LR.UI.Debugging
     public void OnGameDataButtonClicked(int gameDataEventType)
       => scriptableEventSO.OnGameDataEvent((GameDataEventType)gameDataEventType);
 
-    public void OnLeftHPButtonClicked(int value)
-      =>scriptableEventSO.OnLeftHPChanged(value);
+    public void OnLeftEnergyButtonClicked(float normalizedValue)
+      =>scriptableEventSO.OnLeftEnergyChanged(normalizedValue);
 
-    public void OnRightHPButtonClicked(int value)
-      => scriptableEventSO.OnRightHPChanged(value);
+    public void OnRightEnergyButtonClicked(float normalizedValue)
+      => scriptableEventSO.OnRightEnergyChanged(normalizedValue);
   }
 }

@@ -1,65 +1,69 @@
 using UnityEngine;
-public class BasePlayerMoveController : IPlayerMoveController
+
+namespace LR.Stage.Player
 {
-  private readonly PlayerModel model;
-  private readonly IRigidbodyController rigidbodyController;
-  private readonly IPlayerInputActionController inputActionController;
-
-  private Vector3 inputDirection;
-
-  public BasePlayerMoveController(IRigidbodyController rigidbodyController, IPlayerInputActionController inputActionController, PlayerModel model)
+  public class BasePlayerMoveController : IPlayerMoveController
   {
-    this.rigidbodyController = rigidbodyController;
-    this.inputActionController = inputActionController;
-    this.model = model;
+    private readonly PlayerModel model;
+    private readonly IRigidbodyController rigidbodyController;
+    private readonly IPlayerInputActionController inputActionController;
 
-    inputActionController.SubscribeOnPerformed(OnPerformed);
-    inputActionController.SubscribeOnCanceled(OnCanceled);
-  }
+    private Vector3 inputDirection;
 
-  public void SetLinearVelocity(Vector3 velocity)
-    => rigidbodyController.SetLinearVelocity(velocity);
+    public BasePlayerMoveController(IRigidbodyController rigidbodyController, IPlayerInputActionController inputActionController, PlayerModel model)
+    {
+      this.rigidbodyController = rigidbodyController;
+      this.inputActionController = inputActionController;
+      this.model = model;
 
-  public void ApplyMoveAcceleration()
-  {
-    Vector3 currentVel = rigidbodyController.GetLinearVelocity();
-    Vector3 desiredVel = inputDirection.normalized * model.so.Movement.MaxSpeed;
+      inputActionController.SubscribeOnPerformed(OnPerformed);
+      inputActionController.SubscribeOnCanceled(OnCanceled);
+    }
 
-    currentVel = Vector3.MoveTowards(
-          currentVel,
-          desiredVel,
-          model.so.Movement.Acceleration * Time.fixedDeltaTime);
+    public void SetLinearVelocity(Vector3 velocity)
+      => rigidbodyController.SetLinearVelocity(velocity);
 
-    rigidbodyController.SetLinearVelocity(currentVel);
-  }
+    public void ApplyMoveAcceleration()
+    {
+      Vector3 currentVel = rigidbodyController.GetLinearVelocity();
+      Vector3 desiredVel = inputDirection.normalized * model.so.Movement.MaxSpeed;
 
-  public void ApplyMoveDeceleration()
-  {
-    Vector3 currentVel = rigidbodyController.GetLinearVelocity();
+      currentVel = Vector3.MoveTowards(
+            currentVel,
+            desiredVel,
+            model.so.Movement.Acceleration * Time.fixedDeltaTime);
 
-    currentVel = Vector3.MoveTowards(
-    currentVel,
-    Vector3.zero,
-    model.so.Movement.Decceleration * Time.fixedDeltaTime);
+      rigidbodyController.SetLinearVelocity(currentVel);
+    }
 
-    rigidbodyController.SetLinearVelocity(currentVel);
-  }
+    public void ApplyMoveDeceleration()
+    {
+      Vector3 currentVel = rigidbodyController.GetLinearVelocity();
 
-  public void Dispose()
-  {
-    inputActionController?.UnsubscribePerfoemd(OnPerformed);
-    inputActionController?.UnsubscribeCanceled(OnCanceled);
-  }
+      currentVel = Vector3.MoveTowards(
+      currentVel,
+      Vector3.zero,
+      model.so.Movement.Decceleration * Time.fixedDeltaTime);
 
-  private void OnPerformed(Direction direction)
-  {
-    var velocity = model.ParseDirection(direction);
-    inputDirection += velocity;
-  }
+      rigidbodyController.SetLinearVelocity(currentVel);
+    }
 
-  private void OnCanceled(Direction direction)
-  {
-    var velocity = model.ParseDirection(direction);
-    inputDirection -= velocity;
+    public void Dispose()
+    {
+      inputActionController?.UnsubscribePerfoemd(OnPerformed);
+      inputActionController?.UnsubscribeCanceled(OnCanceled);
+    }
+
+    private void OnPerformed(Direction direction)
+    {
+      var velocity = model.ParseDirection(direction);
+      inputDirection += velocity;
+    }
+
+    private void OnCanceled(Direction direction)
+    {
+      var velocity = model.ParseDirection(direction);
+      inputDirection -= velocity;
+    }
   }
 }

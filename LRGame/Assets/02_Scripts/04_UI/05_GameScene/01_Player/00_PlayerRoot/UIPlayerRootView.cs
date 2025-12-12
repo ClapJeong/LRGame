@@ -10,9 +10,9 @@ namespace LR.UI.GameScene.Player
     public UIPlayerInputView leftInputViewContainer;
     public UIPlayerInputView rightInputViewContainer;
 
-    [Header("HP")]
-    public UIPlayerHPView leftHPViewContainer;
-    public UIPlayerHPView rightHPViewContainer;
+    [Header("Energy")]
+    public UIPlayerEnergyView leftEnergyView;
+    public UIPlayerEnergyView rightEnergyView;
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

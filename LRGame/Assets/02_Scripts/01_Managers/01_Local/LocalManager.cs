@@ -5,6 +5,7 @@ using LR.UI.Preloading;
 using LR.UI.Lobby;
 using LR.UI.GameScene.Stage;
 using LR.UI.GameScene.Player;
+using LR.Stage.Player;
 
 public class LocalManager : MonoBehaviour
 {
@@ -211,28 +212,36 @@ public class LocalManager : MonoBehaviour
     stageService.RestartAsync().Forget();
   }
 
-  public async void Debugging_LeftPlayerHPDamaged(int value)
+  public async void Debugging_LeftPlayeEnergyDamaged(float value)
   {
-    IPlayerHPController hpController = await StageManager.GetPresenterAsync(PlayerType.Left);
-    hpController.DamageHP(value);
+    var leftPlayer = await StageManager.GetPresenterAsync(PlayerType.Left);
+    leftPlayer
+      .GetEnergyController()
+      .Damage(value);
   }
 
-  public async void Debugging_LeftPlayerHPRestored(int value)
+  public async void Debugging_LeftPlayerEnergyRestored(float value)
   {
-    IPlayerHPController hpController = await StageManager.GetPresenterAsync(PlayerType.Left);
-    hpController.RestoreHP(value);
+    var leftPlayer = await StageManager.GetPresenterAsync(PlayerType.Left);
+    leftPlayer
+      .GetEnergyController()
+      .Restore(value);
   }
 
-  public async void Debugging_RightPlayerHPDamaged(int value)
+  public async void Debugging_RightPlayerEnergyDamaged(float value)
   {
-    IPlayerHPController hpController = await StageManager.GetPresenterAsync(PlayerType.Right);
-    hpController.DamageHP(value);
+    var rightPlayer = await StageManager.GetPresenterAsync(PlayerType.Right);
+    rightPlayer
+      .GetEnergyController()
+      .Damage(value);
   }
 
-  public async void Debugging_RightPlayerHPRestored(int value)
+  public async void Debugging_RightPlayerEnergyRestored(float value)
   {
-    IPlayerHPController hpController = await StageManager.GetPresenterAsync(PlayerType.Right);
-    hpController.RestoreHP(value);
+    var rightPlayer = await StageManager.GetPresenterAsync(PlayerType.Right);
+    rightPlayer
+      .GetEnergyController()
+      .Restore(value);
   }
   #endregion
 }

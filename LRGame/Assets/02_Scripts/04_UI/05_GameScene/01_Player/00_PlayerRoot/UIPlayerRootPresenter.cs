@@ -2,8 +2,8 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
+using LR.Stage.Player;
 
 namespace LR.UI.GameScene.Player
 {
@@ -25,10 +25,10 @@ namespace LR.UI.GameScene.Player
     private bool isAllPresentersCreated = false;
 
     private UIPlayerInputPresenter leftInputActionPresenter;
-    private UIPlayerHPPresenter leftHPPresenter;
+    private UIPlayerEnergyPresenter leftEnergyPresenter;
 
     private UIPlayerInputPresenter rightInputActionPresenter;
-    private UIPlayerHPPresenter rightHPPresenter;
+    private UIPlayerEnergyPresenter rightEnergyPresenter;
 
     public UIPlayerRootPresenter(Model model, UIPlayerRootView view)
     {
@@ -37,9 +37,9 @@ namespace LR.UI.GameScene.Player
 
       UniTask.WhenAll(
         CreateLeftInputPresenterAsync(),
-        CreateLeftHPPresenterAsync(),
+        CreateLeftEnergyPresenterAsync(),
         CreateRightInputPresenterAsync(),
-        CreateRightHPPresenterAsync())
+        CreateRightEnergyPresenterAsync())
         .ContinueWith(() => isAllPresentersCreated = true)
         .Forget();
     }
@@ -62,10 +62,10 @@ namespace LR.UI.GameScene.Player
         await UniTask.WaitUntil(() => isAllPresentersCreated);
 
       await leftInputActionPresenter.DeactivateAsync(isImmediately, token);
-      await leftHPPresenter.DeactivateAsync(isImmediately, token);
+      await leftEnergyPresenter.DeactivateAsync(isImmediately, token);
 
       await rightInputActionPresenter.DeactivateAsync(isImmediately, token);
-      await rightHPPresenter.DeactivateAsync(isImmediately, token);
+      await rightEnergyPresenter.DeactivateAsync(isImmediately, token);
     }
 
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
@@ -74,17 +74,17 @@ namespace LR.UI.GameScene.Player
         await UniTask.WaitUntil(() => isAllPresentersCreated);
 
       await leftInputActionPresenter.ActivateAsync(isImmediately, token);
-      await leftHPPresenter.ActivateAsync(isImmediately, token);
+      await leftEnergyPresenter.ActivateAsync(isImmediately, token);
 
       await rightInputActionPresenter.ActivateAsync(isImmediately, token);
-      await rightHPPresenter.ActivateAsync(isImmediately, token);
+      await rightEnergyPresenter.ActivateAsync(isImmediately, token);
     }
 
     private async UniTask CreateLeftInputPresenterAsync()
     {
       IPlayerPresenter leftPlayerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
 
-      var model = new UIPlayerInputPresenter.Model(leftPlayerPresenter);
+      var model = new UIPlayerInputPresenter.Model(leftPlayerPresenter.GetInputActionController());
       var view = this.view.leftInputViewContainer;
 
       leftInputActionPresenter = new UIPlayerInputPresenter(model, view);
@@ -95,41 +95,39 @@ namespace LR.UI.GameScene.Player
     {
       IPlayerPresenter leftPlayerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
 
-      var model = new UIPlayerInputPresenter.Model(leftPlayerPresenter);
+      var model = new UIPlayerInputPresenter.Model(leftPlayerPresenter.GetInputActionController());
       var view = this.view.rightInputViewContainer;
 
       rightInputActionPresenter = new UIPlayerInputPresenter(model, view);
       rightInputActionPresenter.AttachOnDestroy(view.gameObject);
     }
 
-    private async UniTask CreateLeftHPPresenterAsync()
+    private async UniTask CreateLeftEnergyPresenterAsync()
     {
       var leftPlayerTable = GlobalManager.instance.Table.LeftPlayerModelSO;
       IPlayerPresenter leftPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Left);
 
-      var model = new UIPlayerHPPresenter.Model(
-        maxHP: leftPlayerTable.HP.MaxHP,
-        stageService: this.model.stageManager,
-        hpController: leftPresenter);
-      var view = this.view.leftHPViewContainer;
+      var model = new UIPlayerEnergyPresenter.Model(
+        playerEnergyController: leftPresenter.GetEnergyController(),
+        leftPlayerTable.Energy);
+      var view = this.view.leftEnergyView;
 
-      leftHPPresenter = new UIPlayerHPPresenter(model, view);
-      leftHPPresenter.AttachOnDestroy(view.gameObject);
+      leftEnergyPresenter = new UIPlayerEnergyPresenter(model, view);
+      leftEnergyPresenter.AttachOnDestroy(view.gameObject);
     }
 
-    private async UniTask CreateRightHPPresenterAsync()
+    private async UniTask CreateRightEnergyPresenterAsync()
     {
-      var rightPlayerTable = GlobalManager.instance.Table.RightPlayerModelSO;
-      IPlayerPresenter rightPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Right);
+      var RightPlayerTable = GlobalManager.instance.Table.RightPlayerModelSO;
+      IPlayerPresenter RightPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Right);
 
-      var model = new UIPlayerHPPresenter.Model(
-        maxHP: rightPlayerTable.HP.MaxHP,
-        stageService: this.model.stageManager,
-        hpController: rightPresenter);
-      var view = this.view.rightHPViewContainer;
+      var model = new UIPlayerEnergyPresenter.Model(
+        playerEnergyController: RightPresenter.GetEnergyController(),
+        RightPlayerTable.Energy);
+      var view = this.view.rightEnergyView;
 
-      rightHPPresenter = new UIPlayerHPPresenter(model, view);
-      rightHPPresenter.AttachOnDestroy(view.gameObject);
+      rightEnergyPresenter = new UIPlayerEnergyPresenter(model, view);
+      rightEnergyPresenter.AttachOnDestroy(view.gameObject);
     }
   }
 }

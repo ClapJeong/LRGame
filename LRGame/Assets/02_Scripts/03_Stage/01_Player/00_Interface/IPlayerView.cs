@@ -1,10 +1,11 @@
-using UnityEngine;
-
-public interface IPlayerView :
-  IRigidbodyController,
-  IGameObjectView, 
-  IPositionView,   
-  ISpriteRendererView
+namespace LR.Stage.Player
 {
-  public PlayerType GetPlayerType();
+  public interface IPlayerView :
+  IRigidbodyController,
+  IGameObjectView,
+  IPositionView,
+  ISpriteRendererView
+  {
+    public PlayerType GetPlayerType();
+  }
 }

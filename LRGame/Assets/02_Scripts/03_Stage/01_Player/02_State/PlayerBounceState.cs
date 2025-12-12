@@ -1,54 +1,61 @@
 using Cysharp.Threading.Tasks;
 using System;
 
-public class PlayerBounceState : IPlayerState
+namespace LR.Stage.Player
 {
-  private readonly IPlayerMoveController moveController;
-  private readonly IPlayerInputActionController inputActionController;
-  private readonly IPlayerStateController stateController;
-  private readonly BounceData bounceData;
-
-  private CTSContainer cts=null;
-
-  public PlayerBounceState(
-    IPlayerMoveController moveController,
-    IPlayerInputActionController inputActionController,
-    IPlayerStateController stateController,
-    BounceData bounceData)
+  public class PlayerBounceState : IPlayerState
   {
-    this.moveController = moveController;
-    this.inputActionController = inputActionController;
-    this.stateController = stateController;
-    this.bounceData = bounceData;
-  }
+    private readonly IPlayerMoveController moveController;
+    private readonly IPlayerInputActionController inputActionController;
+    private readonly IPlayerStateController stateController;
+    private readonly IPlayerEnergyUpdater energyUpdater;
+    private readonly BounceData bounceData;
 
-  public void FixedUpdate()
-  {
-    moveController.ApplyMoveDeceleration();
-  }
+    private CTSContainer cts = null;
 
-  public void OnEnter()
-  {
-    cts?.Dispose();
-    cts = new();
-    ChangeToIdleAsync().Forget();
-  }
-
-  public void OnExit()
-  {
-    cts.Dispose();
-  }
-
-  private async UniTask ChangeToIdleAsync()
-  {
-    try
+    public PlayerBounceState(
+      IPlayerMoveController moveController,
+      IPlayerInputActionController inputActionController,
+      IPlayerStateController stateController,
+      IPlayerEnergyUpdater energyUpdater,
+      BounceData bounceData)
     {
-      await UniTask.WaitForSeconds(bounceData.StunDuration, false, PlayerLoopTiming.Update, cts.token);
-      if(inputActionController.IsAnyInput())
-        stateController.ChangeState(PlayerStateType.Move);
-      else
-        stateController.ChangeState(PlayerStateType.Idle);
+      this.moveController = moveController;
+      this.inputActionController = inputActionController;
+      this.stateController = stateController;
+      this.energyUpdater = energyUpdater;
+      this.bounceData = bounceData;
     }
-    catch (OperationCanceledException) { }
+
+    public void FixedUpdate()
+    {
+      moveController.ApplyMoveDeceleration();
+      energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
+    }
+
+    public void OnEnter()
+    {
+      cts?.Dispose();
+      cts = new();
+      ChangeToIdleAsync().Forget();
+    }
+
+    public void OnExit()
+    {
+      cts.Dispose();
+    }
+
+    private async UniTask ChangeToIdleAsync()
+    {
+      try
+      {
+        await UniTask.WaitForSeconds(bounceData.StunDuration, false, PlayerLoopTiming.Update, cts.token);
+        if (inputActionController.IsAnyInput())
+          stateController.ChangeState(PlayerStateType.Move);
+        else
+          stateController.ChangeState(PlayerStateType.Idle);
+      }
+      catch (OperationCanceledException) { }
+    }
   }
 }

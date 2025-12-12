@@ -3,9 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerModelSO", menuName ="SO/PlayerModel")]
 public class PlayerModelSO : ScriptableObject
 {
-  [SerializeField] private PlayerMovementData movement;
-  public PlayerMovementData Movement => movement;
+  [field: SerializeField] public PlayerMovementData Movement {  get; set; }
 
-  [SerializeField] private PlayerHPData hp;
-  public PlayerHPData HP => hp;
+  [field: SerializeField] public PlayerEnergyData Energy { get; set; }
 }
