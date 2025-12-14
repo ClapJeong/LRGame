@@ -4,16 +4,18 @@ namespace LR.Stage.Player
 {
   public class PlayerModel
   {
-    public readonly Vector3 beginPosition;
-
     public PlayerModelSO so;
 
-    public PlayerModel(
-      PlayerModelSO so,
-      Vector3 beginPosition)
+    public PlayerType playerType;
+    public Vector3 beginPosition;    
+    public IStageService stageService;
+
+    public PlayerModel(PlayerModelSO so, PlayerType playerType, Vector3 beginPosition, IStageService stageService)
     {
       this.so = so;
+      this.playerType = playerType;
       this.beginPosition = beginPosition;
+      this.stageService = stageService;
     }
 
     public Vector3 ParseDirection(Direction direction)

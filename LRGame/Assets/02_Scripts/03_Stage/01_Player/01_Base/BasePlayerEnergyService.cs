@@ -20,6 +20,8 @@ namespace LR.Stage.Player
     public BasePlayerEnergyService(PlayerEnergyData playerEnergyData)
     {
       this.playerEnergyData = playerEnergyData;
+
+      energy = playerEnergyData.MaxEnergy;
     }
 
     #region IPlayerEnergyController
@@ -30,9 +32,8 @@ namespace LR.Stage.Player
 
       energy = Mathf.Max(0.0f, energy -value);
 
-      if (IsDead() && 
-          energyEvents.TryGetValue(IPlayerEnergyController.EventType.OnExhausted, out var unityEvent))
-        unityEvent.Invoke();
+      if (IsDead())
+        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnExhausted);
 
       PlayInvincibleAsync().Forget();
     }
@@ -49,32 +50,33 @@ namespace LR.Stage.Player
 
     public void Restore(float value)
     {
+      var prevEnergy = energy;
+
       energy = Mathf.Min(playerEnergyData.MaxEnergy, energy + value);
 
-      if(IsFull() &&
-         energyEvents.TryGetValue(IPlayerEnergyController.EventType.OnRestoreFull, out var unityEvent))
-        unityEvent.Invoke();
+      if(prevEnergy == 0 &&
+         energy > 0)
+        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRevived);
+
+      if (IsFull())
+        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRestoreFull);
     }
 
     public void RestoreFull()
     {
       energy = playerEnergyData.MaxEnergy;
 
-      if(energyEvents.TryGetValue(IPlayerEnergyController.EventType.OnRestoreFull, out var unityEvent))
-        unityEvent.Invoke();
+      energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRestoreFull);
     }
 
     public void SubscribeEvent(IPlayerEnergyController.EventType type, UnityAction action)
     {
-      if (energyEvents.TryGetValue(type, out var unityEvent) == false)
-        unityEvent = new UnityEvent();
-      unityEvent.AddListener(action);
+      energyEvents.AddEvent(type, action);
     }
 
     public void UnsubscribeEvent(IPlayerEnergyController.EventType type, UnityAction action)
     {
-      if(energyEvents.TryGetValue(type, out var unityEvent))
-        unityEvent.RemoveListener(action);
+      energyEvents.RemoveEvent(type, action);
     }
 
     public bool IsInvincible()
@@ -90,9 +92,8 @@ namespace LR.Stage.Player
 
       energy = Mathf.Max(0.0f, energy - playerEnergyData.DecreasingValue * deltaTime);
 
-      if(IsDead() &&
-         energyEvents.TryGetValue(IPlayerEnergyController.EventType.OnExhausted, out var unityEvent))
-        unityEvent.Invoke();
+      if (IsDead())
+        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnExhausted);
     }
 
     public void Pause()

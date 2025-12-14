@@ -16,10 +16,17 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
     }
   }
 
+  private readonly IStageService stageService;
+
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
   private bool isSetupComplete = false;
+
+  public PlayerService(IStageService stageService)
+  {
+    this.stageService = stageService;
+  }
 
   public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
@@ -45,7 +52,7 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       .EnableAllInputActions(false);
   }
 
-  private async UniTask<IPlayerPresenter> CreateLeftPlayerAsync(Vector3 startPosition)
+  private async UniTask<IPlayerPresenter> CreateLeftPlayerAsync(Vector3 beginPosition)
   {
     var modelSO = GlobalManager.instance.Table.LeftPlayerModelSO;
     var leftPlayerKey = 
@@ -53,12 +60,13 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       GlobalManager.instance.Table.AddressableKeySO.PlayerName.LeftPlayer;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
-    var playerType = PlayerType.Left;
     var leftView = await resourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
-    var model = new PlayerModel(
+    var leftModel = new PlayerModel(
       modelSO,
-      startPosition);
-    var presenter = new BasePlayerPresenter(playerType, leftView, model);
+      PlayerType.Left,
+      beginPosition,
+      stageService);
+    var presenter = new BasePlayerPresenter(leftModel, leftView);
 
     presenter
       .GetInputActionController()
@@ -74,7 +82,7 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
     return presenter;
   }
 
-  private async UniTask<IPlayerPresenter> CreateRighPlayerAsync(Vector3 startPosition)
+  private async UniTask<IPlayerPresenter> CreateRighPlayerAsync(Vector3 beginPosition)
   {
     var modelSO = GlobalManager.instance.Table.RightPlayerModelSO;
     var rightPlayerKey =
@@ -82,12 +90,13 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       GlobalManager.instance.Table.AddressableKeySO.PlayerName.RightPlayer;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
-    var playerType = PlayerType.Right;
     var rightView = await resourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
-    var model = new PlayerModel(
-          modelSO,
-          startPosition);
-    var presenter = new BasePlayerPresenter(playerType, rightView, model);
+    var rightModel = new PlayerModel(
+      modelSO,
+      PlayerType.Right,
+      beginPosition,
+      stageService);
+    var presenter = new BasePlayerPresenter(rightModel, rightView);
 
     presenter
       .GetInputActionController()

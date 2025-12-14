@@ -8,6 +8,7 @@ namespace LR.Stage.Player
     {
       OnRestoreFull,
       OnExhausted,
+      OnRevived,
     }
 
     public void Restore(float value);

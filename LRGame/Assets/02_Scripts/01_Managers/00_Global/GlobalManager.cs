@@ -3,8 +3,6 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
-using System.IO;
-using System.Threading;
 
 public class GlobalManager : MonoBehaviour
 {

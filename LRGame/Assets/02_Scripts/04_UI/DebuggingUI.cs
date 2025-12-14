@@ -3,6 +3,7 @@ using UnityEngine.Localization;
 using ScriptableEvent;
 using TMPro;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace LR.UI.Debugging
 {
@@ -43,10 +44,10 @@ namespace LR.UI.Debugging
     public void OnGameDataButtonClicked(int gameDataEventType)
       => scriptableEventSO.OnGameDataEvent((GameDataEventType)gameDataEventType);
 
-    public void OnLeftEnergyButtonClicked(float normalizedValue)
-      =>scriptableEventSO.OnLeftEnergyChanged(normalizedValue);
+    public void OnLeftEnergyButtonClicked(float value)
+      =>scriptableEventSO.OnLeftEnergyChanged(value);
 
-    public void OnRightEnergyButtonClicked(float normalizedValue)
-      => scriptableEventSO.OnRightEnergyChanged(normalizedValue);
+    public void OnRightEnergyButtonClicked(float value)
+      => scriptableEventSO.OnRightEnergyChanged(value);
   }
 }

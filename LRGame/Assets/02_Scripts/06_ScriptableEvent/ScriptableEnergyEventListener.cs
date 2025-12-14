@@ -42,15 +42,8 @@ namespace ScriptableEvent
       }
     }
 
-    public void Raise(float normalizedValue)
+    public void Raise(float value)
     {
-      var data = playerType switch
-      {
-        PlayerType.Left => GlobalManager.instance.Table.LeftPlayerModelSO.Energy,
-        PlayerType.Right => GlobalManager.instance.Table.RightPlayerModelSO.Energy,
-        _ => throw new System.NotImplementedException(),
-      };
-      var value = data.MaxEnergy * normalizedValue;
       switch (type)
       {
         case EnergyEventType.Damage:

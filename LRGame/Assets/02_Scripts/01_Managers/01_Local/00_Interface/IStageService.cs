@@ -9,8 +9,11 @@ public interface IStageService
     Pause,
     Resume,
     Complete,
-    LeftFailed,
-    RightFailed,
+    LeftExhausted,
+    RightExhausted,
+    LeftRevived,
+    RightRevived,
+    AllExhausted,
     Restart
   }
 
@@ -31,9 +34,13 @@ public interface IStageService
 
   public void Complete();
 
-  public void OnLeftFailed();
+  public void OnLeftExhausted();
 
-  public void OnRightFailed();
+  public void OnLeftRevived();
+
+  public void OnRightExhaused();
+
+  public void OnRightRevived();
 
   public UniTask RestartAsync();
 

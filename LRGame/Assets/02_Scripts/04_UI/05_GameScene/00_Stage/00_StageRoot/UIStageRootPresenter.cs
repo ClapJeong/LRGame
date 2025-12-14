@@ -53,8 +53,7 @@ namespace LR.UI.GameScene.Stage
       pausePresenter.DeactivateAsync().Forget();
 
       model.stageService.SubscribeOnEvent(IStageService.StageEventType.Complete, OnStageSuccess);
-      model.stageService.SubscribeOnEvent(IStageService.StageEventType.LeftFailed, OnStageFailed);
-      model.stageService.SubscribeOnEvent(IStageService.StageEventType.RightFailed, OnStageFailed);
+      model.stageService.SubscribeOnEvent(IStageService.StageEventType.AllExhausted, OnStageFailed);
 
       SubscribePauseInput();
     }

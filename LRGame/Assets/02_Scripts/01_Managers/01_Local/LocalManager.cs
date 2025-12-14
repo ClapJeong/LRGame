@@ -30,10 +30,11 @@ public class LocalManager : MonoBehaviour
 
   private void InitializeManagers()
   {
-    stageManager = new StageManager(
+    var model = new StageManager.Model(
       resourceManager: GlobalManager.instance.ResourceManager,
       sceneProvider: GlobalManager.instance.SceneProvider,
       cameraService: cameraService);
+    stageManager = new StageManager(model);
   }
 
   private async UniTask InitializeSceneAsync()
@@ -191,7 +192,7 @@ public class LocalManager : MonoBehaviour
       return;
 
     IStageService stageService = StageManager;
-    stageService.OnLeftFailed();
+    stageService.OnLeftExhausted();
   }
 
   public void Debugging_StageRightFail()
@@ -200,7 +201,7 @@ public class LocalManager : MonoBehaviour
       return;
 
     IStageService stageService = StageManager;
-    stageService.OnRightFailed();
+    stageService.OnRightExhaused();
   }
 
   public void Debugging_StageRestart()

@@ -17,7 +17,7 @@ namespace LR.Stage.Player
 
     private CompositeDisposable disposables = new();
 
-    public BasePlayerPresenter(PlayerType playerType, BasePlayerView view, PlayerModel model)
+    public BasePlayerPresenter(PlayerModel model, BasePlayerView view)
     {
       this.view = view;
       this.model = model;
@@ -56,7 +56,20 @@ namespace LR.Stage.Player
 
       stateController.ChangeState(PlayerStateType.Idle);
 
+      SubscribeEnergyService();
       SubscribeObservable();
+    }
+
+    private void SubscribeEnergyService()
+    {
+      energyService.SubscribeEvent(IPlayerEnergyController.EventType.OnExhausted, () =>
+      {
+        inputActionController.EnableAllInputActions(false);
+      });
+      energyService.SubscribeEvent(IPlayerEnergyController.EventType.OnRevived, () =>
+      {
+        inputActionController.EnableAllInputActions(true);
+      });
     }
 
     private void SubscribeObservable()

@@ -7,9 +7,21 @@ using LR.Stage;
 
 public class StageManager : IStageService, IStageCreator
 {
-  private readonly IResourceManager resourceManager;
-  private readonly ISceneProvider sceneProvider;
-  private readonly ICameraService cameraService;
+  public class Model
+  {
+    public IResourceManager resourceManager;
+    public ISceneProvider sceneProvider;
+    public ICameraService cameraService;
+
+    public Model(IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService)
+    {
+      this.resourceManager = resourceManager;
+      this.sceneProvider = sceneProvider;
+      this.cameraService = cameraService;
+    }
+  }
+
+  private readonly Model model;
 
   private readonly PlayerService playerSetupService;
   private readonly TriggerTileService triggerTileSetupService;
@@ -17,14 +29,14 @@ public class StageManager : IStageService, IStageCreator
   private readonly Dictionary<IStageService.StageEventType, UnityEvent> stageEvents = new();  
 
   private IStageService.State stageState = IStageService.State.Ready;
+  private bool isLeftExhausted = false;
+  private bool isRightExhausted = false;
 
-  public StageManager(IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService)
+  public StageManager(Model model)
   {
-    this.resourceManager = resourceManager;
-    this.sceneProvider = sceneProvider;
-    this.cameraService = cameraService;
+    this.model = model;
 
-    playerSetupService = new PlayerService();
+    playerSetupService = new PlayerService(stageService: this);
     triggerTileSetupService = new TriggerTileService();
   }
 
@@ -35,7 +47,7 @@ public class StageManager : IStageService, IStageCreator
     var key = table.Path.Stage + string.Format(table.StageName.StageNameFormat, index);
     try
     {
-      var stageDataContainer = await resourceManager.CreateAssetAsync<StageDataContainer>(key);
+      var stageDataContainer = await model.resourceManager.CreateAssetAsync<StageDataContainer>(key);
 
       SetupCamera(stageDataContainer);
       SetupPlayers(stageDataContainer);
@@ -47,15 +59,121 @@ public class StageManager : IStageService, IStageCreator
     catch
     {
       GlobalManager.instance.GameDataService.SetSelectedStage(-1, -1);
-      sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
+      model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
     }
   }
   #endregion
 
+  #region IStageService
+  public UniTask RestartAsync()
+  {
+    playerSetupService.RestartAll();
+    triggerTileSetupService.RestartAll();
+
+    SetState(IStageService.State.Playing);
+    return UniTask.CompletedTask;
+  }
+
+  public void Complete()
+  {
+    stageEvents.TryInvoke(IStageService.StageEventType.Complete);
+
+    IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
+    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
+    playerController.EnableAll(false);
+    triggerTileController.EnableAll(false);
+    SetState(IStageService.State.Success);
+  }
+
+  public void Begin()
+  {
+    stageEvents.TryInvoke(IStageService.StageEventType.Begin);
+
+    playerSetupService.EnableAll(true);
+    triggerTileSetupService.EnableAll(true);
+    SetState(IStageService.State.Playing);
+  }
+
+  public void Pause()
+  {
+    stageEvents.TryInvoke(IStageService.StageEventType.Pause);
+
+    playerSetupService.EnableAll(false);
+    triggerTileSetupService.EnableAll(false);
+    SetState(IStageService.State.Pause);
+  }
+
+  public void Resume()
+  {
+    stageEvents.TryInvoke(IStageService.StageEventType.Resume);
+
+    playerSetupService.EnableAll(true);
+    triggerTileSetupService.EnableAll(true);
+    SetState(IStageService.State.Playing);
+  }
+
+  public void OnLeftExhausted()
+  {
+    stageEvents.TryInvoke(IStageService.StageEventType.LeftExhausted);
+
+    isLeftExhausted = true;
+
+    if(isLeftExhausted && isRightExhausted)
+      stageEvents.TryInvoke(IStageService.StageEventType.AllExhausted);
+  }
+
+  public void OnLeftRevived()
+  {
+    stageEvents.TryInvoke(IStageService.StageEventType.LeftRevived);
+
+    isLeftExhausted = false;
+  }
+
+  public void OnRightExhaused()
+  {
+    stageEvents.TryInvoke(IStageService.StageEventType.RightExhausted);
+
+    isRightExhausted = true;
+
+    if (isLeftExhausted && isRightExhausted)
+      stageEvents.TryInvoke(IStageService.StageEventType.AllExhausted);
+  }
+
+  public void OnRightRevived()
+  {
+    stageEvents.TryInvoke(IStageService.StageEventType.RightExhausted);
+
+    isRightExhausted = false;
+  }
+
+  public void SubscribeOnEvent(IStageService.StageEventType type, UnityAction action)
+  {
+    stageEvents.AddEvent(type, action);    
+  }
+
+  public void UnsubscribeOnEvent(IStageService.StageEventType type, UnityAction action)
+  {
+    stageEvents.RemoveEvent(type, action);
+  }
+
+  public async UniTask<IPlayerPresenter> GetPresenterAsync(PlayerType type)
+  {
+    await playerSetupService.AwaitUntilSetupCompleteAsync();
+    return playerSetupService.GetPresenter(type);
+  }
+
+  public void SetState(IStageService.State state)
+    => stageState = state;
+
+  public IStageService.State GetState()
+    => stageState;
+  #endregion
+
   private void SetupCamera(StageDataContainer stageData)
   {
-    cameraService.SetSize(stageData.CameraSize);
+    model.cameraService.SetSize(stageData.CameraSize);
   }
+
   private void SetupPlayers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
     IStageObjectSetupService<IPlayerPresenter> stageObjectSetupService = playerSetupService;
@@ -78,110 +196,4 @@ public class StageManager : IStageService, IStageCreator
 
     }
   }
-
-  #region IStageService
-  public UniTask RestartAsync()
-  {
-    playerSetupService.RestartAll();
-    triggerTileSetupService.RestartAll();
-
-    SetState(IStageService.State.Playing);
-    return UniTask.CompletedTask;
-  }
-
-  public void Complete()
-  {
-    if (stageEvents.TryGetValue(IStageService.StageEventType.Complete, out var existEvent))
-      existEvent?.Invoke();
-
-    IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;    
-    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
-    playerController.EnableAll(false);
-    triggerTileController.EnableAll(false);
-    SetState(IStageService.State.Success);
-  }
-
-  public void Begin()
-  {
-    if (stageEvents.TryGetValue(IStageService.StageEventType.Begin, out var existEvent))
-      existEvent?.Invoke();
-
-    playerSetupService.EnableAll(true);
-    triggerTileSetupService.EnableAll(true);
-    SetState(IStageService.State.Playing);
-  }
-
-  public void Pause()
-  {
-    if (stageEvents.TryGetValue(IStageService.StageEventType.Pause, out var existEvent))
-      existEvent?.Invoke();
-
-    playerSetupService.EnableAll(false);
-    triggerTileSetupService.EnableAll(false);
-    SetState(IStageService.State.Pause);
-  }
-
-  public void Resume()
-  {
-    if (stageEvents.TryGetValue(IStageService.StageEventType.Resume, out var existEvent))
-      existEvent?.Invoke();
-
-    playerSetupService.EnableAll(true);
-    triggerTileSetupService.EnableAll(true);
-    SetState(IStageService.State.Playing);
-  }
-
-  public void OnLeftFailed()
-  {
-    if (stageEvents.TryGetValue(IStageService.StageEventType.LeftFailed, out var existEvent))
-      existEvent?.Invoke();
-
-    IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
-    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
-    playerController.EnableAll(false);
-    triggerTileController.EnableAll(false);
-    SetState(IStageService.State.Fail);
-  }
-
-  public void OnRightFailed()
-  {
-    if (stageEvents.TryGetValue(IStageService.StageEventType.RightFailed, out var existEvent))
-      existEvent?.Invoke();
-
-    IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
-    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
-    playerController.EnableAll(false);
-    triggerTileController.EnableAll(false);
-    SetState(IStageService.State.Fail);
-  }
-
-  public void SubscribeOnEvent(IStageService.StageEventType type, UnityAction action)
-  {
-    if (stageEvents.TryGetValue(type, out var existEvent))
-      existEvent.AddListener(action);
-    else
-    {
-      stageEvents[type] = new UnityEvent();
-      stageEvents[type].AddListener(action);
-    }      
-  }
-
-  public void UnsubscribeOnEvent(IStageService.StageEventType type, UnityAction action)
-  {
-    if (stageEvents.TryGetValue(type, out var existEvent))
-      existEvent.RemoveListener(action);
-  }
-
-  public async UniTask<IPlayerPresenter> GetPresenterAsync(PlayerType type)
-  {
-    await playerSetupService.AwaitUntilSetupCompleteAsync();
-    return playerSetupService.GetPresenter(type);
-  }
-
-  public void SetState(IStageService.State state)
-    => stageState = state;
-
-  public IStageService.State GetState()
-    => stageState;
-  #endregion
 }

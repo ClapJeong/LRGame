@@ -137,10 +137,10 @@ namespace ScriptableEvent
     #endregion
 
     #region HP
-    public void OnLeftEnergyChanged(float normalizedValue)
+    public void OnLeftEnergyChanged(float value)
     {
       for (int i = 0; i < leftEnergyListners.Count; i++)
-        leftEnergyListners[i].Raise(normalizedValue);
+        leftEnergyListners[i].Raise(value);
     }
 
     public void RegisterLeftEnergyEvent(ScriptableEnergyEventListener listener)
@@ -149,10 +149,10 @@ namespace ScriptableEvent
     public void UnregisterLeftEnergyEvent(ScriptableEnergyEventListener listener)
       => leftEnergyListners.Remove(listener);
 
-    public void OnRightEnergyChanged(float normalizedValue)
+    public void OnRightEnergyChanged(float value)
     {
       for (int i = 0; i < rightEnergyListners.Count; i++)
-        rightEnergyListners[i].Raise(normalizedValue);
+        rightEnergyListners[i].Raise(value);
     }
 
     public void RegisterRightEnergyEvent(ScriptableEnergyEventListener listener)
