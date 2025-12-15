@@ -11,15 +11,17 @@ namespace LR.Stage.Player
   {
     private readonly PlayerEnergyData playerEnergyData;
     private readonly Dictionary<IPlayerEnergyController.EventType, UnityEvent> energyEvents = new();
+    private readonly ISpriteRendererView spriteRendererView;
     private readonly CancellationTokenSource cts = new();
 
     private float energy;
-    private bool isUpdateEnergy = true;
+    private bool isUpdateEnergy = false;
     private bool isInvincible = false;    
 
-    public BasePlayerEnergyService(PlayerEnergyData playerEnergyData)
+    public BasePlayerEnergyService(PlayerEnergyData playerEnergyData, ISpriteRendererView spriteRendererView)
     {
       this.playerEnergyData = playerEnergyData;
+      this.spriteRendererView = spriteRendererView;
 
       energy = playerEnergyData.MaxEnergy;
     }
@@ -38,6 +40,12 @@ namespace LR.Stage.Player
       PlayInvincibleAsync().Forget();
     }
 
+    public void Restart()
+    {
+      energy = playerEnergyData.MaxEnergy;
+      isUpdateEnergy = true;
+    }
+
     public float GetCurrentEnergy()
       => energy;
 
@@ -51,7 +59,6 @@ namespace LR.Stage.Player
     public void Restore(float value)
     {
       var prevEnergy = energy;
-
       energy = Mathf.Min(playerEnergyData.MaxEnergy, energy + value);
 
       if(prevEnergy == 0 &&
@@ -64,7 +71,11 @@ namespace LR.Stage.Player
 
     public void RestoreFull()
     {
+      var prevEnergy = energy;
       energy = playerEnergyData.MaxEnergy;
+
+      if (prevEnergy == 0)
+        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRevived);
 
       energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRestoreFull);
     }
@@ -119,10 +130,29 @@ namespace LR.Stage.Player
       var token = cts.Token;
       try
       {
-        await UniTask.WaitForSeconds(playerEnergyData.InvincibleDuration, false, PlayerLoopTiming.Update, token);
+        var durataion = 0.00f;
+        var targetDuration = playerEnergyData.InvincibleDuration; 
+        var interval = 0.15f;
+        while(durataion< targetDuration)
+        {
+          spriteRendererView.SetAlpha(playerEnergyData.InvincibleBlinkAlphaMax);
+          await UniTask.WaitForSeconds(interval, false, PlayerLoopTiming.Update, token);
+          durataion += interval;
+          token.ThrowIfCancellationRequested();
+
+          spriteRendererView.SetAlpha(playerEnergyData.InvincibleBlinkAlphaMin);
+          await UniTask.WaitForSeconds(interval, false, PlayerLoopTiming.Update, token);
+          token.ThrowIfCancellationRequested();
+          durataion += interval;
+        }
+        
         isInvincible = false;
       }
       catch (OperationCanceledException) { }
+      finally
+      {
+        spriteRendererView.SetAlpha(1.0f);
+      }
     }
   }
 }

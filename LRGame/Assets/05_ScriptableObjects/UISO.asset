@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5d5f16bdef7b054fa2076ac474e2212, type: 3}
   m_Name: UISO
   m_EditorClassIdentifier: Assembly-CSharp::UISO
-  inputPaths:
+  <InputPaths>k__BackingField:
     leftUp: 119
     leftRight: 100
     leftDown: 115
@@ -22,5 +22,5 @@ MonoBehaviour:
     rightDown: 274
     rightLeft: 276
     space: 32
-  indicatorDuration: 0.08
-  progressSubmitDuration: 0.6
+  <IndicatorDuration>k__BackingField: 0.15
+  <ProgressSubmitDuration>k__BackingField: 1.2

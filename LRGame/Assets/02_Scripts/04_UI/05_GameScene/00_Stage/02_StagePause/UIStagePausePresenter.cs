@@ -22,9 +22,9 @@ namespace LR.UI.GameScene.Stage
       public IUIInputActionManager uiInputActionManager;
       public IUIIndicatorService indicatorService;
       public ISceneProvider sceneProvider;
-      public IStageService stageService;
+      public IStageStateHandler stageService;
 
-      public Model(IUIInputActionManager uiInputActionManager, IUIIndicatorService indicatorService, ISceneProvider sceneProvider, IStageService stageService)
+      public Model(IUIInputActionManager uiInputActionManager, IUIIndicatorService indicatorService, ISceneProvider sceneProvider, IStageStateHandler stageService)
       {
         this.uiInputActionManager = uiInputActionManager;
         this.indicatorService = indicatorService;

@@ -9,16 +9,24 @@ namespace LR.UI.GameScene.Stage
   {
     public class Model
     {
-      public IStageService stageService;
+      public IStageStateHandler stageStateHandler;
+      public IStageEventSubscriber stageEventSubscriber;
       public IResourceManager resourceManager;
       public IGameDataService gameDataService;
       public UIManager uiManager;
       public ISceneProvider sceneProvider;
       public IUIInputActionManager uiInputActionManager;
 
-      public Model(IStageService stageService, IResourceManager resourceManager, IGameDataService gameDataService, UIManager uiManager, ISceneProvider sceneProvider, IUIInputActionManager uiInputActionManager)
+      public Model(IStageStateHandler stageStateHandler,
+        IStageEventSubscriber stageEventSubscriber,
+        IResourceManager resourceManager, 
+        IGameDataService gameDataService, 
+        UIManager uiManager, 
+        ISceneProvider sceneProvider, 
+        IUIInputActionManager uiInputActionManager)
       {
-        this.stageService = stageService;
+        this.stageStateHandler = stageStateHandler;
+        this.stageEventSubscriber = stageEventSubscriber;
         this.resourceManager = resourceManager;
         this.gameDataService = gameDataService;
         this.uiManager = uiManager;
@@ -52,8 +60,8 @@ namespace LR.UI.GameScene.Stage
       successPresenter.DeactivateAsync().Forget();
       pausePresenter.DeactivateAsync().Forget();
 
-      model.stageService.SubscribeOnEvent(IStageService.StageEventType.Complete, OnStageSuccess);
-      model.stageService.SubscribeOnEvent(IStageService.StageEventType.AllExhausted, OnStageFailed);
+      model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, OnStageSuccess);
+      model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, OnStageFailed);
 
       SubscribePauseInput();
     }
@@ -86,7 +94,7 @@ namespace LR.UI.GameScene.Stage
     {
       var model = new UIStageBeginPresenter.Model(        
         uiInputActionManager: this.model.uiInputActionManager,
-        stageService: this.model.stageService);
+        stageService: this.model.stageStateHandler);
       var beginView = view.beginViewContainer;
       beginPresenter = new UIStageBeginPresenter(model, beginView);
       beginPresenter.AttachOnDestroy(view.gameObject);
@@ -97,7 +105,7 @@ namespace LR.UI.GameScene.Stage
       var model = new UIStageFailPresenter.Model(
         uiInputActionManager: this.model.uiInputActionManager,
         indicatorService: this.model.uiManager,
-        stageService: this.model.stageService,
+        stageService: this.model.stageStateHandler,
         sceneProvider: this.model.sceneProvider);
       var failView = view.failViewContainer;
       failPresenter = new UIStageFailPresenter(model, failView);
@@ -110,7 +118,7 @@ namespace LR.UI.GameScene.Stage
         gameDataService: this.model.gameDataService,
         uiInputActionManager: this.model.uiInputActionManager,
         indicatorService: this.model.uiManager,
-        stageService: this.model.stageService,
+        stageService: this.model.stageStateHandler,
         sceneProvider: this.model.sceneProvider);
       var view = this.view.successViewContainer;
       successPresenter = new UIStageSuccessPresenter(model, view);
@@ -123,7 +131,7 @@ namespace LR.UI.GameScene.Stage
         uiInputActionManager: this.model.uiInputActionManager,
         indicatorService: this.model.uiManager,
         sceneProvider: this.model.sceneProvider,
-        stageService: this.model.stageService);
+        stageService: this.model.stageStateHandler);
       var view = this.view.pauseViewContainer;
       pausePresenter = new UIStagePausePresenter(model, view);
       pausePresenter.AttachOnDestroy(this.view.gameObject);
@@ -141,7 +149,7 @@ namespace LR.UI.GameScene.Stage
 
     private void OnPauseInputPerformed()
     {
-      if (model.stageService.GetState() != IStageService.State.Playing)
+      if (model.stageStateHandler.GetState() != IStageStateHandler.State.Playing)
         return;
 
       pausePresenter.ActivateAsync().Forget();

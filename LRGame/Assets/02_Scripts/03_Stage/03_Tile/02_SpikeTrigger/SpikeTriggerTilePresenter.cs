@@ -9,30 +9,31 @@ namespace LR.Stage.TriggerTile
     public class Model
     {
       public SpikeTriggerData data;
-      public UnityAction<Collider2D> onEnter;
+      public IPlayerGetter playerGetter;
 
-      public Model(SpikeTriggerData data, UnityAction<Collider2D> onEnter)
+      public Model(SpikeTriggerData data, IPlayerGetter playerGetter)
       {
         this.data = data;
-        this.onEnter = onEnter;
+        this.playerGetter = playerGetter;
       }
     }
 
     private readonly Model model;
     private readonly SpikeTriggerTileView view;
 
+    private bool isEnable = true;
+
     public SpikeTriggerTilePresenter(Model model, SpikeTriggerTileView view)
     {
       this.model = model;
       this.view = view;
 
-      view.SubscribeOnEnter(model.onEnter);
       view.SubscribeOnEnter(OnSpikeEnter);
     }
 
     public void Enable(bool enabled)
     {
-
+      isEnable = enabled;
     }
 
     public void Restart()
@@ -40,12 +41,15 @@ namespace LR.Stage.TriggerTile
 
     }
 
-    private async void OnSpikeEnter(Collider2D collider2D)
+    private void OnSpikeEnter(Collider2D collider2D)
     {
+      if (!isEnable)
+        return;
+
       if (collider2D.gameObject.TryGetComponent<IPlayerView>(out var playerView))
       {
         var playerType = playerView.GetPlayerType();
-        var playerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(playerType);
+        var playerPresenter = model.playerGetter.GetPlayer(playerType);
         IPlayerEnergyController energyController = playerPresenter.GetEnergyController();
         if (energyController.IsInvincible() == false)
           energyController.Damage(model.data.DamageValue);

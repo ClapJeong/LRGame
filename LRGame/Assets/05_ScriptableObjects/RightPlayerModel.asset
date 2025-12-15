@@ -12,20 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8cd9b81b2393bd419c775cb59a0be80, type: 3}
   m_Name: RightPlayerModel
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModelSO
-  movement:
+  <Movement>k__BackingField:
     upKeyCode: 273
     downKeyCode: 274
     leftKeyCode: 276
     rightKeyCode: 275
-    upVector: {x: 0, y: 1, z: 0}
-    downVector: {x: 0, y: -1, z: 0}
-    leftVector: {x: -1, y: 0, z: 0}
-    rightVector: {x: 1, y: 0, z: 0}
+    upVector: {x: 0, y: 2, z: 0}
+    downVector: {x: 0, y: -2, z: 0}
+    leftVector: {x: -2, y: 0, z: 0}
+    rightVector: {x: 2, y: 0, z: 0}
     acceleration: 22
-    decceleration: 7
+    decceleration: 12
     maxSpeed: 5
-  hp:
-    maxHP: 3
-    invincibleDuration: 1.5
-    invincibleBlinkAlphaMax: 0.3
-    invincibleBlinkAlphaMin: 0.7
+  <Energy>k__BackingField:
+    <MaxEnergy>k__BackingField: 100
+    <DecreasingValue>k__BackingField: 10
+    <InvincibleDuration>k__BackingField: 1.5
+    <InvincibleBlinkAlphaMax>k__BackingField: 0.8
+    <InvincibleBlinkAlphaMin>k__BackingField: 0.2

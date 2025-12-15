@@ -9,5 +9,7 @@ namespace LR.Stage.Player
     public IPlayerEnergyController GetEnergyController();
 
     public IPlayerReactionController GetReactionController();
+
+    public IPlayerEnergyUpdater GetEnergyUpdater();
   }
 }

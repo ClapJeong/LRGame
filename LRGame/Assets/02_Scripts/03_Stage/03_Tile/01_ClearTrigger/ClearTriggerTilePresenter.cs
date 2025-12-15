@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,39 +9,74 @@ namespace LR.Stage.TriggerTile
   {
     public class Model
     {
-      public UnityAction<Collider2D> onEnter;
-      public UnityAction<Collider2D> onExit;
+      public IStageResultHandler stageResultHandler;
 
-      public Model(UnityAction<Collider2D> onEnter, UnityAction<Collider2D> onExit)
+      public Model(IStageResultHandler stageResultHandler)
       {
-        this.onEnter = onEnter;
-        this.onExit = onExit;
+        this.stageResultHandler = stageResultHandler;
       }
     }
 
     private readonly Model model;
     private readonly ClearTriggerTileView view;
 
-    private ITriggerEventSubscriber subscriber;
+    private bool isEnable = true;
 
     public ClearTriggerTilePresenter(Model model, ClearTriggerTileView view)
     {
       this.model = model;
       this.view = view;
 
-      subscriber = view;
-      subscriber.SubscribeOnEnter(model.onEnter);
-      subscriber.SubscribeOnExit(model.onExit);
+      view.SubscribeOnEnter(OnEnter);
+      view.SubscribeOnExit(OnExit);
     }
 
     public void Enable(bool enabled)
     {
-
+      isEnable = enabled;
     }
 
     public void Restart()
     {
 
+    }
+
+    private void OnEnter(Collider2D collider2D)
+    {
+      if (!isEnable)
+        return;
+
+      switch (view.GetTriggerType())
+      {
+        case TriggerTileType.LeftClearTrigger:
+          model.stageResultHandler.LeftClearEnter();
+          break;
+
+        case TriggerTileType.RightClearTrigger:
+          model.stageResultHandler.RightClearEnter();
+          break;
+
+        default: throw new System.NotImplementedException();
+      }
+    }
+
+    private void OnExit(Collider2D collider2D)
+    {
+      if (!isEnable)
+        return;
+
+      switch (view.GetTriggerType())
+      {
+        case TriggerTileType.LeftClearTrigger:
+          model.stageResultHandler.LeftClearExit();
+          break;
+
+        case TriggerTileType.RightClearTrigger:
+          model.stageResultHandler.RightClearExit();
+          break;
+
+        default: throw new System.NotImplementedException();
+      }
     }
   }
 }

@@ -12,10 +12,12 @@ namespace LR.UI.GameScene.Player
     public class Model
     {
       public StageManager stageManager;
+      public IPlayerGetter playerGetter;
 
-      public Model(StageManager stageManager)
+      public Model(StageManager stageManager, IPlayerGetter playerGetter)
       {
         this.stageManager = stageManager;
+        this.playerGetter = playerGetter;
       }
     }
 
@@ -82,9 +84,11 @@ namespace LR.UI.GameScene.Player
 
     private async UniTask CreateLeftInputPresenterAsync()
     {
-      IPlayerPresenter leftPlayerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Left);
+      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
 
-      var model = new UIPlayerInputPresenter.Model(leftPlayerPresenter.GetInputActionController());
+      var inputController = this.model.playerGetter.GetPlayer(PlayerType.Left).GetInputActionController();
+
+      var model = new UIPlayerInputPresenter.Model(inputController);
       var view = this.view.leftInputViewContainer;
 
       leftInputActionPresenter = new UIPlayerInputPresenter(model, view);
@@ -93,9 +97,11 @@ namespace LR.UI.GameScene.Player
 
     private async UniTask CreateRightInputPresenterAsync()
     {
-      IPlayerPresenter leftPlayerPresenter = await LocalManager.instance.StageManager.GetPresenterAsync(PlayerType.Right);
+      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
 
-      var model = new UIPlayerInputPresenter.Model(leftPlayerPresenter.GetInputActionController());
+      var inputController = this.model.playerGetter.GetPlayer(PlayerType.Right).GetInputActionController();
+
+      var model = new UIPlayerInputPresenter.Model(inputController);
       var view = this.view.rightInputViewContainer;
 
       rightInputActionPresenter = new UIPlayerInputPresenter(model, view);
@@ -104,11 +110,13 @@ namespace LR.UI.GameScene.Player
 
     private async UniTask CreateLeftEnergyPresenterAsync()
     {
+      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
+      
       var leftPlayerTable = GlobalManager.instance.Table.LeftPlayerModelSO;
-      IPlayerPresenter leftPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Left);
+      var energyController = this.model.playerGetter.GetPlayer(PlayerType.Left).GetEnergyController();
 
       var model = new UIPlayerEnergyPresenter.Model(
-        playerEnergyController: leftPresenter.GetEnergyController(),
+        playerEnergyController: energyController,
         leftPlayerTable.Energy);
       var view = this.view.leftEnergyView;
 
@@ -118,11 +126,13 @@ namespace LR.UI.GameScene.Player
 
     private async UniTask CreateRightEnergyPresenterAsync()
     {
+      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
+      
       var RightPlayerTable = GlobalManager.instance.Table.RightPlayerModelSO;
-      IPlayerPresenter RightPresenter = await this.model.stageManager.GetPresenterAsync(PlayerType.Right);
+      var energyController = this.model.playerGetter.GetPlayer(PlayerType.Right).GetEnergyController();
 
       var model = new UIPlayerEnergyPresenter.Model(
-        playerEnergyController: RightPresenter.GetEnergyController(),
+        playerEnergyController: energyController,
         RightPlayerTable.Energy);
       var view = this.view.rightEnergyView;
 

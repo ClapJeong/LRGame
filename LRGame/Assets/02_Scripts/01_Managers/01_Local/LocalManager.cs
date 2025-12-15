@@ -139,7 +139,8 @@ public class LocalManager : MonoBehaviour
   private async UniTask CreatePlayerUIAsync()
   {
     var model = new UIPlayerRootPresenter.Model(
-      stageManager: stageManager);
+      stageManager: stageManager,
+      playerGetter: stageManager);
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
@@ -153,7 +154,8 @@ public class LocalManager : MonoBehaviour
   private async UniTask CreateStageUIAsync()
   {
     var model = new UIStageRootPresenter.Model(
-      stageService: stageManager,
+      stageStateHandler: stageManager,
+      stageEventSubscriber: stageManager,
       resourceManager: resourceManager,
       gameDataService: GlobalManager.instance.GameDataService,
       uiManager: GlobalManager.instance.UIManager,
@@ -182,8 +184,8 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageService stageService = StageManager;
-    stageService.Complete();
+    IStageStateHandler stageStateHandler = stageManager;
+    stageStateHandler.Complete();    
   }
 
   public void Debugging_StageLeftFail()
@@ -191,8 +193,8 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageService stageService = StageManager;
-    stageService.OnLeftExhausted();
+    var leftPlayer = stageManager.GetPlayer(PlayerType.Left);
+    leftPlayer.GetEnergyController().Damage(float.MaxValue, ignoreInvincible: true);
   }
 
   public void Debugging_StageRightFail()
@@ -200,8 +202,8 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageService stageService = StageManager;
-    stageService.OnRightExhaused();
+    var rightPlayer = stageManager.GetPlayer(PlayerType.Right);
+    rightPlayer.GetEnergyController().Damage(float.MaxValue, ignoreInvincible: true);
   }
 
   public void Debugging_StageRestart()
@@ -209,37 +211,49 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageService stageService = StageManager;
+    IStageStateHandler stageService = StageManager;
     stageService.RestartAsync().Forget();
   }
 
-  public async void Debugging_LeftPlayeEnergyDamaged(float value)
+  public void Debugging_LeftPlayeEnergyDamaged(float value)
   {
-    var leftPlayer = await StageManager.GetPresenterAsync(PlayerType.Left);
+    if (stageManager.IsAllPlayerExist() == false)
+      return;
+
+    var leftPlayer = stageManager.GetPlayer(PlayerType.Left);
     leftPlayer
       .GetEnergyController()
       .Damage(value);
   }
 
-  public async void Debugging_LeftPlayerEnergyRestored(float value)
+  public void Debugging_LeftPlayerEnergyRestored(float value)
   {
-    var leftPlayer = await StageManager.GetPresenterAsync(PlayerType.Left);
+    if (stageManager.IsAllPlayerExist() == false)
+      return;
+    
+    var leftPlayer = stageManager.GetPlayer(PlayerType.Left);
     leftPlayer
       .GetEnergyController()
       .Restore(value);
   }
 
-  public async void Debugging_RightPlayerEnergyDamaged(float value)
+  public void Debugging_RightPlayerEnergyDamaged(float value)
   {
-    var rightPlayer = await StageManager.GetPresenterAsync(PlayerType.Right);
+    if (stageManager.IsAllPlayerExist() == false)
+      return;
+    
+    var rightPlayer = stageManager.GetPlayer(PlayerType.Right);
     rightPlayer
       .GetEnergyController()
       .Damage(value);
   }
 
-  public async void Debugging_RightPlayerEnergyRestored(float value)
+  public void Debugging_RightPlayerEnergyRestored(float value)
   {
-    var rightPlayer = await StageManager.GetPresenterAsync(PlayerType.Right);
+    if (stageManager.IsAllPlayerExist() == false)
+      return; 
+    
+    var rightPlayer = stageManager.GetPlayer(PlayerType.Right);
     rightPlayer
       .GetEnergyController()
       .Restore(value);

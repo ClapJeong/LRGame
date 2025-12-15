@@ -15,7 +15,9 @@ namespace LR.Stage.Player
 
     public void RestoreFull();
 
-    public void Damage(float value, bool ignoreInvincible = false);    
+    public void Damage(float value, bool ignoreInvincible = false);
+
+    public void Restart();
 
     public float GetCurrentEnergy();
 

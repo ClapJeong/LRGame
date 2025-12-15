@@ -24,15 +24,12 @@ namespace LR.Stage.Player
 
       view.SetWorldPosition(model.beginPosition);
 
-      energyService = new BasePlayerEnergyService(model.so.Energy).AddTo(disposables);
+      energyService = new BasePlayerEnergyService(model.so.Energy, view).AddTo(disposables);
       inputActionController = new BasePlayerInputActionController(model).AddTo(disposables);
       moveController = new BasePlayerMoveController(
         view, 
         inputActionController: this.inputActionController, 
         model).AddTo(disposables);
-      reactionController = new BasePlayerReactionController(
-        moveController: this.moveController, 
-        stateController: this.stateController).AddTo(disposables);
 
       stateController = new PlayerStateController();
       disposables.Add(stateController);
@@ -54,6 +51,10 @@ namespace LR.Stage.Player
         energyUpdater: this.energyService,
         bounceData));
 
+      reactionController = new BasePlayerReactionController(
+        moveController: this.moveController,
+        stateController: this.stateController).AddTo(disposables);
+
       stateController.ChangeState(PlayerStateType.Idle);
 
       SubscribeEnergyService();
@@ -65,10 +66,31 @@ namespace LR.Stage.Player
       energyService.SubscribeEvent(IPlayerEnergyController.EventType.OnExhausted, () =>
       {
         inputActionController.EnableAllInputActions(false);
+        switch (model.playerType)
+        {
+          case PlayerType.Left:
+            model.stageResultHandler.LeftExhausted();
+            break;
+
+          case PlayerType.Right:
+            model.stageResultHandler.RightExhaused();
+            break;
+        }
       });
       energyService.SubscribeEvent(IPlayerEnergyController.EventType.OnRevived, () =>
       {
         inputActionController.EnableAllInputActions(true);
+
+        switch (model.playerType)
+        {
+          case PlayerType.Left:
+            model.stageResultHandler.LeftRevived();
+            break;
+
+          case PlayerType.Right:
+            model.stageResultHandler.RightRevived();
+            break;
+        }
       });
     }
 
@@ -94,6 +116,8 @@ namespace LR.Stage.Player
       GetInputActionController().
         EnableAllInputActions(true);
 
+      energyService.Restart();        
+
       view.SetWorldPosition(model.beginPosition);
     }
     #endregion
@@ -109,6 +133,9 @@ namespace LR.Stage.Player
 
     public IPlayerReactionController GetReactionController()
       => reactionController;
+
+    public IPlayerEnergyUpdater GetEnergyUpdater()
+      => energyService;
 
     public void Dispose()
     {

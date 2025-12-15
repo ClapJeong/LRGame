@@ -3,25 +3,13 @@ using UnityEngine.Events;
 
 namespace LR.Stage.TriggerTile
 {
-  public class ClearTriggerTileView : MonoBehaviour, ITriggerTileView
+  public class EnergyItemTriggerView : MonoBehaviour, ITriggerTileView
   {
-    [SerializeField] private TriggerTileType triggerTileType;
-    [SerializeField] private Animator animator;
-
-    private readonly int enterHash = Animator.StringToHash("Enter");
-
     private readonly UnityEvent<Collider2D> onEnter = new();
     private readonly UnityEvent<Collider2D> onExit = new();
-
-    private void OnValidate()
-    {
-      if(triggerTileType!=TriggerTileType.LeftClearTrigger &&
-        triggerTileType!=TriggerTileType.RightClearTrigger)
-        triggerTileType = TriggerTileType.LeftClearTrigger;
-    }
-
+    
     public TriggerTileType GetTriggerType()
-      => triggerTileType;
+      => TriggerTileType.EnergyItem;
 
     public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
     {
@@ -48,13 +36,11 @@ namespace LR.Stage.TriggerTile
     private void OnTriggerEnter2D(Collider2D collision)
     {
       onEnter?.Invoke(collision);
-      animator.SetBool(enterHash, true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
       onExit?.Invoke(collision);
-      animator.SetBool(enterHash, false);
     }
   }
 }

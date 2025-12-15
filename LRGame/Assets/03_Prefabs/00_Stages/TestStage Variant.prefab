@@ -1928,6 +1928,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4695713829783908834}
+    - targetCorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6723557265887446548}
+    - targetCorrespondingSourceObject: {fileID: 2296857024260036511, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9170604096536742240}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a35ea90458ce55648aec757755174e1a, type: 3}
 --- !u!4 &364725282606148205 stripped
@@ -2167,3 +2173,127 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c43b6f9ce7f5a48802a738379c8d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpikeTriggerTileView
+--- !u!1001 &6076977261547938338
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 364725282606148205}
+    m_Modifications:
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.500171
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.50001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336098830661048742, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_Name
+      value: EnergyItemTrigger (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+--- !u!4 &9170604096536742240 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+  m_PrefabInstance: {fileID: 6076977261547938338}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8529706630266727766
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 364725282606148205}
+    m_Modifications:
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.500171
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336098830661048742, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+      propertyPath: m_Name
+      value: EnergyItemTrigger
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+--- !u!4 &6723557265887446548 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3103337799066086210, guid: a025a6b4be27c6441978b1f7c578b0bb, type: 3}
+  m_PrefabInstance: {fileID: 8529706630266727766}
+  m_PrefabAsset: {fileID: 0}

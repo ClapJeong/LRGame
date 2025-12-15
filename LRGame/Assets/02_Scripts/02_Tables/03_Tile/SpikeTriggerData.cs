@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class SpikeTriggerData
 {
   [field: SerializeField] public float DamageValue { get; set; }

@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d733dcfbee02454599e56fe61a8cf3a, type: 3}
   m_Name: TriggerTileSO
   m_EditorClassIdentifier: Assembly-CSharp::TriggerTileModelSO
-  spikeTrigger:
-    bounceData:
-      force: 3
-      stunDuration: 0.3
+  <SpikeTrigger>k__BackingField:
+    <DamageValue>k__BackingField: 30
+    <BounceData>k__BackingField:
+      force: 5
+      stunDuration: 0.8
+  <EnergyItem>k__BackingField:
+    <RestoreValue>k__BackingField: 50

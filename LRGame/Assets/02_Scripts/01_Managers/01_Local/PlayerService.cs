@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using LR.Stage.Player;
 
-public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageObjectControlService<IPlayerPresenter>
+public class PlayerService : 
+  IStageObjectSetupService<IPlayerPresenter>, 
+  IStageObjectControlService<IPlayerPresenter>,
+  IPlayerGetter
 {
   public class SetupData
   {
@@ -16,16 +19,18 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
     }
   }
 
-  private readonly IStageService stageService;
+  private readonly IStageStateHandler stageService;
+  private readonly IStageResultHandler stageResultHandler;
 
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
   private bool isSetupComplete = false;
 
-  public PlayerService(IStageService stageService)
+  public PlayerService(IStageStateHandler stageService, IStageResultHandler stageResultHandler)
   {
     this.stageService = stageService;
+    this.stageResultHandler = stageResultHandler;
   }
 
   public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
@@ -65,7 +70,8 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       modelSO,
       PlayerType.Left,
       beginPosition,
-      stageService);
+      stageService: stageService,
+      stageResultHandler: stageResultHandler);
     var presenter = new BasePlayerPresenter(leftModel, leftView);
 
     presenter
@@ -95,7 +101,8 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
       modelSO,
       PlayerType.Right,
       beginPosition,
-      stageService);
+      stageService: stageService,
+      stageResultHandler: stageResultHandler);
     var presenter = new BasePlayerPresenter(rightModel, rightView);
 
     presenter
@@ -120,6 +127,24 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
     rightPlayer
       .GetInputActionController()
       .EnableAllInputActions(isEnable);
+    if (isEnable)
+    {
+      rightPlayer
+        .GetEnergyUpdater()
+        .Resume();
+      leftPlayer
+        .GetEnergyUpdater()
+        .Resume();
+    }
+    else
+    {
+      rightPlayer
+        .GetEnergyUpdater()
+        .Pause();
+      leftPlayer
+        .GetEnergyUpdater()
+        .Pause();
+    }
   }
 
   public void RestartAll()
@@ -128,16 +153,24 @@ public class PlayerService : IStageObjectSetupService<IPlayerPresenter>, IStageO
     rightPlayer.Restart();
   }
 
-  public IPlayerPresenter GetPresenter(PlayerType type)
-    => type switch
+  public IPlayerPresenter GetPlayer(PlayerType playerType)
+  {
+    if (!isSetupComplete)
+      AwaitUntilSetupCompleteAsync().GetAwaiter().GetResult();
+
+    return playerType switch
     {
       PlayerType.Left => leftPlayer,
       PlayerType.Right => rightPlayer,
       _ => throw new System.NotImplementedException(),
     };
+  }
 
   public async UniTask AwaitUntilSetupCompleteAsync()
   {
-    await UniTask.WaitUntil(()=> isSetupComplete);
+    await UniTask.WaitUntil(() => isSetupComplete);
   }
+
+  public bool IsAllPlayerExist()
+    => leftPlayer != null && rightPlayer != null;
 }

@@ -5,7 +5,12 @@ using LR.Stage.Player;
 using LR.Stage.TriggerTile;
 using LR.Stage;
 
-public class StageManager : IStageService, IStageCreator
+public class StageManager : 
+  IStageStateHandler, 
+  IStageResultHandler,
+  IStageEventSubscriber,
+  IPlayerGetter,
+  IStageCreator
 {
   public class Model
   {
@@ -26,17 +31,21 @@ public class StageManager : IStageService, IStageCreator
   private readonly PlayerService playerSetupService;
   private readonly TriggerTileService triggerTileSetupService;
 
-  private readonly Dictionary<IStageService.StageEventType, UnityEvent> stageEvents = new();  
+  private readonly Dictionary<IStageEventSubscriber.StageEventType, UnityEvent> stageEvents = new();  
 
-  private IStageService.State stageState = IStageService.State.Ready;
+  private IStageStateHandler.State stageState = IStageStateHandler.State.Ready;
   private bool isLeftExhausted = false;
   private bool isRightExhausted = false;
+  private bool isLeftClear = false;
+  private bool isRightClear = false;
 
   public StageManager(Model model)
   {
     this.model = model;
 
-    playerSetupService = new PlayerService(stageService: this);
+    playerSetupService = new PlayerService(
+      stageService: this,
+      stageResultHandler: this);
     triggerTileSetupService = new TriggerTileService();
   }
 
@@ -54,7 +63,7 @@ public class StageManager : IStageService, IStageCreator
       SetupTriggers(stageDataContainer);
       SetupDynamicObstacles(stageDataContainer);
 
-      SetState(IStageService.State.Ready);
+      SetState(IStageStateHandler.State.Ready);
     }
     catch
     {
@@ -70,103 +79,147 @@ public class StageManager : IStageService, IStageCreator
     playerSetupService.RestartAll();
     triggerTileSetupService.RestartAll();
 
-    SetState(IStageService.State.Playing);
+    isLeftExhausted = false;
+    isRightExhausted = false;
+    isLeftClear = false;
+    isRightClear = false;
+
+    SetState(IStageStateHandler.State.Playing);
     return UniTask.CompletedTask;
   }
 
   public void Complete()
   {
-    stageEvents.TryInvoke(IStageService.StageEventType.Complete);
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Complete);
 
     IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
     IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
-    SetState(IStageService.State.Success);
+    SetState(IStageStateHandler.State.Success);
   }
 
   public void Begin()
   {
-    stageEvents.TryInvoke(IStageService.StageEventType.Begin);
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Begin);
 
     playerSetupService.EnableAll(true);
     triggerTileSetupService.EnableAll(true);
-    SetState(IStageService.State.Playing);
+    SetState(IStageStateHandler.State.Playing);
   }
 
   public void Pause()
   {
-    stageEvents.TryInvoke(IStageService.StageEventType.Pause);
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Pause);
 
     playerSetupService.EnableAll(false);
     triggerTileSetupService.EnableAll(false);
-    SetState(IStageService.State.Pause);
+    SetState(IStageStateHandler.State.Pause);
   }
 
   public void Resume()
   {
-    stageEvents.TryInvoke(IStageService.StageEventType.Resume);
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Resume);
 
     playerSetupService.EnableAll(true);
     triggerTileSetupService.EnableAll(true);
-    SetState(IStageService.State.Playing);
+    SetState(IStageStateHandler.State.Playing);
   }
 
-  public void OnLeftExhausted()
+  public void SetState(IStageStateHandler.State state)
+    => stageState = state;
+
+  public IStageStateHandler.State GetState()
+    => stageState;
+  #endregion
+
+  #region IStageResultHandler
+  public void LeftExhausted()
   {
-    stageEvents.TryInvoke(IStageService.StageEventType.LeftExhausted);
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.LeftExhausted);
 
     isLeftExhausted = true;
 
-    if(isLeftExhausted && isRightExhausted)
-      stageEvents.TryInvoke(IStageService.StageEventType.AllExhausted);
+    if (isLeftExhausted && isRightExhausted)
+      stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllExhausted);
   }
 
-  public void OnLeftRevived()
+  public void LeftRevived()
   {
-    stageEvents.TryInvoke(IStageService.StageEventType.LeftRevived);
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.LeftRevived);
 
     isLeftExhausted = false;
   }
 
-  public void OnRightExhaused()
+  public void RightExhaused()
   {
-    stageEvents.TryInvoke(IStageService.StageEventType.RightExhausted);
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.RightExhausted);
 
     isRightExhausted = true;
 
     if (isLeftExhausted && isRightExhausted)
-      stageEvents.TryInvoke(IStageService.StageEventType.AllExhausted);
+      stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllExhausted);
   }
 
-  public void OnRightRevived()
+  public void RightRevived()
   {
-    stageEvents.TryInvoke(IStageService.StageEventType.RightExhausted);
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.RightExhausted);
 
     isRightExhausted = false;
   }
 
-  public void SubscribeOnEvent(IStageService.StageEventType type, UnityAction action)
+  public void LeftClearEnter()
   {
-    stageEvents.AddEvent(type, action);    
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.LeftClearEnter);
+
+    isLeftClear = true;
+    if (isLeftClear && isRightClear)
+      Complete();
   }
 
-  public void UnsubscribeOnEvent(IStageService.StageEventType type, UnityAction action)
+  public void LeftClearExit()
+  {
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.LeftClearExit);
+
+    isLeftClear = false;
+  }
+
+  public void RightClearEnter()
+  {
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.RightClearEnter);
+
+    isRightClear = true;
+    if (isLeftClear && isRightClear)
+      Complete();
+  }
+
+  public void RightClearExit()
+  {
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.RightClearExit);
+
+    isRightClear = false;
+  }
+
+  #endregion
+
+  #region IStageEventSubscriber
+  public void SubscribeOnEvent(IStageEventSubscriber.StageEventType type, UnityAction action)
+  {
+    stageEvents.AddEvent(type, action);
+  }
+
+  public void UnsubscribeOnEvent(IStageEventSubscriber.StageEventType type, UnityAction action)
   {
     stageEvents.RemoveEvent(type, action);
   }
+  #endregion
 
-  public async UniTask<IPlayerPresenter> GetPresenterAsync(PlayerType type)
-  {
-    await playerSetupService.AwaitUntilSetupCompleteAsync();
-    return playerSetupService.GetPresenter(type);
-  }
+  #region IPlayerGetter
+  public IPlayerPresenter GetPlayer(PlayerType playerType)
+    => playerSetupService.GetPlayer(playerType);
 
-  public void SetState(IStageService.State state)
-    => stageState = state;
-
-  public IStageService.State GetState()
-    => stageState;
+  public bool IsAllPlayerExist()
+    => playerSetupService.IsAllPlayerExist();
   #endregion
 
   private void SetupCamera(StageDataContainer stageData)
@@ -184,9 +237,11 @@ public class StageManager : IStageService, IStageCreator
 
   private void SetupTriggers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
-    IStageService stageService = this;
-    IStageObjectSetupService<ITriggerTilePresenter> triggersSetupService = triggerTileSetupService;
-    triggersSetupService.SetupAsync(new TriggerTileService.Model(stageData.TriggerTiles, stageService),isEnableImmediately).Forget();
+    var model = new TriggerTileService.Model(
+      stageResultHandler: this,
+      playerGetter: this,
+      existViews: stageData.TriggerTiles);
+    triggerTileSetupService.SetupAsync(model,isEnableImmediately).Forget();
   }
 
   private void SetupDynamicObstacles(StageDataContainer stageData)

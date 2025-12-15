@@ -7,12 +7,15 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 {
   public class Model
   {
-    public readonly IStageService stageService;
+    public readonly IStageResultHandler stageResultHandler;
+    public readonly IPlayerGetter playerGetter;
     public readonly List<ITriggerTileView> existViews;
-    public Model(List<ITriggerTileView> existViews, IStageService stageService) 
-    { 
-      this.existViews = existViews; 
-      this.stageService = stageService;
+
+    public Model(IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews)
+    {
+      this.stageResultHandler = stageResultHandler;
+      this.playerGetter = playerGetter;
+      this.existViews = existViews;
     }
   }
 
@@ -28,13 +31,15 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
   {
     var presenters = new List<ITriggerTilePresenter>();
     this.model = data as Model;
-    foreach(var view in model.existViews)
+    var triggerDataSO = GlobalManager.instance.Table.TriggerTileModelSO;
+
+    foreach (var view in model.existViews)
     {
       switch (view.GetTriggerType())
       {
         case TriggerTileType.LeftClearTrigger:
           {
-            var model = new ClearTriggerTilePresenter.Model(OnLeftClearEnter,OnLeftClearExit);
+            var model = new ClearTriggerTilePresenter.Model(this.model.stageResultHandler);
             var clearTriggerTileView = view as ClearTriggerTileView;
             var presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
             presenter.Enable(isEnableImmediately);
@@ -45,7 +50,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.RightClearTrigger:
           {
-            var model = new ClearTriggerTilePresenter.Model(OnRightClearEnter, OnRightClearExit); 
+            var model = new ClearTriggerTilePresenter.Model(this.model.stageResultHandler); 
             var clearTriggerTileView = view as ClearTriggerTileView;
             var presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
             presenter.Enable(isEnableImmediately);
@@ -56,9 +61,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.Spike:
           {
-            var model = new SpikeTriggerTilePresenter.Model(
-              GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger,
-              onEnter: null);
+            var model = new SpikeTriggerTilePresenter.Model(triggerDataSO.SpikeTrigger, this.model.playerGetter);
             var spikeTriggerTileView = view as SpikeTriggerTileView;
             var presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
             presenter.Enable(isEnableImmediately);
@@ -66,6 +69,20 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
             cachedTriggers.Add(presenter);
           }
           break;
+
+        case TriggerTileType.EnergyItem:
+          {
+            var model = new EnergyItemTriggerPresenter.Model(triggerDataSO.EnergyItem, this.model.playerGetter);
+            var energyItemView = view as EnergyItemTriggerView;
+            var presenter = new EnergyItemTriggerPresenter(model, energyItemView);
+            presenter.Enable(isEnableImmediately);
+            presenters.Add(presenter);
+            cachedTriggers.Add(presenter);
+          }
+          break;
+
+
+        default: throw new System.NotImplementedException();
       }
     }
 
@@ -78,41 +95,6 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
   {
     throw new System.NotImplementedException();
   }
-
-  private void OnLeftClearEnter(Collider2D collider2D)
-  {
-    isLeftEnter = true;
-
-    if (CheckBothClearEnter())
-    {
-      IStageService stageService = LocalManager.instance.StageManager;
-      stageService.Complete();
-    }
-  }
-
-  private void OnLeftClearExit(Collider2D collider2D)
-  {
-    isLeftEnter = false;
-  }
-
-  private void OnRightClearEnter(Collider2D collider2D)
-  {
-    isRightEnter = true;
-
-    if (CheckBothClearEnter())
-    {
-      IStageService stageService = LocalManager.instance.StageManager;
-      stageService.Complete();
-    }
-  }
-
-  private void OnRightClearExit(Collider2D collider2D)
-  {
-    isRightEnter=false;
-  }
-
-  private bool CheckBothClearEnter()
-    => isLeftEnter && isRightEnter;
 
   public void EnableAll(bool isEnable)
   {

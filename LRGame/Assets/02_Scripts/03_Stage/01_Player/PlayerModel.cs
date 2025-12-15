@@ -8,14 +8,21 @@ namespace LR.Stage.Player
 
     public PlayerType playerType;
     public Vector3 beginPosition;    
-    public IStageService stageService;
+    public IStageStateHandler stageService;
+    public IStageResultHandler stageResultHandler;
 
-    public PlayerModel(PlayerModelSO so, PlayerType playerType, Vector3 beginPosition, IStageService stageService)
+    public PlayerModel(
+      PlayerModelSO so, 
+      PlayerType playerType, 
+      Vector3 beginPosition, 
+      IStageStateHandler stageService,
+      IStageResultHandler stageResultHandler)
     {
       this.so = so;
       this.playerType = playerType;
       this.beginPosition = beginPosition;
       this.stageService = stageService;
+      this.stageResultHandler = stageResultHandler;
     }
 
     public Vector3 ParseDirection(Direction direction)
