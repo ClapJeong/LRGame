@@ -4,8 +4,9 @@ namespace LR.Stage.Player
 {
   public class PlayerStateController : IPlayerStateController
   {
-    private Dictionary<PlayerStateType, IPlayerState> states = new();
-    private IPlayerState currentState = null;
+    private readonly Dictionary<PlayerStateType, IPlayerState> states = new();
+    private PlayerStateType currentKey = PlayerStateType.None;
+    private PlayerStateType previousKey = PlayerStateType.None;
 
     public void AddState(PlayerStateType type, IPlayerState state)
       => states[type] = state;
@@ -18,14 +19,29 @@ namespace LR.Stage.Player
 
     public void ChangeState(PlayerStateType type)
     {
-      currentState?.OnExit();
-      currentState = states[type];
-      currentState.OnEnter();
+      if(states.TryGetValue(previousKey, out var previousState)) 
+        previousState.OnExit();
+
+      previousKey = currentKey;
+      currentKey = type;
+
+      if(states.TryGetValue(type, out var currentState))
+        currentState.OnEnter();
     }
+
+    public void UndoState()
+    {
+      ChangeState(previousKey);      
+    }
+
     public void FixedUpdate()
     {
-      currentState.FixedUpdate();
+      if(states.TryGetValue(currentKey, out var currentState))
+        currentState.FixedUpdate();
     }
+
+    public PlayerStateType GetCurrentState()
+      => currentKey;
 
     public void Dispose()
     {

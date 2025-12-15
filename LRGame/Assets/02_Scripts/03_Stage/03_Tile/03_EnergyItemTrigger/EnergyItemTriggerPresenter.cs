@@ -43,6 +43,9 @@ namespace LR.Stage.TriggerTile
 
     private void OnEnter(Collider2D collider2D)
     {
+      if (collider2D.CompareTag("Player") == false)
+        return;
+
       var playerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
       var energyController = model.playerGetter.GetPlayer(playerType.ParseOpposite()).GetEnergyController();
       if (energyController.IsFull())

@@ -43,6 +43,9 @@ namespace LR.Stage.TriggerTile
 
     private void OnSpikeEnter(Collider2D collider2D)
     {
+      if (collider2D.CompareTag("Player") == false)
+        return;
+
       if (!isEnable)
         return;
 

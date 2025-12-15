@@ -6,23 +6,29 @@ namespace LR.Stage.Player
     private readonly IPlayerInputActionController inputActionController;
     private readonly IPlayerMoveController moveController;
     private readonly IPlayerEnergyUpdater energyUpdater;
+    private readonly IPlayerReactionController reactionController;
 
     public PlayerMoveState(
       IPlayerMoveController moveController,
       IPlayerInputActionController inputActionController,
       IPlayerStateController stateController,
-      IPlayerEnergyUpdater energyUpdater)
+      IPlayerEnergyUpdater energyUpdater,
+      IPlayerReactionController reactionController)
     {
       this.stateController = stateController;
       this.inputActionController = inputActionController;
       this.moveController = moveController;
       this.energyUpdater = energyUpdater;
+      this.reactionController = reactionController;
     }
 
     public void FixedUpdate()
     {
       moveController.ApplyMoveAcceleration();
       energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
+
+      if (reactionController.GetIsCharging())
+        stateController.ChangeState(PlayerStateType.Charging);
     }
 
     public void OnEnter()

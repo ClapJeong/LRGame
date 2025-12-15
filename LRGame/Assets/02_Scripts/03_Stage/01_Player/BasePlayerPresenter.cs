@@ -26,23 +26,25 @@ namespace LR.Stage.Player
 
       energyService = new BasePlayerEnergyService(model.so.Energy, view).AddTo(disposables);
       inputActionController = new BasePlayerInputActionController(model).AddTo(disposables);
-      moveController = new BasePlayerMoveController(
-        view, 
-        inputActionController: this.inputActionController, 
-        model).AddTo(disposables);
+      moveController = new BasePlayerMoveController(view, inputActionController: this.inputActionController, model).AddTo(disposables);
 
-      stateController = new PlayerStateController();
-      disposables.Add(stateController);
+      stateController = new PlayerStateController().AddTo(disposables);
+      reactionController = new BasePlayerReactionController(
+        moveController: this.moveController,
+        stateController: this.stateController).AddTo(disposables);
+
       stateController.AddState(PlayerStateType.Idle, new PlayerIdleState(
         moveController: this.moveController, 
         inputActionController: this.inputActionController, 
         stateController: this.stateController,
-        energyUpdater: this.energyService));
+        energyUpdater: this.energyService,
+        reactionController: reactionController));
       stateController.AddState(PlayerStateType.Move, new PlayerMoveState(
         moveController: this.moveController, 
         inputActionController: this.inputActionController, 
         stateController: this.stateController,
-        energyUpdater: this.energyService));
+        energyUpdater: this.energyService,
+        reactionController: reactionController));
       var bounceData = GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger.BounceData;
       stateController.AddState(PlayerStateType.Bounce, new PlayerBounceState(
         moveController: this.moveController, 
@@ -50,10 +52,13 @@ namespace LR.Stage.Player
         stateController: this.stateController,
         energyUpdater: this.energyService,
         bounceData));
-
-      reactionController = new BasePlayerReactionController(
-        moveController: this.moveController,
-        stateController: this.stateController).AddTo(disposables);
+      stateController.AddState(PlayerStateType.Charging, new PlayerChargingState(
+        stateController: stateController,
+        inputActionController: inputActionController,
+        moveController: moveController,
+        playerGetter: model.playerGetter,
+        energyChargerData: GlobalManager.instance.Table.TriggerTileModelSO.EnergyCharger,
+        playerType: this.model.playerType));
 
       stateController.ChangeState(PlayerStateType.Idle);
 

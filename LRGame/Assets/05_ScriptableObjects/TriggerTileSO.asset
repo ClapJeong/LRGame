@@ -19,3 +19,5 @@ MonoBehaviour:
       stunDuration: 0.8
   <EnergyItem>k__BackingField:
     <RestoreValue>k__BackingField: 50
+  <EnergyCharger>k__BackingField:
+    <ChargeValue>k__BackingField: 5

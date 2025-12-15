@@ -32,6 +32,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
     var presenters = new List<ITriggerTilePresenter>();
     this.model = data as Model;
     var triggerDataSO = GlobalManager.instance.Table.TriggerTileModelSO;
+    ITriggerTilePresenter presenter = null;
 
     foreach (var view in model.existViews)
     {
@@ -41,10 +42,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
           {
             var model = new ClearTriggerTilePresenter.Model(this.model.stageResultHandler);
             var clearTriggerTileView = view as ClearTriggerTileView;
-            var presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
-            presenter.Enable(isEnableImmediately);
-            presenters.Add(presenter);
-            cachedTriggers.Add(presenter);
+            presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
           }
           break;
 
@@ -52,10 +50,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
           {
             var model = new ClearTriggerTilePresenter.Model(this.model.stageResultHandler); 
             var clearTriggerTileView = view as ClearTriggerTileView;
-            var presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
-            presenter.Enable(isEnableImmediately);
-            presenters.Add(presenter);
-            cachedTriggers.Add(presenter);
+            presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
           }
           break;
 
@@ -63,10 +58,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
           {
             var model = new SpikeTriggerTilePresenter.Model(triggerDataSO.SpikeTrigger, this.model.playerGetter);
             var spikeTriggerTileView = view as SpikeTriggerTileView;
-            var presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
-            presenter.Enable(isEnableImmediately);
-            presenters.Add(presenter);
-            cachedTriggers.Add(presenter);
+            presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
           }
           break;
 
@@ -74,16 +66,27 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
           {
             var model = new EnergyItemTriggerPresenter.Model(triggerDataSO.EnergyItem, this.model.playerGetter);
             var energyItemView = view as EnergyItemTriggerView;
-            var presenter = new EnergyItemTriggerPresenter(model, energyItemView);
-            presenter.Enable(isEnableImmediately);
-            presenters.Add(presenter);
-            cachedTriggers.Add(presenter);
+            presenter = new EnergyItemTriggerPresenter(model, energyItemView);
           }
           break;
 
+        case TriggerTileType.EnergyCharger:
+          {
+            var model = new EnergyChargerTriggerPresenter.Model(this.model.playerGetter);
+            var energyChargerView = view as EnergyChargerTriggerView;
+            presenter = new EnergyChargerTriggerPresenter(model, energyChargerView);
+          }
+          break;
 
         default: throw new System.NotImplementedException();
       }
+
+      if(presenter != null)
+      {
+        presenter.Enable(isEnableImmediately);
+        presenters.Add(presenter);
+        cachedTriggers.Add(presenter);
+      }      
     }
 
     isSetupComplete = true;

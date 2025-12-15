@@ -4,25 +4,29 @@ namespace LR.Stage.Player
   {
     private readonly IPlayerMoveController moveController;
     private readonly IPlayerInputActionController inputActionController;
-    private readonly IPlayerStateController playerStateController;
+    private readonly IPlayerStateController stateController;
     private readonly IPlayerEnergyUpdater energyUpdater;
-
+    private readonly IPlayerReactionController reactionController;
 
     public PlayerIdleState(
       IPlayerMoveController moveController, 
       IPlayerInputActionController inputActionController, 
       IPlayerStateController stateController,
-      IPlayerEnergyUpdater energyUpdater)
+      IPlayerEnergyUpdater energyUpdater,
+      IPlayerReactionController reactionController)
     {
       this.moveController = moveController;
       this.inputActionController = inputActionController;
-      this.playerStateController = stateController;
+      this.stateController = stateController;
       this.energyUpdater = energyUpdater;
+      this.reactionController = reactionController;
     }
 
     public void FixedUpdate()
     {
       moveController.ApplyMoveDeceleration();
+
+      if(reactionController.GetIsCharging() == false)
       energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
     }
 
@@ -38,7 +42,10 @@ namespace LR.Stage.Player
 
     private void OnMovePerformed(Direction direction)
     {
-      playerStateController.ChangeState(PlayerStateType.Move);
+      if(reactionController.GetIsCharging())
+        stateController.ChangeState(PlayerStateType.Charging);
+      else
+        stateController.ChangeState(PlayerStateType.Move);
     }
   }
 }

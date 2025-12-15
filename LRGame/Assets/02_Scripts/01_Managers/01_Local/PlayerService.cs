@@ -71,7 +71,8 @@ public class PlayerService :
       PlayerType.Left,
       beginPosition,
       stageService: stageService,
-      stageResultHandler: stageResultHandler);
+      stageResultHandler: stageResultHandler,
+      playerGetter: this);
     var presenter = new BasePlayerPresenter(leftModel, leftView);
 
     presenter
@@ -102,7 +103,8 @@ public class PlayerService :
       PlayerType.Right,
       beginPosition,
       stageService: stageService,
-      stageResultHandler: stageResultHandler);
+      stageResultHandler: stageResultHandler,
+      playerGetter: this);
     var presenter = new BasePlayerPresenter(rightModel, rightView);
 
     presenter
