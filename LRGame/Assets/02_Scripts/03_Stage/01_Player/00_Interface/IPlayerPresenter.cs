@@ -11,5 +11,9 @@ namespace LR.Stage.Player
     public IPlayerReactionController GetReactionController();
 
     public IPlayerEnergyUpdater GetEnergyUpdater();
+
+    public IPlayerStateProvider GetPlayerStateProvider();
+
+    public IPlayerStateSubscriber GetPlayerStateSubscriber();
   }
 }

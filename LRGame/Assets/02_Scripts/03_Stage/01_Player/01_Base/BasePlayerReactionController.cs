@@ -8,6 +8,7 @@ namespace LR.Stage.Player
     private readonly IPlayerStateController stateController;
 
     private bool isCharging;
+    public bool IsCharging => isCharging;
 
     public BasePlayerReactionController(IPlayerMoveController moveController, IPlayerStateController stateController)
     {
@@ -23,9 +24,6 @@ namespace LR.Stage.Player
 
     public void SetCharging(bool isCharging)
       => this.isCharging = isCharging;
-
-    public bool GetIsCharging()
-      => isCharging;
 
     public void Dispose()
     {

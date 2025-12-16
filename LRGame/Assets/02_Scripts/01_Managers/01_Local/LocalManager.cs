@@ -98,7 +98,7 @@ public class LocalManager : MonoBehaviour
 
       case SceneType.Game:
         {
-          await CreatePlayerUIAsync();
+          await CreatePlayerUIsAsync();
           await CreateStageUIAsync();
         }
         break;
@@ -136,19 +136,31 @@ public class LocalManager : MonoBehaviour
     presenter.ActivateAsync().Forget();
   }
 
-  private async UniTask CreatePlayerUIAsync()
+  private async UniTask CreatePlayerUIsAsync()
   {
-    var model = new UIPlayerRootPresenter.Model(
-      stageManager: stageManager,
-      playerGetter: stageManager);
-
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UIPlayerRootView>(table.Path.Ui + table.UIName.PlayerRoot, root);
+    var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(table.Path.Ui + table.UIName.PlayerRoot, root);
 
-    var presenter = new UIPlayerRootPresenter(model, view);
-    presenter.AttachOnDestroy(gameObject);
-    presenter.ActivateAsync().Forget();
+    var Leftmodel = new UIPlayerRootPresenter.Model(
+      stageManager: stageManager,
+      playerType: PlayerType.Left,
+      playerGetter: stageManager);
+    var leftView = viewRoot.leftView;
+
+    var leftPresenter = new UIPlayerRootPresenter(Leftmodel, leftView);
+    leftPresenter.AttachOnDestroy(gameObject);
+    leftPresenter.ActivateAsync().Forget();
+
+    var rightmodel = new UIPlayerRootPresenter.Model(
+      stageManager: stageManager,
+      playerType: PlayerType.Right,
+      playerGetter: stageManager);
+    var rightView = viewRoot.rightView;
+
+    var rightPresenter = new UIPlayerRootPresenter(rightmodel, rightView);
+    rightPresenter.AttachOnDestroy(gameObject);
+    rightPresenter.ActivateAsync().Forget();
   }
 
   private async UniTask CreateStageUIAsync()
@@ -223,7 +235,7 @@ public class LocalManager : MonoBehaviour
     var leftPlayer = stageManager.GetPlayer(PlayerType.Left);
     leftPlayer
       .GetEnergyController()
-      .Damage(value);
+      .Damage(value, true);
   }
 
   public void Debugging_LeftPlayerEnergyRestored(float value)
@@ -245,7 +257,7 @@ public class LocalManager : MonoBehaviour
     var rightPlayer = stageManager.GetPlayer(PlayerType.Right);
     rightPlayer
       .GetEnergyController()
-      .Damage(value);
+      .Damage(value, true);
   }
 
   public void Debugging_RightPlayerEnergyRestored(float value)

@@ -1,23 +1,22 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
-using UnityEngine;
 
 namespace LR.UI.GameScene.Player
 {
-  public class UIPlayerRootView : BaseUIView
+  public class UIPlayerChargingView : BaseUIView
   {
-    public UIPlayerInputView inputView;
-    public UIPlayerEnergyView energyView;
-    public UIPlayerChargingView chargingView;
+    public BaseImageView imageView;
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
+      imageView.SetEnable(false);
       visibleState = UIVisibleState.Hidden;
       await UniTask.CompletedTask;
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
+      imageView.SetEnable(true);
       visibleState = UIVisibleState.Showen;
       await UniTask.CompletedTask;
     }

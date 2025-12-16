@@ -1,19 +1,21 @@
 namespace LR.Stage.Player
 {
-  public class PlayerChargingState : IPlayerState
+  public class PlayerChargingMoveState : IPlayerState
   {
     private readonly IPlayerStateController stateController;
     private readonly IPlayerInputActionController inputActionController;
     private readonly IPlayerMoveController moveController;
-    private readonly IPlayerGetter playerGetter;
+    private readonly IPlayerReactionController reactionController;
+    private readonly IPlayerGetter playerGetter;    
     private readonly EnergyChargerData energyChargerData;
     private readonly PlayerType playerType;
 
-    public PlayerChargingState(IPlayerStateController stateController, IPlayerInputActionController inputActionController, IPlayerMoveController moveController, IPlayerGetter playerGetter, EnergyChargerData energyChargerData, PlayerType playerType)
+    public PlayerChargingMoveState(IPlayerStateController stateController, IPlayerInputActionController inputActionController, IPlayerMoveController moveController, IPlayerReactionController reactionController, IPlayerGetter playerGetter, EnergyChargerData energyChargerData, PlayerType playerType)
     {
       this.stateController = stateController;
       this.inputActionController = inputActionController;
       this.moveController = moveController;
+      this.reactionController = reactionController;
       this.playerGetter = playerGetter;
       this.energyChargerData = energyChargerData;
       this.playerType = playerType;
@@ -47,7 +49,11 @@ namespace LR.Stage.Player
     private void OnMoveCanceled(Direction direction)
     {
       if (inputActionController.IsAnyInput() == false)
-        stateController.ChangeState(PlayerStateType.Idle);
+      {
+        var nextState = reactionController.IsCharging ? PlayerStateType.ChargingIdle
+                                                           : PlayerStateType.Idle;
+        stateController.ChangeState(nextState);
+      }        
     }
   }
 }

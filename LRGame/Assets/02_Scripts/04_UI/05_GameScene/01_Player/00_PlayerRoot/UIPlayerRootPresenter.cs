@@ -12,13 +12,18 @@ namespace LR.UI.GameScene.Player
     public class Model
     {
       public StageManager stageManager;
+      public PlayerType playerType;
       public IPlayerGetter playerGetter;
 
-      public Model(StageManager stageManager, IPlayerGetter playerGetter)
+      public Model(StageManager stageManager, PlayerType playerType, IPlayerGetter playerGetter)
       {
         this.stageManager = stageManager;
+        this.playerType = playerType;
         this.playerGetter = playerGetter;
       }
+
+      public IPlayerPresenter GetPlayer()
+        => playerGetter.GetPlayer(playerType);
     }
 
     private readonly Model model;
@@ -26,11 +31,9 @@ namespace LR.UI.GameScene.Player
 
     private bool isAllPresentersCreated = false;
 
-    private UIPlayerInputPresenter leftInputActionPresenter;
-    private UIPlayerEnergyPresenter leftEnergyPresenter;
-
-    private UIPlayerInputPresenter rightInputActionPresenter;
-    private UIPlayerEnergyPresenter rightEnergyPresenter;
+    private UIPlayerInputPresenter inputActionPresenter;
+    private UIPlayerEnergyPresenter energyPresenter;
+    private UIPlayerChargingPresenter chargingPresenter;
 
     public UIPlayerRootPresenter(Model model, UIPlayerRootView view)
     {
@@ -39,9 +42,8 @@ namespace LR.UI.GameScene.Player
 
       UniTask.WhenAll(
         CreateLeftInputPresenterAsync(),
-        CreateLeftEnergyPresenterAsync(),
-        CreateRightInputPresenterAsync(),
-        CreateRightEnergyPresenterAsync())
+        CreateRightEnergyPresenterAsync(),
+        CreateChargingPresenterAsync())
         .ContinueWith(() => isAllPresentersCreated = true)
         .Forget();
     }
@@ -63,11 +65,9 @@ namespace LR.UI.GameScene.Player
       if (isAllPresentersCreated == false)
         await UniTask.WaitUntil(() => isAllPresentersCreated);
 
-      await leftInputActionPresenter.DeactivateAsync(isImmediately, token);
-      await leftEnergyPresenter.DeactivateAsync(isImmediately, token);
-
-      await rightInputActionPresenter.DeactivateAsync(isImmediately, token);
-      await rightEnergyPresenter.DeactivateAsync(isImmediately, token);
+      await inputActionPresenter.DeactivateAsync(isImmediately, token);
+      await energyPresenter.DeactivateAsync(isImmediately, token);
+      await chargingPresenter.DeactivateAsync(isImmediately, token);
     }
 
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
@@ -75,69 +75,54 @@ namespace LR.UI.GameScene.Player
       if (isAllPresentersCreated == false)
         await UniTask.WaitUntil(() => isAllPresentersCreated);
 
-      await leftInputActionPresenter.ActivateAsync(isImmediately, token);
-      await leftEnergyPresenter.ActivateAsync(isImmediately, token);
-
-      await rightInputActionPresenter.ActivateAsync(isImmediately, token);
-      await rightEnergyPresenter.ActivateAsync(isImmediately, token);
+      await inputActionPresenter.ActivateAsync(isImmediately, token);
+      await energyPresenter.ActivateAsync(isImmediately, token);
+      await chargingPresenter.ActivateAsync(isImmediately, token);
     }
 
     private async UniTask CreateLeftInputPresenterAsync()
     {
       await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
 
-      var inputController = this.model.playerGetter.GetPlayer(PlayerType.Left).GetInputActionController();
+      var inputController = this.model.GetPlayer().GetInputActionController();
 
       var model = new UIPlayerInputPresenter.Model(inputController);
-      var view = this.view.leftInputViewContainer;
+      var view = this.view.inputView;
 
-      leftInputActionPresenter = new UIPlayerInputPresenter(model, view);
-      leftInputActionPresenter.AttachOnDestroy(view.gameObject);
-    }
-
-    private async UniTask CreateRightInputPresenterAsync()
-    {
-      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
-
-      var inputController = this.model.playerGetter.GetPlayer(PlayerType.Right).GetInputActionController();
-
-      var model = new UIPlayerInputPresenter.Model(inputController);
-      var view = this.view.rightInputViewContainer;
-
-      rightInputActionPresenter = new UIPlayerInputPresenter(model, view);
-      rightInputActionPresenter.AttachOnDestroy(view.gameObject);
-    }
-
-    private async UniTask CreateLeftEnergyPresenterAsync()
-    {
-      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
-      
-      var leftPlayerTable = GlobalManager.instance.Table.LeftPlayerModelSO;
-      var energyController = this.model.playerGetter.GetPlayer(PlayerType.Left).GetEnergyController();
-
-      var model = new UIPlayerEnergyPresenter.Model(
-        playerEnergyController: energyController,
-        leftPlayerTable.Energy);
-      var view = this.view.leftEnergyView;
-
-      leftEnergyPresenter = new UIPlayerEnergyPresenter(model, view);
-      leftEnergyPresenter.AttachOnDestroy(view.gameObject);
+      inputActionPresenter = new UIPlayerInputPresenter(model, view);
+      inputActionPresenter.AttachOnDestroy(view.gameObject);
     }
 
     private async UniTask CreateRightEnergyPresenterAsync()
     {
       await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
-      
-      var RightPlayerTable = GlobalManager.instance.Table.RightPlayerModelSO;
-      var energyController = this.model.playerGetter.GetPlayer(PlayerType.Right).GetEnergyController();
+
+      var playerTable = GlobalManager.instance.Table.GetPlayerModelSO(this.model.playerType);
+      var energyController = this.model.GetPlayer().GetEnergyController();
 
       var model = new UIPlayerEnergyPresenter.Model(
         playerEnergyController: energyController,
-        RightPlayerTable.Energy);
-      var view = this.view.rightEnergyView;
+        playerTable.Energy);
+      var view = this.view.energyView;
 
-      rightEnergyPresenter = new UIPlayerEnergyPresenter(model, view);
-      rightEnergyPresenter.AttachOnDestroy(view.gameObject);
+      energyPresenter = new UIPlayerEnergyPresenter(model, view);
+      energyPresenter.AttachOnDestroy(view.gameObject);
+    }
+
+    private async UniTask CreateChargingPresenterAsync()
+    {
+      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
+
+      var stateProvider = this.model.GetPlayer().GetPlayerStateProvider();
+      var stateSubscriber = this.model.GetPlayer().GetPlayerStateSubscriber();
+
+      var model = new UIPlayerChargingPresenter.Model(
+        stateProvider,
+        stateSubscriber);
+      var view = this.view.chargingView;
+     
+      chargingPresenter = new UIPlayerChargingPresenter(model, view);
+      chargingPresenter.AttachOnDestroy(view.gameObject);
     }
   }
 }

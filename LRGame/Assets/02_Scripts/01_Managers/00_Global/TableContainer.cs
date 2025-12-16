@@ -3,10 +3,8 @@ using UnityEngine;
 public class TableContainer : MonoBehaviour
 {
   [SerializeField] private PlayerModelSO leftPlayerModelSO;
-  public PlayerModelSO LeftPlayerModelSO=>leftPlayerModelSO;
 
   [SerializeField] private PlayerModelSO rightPlayerModelSO;
-  public PlayerModelSO RightPlayerModelSO =>rightPlayerModelSO;
 
   [SerializeField] private AddressableKeySO addressableKeySO;
   public AddressableKeySO AddressableKeySO => addressableKeySO;
@@ -16,4 +14,12 @@ public class TableContainer : MonoBehaviour
 
   [SerializeField] private UISO uiSO;
   public UISO UISO => uiSO;
+
+  public PlayerModelSO GetPlayerModelSO(PlayerType playerType)
+    => playerType switch
+    {
+      PlayerType.Left => leftPlayerModelSO,
+      PlayerType.Right => rightPlayerModelSO,
+      _ => throw new System.NotImplementedException(),
+    };
 }

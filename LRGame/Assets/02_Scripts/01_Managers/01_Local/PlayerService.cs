@@ -36,8 +36,8 @@ public class PlayerService :
   public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
     var setupData = data as SetupData;
-    leftPlayer = await CreateLeftPlayerAsync(setupData.leftPosition);
-    rightPlayer = await CreateRighPlayerAsync(setupData.rightPosition);
+    leftPlayer = await CreatePlayerAsync(PlayerType.Left, setupData.leftPosition);
+    rightPlayer = await CreatePlayerAsync(PlayerType.Right, setupData.rightPosition);
 
     leftPlayer.Enable(isEnableImmediately);
     rightPlayer.Enable(isEnableImmediately);
@@ -57,23 +57,23 @@ public class PlayerService :
       .EnableAllInputActions(false);
   }
 
-  private async UniTask<IPlayerPresenter> CreateLeftPlayerAsync(Vector3 beginPosition)
+  private async UniTask<IPlayerPresenter> CreatePlayerAsync(PlayerType playerType, Vector3 beginPosition)
   {
-    var modelSO = GlobalManager.instance.Table.LeftPlayerModelSO;
-    var leftPlayerKey = 
+    var modelSO = GlobalManager.instance.Table.GetPlayerModelSO(playerType);
+    var playerKey = 
       GlobalManager.instance.Table.AddressableKeySO.Path.Player +
-      GlobalManager.instance.Table.AddressableKeySO.PlayerName.LeftPlayer;
+      GlobalManager.instance.Table.AddressableKeySO.PlayerName.GetPlayerName(playerType);
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
-    var leftView = await resourceManager.CreateAssetAsync<BasePlayerView>(leftPlayerKey);
-    var leftModel = new PlayerModel(
+    var view = await resourceManager.CreateAssetAsync<BasePlayerView>(playerKey);
+    var model = new PlayerModel(
       modelSO,
-      PlayerType.Left,
+      playerType,
       beginPosition,
       stageService: stageService,
       stageResultHandler: stageResultHandler,
       playerGetter: this);
-    var presenter = new BasePlayerPresenter(leftModel, leftView);
+    var presenter = new BasePlayerPresenter(model, view);
 
     presenter
       .GetInputActionController()
@@ -84,38 +84,6 @@ public class PlayerService :
       { InputActionPaths.ParshPath(modelSO.Movement.DownKeyCode), Direction.Down },
       { InputActionPaths.ParshPath(modelSO.Movement.LeftKeyCode), Direction.Left },
     }); 
-
-    await UniTask.CompletedTask;
-    return presenter;
-  }
-
-  private async UniTask<IPlayerPresenter> CreateRighPlayerAsync(Vector3 beginPosition)
-  {
-    var modelSO = GlobalManager.instance.Table.RightPlayerModelSO;
-    var rightPlayerKey =
-      GlobalManager.instance.Table.AddressableKeySO.Path.Player + 
-      GlobalManager.instance.Table.AddressableKeySO.PlayerName.RightPlayer;
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-
-    var rightView = await resourceManager.CreateAssetAsync<BasePlayerView>(rightPlayerKey);
-    var rightModel = new PlayerModel(
-      modelSO,
-      PlayerType.Right,
-      beginPosition,
-      stageService: stageService,
-      stageResultHandler: stageResultHandler,
-      playerGetter: this);
-    var presenter = new BasePlayerPresenter(rightModel, rightView);
-
-    presenter
-      .GetInputActionController()
-      .CreateMoveInputAction(new Dictionary<string, Direction>()
-    {
-      { InputActionPaths.ParshPath(modelSO.Movement.UpKeyCode), Direction.Up },
-      { InputActionPaths.ParshPath(modelSO.Movement.RightKeyCode), Direction.Right },
-      { InputActionPaths.ParshPath(modelSO.Movement.DownKeyCode), Direction.Down },
-      { InputActionPaths.ParshPath(modelSO.Movement.LeftKeyCode), Direction.Left },
-    });
 
     await UniTask.CompletedTask;
     return presenter;

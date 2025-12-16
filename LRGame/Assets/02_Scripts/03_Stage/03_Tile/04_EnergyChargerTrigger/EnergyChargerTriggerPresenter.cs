@@ -6,33 +6,43 @@ using UnityEngine;
 
 namespace LR.Stage.TriggerTile
 {
-  public class EnergyChargerTriggerPresenter : ITriggerTilePresenter
+  public sealed class EnergyChargerTriggerPresenter : ITriggerTilePresenter
   {
-    public class Model
+    private const int LineCount = 4;
+
+    public sealed class Model
     {
-      public IPlayerGetter playerGetter;
+      public IPlayerGetter PlayerGetter { get; }
 
       public Model(IPlayerGetter playerGetter)
       {
-        this.playerGetter = playerGetter;
+        PlayerGetter = playerGetter;
       }
     }
-
-    private static int LineCount = 4;
 
     private readonly Model model;
     private readonly EnergyChargerTriggerView view;
     private readonly CTSContainer cts = new();
 
-    private Vector3[] lineRendererPositions = new Vector3[LineCount + 1];
+    private readonly Vector3[] linePositions = new Vector3[LineCount + 1];
+    private readonly Vector3[] targetPositions = new Vector3[LineCount + 1];
+    private readonly float[] lerpWeights = new float[LineCount + 1];
 
     public EnergyChargerTriggerPresenter(Model model, EnergyChargerTriggerView view)
     {
       this.model = model;
       this.view = view;
 
+      InitializeWeights();
+
       view.SubscribeOnEnter(OnEnter);
       view.SubscribeOnExit(OnExit);
+    }
+
+    private void InitializeWeights()
+    {
+      for (int i = 0; i <= LineCount; i++)
+        lerpWeights[i] = i;
     }
 
     public void Enable(bool enable)
@@ -45,48 +55,51 @@ namespace LR.Stage.TriggerTile
       view.gameObject.SetActive(true);
     }
 
-    private void OnEnter(Collider2D collider2D)
+    private void OnEnter(Collider2D collider)
     {
-      if (collider2D.CompareTag("Player") == false)
+      if (!collider.CompareTag("Player"))
         return;
 
-      cts.Create();
-      UpdateLineRendererAsync(collider2D.transform, cts.token).Forget();
-
-      var playerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
-      model
-        .playerGetter
-        .GetPlayer(playerType)
-        .GetReactionController()
-        .SetCharging(true);
-    }
-
-    private void OnExit(Collider2D collider2D)
-    {
-      if (collider2D.CompareTag("Player") == false)
+      if (!collider.TryGetComponent<IPlayerView>(out var playerView))
         return;
 
       cts.Cancel();
-      view.lineRenderer.positionCount = 0;
+      cts.Create();
 
-      var playerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
-      model
-        .playerGetter
-        .GetPlayer(playerType)
-        .GetReactionController()
-        .SetCharging(false);
+      UpdateLineRendererAsync(collider.transform, cts.token).Forget();
+
+      var player = model.PlayerGetter.GetPlayer(playerView.GetPlayerType());
+      player.GetReactionController().SetCharging(true);
     }
 
-    private async UniTask UpdateLineRendererAsync(Transform targetTransform, CancellationToken token)
-    {      
-      lineRendererPositions = GetLinePositions(view.transform.position, targetTransform.position);
-      view.lineRenderer.positionCount = LineCount + 1;
-      view.lineRenderer.SetPositions(lineRendererPositions);
-      var currentPositions = new Vector3[LineCount + 1];
+    private void OnExit(Collider2D collider)
+    {
+      if (!collider.CompareTag("Player"))
+        return;
 
-      var lerpValue = new float[LineCount + 1];
-      for (int i = 0; i < LineCount + 1; i++)
-        lerpValue[i] = 1.0f * i;
+      if (!collider.TryGetComponent<IPlayerView>(out var playerView))
+        return;
+
+      cts.Cancel();
+      ClearLine();
+
+      var player = model.PlayerGetter.GetPlayer(playerView.GetPlayerType());
+      player.GetReactionController().SetCharging(false);
+    }
+
+    private void ClearLine()
+    {
+      view.lineRenderer.positionCount = 0;
+    }
+
+    private async UniTask UpdateLineRendererAsync(
+      Transform target,
+      CancellationToken token)
+    {
+      view.lineRenderer.positionCount = LineCount + 1;
+
+      UpdatePositions(view.transform.position, target.position, linePositions);
+      view.lineRenderer.SetPositions(linePositions);
 
       try
       {
@@ -94,29 +107,35 @@ namespace LR.Stage.TriggerTile
         {
           token.ThrowIfCancellationRequested();
 
-          currentPositions = GetLinePositions(view.transform.position, targetTransform.position);
-          for(int i = 0; i < LineCount + 1; i++)
-            lineRendererPositions[i] = Vector3.Lerp(lineRendererPositions[i], currentPositions[i], lerpValue[i] * Time.deltaTime);
-          lineRendererPositions[LineCount] = currentPositions[LineCount];
+          UpdatePositions(view.transform.position, target.position, targetPositions);
 
-          view.lineRenderer.SetPositions(lineRendererPositions);
+          for (int i = 0; i < LineCount; i++)
+          {
+            linePositions[i] = Vector3.Lerp(
+              linePositions[i],
+              targetPositions[i],
+              lerpWeights[i] * Time.deltaTime);
+          }
+
+          linePositions[LineCount] = targetPositions[LineCount];
+
+          view.lineRenderer.SetPositions(linePositions);
           await UniTask.Yield(PlayerLoopTiming.Update);
         }
       }
       catch (OperationCanceledException) { }
     }
 
-    private Vector3[] GetLinePositions(Vector3 beginPosition, Vector3 endPosition)
+    private static void UpdatePositions(
+      Vector3 begin,
+      Vector3 end,
+      Vector3[] buffer)
     {
-      var result = new Vector3[LineCount + 1];
+      var direction = (end - begin);
+      var step = direction / LineCount;
 
-      var length = Vector3.Distance(beginPosition, endPosition) / ((float)LineCount);
-      var direction = (endPosition - beginPosition).normalized;
-
-      for(int i = 0; i < LineCount + 1; i++)
-        result[i] = beginPosition + direction * length * i;
-
-      return result;
+      for (int i = 0; i <= LineCount; i++)
+        buffer[i] = begin + step * i;
     }
   }
 }

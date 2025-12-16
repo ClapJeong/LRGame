@@ -5,5 +5,6 @@ public enum PlayerStateType
   Idle,
   Move,
   Bounce,
-  Charging,
+  ChargingIdle,
+  ChargingMove,
 }

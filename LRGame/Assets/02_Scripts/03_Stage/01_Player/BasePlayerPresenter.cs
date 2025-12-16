@@ -12,7 +12,7 @@ namespace LR.Stage.Player
     private readonly BasePlayerMoveController moveController;
     private readonly BasePlayerReactionController reactionController;
     private readonly BasePlayerInputActionController inputActionController;
-    private readonly PlayerStateController stateController;
+    private readonly PlayerStateService stateService;
     private readonly BasePlayerEnergyService energyService;
 
     private CompositeDisposable disposables = new();
@@ -28,39 +28,45 @@ namespace LR.Stage.Player
       inputActionController = new BasePlayerInputActionController(model).AddTo(disposables);
       moveController = new BasePlayerMoveController(view, inputActionController: this.inputActionController, model).AddTo(disposables);
 
-      stateController = new PlayerStateController().AddTo(disposables);
+      stateService = new PlayerStateService().AddTo(disposables);
       reactionController = new BasePlayerReactionController(
         moveController: this.moveController,
-        stateController: this.stateController).AddTo(disposables);
+        stateController: this.stateService).AddTo(disposables);
 
-      stateController.AddState(PlayerStateType.Idle, new PlayerIdleState(
+      stateService.AddState(PlayerStateType.Idle, new PlayerIdleState(
         moveController: this.moveController, 
         inputActionController: this.inputActionController, 
-        stateController: this.stateController,
+        stateController: this.stateService,
         energyUpdater: this.energyService,
         reactionController: reactionController));
-      stateController.AddState(PlayerStateType.Move, new PlayerMoveState(
+      stateService.AddState(PlayerStateType.Move, new PlayerMoveState(
         moveController: this.moveController, 
         inputActionController: this.inputActionController, 
-        stateController: this.stateController,
+        stateController: this.stateService,
         energyUpdater: this.energyService,
         reactionController: reactionController));
       var bounceData = GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger.BounceData;
-      stateController.AddState(PlayerStateType.Bounce, new PlayerBounceState(
+      stateService.AddState(PlayerStateType.Bounce, new PlayerBounceState(
         moveController: this.moveController, 
         inputActionController: this.inputActionController, 
-        stateController: this.stateController,
+        stateController: this.stateService,
         energyUpdater: this.energyService,
         bounceData));
-      stateController.AddState(PlayerStateType.Charging, new PlayerChargingState(
-        stateController: stateController,
+      stateService.AddState(PlayerStateType.ChargingIdle, new PlayerChargingIdleState(
+        moveController: this.moveController,
+        inputActionController: this.inputActionController,
+        stateController: this.stateService,
+        reactionController: this.reactionController));
+      stateService.AddState(PlayerStateType.ChargingMove, new PlayerChargingMoveState(
+        stateController: stateService,
         inputActionController: inputActionController,
         moveController: moveController,
+        reactionController: reactionController,
         playerGetter: model.playerGetter,
         energyChargerData: GlobalManager.instance.Table.TriggerTileModelSO.EnergyCharger,
         playerType: this.model.playerType));
 
-      stateController.ChangeState(PlayerStateType.Idle);
+      stateService.ChangeState(PlayerStateType.Idle);
 
       SubscribeEnergyService();
       SubscribeObservable();
@@ -103,7 +109,7 @@ namespace LR.Stage.Player
     {
       view
         .FixedUpdateAsObservable()
-        .Subscribe(_ => stateController.FixedUpdate()).AddTo(disposables);
+        .Subscribe(_ => stateService.FixedUpdate()).AddTo(disposables);
       view
         .OnDestroyAsObservable()
         .Subscribe(_ => disposables.Dispose());
@@ -141,6 +147,12 @@ namespace LR.Stage.Player
 
     public IPlayerEnergyUpdater GetEnergyUpdater()
       => energyService;
+
+    public IPlayerStateProvider GetPlayerStateProvider()
+      => stateService;
+
+    public IPlayerStateSubscriber GetPlayerStateSubscriber()
+      => stateService;
 
     public void Dispose()
     {

@@ -27,8 +27,8 @@ namespace LR.Stage.Player
       moveController.ApplyMoveAcceleration();
       energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
 
-      if (reactionController.GetIsCharging())
-        stateController.ChangeState(PlayerStateType.Charging);
+      if (reactionController.IsCharging)
+        stateController.ChangeState(PlayerStateType.ChargingMove);
     }
 
     public void OnEnter()
