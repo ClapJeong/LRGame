@@ -47,8 +47,10 @@ namespace LR.Stage.TriggerTile
         return;
 
       var playerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
-      var energyController = model.playerGetter.GetPlayer(playerType.ParseOpposite()).GetEnergyController();
-      if (energyController.IsFull())
+      var playerPresenter = model.playerGetter.GetPlayer(playerType.ParseOpposite());
+      var energyProvider = playerPresenter.GetEnergyProvider();
+      var energyController = playerPresenter.GetEnergyController();
+      if (energyProvider.IsFull)
         return;
 
       energyController.Restore(model.data.RestoreValue);

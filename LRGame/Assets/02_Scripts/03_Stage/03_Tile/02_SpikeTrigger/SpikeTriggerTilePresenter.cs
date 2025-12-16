@@ -53,9 +53,9 @@ namespace LR.Stage.TriggerTile
       {
         var playerType = playerView.GetPlayerType();
         var playerPresenter = model.playerGetter.GetPlayer(playerType);
-        IPlayerEnergyController energyController = playerPresenter.GetEnergyController();
-        if (energyController.IsInvincible() == false)
-          energyController.Damage(model.data.DamageValue);
+        
+        if (playerPresenter.GetEnergyProvider().IsInvincible == false)
+          playerPresenter.GetEnergyController().Damage(model.data.DamageValue);
 
         var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;
         IPlayerReactionController reactionController = playerPresenter.GetReactionController();

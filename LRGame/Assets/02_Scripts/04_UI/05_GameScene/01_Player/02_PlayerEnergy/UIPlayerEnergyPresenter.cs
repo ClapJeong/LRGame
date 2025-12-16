@@ -12,12 +12,12 @@ namespace LR.UI.GameScene.Player
   {
     public class Model
     {
-      public IPlayerEnergyController playerEnergyController;
+      public IPlayerEnergyProvider energyProvider;
       public PlayerEnergyData playerEnergyData;
 
-      public Model(IPlayerEnergyController playerEnergyController, PlayerEnergyData playerEnergyData)
+      public Model(IPlayerEnergyProvider energyProvider, PlayerEnergyData playerEnergyData)
       {
-        this.playerEnergyController = playerEnergyController;
+        this.energyProvider = energyProvider;
         this.playerEnergyData = playerEnergyData;
       }
     }
@@ -64,7 +64,7 @@ namespace LR.UI.GameScene.Player
         .UpdateAsObservable()
         .Subscribe(_ =>
         {
-          var value = model.playerEnergyController.GetCurrentEnergy() / model.playerEnergyData.MaxEnergy;
+          var value = model.energyProvider.CurrentEnergy / model.playerEnergyData.MaxEnergy;
           view.fillImageView.SetFillAmount(value);
         });
     }

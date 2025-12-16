@@ -74,7 +74,7 @@ namespace LR.Stage.Player
 
     private void SubscribeEnergyService()
     {
-      energyService.SubscribeEvent(IPlayerEnergyController.EventType.OnExhausted, () =>
+      energyService.SubscribeEvent(IPlayerEnergySubscriber.EventType.OnExhausted, () =>
       {
         inputActionController.EnableAllInputActions(false);
         switch (model.playerType)
@@ -88,7 +88,7 @@ namespace LR.Stage.Player
             break;
         }
       });
-      energyService.SubscribeEvent(IPlayerEnergyController.EventType.OnRevived, () =>
+      energyService.SubscribeEvent(IPlayerEnergySubscriber.EventType.OnRevived, () =>
       {
         inputActionController.EnableAllInputActions(true);
 
@@ -146,6 +146,12 @@ namespace LR.Stage.Player
       => reactionController;
 
     public IPlayerEnergyUpdater GetEnergyUpdater()
+      => energyService;
+
+    public IPlayerEnergySubscriber GetEnergySubscriber()
+      => energyService;
+
+    public IPlayerEnergyProvider GetEnergyProvider()
       => energyService;
 
     public IPlayerStateProvider GetPlayerStateProvider()

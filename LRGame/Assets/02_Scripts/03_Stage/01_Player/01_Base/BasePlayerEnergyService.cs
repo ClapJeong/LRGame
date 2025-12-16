@@ -7,16 +7,26 @@ using UnityEngine.Events;
 
 namespace LR.Stage.Player
 {
-  public class BasePlayerEnergyService : IPlayerEnergyController, IPlayerEnergyUpdater, IDisposable
+  public class BasePlayerEnergyService : IPlayerEnergyController, IPlayerEnergyUpdater, IPlayerEnergySubscriber, IPlayerEnergyProvider, IDisposable
   {
     private readonly PlayerEnergyData playerEnergyData;
-    private readonly Dictionary<IPlayerEnergyController.EventType, UnityEvent> energyEvents = new();
+    private readonly Dictionary<IPlayerEnergySubscriber.EventType, UnityEvent> energyEvents = new();
     private readonly ISpriteRendererView spriteRendererView;
     private readonly CancellationTokenSource cts = new();
 
     private float energy;
     private bool isUpdateEnergy = false;
-    private bool isInvincible = false;    
+    private bool isInvincible = false;
+
+    #region IPlayerEnergyProvider
+    public bool IsInvincible => isInvincible;
+
+    public bool IsDead => energy <= 0.0f;
+
+    public bool IsFull => energy >= playerEnergyData.MaxEnergy;
+
+    public float CurrentEnergy => energy;
+    #endregion
 
     public BasePlayerEnergyService(PlayerEnergyData playerEnergyData, ISpriteRendererView spriteRendererView)
     {
@@ -34,8 +44,8 @@ namespace LR.Stage.Player
 
       energy = Mathf.Max(0.0f, energy -value);
 
-      if (IsDead())
-        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnExhausted);
+      if (IsDead)
+        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnExhausted);
 
       PlayInvincibleAsync().Forget();
     }
@@ -46,16 +56,6 @@ namespace LR.Stage.Player
       isUpdateEnergy = true;
     }
 
-    public float GetCurrentEnergy()
-      => energy;
-
-    public bool IsDead()
-      => energy <= 0.0f;
-
-    public bool IsFull()
-      => energy >= playerEnergyData.MaxEnergy;
-
-
     public void Restore(float value)
     {
       var prevEnergy = energy;
@@ -63,10 +63,10 @@ namespace LR.Stage.Player
 
       if(prevEnergy == 0 &&
          energy > 0)
-        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRevived);
+        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnRevived);
 
-      if (IsFull())
-        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRestoreFull);
+      if (IsFull)
+        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnRestoreFull);
     }
 
     public void RestoreFull()
@@ -75,36 +75,35 @@ namespace LR.Stage.Player
       energy = playerEnergyData.MaxEnergy;
 
       if (prevEnergy == 0)
-        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRevived);
+        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnRevived);
 
-      energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnRestoreFull);
+      energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnRestoreFull);
     }
+        #endregion
 
-    public void SubscribeEvent(IPlayerEnergyController.EventType type, UnityAction action)
+    #region IPlayerEnergySubscriber
+    public void SubscribeEvent(IPlayerEnergySubscriber.EventType type, UnityAction action)
     {
       energyEvents.AddEvent(type, action);
     }
 
-    public void UnsubscribeEvent(IPlayerEnergyController.EventType type, UnityAction action)
+    public void UnsubscribeEvent(IPlayerEnergySubscriber.EventType type, UnityAction action)
     {
       energyEvents.RemoveEvent(type, action);
     }
-
-    public bool IsInvincible()
-      => isInvincible;
     #endregion
 
     #region IPlayerEnergyUpdater
     public void UpdateEnergy(float deltaTime)
     {
-      if(IsDead() || 
+      if(IsDead ||
          isUpdateEnergy == false)
         return;
 
       energy = Mathf.Max(0.0f, energy - playerEnergyData.DecreasingValue * deltaTime);
 
-      if (IsDead())
-        energyEvents.TryInvoke(IPlayerEnergyController.EventType.OnExhausted);
+      if (IsDead)
+        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnExhausted);
     }
 
     public void Pause()
