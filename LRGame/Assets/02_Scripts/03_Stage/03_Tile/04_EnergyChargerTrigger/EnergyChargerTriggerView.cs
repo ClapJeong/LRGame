@@ -5,6 +5,8 @@ namespace LR.Stage.TriggerTile
 {
   public class EnergyChargerTriggerView : MonoBehaviour, ITriggerTileView
   {
+    public LineRenderer lineRenderer;
+
     private readonly UnityEvent<Collider2D> onEnter = new();
     private readonly UnityEvent<Collider2D> onExit = new();
 
