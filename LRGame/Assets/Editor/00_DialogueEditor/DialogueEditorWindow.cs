@@ -1,5 +1,4 @@
 using LR.Table.Dialogue;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +11,7 @@ public class DialogueEditorWindow : EditorWindow
   [System.Serializable]
   private class DataSet
   {
-    public bool IsDirty { get; private set; }
+    public bool IsDirty { get; private set; } = true;
 
     public string guid;
 
@@ -22,8 +21,10 @@ public class DialogueEditorWindow : EditorWindow
       get { return index; }
       set
       {
-        index = value;
-        IsDirty = true;
+        if(index != value)
+          IsDirty = true;
+
+        index = value;        
       }
     }
 
@@ -33,8 +34,10 @@ public class DialogueEditorWindow : EditorWindow
       get { return name; }
       set
       {
+        if (name != value)
+          IsDirty = true;
+
         name = value;
-        IsDirty = true;
       }
     }
 
@@ -44,8 +47,10 @@ public class DialogueEditorWindow : EditorWindow
       get { return data; }
       set
       {
+        if (data != value)
+          IsDirty = true;
+
         data = value;
-        IsDirty = true;
       }
     }
 
@@ -74,12 +79,14 @@ public class DialogueEditorWindow : EditorWindow
   private const string FolderPath = "Assets/08_DialogueData/";
   private const string FileNameFormat = "{0}_{1}.json";
   private const string NewDataSetName = "newName";
+  private const string DataSubNameTextField = "DataSubName";
 
   private readonly List<DataSet> dataSets = new();
 
   private DataSet selectedDataSet;
   private ReorderableList dialogueDataList;
   private bool isFoldDataList = false;
+  private bool wasFocused;
 
   [MenuItem("Editor Window/Dialogue Editor")]
   public static void OpenWindow()
@@ -96,7 +103,13 @@ public class DialogueEditorWindow : EditorWindow
 
   private void CreateDataList()
   {
-    dialogueDataList = new ReorderableList(dataSets, typeof(string), true, true, true, true);
+    dialogueDataList = new ReorderableList(
+      elements: dataSets,
+      elementType: typeof(string),
+      draggable: true,
+      displayHeader: false,
+      displayAddButton: true,
+      displayRemoveButton: true);
 
     dialogueDataList.drawElementCallback = (rect, i, _, __) =>
     {
@@ -108,10 +121,15 @@ public class DialogueEditorWindow : EditorWindow
       int index = reordableList.index;
       if (index < 0) return;
 
+      var targetDataSet = dataSets[index];
+      if(selectedDataSet == targetDataSet) 
+        return;
+
       if (selectedDataSet != null)
         SaveData(selectedDataSet);
 
-      selectedDataSet = dataSets[index];
+      selectedDataSet = targetDataSet;
+
       Repaint();      
     };
 
@@ -120,6 +138,7 @@ public class DialogueEditorWindow : EditorWindow
       ReorderDataSets();
       foreach(var dataSet in dataSets)
         SaveData(dataSet);
+
       Repaint();
     };
 
@@ -134,7 +153,7 @@ public class DialogueEditorWindow : EditorWindow
       if (index < 0) return;
 
       var removeData = dataSets[index];
-      dataSets.RemoveAt(index);
+      dataSets.Remove(removeData);
       DeleteData(removeData);
 
       ReorderDataSets();
@@ -157,8 +176,11 @@ public class DialogueEditorWindow : EditorWindow
 
   private void CreateDialogueDataArea()
   {
-    var rect = new Rect(20.0f, 20.0f, position.width - 40.0f, 150.0f);
-    using (new GUILayout.AreaScope(rect, GUIContent.none, GUI.skin.box))
+    var rectSpace = new Vector2(20.0f, 20.0f);
+    var rectWidth = position.width - rectSpace.x * 2.0f;
+    var rectHeight = 40.0f + (isFoldDataList ? dialogueDataList.GetHeight() : 0.0f);
+    var areaRect = new Rect(rectSpace.x, rectSpace.y, rectWidth, rectHeight);
+    using (new GUILayout.AreaScope(areaRect, GUIContent.none, GUI.skin.box))
     {
       using (new EditorGUILayout.VerticalScope())
       {
@@ -181,7 +203,9 @@ public class DialogueEditorWindow : EditorWindow
             {
               SaveData(selectedDataSet);
             }
+
             GUILayout.Space(10.0f);
+
             CreateSelectedDataNameArea();
           }
         }
@@ -198,21 +222,37 @@ public class DialogueEditorWindow : EditorWindow
 
   private void ResetSelectedData()
   {
-    selectedDataSet.Reset();    
+    selectedDataSet.Reset();
+    SaveData(selectedDataSet);
   }
 
   private void ReorderDataSets()
   {
     for(int i = 0; i< dataSets.Count; i++)
       dataSets[i].Index = i;
-
-    EditorUtility.SetDirty(this);    
   }
 
   private void CreateSelectedDataNameArea()
   {
-    EditorGUILayout.LabelField($"{ParseToHeadNumber(selectedDataSet.Index)}_", GUILayout.Width(30.0f));    
+    EditorGUILayout.LabelField($"{ParseToHeadNumber(selectedDataSet.Index)}_", GUILayout.Width(30.0f));
+    GUI.SetNextControlName(DataSubNameTextField);
     selectedDataSet.Name = EditorGUILayout.TextField(selectedDataSet.Name, GUILayout.Width(150.0f));
+    var isFocused = GUI.GetNameOfFocusedControl() == DataSubNameTextField;
+
+    Event e = Event.current;
+    if (wasFocused &&
+        e.type == EventType.KeyUp && e.keyCode == KeyCode.Return)
+    {
+      SaveData(selectedDataSet);
+      GUI.FocusControl(null);
+      e.Use();
+    }
+    if (wasFocused && !isFocused)
+    {
+      SaveData(selectedDataSet);
+    }
+
+    wasFocused = isFocused;
     GUILayout.FlexibleSpace();
   }
 
@@ -229,7 +269,7 @@ public class DialogueEditorWindow : EditorWindow
       if (textAsset == null)
         continue;
 
-      var fileName = System.IO.Path.GetFileNameWithoutExtension(path);
+      var fileName = Path.GetFileNameWithoutExtension(path);
       var parts = fileName.Split('_');
 
       var headNumber = int.Parse(parts[0]);
@@ -248,7 +288,6 @@ public class DialogueEditorWindow : EditorWindow
     var newDataSet = new DataSet(dataSets.Count, NewDataSetName, new DialogueData());
     dataSets.Add(newDataSet);
     SaveData(newDataSet);
-    AssetDatabase.Refresh();
     Repaint();
   }
 
@@ -259,23 +298,20 @@ public class DialogueEditorWindow : EditorWindow
 
     DeleteData(dataSet);
 
-    var newPath = Path.Combine(FolderPath, string.Format(FileNameFormat, ParseToHeadNumber(dataSet.Index), dataSet.Name));
+    var filePath = string.Format(FileNameFormat, ParseToHeadNumber(dataSet.Index), dataSet.Name);
+    var newPath = Path.Combine(FolderPath, filePath);
     var json = JsonUtility.ToJson(dataSet.Data);
     File.WriteAllText(newPath, json);
+    AssetDatabase.Refresh();
 
     dataSet.guid = AssetDatabase.AssetPathToGUID(newPath);
-
-    hasUnsavedChanges = false;
     dataSet.ClearDirty();
-    EditorUtility.ClearDirty(this);
-    AssetDatabase.Refresh();
   }
 
   private void DeleteData(DataSet dataSet)
   {
     var path = AssetDatabase.GUIDToAssetPath(dataSet.guid);
-    if (AssetDatabase.AssetPathExists(path))
-      AssetDatabase.DeleteAsset(path);
+    AssetDatabase.DeleteAsset(path);
   }
   #endregion
 
