@@ -1,4 +1,5 @@
 using UnityEngine;
+using LR.Table.TriggerTile;
 
 [CreateAssetMenu(fileName = "TriggerTileSO", menuName = "SO/TriggerTile")]
 public class TriggerTileModelSO : ScriptableObject

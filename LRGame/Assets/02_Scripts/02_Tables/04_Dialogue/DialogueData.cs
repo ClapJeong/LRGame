@@ -1,22 +1,25 @@
 using System.Collections.Generic;
 
-[System.Serializable]
-public class DialogueData
+namespace LR.Table.Dialogue
 {
   [System.Serializable]
-  public class DataSet
+  public class DialogueData
   {
-    public enum Type
+    [System.Serializable]
+    public class DataSet
     {
-      Dialogue,
-      Selection,
+      public enum Type
+      {
+        Dialogue,
+        Selection,
+      }
+
+      public Type dataType;
+
+      public List<DialogueTurnData> dialogueTurnDatas;
+      public List<DialogueSelectionData> selectionDatas;
     }
 
-    public Type dataType;
-
-    public List<DialogueTurnData> dialogueTurnDatas;
-    public DialogueSelectionData selectionData;
+    public List<DataSet> datasets;
   }
-
-  public List<DataSet> datasets;
 }

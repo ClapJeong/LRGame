@@ -1,11 +1,14 @@
 using UnityEngine;
 
-[System.Serializable]
-public class BounceData
+namespace LR.Table.TriggerTile
 {
-  [SerializeField] private float force;
-  public float Force => force;
+  [System.Serializable]
+  public class BounceData
+  {
+    [SerializeField] private float force;
+    public float Force => force;
 
-  [SerializeField] private float stunDuration;
-  public float StunDuration => stunDuration;
+    [SerializeField] private float stunDuration;
+    public float StunDuration => stunDuration;
+  }
 }

@@ -1,5 +1,8 @@
-[System.Serializable]
-public class ClearTriggerData
+namespace LR.Table.TriggerTile
 {
+  [System.Serializable]
+  public class ClearTriggerData
+  {
 
+  }
 }

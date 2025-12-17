@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[System.Serializable]
-public class EnergyItemData
+namespace LR.Table.TriggerTile
 {
-  [field: SerializeField] public float RestoreValue {  get; set; }
+  [System.Serializable]
+  public class EnergyItemData
+  {
+    [field: SerializeField] public float RestoreValue { get; set; }
+  }
 }

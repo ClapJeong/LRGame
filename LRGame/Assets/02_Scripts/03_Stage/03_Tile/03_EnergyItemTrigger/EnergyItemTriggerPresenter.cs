@@ -1,5 +1,6 @@
 using LR.Stage.Player;
 using UnityEngine;
+using LR.Table.TriggerTile;
 
 namespace LR.Stage.TriggerTile
 {

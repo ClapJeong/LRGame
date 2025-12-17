@@ -1,12 +1,14 @@
-public class DialogueTurnData
+namespace LR.Table.Dialogue
 {
-  public int requireLeftKey;
-  public int requireRightKey;
+  public class DialogueTurnData
+  {
+    public DialogueCondition condition;
 
-  public int background;
+    public int background;
 
-  public DialogueCharacterData left;
-  public DialogueCharacterData doctor;
-  public DialogueCharacterData right;
-  public DialogueCharacterData narrator;  
+    public DialogueCharacterData left;
+    public DialogueCharacterData doctor;
+    public DialogueCharacterData right;
+    public DialogueCharacterData narrator;
+  }
 }

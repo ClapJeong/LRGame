@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using LR.Table.TriggerTile;
 using System;
 
 namespace LR.Stage.Player

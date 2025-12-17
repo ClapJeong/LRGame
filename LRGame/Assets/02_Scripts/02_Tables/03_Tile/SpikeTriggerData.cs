@@ -1,8 +1,11 @@
 using UnityEngine;
 
-[System.Serializable]
-public class SpikeTriggerData
+namespace LR.Table.TriggerTile
 {
-  [field: SerializeField] public float DamageValue { get; set; }
-  [field: SerializeField] public BounceData BounceData { get; set; }
+  [System.Serializable]
+  public class SpikeTriggerData
+  {
+    [field: SerializeField] public float DamageValue { get; set; }
+    [field: SerializeField] public BounceData BounceData { get; set; }
+  }
 }

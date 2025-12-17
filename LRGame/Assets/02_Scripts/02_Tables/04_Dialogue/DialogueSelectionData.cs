@@ -1,12 +1,17 @@
-public class DialogueSelectionData
+namespace LR.Table.Dialogue
 {
-  public int leftUpKey;
-  public int leftRightKey;
-  public int leftDownKey;
-  public int leftLeftKey;
+  public class DialogueSelectionData
+  {
+    public DialogueCondition condition;
 
-  public int rightUpKey;
-  public int rightRightKey;
-  public int rightDownKey;
-  public int rightLeftKey;
+    public int leftUpKey;
+    public int leftRightKey;
+    public int leftDownKey;
+    public int leftLeftKey;
+
+    public int rightUpKey;
+    public int rightRightKey;
+    public int rightDownKey;
+    public int rightLeftKey;
+  }
 }

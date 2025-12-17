@@ -1,3 +1,5 @@
+using LR.Table.TriggerTile;
+
 namespace LR.Stage.Player
 {
   public class PlayerChargingMoveState : IPlayerState
