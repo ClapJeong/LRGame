@@ -9,9 +9,9 @@ using UnityEngine;
 public class DialogueEditorWindow : EditorWindow
 {
   [System.Serializable]
-  private class RootDataSet
+  private class RootData
   {
-    public bool IsDirty { get; private set; } = true;
+    public bool IsDirty { get; private set; } = false;
 
     public string guid;
 
@@ -43,37 +43,39 @@ public class DialogueEditorWindow : EditorWindow
 
     private DialogueData data;
     public DialogueData Data
-    {
-      get { return data; }
-      set
-      {
-        if (data != value)
-          IsDirty = true;
-
-        data = value;
-      }
-    }
+      => data;    
 
     public string FileName => $"{index}_{name}";
 
-    public RootDataSet(int index, string name, DialogueData data)
+    public RootData(int index, string name,  bool isDirty)
     {
       this.index = index;
       this.name = name;
-      this.data = data;
+      this.data = new DialogueData(MarkDirty);
+      this.IsDirty = isDirty;
+    }
+
+    public RootData(int index, string name, string json, bool isDirty)
+    {
+      this.index = index;
+      this.name = name;
+      this.data = JsonUtility.FromJson<DialogueData>(json);
+      data.onDirty = MarkDirty;
+      this.IsDirty = isDirty;
     }
 
     public void Reset()
     {
       name = NewDataSetName;
-      data = new DialogueData();
+      data = new DialogueData(MarkDirty);
       IsDirty = true;
     }
 
+    private void MarkDirty()
+      => IsDirty = true;
+
     public void ClearDirty()
-    {
-      IsDirty = false;
-    }
+      => IsDirty = false;
   }
 
   private const string FolderPath = "Assets/08_DialogueData/";
@@ -92,14 +94,14 @@ public class DialogueEditorWindow : EditorWindow
     GUILayout.Height(30.0f),
   };
 
-  private readonly List<RootDataSet> RootDataSets = new();
+  private readonly List<RootData> RootDatas = new();
   
   private ReorderableList rootReordableList;
-  private RootDataSet selectedRootData;
+  private RootData selectedRootData;
   private bool isFoldRootDataList = false;
 
-  private ReorderableList dataSetReordableList;
-  private DialogueData.DataSet selectedDataSet;
+  private ReorderableList turnDataReordableList;
+  private DialogueData.TurnData selectedTurnData;
 
   private bool wasFocused;
 
@@ -119,7 +121,7 @@ public class DialogueEditorWindow : EditorWindow
   private void CreateRootReordableList()
   {
     rootReordableList = new ReorderableList(
-      elements: RootDataSets,
+      elements: RootDatas,
       elementType: typeof(string),
       draggable: true,
       displayHeader: false,
@@ -128,15 +130,15 @@ public class DialogueEditorWindow : EditorWindow
 
     rootReordableList.drawElementCallback = (rect, i, _, __) =>
     {
-      EditorGUI.LabelField(rect, RootDataSets[i].FileName);
+      EditorGUI.LabelField(rect, RootDatas[i].FileName);
     };
 
     rootReordableList.onSelectCallback = OnRootDataSelected;
 
     rootReordableList.onReorderCallback = reordableList =>
     {
-      ReorderDataSets();
-      foreach(var dataSet in RootDataSets)
+      ReorderRootDatas();
+      foreach(var dataSet in RootDatas)
         SaveData(dataSet);
 
       Repaint();
@@ -152,20 +154,20 @@ public class DialogueEditorWindow : EditorWindow
       var index = reoredableList.index;
       if (index < 0) return;
 
-      var removeData = RootDataSets[index];
-      RootDataSets.Remove(removeData);
+      var removeData = RootDatas[index];
+      RootDatas.Remove(removeData);
       DeleteData(removeData);
 
-      ReorderDataSets();
-      foreach (var dataSet in RootDataSets)
+      ReorderRootDatas();
+      foreach (var dataSet in RootDatas)
         SaveData(dataSet);
 
-      if (RootDataSets.Count > index)
-        selectedRootData = RootDataSets[index];
-      else if (RootDataSets.Count > 0)
-        selectedRootData = RootDataSets.Last();
+      if (RootDatas.Count > index)
+        selectedRootData = RootDatas[index];
+      else if (RootDatas.Count > 0)
+        selectedRootData = RootDatas.Last();
 
-      CreateDataSetReordableList(selectedRootData);
+      CreateTurnDataReordableList(selectedRootData);
       Repaint();
     };
   }
@@ -175,7 +177,7 @@ public class DialogueEditorWindow : EditorWindow
     int index = reordableList.index;
     if (index < 0) return;
 
-    var targetRootData = RootDataSets[index];
+    var targetRootData = RootDatas[index];
     if (selectedRootData == targetRootData)
       return;
 
@@ -183,61 +185,61 @@ public class DialogueEditorWindow : EditorWindow
       SaveData(selectedRootData);
 
     selectedRootData = targetRootData;
-    CreateDataSetReordableList(selectedRootData);
+    CreateTurnDataReordableList(selectedRootData);
 
     Repaint();
   }
 
-  private void ResetSelectedData()
+  private void ResetSelectedRootData()
   {
     selectedRootData.Reset();
     SaveData(selectedRootData);
   }
 
-  private void CreateDataSetReordableList(RootDataSet rootDataSet)
+  private void CreateTurnDataReordableList(RootData rootDataSet)
   {
-    dataSetReordableList = new(
-      elements: rootDataSet.Data.datasets,
-      elementType: typeof(DialogueData.DataSet),
+    turnDataReordableList = new(
+      elements: rootDataSet.Data.TurnDatas,
+      elementType: typeof(DialogueData.TurnData),
       draggable: true,
       displayHeader: true,
       displayAddButton: false,
       displayRemoveButton: false);
 
-    dataSetReordableList.drawHeaderCallback = rect =>
+    turnDataReordableList.drawHeaderCallback = rect =>
     {
       EditorGUI.LabelField(rect, rootDataSet.FileName);
     };
 
-    dataSetReordableList.drawElementCallback = (rect, i, _, __) =>
+    turnDataReordableList.drawElementCallback = (rect, i, _, __) =>
     {
-      var targetDataSet = selectedRootData.Data.datasets[i];
+      var targetDataSet = selectedRootData.Data.TurnDatas[i];
       EditorGUI.LabelField(rect, targetDataSet.FieldName);
     };
 
-    dataSetReordableList.onSelectCallback = OnDataSetSelected;
+    turnDataReordableList.onSelectCallback = OnTurnDataSelected;
 
-    dataSetReordableList.onReorderCallback = OnReorderDataSet;
+    turnDataReordableList.onReorderCallback = OnReorderTurnData;
   }
 
-  private void OnDataSetSelected(ReorderableList reordableList)
+  private void OnTurnDataSelected(ReorderableList reordableList)
   {
     int index = reordableList.index;
     if (index < 0) return;
 
-    var targetDataSet = selectedRootData.Data.datasets[index];
-    if (selectedDataSet == targetDataSet)
+    var targetTurnData = selectedRootData.Data.TurnDatas[index];
+    if (selectedTurnData == targetTurnData)
       return;
 
-    if (selectedDataSet != null)
+    if (selectedTurnData != null)
       SaveData(selectedRootData);
 
-    selectedDataSet = targetDataSet;
+    selectedTurnData = targetTurnData;
 
     Repaint();
   }
 
-  private void OnReorderDataSet(ReorderableList reordableList)
+  private void OnReorderTurnData(ReorderableList reordableList)
   {
     SaveData(selectedRootData);
     Repaint();
@@ -251,9 +253,9 @@ public class DialogueEditorWindow : EditorWindow
 
       if (selectedRootData != null)
       {
-        dataSetReordableList.DoLayoutList();
+        turnDataReordableList.DoLayoutList();
 
-        if(selectedDataSet != null)
+        if(selectedTurnData != null)
         {
           GUILayout.Space(15.0f);
           DrawDialogueConditionArea();
@@ -279,14 +281,14 @@ public class DialogueEditorWindow : EditorWindow
       using (new EditorGUILayout.HorizontalScope())
       {
         isFoldRootDataList = EditorGUILayout.Foldout(isFoldRootDataList, "Dialogue Datas", true);
-        GUILayout.Space(80.0f);
-
-        DrawResetButtons();
-
-        DrawSaveButton();
+        GUILayout.Space(80.0f);        
 
         if (selectedRootData != null)
         {
+          DrawResetButtons();
+
+          DrawSaveButton();
+
           GUILayout.Space(10.0f);
 
           DrawSelectedDataNameArea();
@@ -308,7 +310,7 @@ public class DialogueEditorWindow : EditorWindow
   {
     if (GUILayout.Button("Reset", IOButtonSize))
     {
-      ResetSelectedData();
+      ResetSelectedRootData();
     }
   }
 
@@ -320,10 +322,10 @@ public class DialogueEditorWindow : EditorWindow
     }
   }
 
-  private void ReorderDataSets()
+  private void ReorderRootDatas()
   {
-    for(int i = 0; i< RootDataSets.Count; i++)
-      RootDataSets[i].Index = i;
+    for(int i = 0; i< RootDatas.Count; i++)
+      RootDatas[i].Index = i;
   }
 
   private void DrawSelectedDataNameArea()
@@ -358,26 +360,32 @@ public class DialogueEditorWindow : EditorWindow
     using (new EditorGUILayout.HorizontalScope())
     {
       GUILayout.FlexibleSpace();
-      DrawAddCharacterDataButton();
+      DrawAddTalkingButton();
       GUILayout.Space(15.0f);
-      DrawAddSelectionDataButton();
+      DrawAddSelectionButton();
       GUILayout.FlexibleSpace();
     }
   }
 
-  private void DrawAddCharacterDataButton()
+  private void DrawAddTalkingButton()
   {
-    if(GUILayout.Button("+ Dialogue", AddButtonSisze))
+    if(GUILayout.Button("+ Talking", AddButtonSisze))
     {
-      selectedRootData.Data.datasets.Add(new DialogueData.DataSet(new DialogueTurnData()));
+      selectedRootData.Data.AddTurnData(DialogueData.TurnData.Type.Talking);
+      CreateTurnDataReordableList(selectedRootData);
+      Repaint();
+      SaveData(selectedRootData);
     }
   }
 
-  private void DrawAddSelectionDataButton()
+  private void DrawAddSelectionButton()
   {
     if (GUILayout.Button("+ Selection", AddButtonSisze))
     {
-      selectedRootData.Data.datasets.Add(new DialogueData.DataSet(new DialogueSelectionData()));
+      selectedRootData.Data.AddTurnData(DialogueData.TurnData.Type.Selection);
+      CreateTurnDataReordableList(selectedRootData);
+      Repaint();
+      SaveData(selectedRootData);
     }
   }
 
@@ -411,23 +419,21 @@ public class DialogueEditorWindow : EditorWindow
       var headNumber = int.Parse(parts[0]);
       var subName = parts[1];
 
-      var data = JsonUtility.FromJson<DialogueData>(textAsset.text);
-
-      var dataSet = new RootDataSet(headNumber, subName, data);
+      var dataSet = new RootData(headNumber, subName, textAsset.text, false);
       dataSet.guid = guid;
-      RootDataSets.Add(dataSet);
+      RootDatas.Add(dataSet);
     }
   }
 
   private void CreateData()
   {
-    var newDataSet = new RootDataSet(RootDataSets.Count, NewDataSetName, new DialogueData());
-    RootDataSets.Add(newDataSet);
+    var newDataSet = new RootData(RootDatas.Count, NewDataSetName, true);
+    RootDatas.Add(newDataSet);
     SaveData(newDataSet);
     Repaint();
   }
 
-  private void SaveData(RootDataSet dataSet)
+  private void SaveData(RootData dataSet)
   {
     if (dataSet.IsDirty == false)
       return;
@@ -444,7 +450,7 @@ public class DialogueEditorWindow : EditorWindow
     dataSet.ClearDirty();
   }
 
-  private void DeleteData(RootDataSet dataSet)
+  private void DeleteData(RootData dataSet)
   {
     var path = AssetDatabase.GUIDToAssetPath(dataSet.guid);
     AssetDatabase.DeleteAsset(path);
