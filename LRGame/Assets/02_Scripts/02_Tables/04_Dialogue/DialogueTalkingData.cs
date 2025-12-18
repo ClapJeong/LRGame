@@ -4,22 +4,26 @@ using UnityEngine.Events;
 
 namespace LR.Table.Dialogue
 {
-  public class DialogueTalkingData
+  [System.Serializable]
+  public class DialogueTalkingData : IDialogueSequence
   {
     private readonly UnityAction onDirty;
-    public DialogueTalkingData(UnityAction onDirty)
+    public DialogueTalkingData(string conditonName, UnityAction onDirty)
     {
       this.onDirty = onDirty;
       left = new(this.onDirty);
       doctor = new(this.onDirty);
       right = new(this.onDirty);
       narrator = new(this.onDirty);
+      conditionSet = new DialogueConditionSet(conditonName, onDirty);
     }
 
     [SerializeField] private string subName;
 
-    [SerializeField] private List<DialogueCondition> conditions;
     [SerializeField] private int background;
+
+    [SerializeField] private DialogueConditionSet conditionSet;
+    public DialogueConditionSet ConditionSet => conditionSet;
 
     public DialogueCharacterData left;
     public DialogueCharacterData doctor;
@@ -52,22 +56,10 @@ namespace LR.Table.Dialogue
       }
     }
 
-    public List<DialogueCondition> Conditions => conditions;
-
-    public void AddCondition(DialogueCondition condition)
-    {
-      conditions ??= new();
-      conditions.Add(condition);
-      onDirty?.Invoke();
-    }
+    public void AddNewCondition()
+      => conditionSet.AddCondition(new DialogueCondition(onDirty));
 
     public void RemoveCondition(DialogueCondition condition)
-    {
-      if (conditions == null || !conditions.Contains(condition))
-        return;
-
-      conditions.Remove(condition);
-      onDirty?.Invoke();
-    }
+      => conditionSet.RemoveCondition(condition);
   }
 }

@@ -1,20 +1,23 @@
-using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 
 namespace LR.Table.Dialogue
 {
   [System.Serializable]
-  public class DialogueSelectionData
+  public class DialogueSelectionData : IDialogueSequence
   {
     private readonly UnityAction onDirty;
-    public DialogueSelectionData(UnityAction onDirty)
-      => this.onDirty = onDirty;
+    public DialogueSelectionData(string conditionName, UnityAction onDirty)
+    {
+      this.onDirty = onDirty;
+      conditionSet = new DialogueConditionSet(conditionName, onDirty);
+    }
 
     [SerializeField] private int selctionID;
     [SerializeField] private string subName;
 
-    [SerializeField] private List<DialogueCondition> conditions;
+    [SerializeField] private DialogueConditionSet conditionSet;
+    public DialogueConditionSet ConditionSet => conditionSet;
 
     [SerializeField] private int leftUpKey;
     [SerializeField] private int leftRightKey;
@@ -148,22 +151,11 @@ namespace LR.Table.Dialogue
         rightLeftKey = value;
       }
     }
-    public List<DialogueCondition> Conditions => conditions;
 
-    public void AddCondition(DialogueCondition condition)
-    {
-      conditions ??= new();
-      conditions.Add(condition);
-      onDirty?.Invoke();
-    }
+    public void AddNewCondition()
+      => conditionSet.AddCondition(new DialogueCondition(onDirty));
 
     public void RemoveCondition(DialogueCondition condition)
-    {
-      if (conditions == null || !conditions.Contains(condition))
-        return;
-
-      conditions.Remove(condition);
-      onDirty?.Invoke();
-    }    
+      => conditionSet.RemoveCondition(condition);
   }
 }

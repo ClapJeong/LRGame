@@ -53,5 +53,12 @@ namespace LR.Table.Dialogue
         rightKey = value;
       }
     }
+
+    public static DialogueCondition CreateDefault(UnityAction onDirty)
+    {
+      var defaultCondition = new DialogueCondition(onDirty);
+      defaultCondition.TargetID = -1;
+      return defaultCondition;
+    }
   }
 }

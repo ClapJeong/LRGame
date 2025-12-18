@@ -71,6 +71,9 @@ public class DialogueEditorWindow : EditorWindow
       IsDirty = true;
     }
 
+    public void OnTurnDataRemoved()
+      => MarkDirty();
+
     private void MarkDirty()
       => IsDirty = true;
 
@@ -88,10 +91,15 @@ public class DialogueEditorWindow : EditorWindow
     GUILayout.Width(80.0f),
     GUILayout.Height(20.0f),
   };
-  private static readonly GUILayoutOption[] AddButtonSisze = new[]
+  private static readonly GUILayoutOption[] AddButtonSize = new[]
   {
     GUILayout.Width(120.0f),
     GUILayout.Height(30.0f),
+  };
+  private static readonly GUILayoutOption[] OperationButtonSize = new[]
+  {
+    GUILayout.Width(20.0f),
+    GUILayout.Height(20.0f),
   };
 
   private readonly List<RootData> RootDatas = new();
@@ -102,6 +110,11 @@ public class DialogueEditorWindow : EditorWindow
 
   private ReorderableList turnDataReordableList;
   private DialogueData.TurnData selectedTurnData;
+
+  private IDialogueSequence selectedSequence;
+
+  private DialogueConditionSet selectedConditionSet;
+  private List<int> availableConditionIDs;
 
   private bool wasFocused;
 
@@ -118,6 +131,7 @@ public class DialogueEditorWindow : EditorWindow
     CreateRootReordableList();
   }
 
+  #region RootDataList
   private void CreateRootReordableList()
   {
     rootReordableList = new ReorderableList(
@@ -186,6 +200,7 @@ public class DialogueEditorWindow : EditorWindow
 
     selectedRootData = targetRootData;
     CreateTurnDataReordableList(selectedRootData);
+    SelectTurnData(null);
 
     Repaint();
   }
@@ -195,7 +210,9 @@ public class DialogueEditorWindow : EditorWindow
     selectedRootData.Reset();
     SaveData(selectedRootData);
   }
+  #endregion
 
+  #region TurnDataList
   private void CreateTurnDataReordableList(RootData rootDataSet)
   {
     turnDataReordableList = new(
@@ -204,7 +221,7 @@ public class DialogueEditorWindow : EditorWindow
       draggable: true,
       displayHeader: true,
       displayAddButton: false,
-      displayRemoveButton: false);
+      displayRemoveButton: true);
 
     turnDataReordableList.drawHeaderCallback = rect =>
     {
@@ -220,6 +237,13 @@ public class DialogueEditorWindow : EditorWindow
     turnDataReordableList.onSelectCallback = OnTurnDataSelected;
 
     turnDataReordableList.onReorderCallback = OnReorderTurnData;
+
+    turnDataReordableList.onRemoveCallback = list =>
+    {
+      selectedRootData.OnTurnDataRemoved();
+      Repaint();
+      SaveData(selectedRootData);
+    };
   }
 
   private void OnTurnDataSelected(ReorderableList reordableList)
@@ -234,8 +258,8 @@ public class DialogueEditorWindow : EditorWindow
     if (selectedTurnData != null)
       SaveData(selectedRootData);
 
-    selectedTurnData = targetTurnData;
-
+    SelectTurnData(targetTurnData);
+    SelectConditionSet(selectedTurnData.SelectedDataConditionSets.First());
     Repaint();
   }
 
@@ -244,6 +268,18 @@ public class DialogueEditorWindow : EditorWindow
     SaveData(selectedRootData);
     Repaint();
   }
+
+  private void SelectTurnData(DialogueData.TurnData turnData)
+  {
+    if (selectedTurnData == turnData) return;
+
+    selectedTurnData = turnData;
+    if (selectedTurnData != null)
+      SelectConditionSet(selectedTurnData.SelectedDataConditionSets.First());
+    else
+      SelectConditionSet(null);
+  }
+  #endregion
 
   private void OnGUI()
   {
@@ -258,10 +294,10 @@ public class DialogueEditorWindow : EditorWindow
         if(selectedTurnData != null)
         {
           GUILayout.Space(15.0f);
-          DrawDialogueConditionArea();
+          DrawConditionArea();
 
           GUILayout.Space(15.0f);
-          DrawDataSetArea();
+          DrawTurnDataArea();
         }
 
         GUILayout.Space(15.0f);
@@ -272,23 +308,21 @@ public class DialogueEditorWindow : EditorWindow
 
   private void DrawRootDataArea()
   {
-    var rectSpace = new Vector2(20.0f, 20.0f);
-    var rectWidth = position.width - rectSpace.x * 2.0f;
-    var rectHeight = 40.0f + (isFoldRootDataList ? rootReordableList.GetHeight() : 0.0f);
-    var areaRect = new Rect(rectSpace.x, rectSpace.y, rectWidth, rectHeight);
-    using (new GUILayout.AreaScope(areaRect, GUIContent.none, GUI.skin.box))
+    using (new EditorGUILayout.VerticalScope(GUI.skin.box))
     {
-      using (new EditorGUILayout.HorizontalScope())
+      using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
       {
         isFoldRootDataList = EditorGUILayout.Foldout(isFoldRootDataList, "Dialogue Datas", true);
-        GUILayout.Space(80.0f);        
+        GUILayout.Space(80.0f);
+
+        EditorGUI.BeginDisabledGroup(selectedRootData == null);
+        DrawResetButtons();
+
+        DrawSaveButton();
+        EditorGUI.EndDisabledGroup();
 
         if (selectedRootData != null)
-        {
-          DrawResetButtons();
-
-          DrawSaveButton();
-
+        {          
           GUILayout.Space(10.0f);
 
           DrawSelectedDataNameArea();
@@ -301,9 +335,6 @@ public class DialogueEditorWindow : EditorWindow
         rootReordableList.DoLayoutList();
       }
     }
-
-    if (selectedRootData != null)
-      GUILayout.Space(rectSpace.y + rectHeight + 15.0f);
   }
 
   private void DrawResetButtons()
@@ -360,45 +391,100 @@ public class DialogueEditorWindow : EditorWindow
     using (new EditorGUILayout.HorizontalScope())
     {
       GUILayout.FlexibleSpace();
-      DrawAddTalkingButton();
+      DrawCreateTalkingButton();
       GUILayout.Space(15.0f);
-      DrawAddSelectionButton();
+      DrawCreateSelectionButton();
       GUILayout.FlexibleSpace();
     }
   }
 
-  private void DrawAddTalkingButton()
+  private void DrawCreateTalkingButton()
   {
-    if(GUILayout.Button("+ Talking", AddButtonSisze))
+    if(GUILayout.Button("+ Talking", AddButtonSize))
     {
-      selectedRootData.Data.AddTurnData(DialogueData.TurnData.Type.Talking);
+      selectedRootData.Data.CreateTurnData(DialogueData.TurnData.Type.Talking);
       CreateTurnDataReordableList(selectedRootData);
       Repaint();
       SaveData(selectedRootData);
     }
   }
 
-  private void DrawAddSelectionButton()
+  private void DrawCreateSelectionButton()
   {
-    if (GUILayout.Button("+ Selection", AddButtonSisze))
+    if (GUILayout.Button("+ Selection", AddButtonSize))
     {
-      selectedRootData.Data.AddTurnData(DialogueData.TurnData.Type.Selection);
+      selectedRootData.Data.CreateTurnData(DialogueData.TurnData.Type.Selection);
       CreateTurnDataReordableList(selectedRootData);
       Repaint();
       SaveData(selectedRootData);
     }
   }
 
-  private void DrawDataSetArea()
+  private void DrawTurnDataArea()
   {
 
   }
 
-  private void DrawDialogueConditionArea()
+  private void DrawConditionArea()
   {
+    using (new GUILayout.VerticalScope(GUI.skin.box))
+    {
+      using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
+      {
+        var conditionSets = selectedTurnData.SelectedDataConditionSets;
 
+        for (int i = 0; i < conditionSets.Count; i++)
+        {
+          var isDefault = i == 0;
+          var targetConditionSet = conditionSets[i];
+          var interactable = targetConditionSet == selectedConditionSet;
+
+          if (isDefault)
+            EditorGUILayout.BeginVertical();
+
+          EditorGUI.BeginDisabledGroup(interactable);
+          if (GUILayout.Button(targetConditionSet.SubName, GUILayout.Width(80.0f), GUILayout.Height(20.0f)))
+            SelectConditionSet(targetConditionSet);
+          EditorGUI.EndDisabledGroup();
+
+          if (!isDefault && GUILayout.Button("-", OperationButtonSize))
+            RemoveConditionSet(targetConditionSet);
+
+          if (isDefault)
+            EditorGUILayout.EndVertical();
+
+          if (i < conditionSets.Count - 1)
+            EditorGUILayout.Space(15.0f);
+        }
+
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("+", OperationButtonSize))
+          AddConditionSet();
+      }
+    }
   }
 
+  private void SelectConditionSet(DialogueConditionSet conditionSet)
+  {
+    if (conditionSet == selectedConditionSet)
+      return;
+
+    selectedConditionSet = conditionSet;
+    //TODO: 해당 컨디션들 나열
+  }
+
+  private void RemoveConditionSet(DialogueConditionSet conditionSet)
+  {
+    selectedTurnData.RemoveConditionSet(conditionSet);
+    if (selectedConditionSet == conditionSet)
+      SelectConditionSet(selectedTurnData.SelectedDataConditionSets.First());
+    SaveData(selectedRootData);
+  }
+
+  private void AddConditionSet()
+  {
+    selectedTurnData.AddNewConditionSet();
+  }
 
   #region Save&Load
   private void LoadAllDatas()
