@@ -3,6 +3,7 @@
   [System.Serializable]
   public class DialogueCondition
   {
+    public int targetID;
     public int leftKey;
     public int rightKey;
 

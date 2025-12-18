@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+
 namespace LR.Table.Dialogue
 {
   public class DialogueTurnData
   {
-    public DialogueCondition condition;
+    public string subName;
 
+    public List<DialogueCondition> conditions = new();
     public int background;
 
     public DialogueCharacterData left;

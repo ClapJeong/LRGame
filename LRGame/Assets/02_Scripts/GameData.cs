@@ -1,3 +1,4 @@
+using LR.Table.Dialogue;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,4 +12,6 @@ public class GameData
   }
 
   public List<ChapterStageData> chaterStageDatas = new();
+
+  public List<DialogueCondition> dialogueConditions = new();
 }

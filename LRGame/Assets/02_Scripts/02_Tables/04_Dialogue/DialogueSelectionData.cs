@@ -1,8 +1,14 @@
+using System.Collections.Generic;
+
 namespace LR.Table.Dialogue
 {
+  [System.Serializable]
   public class DialogueSelectionData
   {
-    public DialogueCondition condition;
+    public string subName;
+
+    public int selctionID;
+    public List<DialogueCondition> conditions = new();
 
     public int leftUpKey;
     public int leftRightKey;

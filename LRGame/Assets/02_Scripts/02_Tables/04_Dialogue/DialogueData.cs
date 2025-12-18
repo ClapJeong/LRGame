@@ -14,10 +14,31 @@ namespace LR.Table.Dialogue
         Selection,
       }
 
-      public Type dataType;
+      public readonly Type dataType;
+      public string FieldName => $"{dataType.ToString()}_{subName}";
+
+      public string subName = "none";
 
       public List<DialogueTurnData> dialogueTurnDatas;
       public List<DialogueSelectionData> selectionDatas;
+
+      public DataSet(DialogueTurnData turnData)
+      {
+        dataType = Type.Dialogue;
+        dialogueTurnDatas = new()
+        {
+          turnData
+        };
+      }
+
+      public DataSet(DialogueSelectionData selectionData)
+      {
+        dataType = Type.Selection;
+        selectionDatas = new()
+        {
+          selectionData
+        };
+      }
     }
 
     public List<DataSet> datasets;
