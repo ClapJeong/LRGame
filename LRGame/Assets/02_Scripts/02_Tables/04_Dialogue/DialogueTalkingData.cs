@@ -1,3 +1,4 @@
+using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -43,13 +44,15 @@ namespace LR.Table.Dialogue
     [SerializeField] private int background;
     [SerializeField] private DialogueCondition condition;
 
-    public DialogueTalkingData(string conditionName, UnityAction onDirty)
+    public DialogueTalkingData(bool isDefault, string subName, UnityAction onDirty)
     {
       this.onDirty = onDirty;
+      this.subName = subName;
       left = new(this.onDirty);
       center = new(this.onDirty);
       right = new(this.onDirty);
-      condition = new DialogueCondition(conditionName, onDirty);
+      condition = isDefault ? DialogueCondition.CreateDefault(onDirty)
+                            : new DialogueCondition(subName, onDirty);
     }
 
     public override void SetOnDirty(UnityAction onDirty)

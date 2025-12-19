@@ -148,10 +148,12 @@ namespace LR.Table.Dialogue
     [SerializeField] private int rightLeftKey;
 
 
-    public DialogueSelectionData(string conditionName, UnityAction onDirty)
+    public DialogueSelectionData(bool isDefault, string subName, UnityAction onDirty)
     {
       this.onDirty = onDirty;
-      condition = new DialogueCondition(conditionName, onDirty);
+      this.subName = subName;
+      condition = isDefault ? DialogueCondition.CreateDefault(onDirty)
+                            : new DialogueCondition(subName, onDirty);
     }
 
     public override void SetOnDirty(UnityAction onDirty)

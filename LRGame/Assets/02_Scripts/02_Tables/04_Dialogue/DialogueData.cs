@@ -28,13 +28,13 @@ namespace LR.Table.Dialogue
         {
           case IDialogueSequence.Type.Talking:
             {
-              sequences.Add(new DialogueTalkingData("default", onDirty));
+              sequences.Add(new DialogueTalkingData(true, "default", onDirty));
             }
             break;
 
           case IDialogueSequence.Type.Selection:
             {
-              sequences.Add(new DialogueSelectionData("default", onDirty));
+              sequences.Add(new DialogueSelectionData(true, "default", onDirty));
             }
             break;
         }
@@ -48,13 +48,13 @@ namespace LR.Table.Dialogue
         {
           case IDialogueSequence.Type.Talking:
             {
-              sequences.Add(new DialogueTalkingData("none", onDirty));
+              sequences.Add(new DialogueTalkingData(false, "none", onDirty));
             }
             break;
 
           case IDialogueSequence.Type.Selection:
             {
-              sequences.Add(new DialogueSelectionData("none", onDirty));
+              sequences.Add(new DialogueSelectionData(false, "none", onDirty));
             }
             break;
         }

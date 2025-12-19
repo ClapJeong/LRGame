@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace LR.Table.Dialogue
 {
-  [Serializable]
+  [System.Serializable]
   public abstract class DialogueSequenceBase : IDialogueSequence, IDirtyPatcher
   {
     [SerializeField] protected string subName;

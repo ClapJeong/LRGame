@@ -1,4 +1,5 @@
 using LR.Table.Dialogue;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -115,6 +116,7 @@ public class DialogueEditorWindow : EditorWindow
   private DialogueSequenceBase selectedSequence;
 
   private List<DialogueSelectionData> availableSelections = new();
+  private List<string> availableSelectionNames = new();
 
   private bool wasFocused;
 
@@ -225,7 +227,7 @@ public class DialogueEditorWindow : EditorWindow
 
     sequenceSetDataReordableList.drawHeaderCallback = rect =>
     {
-      EditorGUI.LabelField(rect, rootDataSet.FileName);
+      EditorGUI.LabelField(rect,$"[ Sequence Set ] " + rootDataSet.FileName);
     };
 
     sequenceSetDataReordableList.drawElementCallback = (rect, i, _, __) =>
@@ -306,15 +308,15 @@ public class DialogueEditorWindow : EditorWindow
       if (selectedRootData != null)
       {
         sequenceSetDataReordableList.DoLayoutList();
+        
+        DrawAddSequenceSetButtons();
+        GUILayout.Space(15.0f);
 
-        if(selectedSequenceSet != null)
+        if (selectedSequenceSet != null)
         {
           GUILayout.Space(15.0f);
           DrawSequenceArea();
-        }
-
-        GUILayout.Space(15.0f);
-        DrawAddDataButtons();
+        }        
       }
     }      
   }
@@ -399,7 +401,7 @@ public class DialogueEditorWindow : EditorWindow
   private bool IsTextFieldEnterPressed(Event e)
     => e.type == EventType.KeyUp && e.keyCode == KeyCode.Return;
 
-  private void DrawAddDataButtons()
+  private void DrawAddSequenceSetButtons()
   {
     using (new EditorGUILayout.HorizontalScope())
     {
@@ -437,7 +439,16 @@ public class DialogueEditorWindow : EditorWindow
   {
     using (new GUILayout.VerticalScope(GUI.skin.box))
     {
+      using (new GUILayout.HorizontalScope())
+      {
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("[ Conditions ]");
+        GUILayout.FlexibleSpace();
+      }
+
       DrawSequenceButtons(selectedSequenceSet);
+
+      DrawConditionSettingArea();
     }
   }
 
@@ -478,8 +489,32 @@ public class DialogueEditorWindow : EditorWindow
 
   private void DrawConditionSettingArea()
   {
-    if (selectedSequence.GetCondition().TargetID < 0)
+    var selectedConditon = selectedSequence.GetCondition();
+    if (selectedConditon.TargetID < 0)
       return;
+
+    using (new GUILayout.HorizontalScope())
+    {
+      GUILayout.FlexibleSpace();
+      GUILayout.Label("[ Condition Setting ]");
+      GUILayout.FlexibleSpace();
+    }
+
+    using (new GUILayout.HorizontalScope(GUI.skin.box))
+    {
+      selectedConditon.SubName = EditorGUILayout.TextField(selectedConditon.SubName, GUILayout.Width(100.0f), GUILayout.Height(20.0f));
+
+      var conditionIndex = availableSelections.IndexOf(availableSelections.FirstOrDefault(data => data.SelectionID == selectedConditon.TargetID));
+      var selectedIndex = EditorGUILayout.Popup(conditionIndex, availableSelectionNames.ToArray());
+      if(conditionIndex != selectedIndex)
+      {
+        selectedConditon.TargetID = availableSelections[selectedIndex].SelectionID;
+        SaveData(selectedRootData);
+      }
+
+      selectedConditon.LeftKey = (int)(Direction)EditorGUILayout.EnumPopup("Left: ", (Direction)selectedConditon.LeftKey);
+      selectedConditon.RightKey = (int)(Direction)EditorGUILayout.EnumPopup("Right: ", (Direction)selectedConditon.RightKey);
+    }
   }
 
   private void SelectSequence(DialogueSequenceBase sequence)
@@ -487,18 +522,18 @@ public class DialogueEditorWindow : EditorWindow
     if (selectedSequence == sequence)
       return;
 
+    SaveData(selectedRootData);
     selectedSequence = sequence;
 
     if (selectedSequence != null)
       UpdateAvailableSelectionDatas();
-
-    //TODO: 해당 컨디션들 나열
   }
 
   private void UpdateAvailableSelectionDatas()
   {
     availableSelections.Clear();
-    foreach(var sequenceSet in selectedRootData.Data.SequenceSets)
+    availableSelectionNames.Clear();
+    foreach (var sequenceSet in selectedRootData.Data.SequenceSets)
     {
       if (sequenceSet == selectedSequenceSet)
         break;
@@ -506,7 +541,11 @@ public class DialogueEditorWindow : EditorWindow
       if(sequenceSet.SequenceType == IDialogueSequence.Type.Selection)
       {
         foreach (var sequence in sequenceSet.Sequences)
-          availableSelections.Add(sequence as DialogueSelectionData);
+        {
+          var selectionData = sequence as DialogueSelectionData;
+          availableSelections.Add(selectionData);
+          availableSelectionNames.Add($"{selectionData.SelectionID}_{selectionData.SubName}");
+        }          
       }
     }
   }

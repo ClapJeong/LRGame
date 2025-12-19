@@ -10,7 +10,5 @@
 
     public Type SequenceType { get; }
     public string FormatedName {  get; }
-
-    public string SubName { get; set; }
   }
 }
