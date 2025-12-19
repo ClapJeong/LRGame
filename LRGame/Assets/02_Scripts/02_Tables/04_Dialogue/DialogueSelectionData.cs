@@ -152,8 +152,7 @@ namespace LR.Table.Dialogue
     {
       this.onDirty = onDirty;
       this.subName = subName;
-      condition = isDefault ? DialogueCondition.CreateDefault(onDirty)
-                            : new DialogueCondition(subName, onDirty);
+      condition = new DialogueCondition(isDefault, onDirty);
     }
 
     public override void SetOnDirty(UnityAction onDirty)

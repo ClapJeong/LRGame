@@ -1,4 +1,3 @@
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,7 +6,7 @@ namespace LR.Table.Dialogue
   [System.Serializable]
   public class DialogueTalkingData : DialogueSequenceBase
   {
-    private readonly UnityAction onDirty;
+    private UnityAction onDirty;
     public override string SubName
     {
       get => this.subName;
@@ -51,12 +50,12 @@ namespace LR.Table.Dialogue
       left = new(this.onDirty);
       center = new(this.onDirty);
       right = new(this.onDirty);
-      condition = isDefault ? DialogueCondition.CreateDefault(onDirty)
-                            : new DialogueCondition(subName, onDirty);
+      condition = condition = new DialogueCondition(isDefault, onDirty);
     }
 
     public override void SetOnDirty(UnityAction onDirty)
     {
+      this.onDirty = onDirty;
       condition.SetOnDirty(onDirty);
       left.SetOnDirty(onDirty);
       center.SetOnDirty(onDirty);

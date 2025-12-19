@@ -48,13 +48,13 @@ namespace LR.Table.Dialogue
         {
           case IDialogueSequence.Type.Talking:
             {
-              sequences.Add(new DialogueTalkingData(false, "none", onDirty));
+              sequences.Add(new DialogueTalkingData(false, "talking", onDirty));
             }
             break;
 
           case IDialogueSequence.Type.Selection:
             {
-              sequences.Add(new DialogueSelectionData(false, "none", onDirty));
+              sequences.Add(new DialogueSelectionData(false, "selection", onDirty));
             }
             break;
         }
@@ -72,7 +72,11 @@ namespace LR.Table.Dialogue
       }
 
       public void SetOnDirty(UnityAction onDirty)
-        => this.onDirty = onDirty;
+      {
+        this.onDirty = onDirty;
+        foreach(var sequence in sequences)
+          sequence.SetOnDirty(onDirty);
+      }
     }
 
     private readonly UnityAction onDirty;

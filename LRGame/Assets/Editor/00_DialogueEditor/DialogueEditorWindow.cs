@@ -62,8 +62,8 @@ public class DialogueEditorWindow : EditorWindow
       this.index = index;
       this.name = name;
       this.data = JsonUtility.FromJson<DialogueData>(json);
-      data.SetOnDirty(MarkDirty);
       this.IsDirty = isDirty;
+      data.SetOnDirty(MarkDirty);      
     }
 
     public void Reset()
@@ -88,6 +88,7 @@ public class DialogueEditorWindow : EditorWindow
   private const string NewDataSetName = "newName";
   private const string DataSubNameTextField = "DataSubName";
 
+  #region Static
   private static readonly GUILayoutOption[] IOButtonSize = new[]
   {
     GUILayout.Width(80.0f),
@@ -103,7 +104,13 @@ public class DialogueEditorWindow : EditorWindow
     GUILayout.Width(20.0f),
     GUILayout.Height(20.0f),
   };
-
+  private GUIStyle IntCenterStyle;
+  private GUIStyle IntLeftStyle;
+  private GUIStyle IntRightStyle;
+  private GUIStyle StringCenterStyle;
+  private GUIStyle StringLeftStyle;
+  private GUIStyle StringRightStyle;
+  #endregion
   private readonly List<RootData> RootDatas = new();
   
   private ReorderableList rootReordableList;
@@ -123,10 +130,37 @@ public class DialogueEditorWindow : EditorWindow
   [MenuItem("Editor Window/Dialogue Editor")]
   public static void OpenWindow()
   {
-    EditorWindow wnd = GetWindow<DialogueEditorWindow>();
+  EditorWindow wnd = GetWindow<DialogueEditorWindow>();
     wnd.titleContent = new GUIContent(nameof(DialogueEditorWindow));
   }
 
+  private void OnEnable()
+  {
+    IntCenterStyle = new(EditorStyles.numberField)
+    {
+      alignment = TextAnchor.MiddleCenter
+    };
+    IntLeftStyle = new(EditorStyles.numberField)
+    {
+      alignment = TextAnchor.UpperLeft
+    };
+    IntRightStyle = new(EditorStyles.numberField)
+    {
+      alignment = TextAnchor.UpperRight
+    };
+    StringCenterStyle = new(EditorStyles.textField)
+    {
+      alignment = TextAnchor.MiddleCenter
+    };
+    StringLeftStyle = new(EditorStyles.textField)
+    {
+      alignment = TextAnchor.UpperLeft
+    };
+    StringRightStyle = new(EditorStyles.textField)
+    {
+      alignment = TextAnchor.UpperRight
+    };
+  }
   private void CreateGUI()
   {
     LoadAllDatas();
@@ -212,6 +246,12 @@ public class DialogueEditorWindow : EditorWindow
     selectedRootData.Reset();
     SaveData(selectedRootData);
   }
+
+  private void ReorderRootDatas()
+  {
+    for (int i = 0; i < RootDatas.Count; i++)
+      RootDatas[i].Index = i;
+  }
   #endregion
 
   #region SequenceSet
@@ -236,7 +276,7 @@ public class DialogueEditorWindow : EditorWindow
       var stb = new StringBuilder(targetSequenceSet.SequenceType + ": ");
       for (int j = 0; j < targetSequenceSet.Sequences.Count; j++)
       {
-        stb.Append(targetSequenceSet.Sequences[j].GetCondition().SubName);
+        stb.Append(targetSequenceSet.Sequences[j].SubName);
         if(j < targetSequenceSet.Sequences.Count - 1)
           stb.Append(", ");
       }
@@ -316,11 +356,26 @@ public class DialogueEditorWindow : EditorWindow
         {
           GUILayout.Space(15.0f);
           DrawSequenceArea();
-        }        
+
+          if(selectedSequence != null)
+          {
+            switch (selectedSequence.SequenceType)
+            {
+              case IDialogueSequence.Type.Talking:
+                DrawTalkingArea();
+                break;
+
+              case IDialogueSequence.Type.Selection:
+                DrawSelectionArea();
+                break;
+            }
+          }
+        }
       }
-    }      
+    }
   }
 
+  #region Drawing Root Data
   private void DrawRootDataArea()
   {
     using (new EditorGUILayout.VerticalScope(GUI.skin.box))
@@ -340,7 +395,7 @@ public class DialogueEditorWindow : EditorWindow
         {          
           GUILayout.Space(10.0f);
 
-          DrawSelectedDataNameArea();
+          DrawSelectedRootDataNameArea();
         }
       }
 
@@ -368,13 +423,7 @@ public class DialogueEditorWindow : EditorWindow
     }
   }
 
-  private void ReorderRootDatas()
-  {
-    for(int i = 0; i< RootDatas.Count; i++)
-      RootDatas[i].Index = i;
-  }
-
-  private void DrawSelectedDataNameArea()
+  private void DrawSelectedRootDataNameArea()
   {
     EditorGUILayout.LabelField($"{ParseToHeadNumber(selectedRootData.Index)}_", GUILayout.Width(30.0f));
     GUI.SetNextControlName(DataSubNameTextField);
@@ -400,7 +449,9 @@ public class DialogueEditorWindow : EditorWindow
 
   private bool IsTextFieldEnterPressed(Event e)
     => e.type == EventType.KeyUp && e.keyCode == KeyCode.Return;
+  #endregion
 
+  #region SequenceSett Create Buttons
   private void DrawAddSequenceSetButtons()
   {
     using (new EditorGUILayout.HorizontalScope())
@@ -434,7 +485,9 @@ public class DialogueEditorWindow : EditorWindow
       SaveData(selectedRootData);
     }
   }
+  #endregion
 
+  #region Sequence & Condition
   private void DrawSequenceArea()
   {
     using (new GUILayout.VerticalScope(GUI.skin.box))
@@ -467,7 +520,7 @@ public class DialogueEditorWindow : EditorWindow
           EditorGUILayout.BeginVertical();
 
         EditorGUI.BeginDisabledGroup(interactable);
-        if (GUILayout.Button($"[ {condition.SubName} ]", GUILayout.Width(80.0f), GUILayout.Height(20.0f)))
+        if (GUILayout.Button($"[ {sequence.SubName} ]", GUILayout.Width(80.0f), GUILayout.Height(20.0f)))
           SelectSequence(sequence);
         EditorGUI.EndDisabledGroup();
 
@@ -502,7 +555,7 @@ public class DialogueEditorWindow : EditorWindow
 
     using (new GUILayout.HorizontalScope(GUI.skin.box))
     {
-      selectedConditon.SubName = EditorGUILayout.TextField(selectedConditon.SubName, GUILayout.Width(100.0f), GUILayout.Height(20.0f));
+      selectedSequence.SubName = EditorGUILayout.TextField(selectedSequence.SubName, GUILayout.Width(100.0f), GUILayout.Height(20.0f));
 
       var conditionIndex = availableSelections.IndexOf(availableSelections.FirstOrDefault(data => data.SelectionID == selectedConditon.TargetID));
       var selectedIndex = EditorGUILayout.Popup(conditionIndex, availableSelectionNames.ToArray());
@@ -561,6 +614,90 @@ public class DialogueEditorWindow : EditorWindow
   private void AddSequence()
   {
     selectedSequenceSet.CreateNewSequence();
+  }
+  #endregion
+
+  private void DrawSelectionArea()
+  {
+    var selectedSelection = selectedSequence as DialogueSelectionData;
+    using (new GUILayout.VerticalScope(GUI.skin.box))
+    {
+      using (new GUILayout.HorizontalScope())
+      {
+        var labelCenterStyle = new GUIStyle(EditorStyles.label)
+        {
+          alignment = TextAnchor.MiddleCenter
+        };
+
+        GUILayout.FlexibleSpace();
+        EditorGUILayout.LabelField("[ Selection ]", labelCenterStyle);
+        GUILayout.FlexibleSpace();
+      }
+
+      using (new GUILayout.HorizontalScope())
+      {
+        GUILayout.FlexibleSpace();
+        selectedSelection.SubName = EditorGUILayout.TextField(selectedSelection.SubName, StringCenterStyle);
+        GUILayout.FlexibleSpace();
+      }
+
+      EditorGUILayout.Space(10.0f);
+
+      using (new GUILayout.HorizontalScope())
+      {
+        var space = 30.0f;
+        GUILayout.FlexibleSpace();
+        using (new GUILayout.VerticalScope(GUI.skin.box))
+        {          
+          using (new GUILayout.HorizontalScope())
+          {
+            GUILayout.Space(space);
+            selectedSelection.LeftUpKey = EditorGUILayout.IntField(selectedSelection.LeftUpKey, IntCenterStyle, GUILayout.Width(space));
+            GUILayout.Space(space);
+          }
+          using (new GUILayout.HorizontalScope())
+          {
+            selectedSelection.LeftLeftKey = EditorGUILayout.IntField(selectedSelection.LeftLeftKey, IntCenterStyle, GUILayout.Width(space));
+             GUILayout.Space(space);
+            selectedSelection.LeftRightKey = EditorGUILayout.IntField(selectedSelection.LeftRightKey, IntCenterStyle, GUILayout.Width(space));
+          }
+          using (new GUILayout.HorizontalScope())
+          {
+             GUILayout.Space(space);
+            selectedSelection.LeftDownKey = EditorGUILayout.IntField(selectedSelection.LeftDownKey, IntCenterStyle, GUILayout.Width(space));
+             GUILayout.Space(space);
+          }
+        }
+
+        using (new GUILayout.VerticalScope(GUI.skin.box))
+        {
+          using (new GUILayout.HorizontalScope())
+          {
+             GUILayout.Space(space);
+            selectedSelection.RightUpKey = EditorGUILayout.IntField(selectedSelection.RightUpKey, IntCenterStyle, GUILayout.Width(space));
+             GUILayout.Space(space);
+          }
+          using (new GUILayout.HorizontalScope())
+          {
+            selectedSelection.RightLeftKey = EditorGUILayout.IntField(selectedSelection.RightLeftKey, IntCenterStyle, GUILayout.Width(space));
+             GUILayout.Space(space);
+            selectedSelection.RightRightKey = EditorGUILayout.IntField(selectedSelection.RightRightKey, IntCenterStyle, GUILayout.Width(space));
+          }
+          using (new GUILayout.HorizontalScope())
+          {
+             GUILayout.Space(space);
+            selectedSelection.RightDownKey = EditorGUILayout.IntField(selectedSelection.RightDownKey, IntCenterStyle, GUILayout.Width(space));
+             GUILayout.Space(space);
+          }          
+        }
+        GUILayout.FlexibleSpace();
+      }
+    }
+  }
+
+  private void DrawTalkingArea()
+  {
+
   }
 
   #region Save&Load

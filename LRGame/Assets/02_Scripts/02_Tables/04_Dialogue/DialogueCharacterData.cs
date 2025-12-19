@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 namespace LR.Table.Dialogue
 {
+  [System.Serializable]
   public class DialogueCharacterData: IDirtyPatcher
   {
     private UnityAction onDirty;
