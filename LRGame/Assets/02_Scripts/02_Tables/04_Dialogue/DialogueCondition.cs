@@ -4,19 +4,22 @@ using UnityEngine.Events;
 namespace LR.Table.Dialogue
 {
   [System.Serializable]
-  public class DialogueCondition
+  public class DialogueCondition: IDirtyPatcher
   {
-    private readonly UnityAction onDirty;
-    public DialogueCondition(UnityAction onDirty)
-      => this.onDirty = onDirty;
+    private UnityAction onDirty;
 
-    [SerializeField] private int targetID;
-    [SerializeField] private int leftKey;
-    [SerializeField] private int rightKey;
+    public string SubName
+    {
+      get => this.subName;
+      set
+      {
+        if (subName == value)
+          return;
 
-    public bool IsCondition(int leftKey, int rightKey)
-      => this.leftKey == leftKey && this.rightKey == rightKey;
-
+        onDirty?.Invoke();
+        subName = value;
+      }
+    }
     public int TargetID
     {
       get => this.targetID;
@@ -54,11 +57,28 @@ namespace LR.Table.Dialogue
       }
     }
 
+    [SerializeField] private string subName;
+    [SerializeField] private int targetID;
+    [SerializeField] private int leftKey;
+    [SerializeField] private int rightKey;
+
+    public DialogueCondition(string subName, UnityAction onDirty)
+    {
+      this.subName = subName;
+      this.onDirty = onDirty;
+    }
+
+    public bool IsCondition(int leftKey, int rightKey)
+       => this.leftKey == leftKey && this.rightKey == rightKey;
+
     public static DialogueCondition CreateDefault(UnityAction onDirty)
     {
-      var defaultCondition = new DialogueCondition(onDirty);
+      var defaultCondition = new DialogueCondition("default", onDirty);
       defaultCondition.TargetID = -1;
       return defaultCondition;
     }
+
+    public void SetOnDirty(UnityAction onDirty)
+        => this.onDirty = onDirty;
   }
 }

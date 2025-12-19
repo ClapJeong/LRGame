@@ -6,77 +6,35 @@ using UnityEngine.Events;
 namespace LR.Table.Dialogue
 {
   [System.Serializable]
-  public class DialogueData
+  public class DialogueData : IDirtyPatcher
   {
     [System.Serializable]
-    public class TurnData
+    public class SequenceSet : IDirtyPatcher
     {
-      public enum Type
-      {
-        Talking,
-        Selection,
-      }
-      
-      [SerializeField] public Type dataType;
-      public string FieldName => $"Dialogue: {dataType.ToString()}_{subName}";
+      public IDialogueSequence.Type SequenceType => sequenceType;
 
-      public UnityAction onDirty;      
+      public IReadOnlyList<DialogueSequenceBase> Sequences => sequences;
 
-      [SerializeField] private string subName = "none";
+      [SerializeField] private IDialogueSequence.Type sequenceType;      
+      [SerializeReference] private List<DialogueSequenceBase> sequences = new();
+      private UnityAction onDirty;
 
-      [SerializeField] private List<DialogueTalkingData> talkingSequences;
-      [SerializeField] private List<DialogueSelectionData> selectionSequences;
-
-      public List<DialogueTalkingData> TalkingSequences => talkingSequences;
-      public List<DialogueSelectionData> SelectionSequences => selectionSequences;
-
-      public List<DialogueConditionSet> SelectedDataConditionSets 
-        => dataType switch
-        {
-          Type.Talking => TalkingSequences.Select(set => set.ConditionSet).ToList(),
-          Type.Selection => SelectionSequences.Select(set => set.ConditionSet).ToList(),
-          _ => throw new System.NotImplementedException()
-        };
-
-      public TurnData(DialogueTalkingData turnData, UnityAction onDirty)
+      public SequenceSet(IDialogueSequence.Type type, UnityAction onDirty)
       {
         this.onDirty = onDirty;
-        dataType = Type.Talking;
-        talkingSequences = new()
+        this.sequenceType = type;
+
+        switch (sequenceType)
         {
-          turnData
-        };
-
-        onDirty?.Invoke();
-      }
-
-      public TurnData(DialogueSelectionData selectionData, UnityAction onDirty)
-      {
-        this.onDirty = onDirty;
-        dataType = Type.Selection;
-        selectionSequences = new()
-        {
-          selectionData
-        };
-
-        onDirty?.Invoke();
-      }
-
-      public void RemoveConditionSet(DialogueConditionSet set)
-      {
-        switch (dataType)
-        {
-          case Type.Talking:
+          case IDialogueSequence.Type.Talking:
             {
-              var target = talkingSequences.FirstOrDefault(data => data.ConditionSet == set);
-              RemoveTalkingCondition(target);
+              sequences.Add(new DialogueTalkingData("default", onDirty));
             }
             break;
 
-          case Type.Selection:
+          case IDialogueSequence.Type.Selection:
             {
-              var target = selectionSequences.FirstOrDefault(data => data.ConditionSet== set);
-              RemoveSelectionCondition(target);
+              sequences.Add(new DialogueSelectionData("default", onDirty));
             }
             break;
         }
@@ -84,87 +42,65 @@ namespace LR.Table.Dialogue
         onDirty?.Invoke();
       }
 
-      public void AddNewConditionSet()
+      public void CreateNewSequence()
       {
-        switch (dataType)
+        switch (sequenceType)
         {
-          case Type.Talking:
-            AddTalkingCondition();
-
+          case IDialogueSequence.Type.Talking:
+            {
+              sequences.Add(new DialogueTalkingData("none", onDirty));
+            }
             break;
-          case Type.Selection:
-            AddSelectionCondition();
+
+          case IDialogueSequence.Type.Selection:
+            {
+              sequences.Add(new DialogueSelectionData("none", onDirty));
+            }
             break;
         }
 
         onDirty?.Invoke();
       }
 
-      private void AddTalkingCondition()
+      public void RemoveSequence(DialogueSequenceBase sequence)
       {
-        talkingSequences.Add(new DialogueTalkingData("none", onDirty));
-        onDirty?.Invoke();
-      }
-
-      public void RemoveTalkingCondition(DialogueTalkingData talkingData)
-      {
-        if (talkingSequences == null || !talkingSequences.Contains(talkingData))
+        if (sequences.Contains(sequence) == false)
           return;
 
-        talkingSequences.Remove(talkingData);
+        sequences.Remove(sequence);
         onDirty?.Invoke();
       }
 
-      private void AddSelectionCondition()
-      {
-        selectionSequences ??= new();
-        selectionSequences.Add(new DialogueSelectionData("none", onDirty));
-        onDirty?.Invoke();
-      }
-
-      public void RemoveSelectionCondition(DialogueSelectionData selectionData)
-      {
-        if (selectionSequences == null || !selectionSequences.Contains(selectionData))
-          return;
-
-        selectionSequences.Remove(selectionData);
-        onDirty?.Invoke();
-      }
-
+      public void SetOnDirty(UnityAction onDirty)
+        => this.onDirty = onDirty;
     }
 
-    public UnityAction onDirty;
+    private readonly UnityAction onDirty;
+
+    [SerializeField] private List<SequenceSet> sequenceSets = new();
+    public List<SequenceSet> SequenceSets => sequenceSets;
+
     public DialogueData(UnityAction onDirty)
-      => this.onDirty = onDirty;
-
-    [SerializeField] private List<TurnData> turnDatas;
-
-    public List<TurnData> TurnDatas => turnDatas;
-
-    public void CreateTurnData(TurnData.Type type)
     {
-      turnDatas ??= new();
-      switch (type)
-      {
-        case TurnData.Type.Talking:
-          turnDatas.Add(new TurnData(new DialogueTalkingData("default", this.onDirty), this.onDirty));
-          break;
+      this.onDirty = onDirty;
+    }
 
-        case TurnData.Type.Selection:
-          turnDatas.Add(new TurnData(new DialogueSelectionData("default", this.onDirty), this.onDirty));
-          break;
-      }
-
+    public void AddSequenceSet(IDialogueSequence.Type type)
+    {
+      sequenceSets.Add(new SequenceSet(type, onDirty));
       onDirty?.Invoke();
     }
 
-    public void RemoveTurnData(TurnData turnData)
+    public void RemoveSequenceSet(SequenceSet sequenceSet)
     {
-      if (turnDatas == null || !turnDatas.Contains(turnData))
-        return;
-
-      turnDatas.Remove(turnData);
+      sequenceSets.Remove(sequenceSet);
       onDirty?.Invoke();
+    }
+
+    public void SetOnDirty(UnityAction onDirty)
+    {
+      foreach(var sequenceSet in sequenceSets)
+        sequenceSet.SetOnDirty(onDirty);
     }
   }
 }

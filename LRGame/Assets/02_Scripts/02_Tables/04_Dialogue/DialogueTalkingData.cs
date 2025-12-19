@@ -1,36 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace LR.Table.Dialogue
 {
   [System.Serializable]
-  public class DialogueTalkingData : IDialogueSequence
+  public class DialogueTalkingData : DialogueSequenceBase
   {
     private readonly UnityAction onDirty;
-    public DialogueTalkingData(string conditonName, UnityAction onDirty)
-    {
-      this.onDirty = onDirty;
-      left = new(this.onDirty);
-      doctor = new(this.onDirty);
-      right = new(this.onDirty);
-      narrator = new(this.onDirty);
-      conditionSet = new DialogueConditionSet(conditonName, onDirty);
-    }
-
-    [SerializeField] private string subName;
-
-    [SerializeField] private int background;
-
-    [SerializeField] private DialogueConditionSet conditionSet;
-    public DialogueConditionSet ConditionSet => conditionSet;
-
-    public DialogueCharacterData left;
-    public DialogueCharacterData doctor;
-    public DialogueCharacterData right;
-    public DialogueCharacterData narrator;
-
-    public string SubName
+    public override string SubName
     {
       get => this.subName;
       set
@@ -42,7 +19,6 @@ namespace LR.Table.Dialogue
         subName = value;
       }
     }
-
     public int Background
     {
       get => this.background;
@@ -56,10 +32,37 @@ namespace LR.Table.Dialogue
       }
     }
 
-    public void AddNewCondition()
-      => conditionSet.AddCondition(new DialogueCondition(onDirty));
+    public override IDialogueSequence.Type SequenceType => IDialogueSequence.Type.Talking;
 
-    public void RemoveCondition(DialogueCondition condition)
-      => conditionSet.RemoveCondition(condition);
+    public override string FormatedName => $"{SequenceType}_{subName}";
+
+    public DialogueCharacterData left;
+    public DialogueCharacterData center;
+    public DialogueCharacterData right;
+
+    [SerializeField] private int background;
+    [SerializeField] private DialogueCondition condition;
+
+    public DialogueTalkingData(string conditionName, UnityAction onDirty)
+    {
+      this.onDirty = onDirty;
+      left = new(this.onDirty);
+      center = new(this.onDirty);
+      right = new(this.onDirty);
+      condition = new DialogueCondition(conditionName, onDirty);
+    }
+
+    public override void SetOnDirty(UnityAction onDirty)
+    {
+      condition.SetOnDirty(onDirty);
+      left.SetOnDirty(onDirty);
+      center.SetOnDirty(onDirty);
+      right.SetOnDirty(onDirty);
+    }
+
+    public override DialogueCondition GetCondition()
+    {
+      return condition;
+    }
   }
 }

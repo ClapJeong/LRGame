@@ -2,6 +2,7 @@ using LR.Table.Dialogue;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -47,7 +48,7 @@ public class DialogueEditorWindow : EditorWindow
 
     public string FileName => $"{index}_{name}";
 
-    public RootData(int index, string name,  bool isDirty)
+    public RootData(int index, string name, bool isDirty)
     {
       this.index = index;
       this.name = name;
@@ -60,7 +61,7 @@ public class DialogueEditorWindow : EditorWindow
       this.index = index;
       this.name = name;
       this.data = JsonUtility.FromJson<DialogueData>(json);
-      data.onDirty = MarkDirty;
+      data.SetOnDirty(MarkDirty);
       this.IsDirty = isDirty;
     }
 
@@ -71,7 +72,7 @@ public class DialogueEditorWindow : EditorWindow
       IsDirty = true;
     }
 
-    public void OnTurnDataRemoved()
+    public void OnSequenceSetRemoved()
       => MarkDirty();
 
     private void MarkDirty()
@@ -108,13 +109,12 @@ public class DialogueEditorWindow : EditorWindow
   private RootData selectedRootData;
   private bool isFoldRootDataList = false;
 
-  private ReorderableList turnDataReordableList;
-  private DialogueData.TurnData selectedTurnData;
+  private ReorderableList sequenceSetDataReordableList;
+  private DialogueData.SequenceSet selectedSequenceSet;
 
-  private IDialogueSequence selectedSequence;
+  private DialogueSequenceBase selectedSequence;
 
-  private DialogueConditionSet selectedConditionSet;
-  private List<int> availableConditionIDs;
+  private List<DialogueSelectionData> availableSelections = new();
 
   private bool wasFocused;
 
@@ -181,7 +181,7 @@ public class DialogueEditorWindow : EditorWindow
       else if (RootDatas.Count > 0)
         selectedRootData = RootDatas.Last();
 
-      CreateTurnDataReordableList(selectedRootData);
+      CreateSequenceSetReordableList(selectedRootData);
       Repaint();
     };
   }
@@ -199,8 +199,8 @@ public class DialogueEditorWindow : EditorWindow
       SaveData(selectedRootData);
 
     selectedRootData = targetRootData;
-    CreateTurnDataReordableList(selectedRootData);
-    SelectTurnData(null);
+    CreateSequenceSetReordableList(selectedRootData);
+    SelectSequenceSet(null);
 
     Repaint();
   }
@@ -212,72 +212,88 @@ public class DialogueEditorWindow : EditorWindow
   }
   #endregion
 
-  #region TurnDataList
-  private void CreateTurnDataReordableList(RootData rootDataSet)
+  #region SequenceSet
+  private void CreateSequenceSetReordableList(RootData rootDataSet)
   {
-    turnDataReordableList = new(
-      elements: rootDataSet.Data.TurnDatas,
-      elementType: typeof(DialogueData.TurnData),
+    sequenceSetDataReordableList = new(
+      elements: rootDataSet.Data.SequenceSets,
+      elementType: typeof(DialogueData.SequenceSet),
       draggable: true,
       displayHeader: true,
       displayAddButton: false,
       displayRemoveButton: true);
 
-    turnDataReordableList.drawHeaderCallback = rect =>
+    sequenceSetDataReordableList.drawHeaderCallback = rect =>
     {
       EditorGUI.LabelField(rect, rootDataSet.FileName);
     };
 
-    turnDataReordableList.drawElementCallback = (rect, i, _, __) =>
+    sequenceSetDataReordableList.drawElementCallback = (rect, i, _, __) =>
     {
-      var targetDataSet = selectedRootData.Data.TurnDatas[i];
-      EditorGUI.LabelField(rect, targetDataSet.FieldName);
+      var targetSequenceSet = rootDataSet.Data.SequenceSets[i];
+      var stb = new StringBuilder(targetSequenceSet.SequenceType + ": ");
+      for (int j = 0; j < targetSequenceSet.Sequences.Count; j++)
+      {
+        stb.Append(targetSequenceSet.Sequences[j].GetCondition().SubName);
+        if(j < targetSequenceSet.Sequences.Count - 1)
+          stb.Append(", ");
+      }
+      EditorGUI.LabelField(rect, stb.ToString());
     };
 
-    turnDataReordableList.onSelectCallback = OnTurnDataSelected;
+    sequenceSetDataReordableList.onSelectCallback = OnSelecteSequenceSet;
 
-    turnDataReordableList.onReorderCallback = OnReorderTurnData;
+    sequenceSetDataReordableList.onReorderCallback = OnReorderSequenceSet;
 
-    turnDataReordableList.onRemoveCallback = list =>
+    sequenceSetDataReordableList.onRemoveCallback = list =>
     {
-      selectedRootData.OnTurnDataRemoved();
-      Repaint();
+      int index = list.index;
+      if (index < 0 || index >= selectedRootData.Data.SequenceSets.Count)
+        return;
+
+      selectedRootData.Data.RemoveSequenceSet(selectedRootData.Data.SequenceSets[index]);
+      SelectSequenceSet(null);
+
+      selectedRootData.OnSequenceSetRemoved();
       SaveData(selectedRootData);
+
+      list.index = Mathf.Clamp(index - 1, 0, selectedRootData.Data.SequenceSets.Count - 1);
+
+      Repaint();
     };
   }
 
-  private void OnTurnDataSelected(ReorderableList reordableList)
+  private void OnSelecteSequenceSet(ReorderableList reordableList)
   {
     int index = reordableList.index;
     if (index < 0) return;
 
-    var targetTurnData = selectedRootData.Data.TurnDatas[index];
-    if (selectedTurnData == targetTurnData)
+    var targetSequenceSet = selectedRootData.Data.SequenceSets[index];
+    if (selectedSequenceSet == targetSequenceSet)
       return;
 
-    if (selectedTurnData != null)
+    if (selectedSequenceSet != null)
       SaveData(selectedRootData);
 
-    SelectTurnData(targetTurnData);
-    SelectConditionSet(selectedTurnData.SelectedDataConditionSets.First());
+    SelectSequenceSet(targetSequenceSet);
     Repaint();
   }
 
-  private void OnReorderTurnData(ReorderableList reordableList)
+  private void OnReorderSequenceSet(ReorderableList reordableList)
   {
     SaveData(selectedRootData);
     Repaint();
   }
 
-  private void SelectTurnData(DialogueData.TurnData turnData)
+  private void SelectSequenceSet(DialogueData.SequenceSet sequenceSet)
   {
-    if (selectedTurnData == turnData) return;
+    if (selectedSequenceSet == sequenceSet) return;
 
-    selectedTurnData = turnData;
-    if (selectedTurnData != null)
-      SelectConditionSet(selectedTurnData.SelectedDataConditionSets.First());
+    selectedSequenceSet = sequenceSet;
+    if (selectedSequenceSet != null)
+      SelectSequence(selectedSequenceSet.Sequences.First());
     else
-      SelectConditionSet(null);
+      SelectSequence(null);
   }
   #endregion
 
@@ -289,15 +305,12 @@ public class DialogueEditorWindow : EditorWindow
 
       if (selectedRootData != null)
       {
-        turnDataReordableList.DoLayoutList();
+        sequenceSetDataReordableList.DoLayoutList();
 
-        if(selectedTurnData != null)
+        if(selectedSequenceSet != null)
         {
           GUILayout.Space(15.0f);
-          DrawConditionArea();
-
-          GUILayout.Space(15.0f);
-          DrawTurnDataArea();
+          DrawSequenceArea();
         }
 
         GUILayout.Space(15.0f);
@@ -402,8 +415,8 @@ public class DialogueEditorWindow : EditorWindow
   {
     if(GUILayout.Button("+ Talking", AddButtonSize))
     {
-      selectedRootData.Data.CreateTurnData(DialogueData.TurnData.Type.Talking);
-      CreateTurnDataReordableList(selectedRootData);
+      selectedRootData.Data.AddSequenceSet(IDialogueSequence.Type.Talking);
+      CreateSequenceSetReordableList(selectedRootData);
       Repaint();
       SaveData(selectedRootData);
     }
@@ -413,77 +426,102 @@ public class DialogueEditorWindow : EditorWindow
   {
     if (GUILayout.Button("+ Selection", AddButtonSize))
     {
-      selectedRootData.Data.CreateTurnData(DialogueData.TurnData.Type.Selection);
-      CreateTurnDataReordableList(selectedRootData);
+      selectedRootData.Data.AddSequenceSet(IDialogueSequence.Type.Selection);
+      CreateSequenceSetReordableList(selectedRootData);
       Repaint();
       SaveData(selectedRootData);
     }
   }
 
-  private void DrawTurnDataArea()
-  {
-
-  }
-
-  private void DrawConditionArea()
+  private void DrawSequenceArea()
   {
     using (new GUILayout.VerticalScope(GUI.skin.box))
     {
-      using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
+      DrawSequenceButtons(selectedSequenceSet);
+    }
+  }
+
+  private void DrawSequenceButtons(DialogueData.SequenceSet sequenceSet)
+  {
+    using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
+    {
+      for (int i = 0; i < sequenceSet.Sequences.Count; i++)
       {
-        var conditionSets = selectedTurnData.SelectedDataConditionSets;
+        var isDefault = i == 0;
+        var sequence = sequenceSet.Sequences[i];
+        var condition = sequence.GetCondition();
+        var interactable = sequence == selectedSequence;
 
-        for (int i = 0; i < conditionSets.Count; i++)
-        {
-          var isDefault = i == 0;
-          var targetConditionSet = conditionSets[i];
-          var interactable = targetConditionSet == selectedConditionSet;
+        if (isDefault)
+          EditorGUILayout.BeginVertical();
 
-          if (isDefault)
-            EditorGUILayout.BeginVertical();
+        EditorGUI.BeginDisabledGroup(interactable);
+        if (GUILayout.Button($"[ {condition.SubName} ]", GUILayout.Width(80.0f), GUILayout.Height(20.0f)))
+          SelectSequence(sequence);
+        EditorGUI.EndDisabledGroup();
 
-          EditorGUI.BeginDisabledGroup(interactable);
-          if (GUILayout.Button(targetConditionSet.SubName, GUILayout.Width(80.0f), GUILayout.Height(20.0f)))
-            SelectConditionSet(targetConditionSet);
-          EditorGUI.EndDisabledGroup();
+        if (!isDefault && GUILayout.Button("-", OperationButtonSize))
+          RemoveSequence(sequence);
 
-          if (!isDefault && GUILayout.Button("-", OperationButtonSize))
-            RemoveConditionSet(targetConditionSet);
+        if (isDefault)
+          EditorGUILayout.EndVertical();
 
-          if (isDefault)
-            EditorGUILayout.EndVertical();
+        if (i < sequenceSet.Sequences.Count - 1)
+          EditorGUILayout.Space(15.0f);
+      }
 
-          if (i < conditionSets.Count - 1)
-            EditorGUILayout.Space(15.0f);
-        }
+      GUILayout.FlexibleSpace();
+      if (GUILayout.Button("+", OperationButtonSize))
+        AddSequence();
+    }
+  }
 
-        GUILayout.FlexibleSpace();
-        if (GUILayout.Button("+", OperationButtonSize))
-          AddConditionSet();
+  private void DrawConditionSettingArea()
+  {
+    if (selectedSequence.GetCondition().TargetID < 0)
+      return;
+  }
+
+  private void SelectSequence(DialogueSequenceBase sequence)
+  {
+    if (selectedSequence == sequence)
+      return;
+
+    selectedSequence = sequence;
+
+    if (selectedSequence != null)
+      UpdateAvailableSelectionDatas();
+
+    //TODO: 해당 컨디션들 나열
+  }
+
+  private void UpdateAvailableSelectionDatas()
+  {
+    availableSelections.Clear();
+    foreach(var sequenceSet in selectedRootData.Data.SequenceSets)
+    {
+      if (sequenceSet == selectedSequenceSet)
+        break;
+
+      if(sequenceSet.SequenceType == IDialogueSequence.Type.Selection)
+      {
+        foreach (var sequence in sequenceSet.Sequences)
+          availableSelections.Add(sequence as DialogueSelectionData);
       }
     }
   }
 
-  private void SelectConditionSet(DialogueConditionSet conditionSet)
+  private void RemoveSequence(DialogueSequenceBase sequence)
   {
-    if (conditionSet == selectedConditionSet)
-      return;
-
-    selectedConditionSet = conditionSet;
-    //TODO: 해당 컨디션들 나열
-  }
-
-  private void RemoveConditionSet(DialogueConditionSet conditionSet)
-  {
-    selectedTurnData.RemoveConditionSet(conditionSet);
-    if (selectedConditionSet == conditionSet)
-      SelectConditionSet(selectedTurnData.SelectedDataConditionSets.First());
+    selectedSequenceSet.RemoveSequence(sequence);
+    if (selectedSequence == sequence)
+      SelectSequence(selectedSequenceSet.Sequences.First());
     SaveData(selectedRootData);
   }
 
-  private void AddConditionSet()
+  private void AddSequence()
   {
-    selectedTurnData.AddNewConditionSet();
+    selectedSequenceSet.CreateNewSequence();
   }
 
   #region Save&Load

@@ -4,11 +4,9 @@ using UnityEngine.Events;
 
 namespace LR.Table.Dialogue
 {
-  public class DialogueCharacterData
+  public class DialogueCharacterData: IDirtyPatcher
   {
-    private readonly UnityAction onDirty;
-    public DialogueCharacterData(UnityAction onDirty)
-      => this.onDirty = onDirty;
+    private UnityAction onDirty;
 
     [SerializeField] private int portrait;
     [SerializeField] private int portraitChangeType;
@@ -88,5 +86,13 @@ namespace LR.Table.Dialogue
         descriptionKey = value;
       }
     }
+
+    public DialogueCharacterData(UnityAction onDirty)
+    {
+      this.onDirty = onDirty;
+    }
+
+    public void SetOnDirty(UnityAction onDirty)
+      => this.onDirty = onDirty;
   }
 }

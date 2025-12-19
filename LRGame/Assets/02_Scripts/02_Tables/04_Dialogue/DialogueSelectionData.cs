@@ -4,32 +4,13 @@ using UnityEngine;
 namespace LR.Table.Dialogue
 {
   [System.Serializable]
-  public class DialogueSelectionData : IDialogueSequence
+  public class DialogueSelectionData : DialogueSequenceBase
   {
-    private readonly UnityAction onDirty;
-    public DialogueSelectionData(string conditionName, UnityAction onDirty)
-    {
-      this.onDirty = onDirty;
-      conditionSet = new DialogueConditionSet(conditionName, onDirty);
-    }
+    private UnityAction onDirty;
+    public override IDialogueSequence.Type SequenceType => IDialogueSequence.Type.Selection;
+    public override string FormatedName => $"{SequenceType}_{selectionID}_{subName}";
 
-    [SerializeField] private int selctionID;
-    [SerializeField] private string subName;
-
-    [SerializeField] private DialogueConditionSet conditionSet;
-    public DialogueConditionSet ConditionSet => conditionSet;
-
-    [SerializeField] private int leftUpKey;
-    [SerializeField] private int leftRightKey;
-    [SerializeField] private int leftDownKey;
-    [SerializeField] private int leftLeftKey;
-
-    [SerializeField] private int rightUpKey;
-    [SerializeField] private int rightRightKey;
-    [SerializeField] private int rightDownKey;
-    [SerializeField] private int rightLeftKey;
-
-    public string SubName
+    public override string SubName
     {
       get => this.subName;
       set
@@ -41,16 +22,16 @@ namespace LR.Table.Dialogue
         subName = value;
       }
     }
-    public int SelctionID
+    public int SelectionID
     {
-      get => this.selctionID;
+      get => this.selectionID;
       set
       {
-        if (selctionID == value)
+        if (selectionID == value)
           return;
 
         onDirty?.Invoke();
-        selctionID = value;
+        selectionID = value;
       }
     }
 
@@ -152,10 +133,36 @@ namespace LR.Table.Dialogue
       }
     }
 
-    public void AddNewCondition()
-      => conditionSet.AddCondition(new DialogueCondition(onDirty));
+    [SerializeField] private int selectionID;
 
-    public void RemoveCondition(DialogueCondition condition)
-      => conditionSet.RemoveCondition(condition);
+    [SerializeField] private DialogueCondition condition;
+
+    [SerializeField] private int leftUpKey;
+    [SerializeField] private int leftRightKey;
+    [SerializeField] private int leftDownKey;
+    [SerializeField] private int leftLeftKey;
+
+    [SerializeField] private int rightUpKey;
+    [SerializeField] private int rightRightKey;
+    [SerializeField] private int rightDownKey;
+    [SerializeField] private int rightLeftKey;
+
+
+    public DialogueSelectionData(string conditionName, UnityAction onDirty)
+    {
+      this.onDirty = onDirty;
+      condition = new DialogueCondition(conditionName, onDirty);
+    }
+
+    public override void SetOnDirty(UnityAction onDirty)
+    {
+      this.onDirty = onDirty;
+      condition.SetOnDirty(onDirty);
+    }
+
+    public override DialogueCondition GetCondition()
+    {
+      return condition;
+    }
   }
 }
