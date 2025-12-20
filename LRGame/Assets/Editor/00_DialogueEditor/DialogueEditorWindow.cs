@@ -649,26 +649,26 @@ public class DialogueEditorWindow : EditorWindow
 
       using (new GUILayout.HorizontalScope())
       {
-        var space = 30.0f;
+        var space = 60.0f;
         GUILayout.FlexibleSpace();
         using (new GUILayout.VerticalScope(GUI.skin.box))
         {          
           using (new GUILayout.HorizontalScope())
           {
             GUILayout.Space(space);
-            selectedSelection.LeftUpKey = EditorGUILayout.IntField(selectedSelection.LeftUpKey, IntCenterStyle, GUILayout.Width(space));
+            selectedSelection.LeftUpKey = EditorGUILayout.TextField(selectedSelection.LeftUpKey, StringCenterStyle, GUILayout.Width(space));
             GUILayout.Space(space);
           }
           using (new GUILayout.HorizontalScope())
           {
-            selectedSelection.LeftLeftKey = EditorGUILayout.IntField(selectedSelection.LeftLeftKey, IntCenterStyle, GUILayout.Width(space));
+            selectedSelection.LeftLeftKey = EditorGUILayout.TextField(selectedSelection.LeftLeftKey, StringCenterStyle, GUILayout.Width(space));
              GUILayout.Space(space);
-            selectedSelection.LeftRightKey = EditorGUILayout.IntField(selectedSelection.LeftRightKey, IntCenterStyle, GUILayout.Width(space));
+            selectedSelection.LeftRightKey = EditorGUILayout.TextField(selectedSelection.LeftRightKey, StringCenterStyle, GUILayout.Width(space));
           }
           using (new GUILayout.HorizontalScope())
           {
              GUILayout.Space(space);
-            selectedSelection.LeftDownKey = EditorGUILayout.IntField(selectedSelection.LeftDownKey, IntCenterStyle, GUILayout.Width(space));
+            selectedSelection.LeftDownKey = EditorGUILayout.TextField(selectedSelection.LeftDownKey, StringCenterStyle, GUILayout.Width(space));
              GUILayout.Space(space);
           }
         }
@@ -678,19 +678,19 @@ public class DialogueEditorWindow : EditorWindow
           using (new GUILayout.HorizontalScope())
           {
              GUILayout.Space(space);
-            selectedSelection.RightUpKey = EditorGUILayout.IntField(selectedSelection.RightUpKey, IntCenterStyle, GUILayout.Width(space));
+            selectedSelection.RightUpKey = EditorGUILayout.TextField(selectedSelection.RightUpKey, StringCenterStyle, GUILayout.Width(space));
              GUILayout.Space(space);
           }
           using (new GUILayout.HorizontalScope())
           {
-            selectedSelection.RightLeftKey = EditorGUILayout.IntField(selectedSelection.RightLeftKey, IntCenterStyle, GUILayout.Width(space));
+            selectedSelection.RightLeftKey = EditorGUILayout.TextField(selectedSelection.RightLeftKey, StringCenterStyle, GUILayout.Width(space));
              GUILayout.Space(space);
-            selectedSelection.RightRightKey = EditorGUILayout.IntField(selectedSelection.RightRightKey, IntCenterStyle, GUILayout.Width(space));
+            selectedSelection.RightRightKey = EditorGUILayout.TextField(selectedSelection.RightRightKey, StringCenterStyle, GUILayout.Width(space));
           }
           using (new GUILayout.HorizontalScope())
           {
              GUILayout.Space(space);
-            selectedSelection.RightDownKey = EditorGUILayout.IntField(selectedSelection.RightDownKey, IntCenterStyle, GUILayout.Width(space));
+            selectedSelection.RightDownKey = EditorGUILayout.TextField(selectedSelection.RightDownKey, StringCenterStyle, GUILayout.Width(space));
              GUILayout.Space(space);
           }          
         }

@@ -35,7 +35,7 @@ namespace LR.Table.Dialogue
       }
     }
 
-    public int LeftUpKey
+    public string LeftUpKey
     {
       get => this.leftUpKey;
       set
@@ -47,7 +47,7 @@ namespace LR.Table.Dialogue
         leftUpKey = value;
       }
     }
-    public int LeftRightKey
+    public string LeftRightKey
     {
       get => this.leftRightKey;
       set
@@ -59,7 +59,7 @@ namespace LR.Table.Dialogue
         leftRightKey = value;
       }
     }
-    public int LeftDownKey
+    public string LeftDownKey
     {
       get => this.leftDownKey;
       set
@@ -71,7 +71,7 @@ namespace LR.Table.Dialogue
         leftDownKey = value;
       }
     }
-    public int LeftLeftKey
+    public string LeftLeftKey
     {
       get => this.leftLeftKey;
       set
@@ -84,7 +84,7 @@ namespace LR.Table.Dialogue
       }
     }
 
-    public int RightUpKey
+    public string RightUpKey
     {
       get => this.rightUpKey;
       set
@@ -96,7 +96,7 @@ namespace LR.Table.Dialogue
         rightUpKey = value;
       }
     }
-    public int RightRightKey
+    public string RightRightKey
     {
       get => this.rightRightKey;
       set
@@ -108,7 +108,7 @@ namespace LR.Table.Dialogue
         rightRightKey = value;
       }
     }
-    public int RightDownKey
+    public string RightDownKey
     {
       get => this.rightDownKey;
       set
@@ -120,7 +120,7 @@ namespace LR.Table.Dialogue
         rightDownKey = value;
       }
     }
-    public int RightLeftKey
+    public string RightLeftKey
     {
       get => this.rightLeftKey;
       set
@@ -137,15 +137,15 @@ namespace LR.Table.Dialogue
 
     [SerializeField] private DialogueCondition condition;
 
-    [SerializeField] private int leftUpKey;
-    [SerializeField] private int leftRightKey;
-    [SerializeField] private int leftDownKey;
-    [SerializeField] private int leftLeftKey;
+    [SerializeField] private string leftUpKey;
+    [SerializeField] private string leftRightKey;
+    [SerializeField] private string leftDownKey;
+    [SerializeField] private string leftLeftKey;
 
-    [SerializeField] private int rightUpKey;
-    [SerializeField] private int rightRightKey;
-    [SerializeField] private int rightDownKey;
-    [SerializeField] private int rightLeftKey;
+    [SerializeField] private string rightUpKey;
+    [SerializeField] private string rightRightKey;
+    [SerializeField] private string rightDownKey;
+    [SerializeField] private string rightLeftKey;
 
 
     public DialogueSelectionData(bool isDefault, string subName, UnityAction onDirty)
