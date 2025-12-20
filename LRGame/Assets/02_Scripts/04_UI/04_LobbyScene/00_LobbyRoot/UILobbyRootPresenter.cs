@@ -83,7 +83,7 @@ namespace LR.UI.Lobby
         var chapter = i;
 
         var table = GlobalManager.instance.Table.AddressableKeySO;
-        var key = table.Path.Ui + table.UIName.LobbyChapterButton;
+        var key = table.Path.UI + table.UIName.LobbyChapterButton;
         var model = new UIChapterButtonPresenter.Model(
           chapter: chapter,
           panelRoot: this.view.chapterPanelRoot,

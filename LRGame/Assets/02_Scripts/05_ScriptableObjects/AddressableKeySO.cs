@@ -4,26 +4,18 @@ using UnityEngine;
 public class AddressableKeySO: ScriptableObject
 {
   [Header("[ Labels ]")]
-  [SerializeField] private AddressableLabel label;
-  public AddressableLabel Label => label;
+  [field: SerializeField] public AddressableLabel Label {  get; set; }
 
   [Header("[ Paths ]")]
-  [SerializeField] private AddresasblePath path;
-  public AddresasblePath Path=>path;
+  [field: SerializeField] public AddresasblePath Path {  get; set; }
 
+  [field: Space(10)]
   [Header("Names")]
-  [SerializeField] private SceneName sceneName;
-  public SceneName SceneName => sceneName;
+  [field: SerializeField] public SceneName SceneName {  get; set; }
 
-  [Space(5)]
-  [SerializeField] private PlayerName playerName;
-  public PlayerName PlayerName => playerName;
+  [field: SerializeField] public PlayerName PlayerName {  get; set; }
 
-  [Space(5)]
-  [SerializeField] private UIName uiName;
-  public UIName UIName => uiName;
+  [field: SerializeField] public UIName UIName {  get; set; }
 
-  [Space(5)]
-  [SerializeField] private StageName stageName;
-  public StageName StageName => stageName;
+  [field: SerializeField] public StageName StageName {  get; set; }
 }

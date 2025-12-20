@@ -103,7 +103,7 @@ namespace LR.UI.Lobby
         gameDataService: this.model.gameDataService,
         sceneProvider: this.model.sceneProvider,
         indicatorService: this.model.indicatorService);
-      var path = table.Path.Ui + table.UIName.LobbyChapterPanel;
+      var path = table.Path.UI + table.UIName.LobbyChapterPanel;
       var view = await this.model.resourceManager.CreateAssetAsync<UIChapterPanelView>(path, this.model.panelRoot);
       panelPresenter = new UIChapterPanelPresenter(model, view);
       panelPresenter.AttachOnDestroy(this.view.gameObject);

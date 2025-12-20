@@ -1,10 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Assets._02_Scripts._00_Enum
+﻿public static class PortraitType
 {
-  internal class PortraitType
+  public enum Left
   {
+    Null = -1,
+    Test0,
+    Test1, 
+    Test2,
+  }
+
+  public enum Right
+  {
+    Null = -1,
+    Test0,
+    Test1,
+    Test2,
+  }
+
+  public enum Center
+  {
+    Null = -1,
+    Test0,
+    Test1,
+    Test2,
+  }
+
+  public enum ChangeType
+  {
+    None,
+  }
+
+  public enum AnimationType
+  {
+    None,
+  }
+
+  public enum AlphaType
+  {
+    Max,
+    HalfHidden,
+    Min,
   }
 }

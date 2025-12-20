@@ -10,14 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Player
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
-  m_GUID: 8fefb07b487b786499827f8979a1184b
-  m_SerializeEntries: []
+  m_GroupName: Player
+  m_GUID: 325ded85d45036d4ca76017e19e2d025
+  m_SerializeEntries:
+  - m_GUID: 2eb9e3ed197532d4ba21eed834da6fc4
+    m_Address: Player/RightPlayer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: efdf9a25b1c70e34bb8d696779f35655
+    m_Address: Player/LeftPlayer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eef867e9c66589b49a786bdc517c53ff, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 84074f1145eb69a43a8b19731b65a98a, type: 2}
-    - {fileID: 11400000, guid: 25244608bdcfbb6469f8211795e89c90, type: 2}
+    - {fileID: 11400000, guid: 82e2a17fbbf5862409f70ece6e095e6d, type: 2}
+    - {fileID: 11400000, guid: 16c6a8c3e8acedb4dbf2485dba2620b1, type: 2}

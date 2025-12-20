@@ -22,7 +22,7 @@ public class UIIndicatorService : IUIIndicatorService
     this.resourceManager = resourceManager;
     this.disableRoot = disableRoot;
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    indicatorKey = table.Path.Ui + table.UIName.Indicator;
+    indicatorKey = table.Path.UI + table.UIName.Indicator;
   }
 
 

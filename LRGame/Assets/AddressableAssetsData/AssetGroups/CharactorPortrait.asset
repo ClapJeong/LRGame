@@ -10,14 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: CharactorPortrait
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
-  m_GUID: 8fefb07b487b786499827f8979a1184b
-  m_SerializeEntries: []
+  m_GroupName: CharactorPortrait
+  m_GUID: 01aed87b5b460224192685463cc98f97
+  m_SerializeEntries:
+  - m_GUID: cb718db1893765a4fbdcd5640243467c
+    m_Address: Assets/01_Art/00_Sprites/00_Portrait
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eef867e9c66589b49a786bdc517c53ff, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 84074f1145eb69a43a8b19731b65a98a, type: 2}
-    - {fileID: 11400000, guid: 25244608bdcfbb6469f8211795e89c90, type: 2}
+    - {fileID: 11400000, guid: 769217d8d615b1d418f522c918facef4, type: 2}
+    - {fileID: 11400000, guid: 5729af188b8a12f41993c3baebb14400, type: 2}

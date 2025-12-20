@@ -3,28 +3,21 @@ using UnityEngine;
 [System.Serializable]
 public class UIName
 {
-  [Header("[ Prealoading ]")]
-  [SerializeField] private string preloadingRoot;
-  public string PreloadingRoot => preloadingRoot;
+  [field: Header("[ Prealoading ]")]
+  [field: SerializeField] public string PreloadingRoot {  get; set; }
 
-  [Header("[ Lobby ]")]
-  [SerializeField] private string lobbyRoot;
-  public string LobbyRoot => lobbyRoot;
+  [field: Space(10)]
+  [field: Header("[ Lobby ]")]
+  [field: SerializeField] public string LobbyRoot {  get; set; }
+  [field: SerializeField] public string LobbyChapterButton {  get; set; }
+  [field: SerializeField] public string LobbyChapterPanel {  get; set; }
 
-  [SerializeField] private string lobbyChapterButton;
-  public string LobbyChapterButton => lobbyChapterButton;
+  [field: Space(10)]
+  [field: Header("[ Stage ]")]
+  [field: SerializeField] public string StageRoot {  get; set; }
+  [field: SerializeField] public string PlayerRoot {  get; set; }
 
-  [SerializeField] private string lobbyChapterPanel;
-  public string LobbyChapterPanel => lobbyChapterPanel;
-
-  [Header("[ Stage ]")]
-  [SerializeField] private string stageRoot;
-  public string StageRoot => stageRoot;
-
-  [SerializeField] private string playerRoot;
-  public string PlayerRoot => playerRoot;
-
-  [Header("[ General ]")]
-  [SerializeField] private string indicator;
-  public string Indicator => indicator;
+  [field: Space(10)]
+  [field: Header("[ General ]")]
+  [field: SerializeField] public string Indicator {  get; set; }
 }

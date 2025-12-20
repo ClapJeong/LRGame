@@ -111,7 +111,7 @@ public class LocalManager : MonoBehaviour
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(table.Path.Ui + table.UIName.PreloadingRoot, root);
+    var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(table.Path.UI + table.UIName.PreloadingRoot, root);
 
     var presenter = new UIPreloadingPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
@@ -131,7 +131,7 @@ public class LocalManager : MonoBehaviour
       sceneProvider: GlobalManager.instance.SceneProvider);
 
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UILobbyRootView>(table.Path.Ui + table.UIName.LobbyRoot, root);
+    var view = await resourceManager.CreateAssetAsync<UILobbyRootView>(table.Path.UI + table.UIName.LobbyRoot, root);
 
     var presenter = new UILobbyRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
@@ -144,7 +144,7 @@ public class LocalManager : MonoBehaviour
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
-    var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(table.Path.Ui + table.UIName.PlayerRoot, root);
+    var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(table.Path.UI + table.UIName.PlayerRoot, root);
 
     var Leftmodel = new UIPlayerRootPresenter.Model(
       stageManager: stageManager,
@@ -181,7 +181,7 @@ public class LocalManager : MonoBehaviour
       uiInputActionManager: GlobalManager.instance.UIInputManager);
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
-    var key = table.Path.Ui + table.UIName.StageRoot;
+    var key = table.Path.UI + table.UIName.StageRoot;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UIStageRootView>(key, root);
 
