@@ -18,4 +18,6 @@ public class AddressableKeySO: ScriptableObject
   [field: SerializeField] public UIName UIName {  get; set; }
 
   [field: SerializeField] public StageName StageName {  get; set; }
+
+  [field: SerializeField] public PortraitName PortraitName { get; set; }
 }

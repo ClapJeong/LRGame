@@ -20,6 +20,7 @@ MonoBehaviour:
     <UI>k__BackingField: UI/
     <Scene>k__BackingField: Scene/
     <Stage>k__BackingField: Stage/
+    <Portrait>k__BackingField: 
   <SceneName>k__BackingField:
     preloading: Preloading
     lobby: Lobby
@@ -37,3 +38,5 @@ MonoBehaviour:
     <Indicator>k__BackingField: Indicator
   <StageName>k__BackingField:
     StageNameFormat: Stage_{0}
+  <PortraitName>k__BackingField:
+    Null: Transparent
