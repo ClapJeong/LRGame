@@ -126,6 +126,7 @@ public class DialogueEditorWindow : EditorWindow
   private List<string> availableSelectionNames = new();
 
   private bool wasFocused;
+  private Vector2 scrollPos;
 
   [MenuItem("Editor Window/Dialogue Editor")]
   public static void OpenWindow()
@@ -341,6 +342,7 @@ public class DialogueEditorWindow : EditorWindow
 
   private void OnGUI()
   {
+    scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
     using (new EditorGUILayout.VerticalScope())
     {
       DrawRootDataArea();
@@ -373,6 +375,7 @@ public class DialogueEditorWindow : EditorWindow
         }
       }
     }
+    EditorGUILayout.EndScrollView();
   }
 
   #region Drawing Root Data
@@ -637,6 +640,7 @@ public class DialogueEditorWindow : EditorWindow
       using (new GUILayout.HorizontalScope())
       {
         GUILayout.FlexibleSpace();
+        selectedSelection.SelectionID = EditorGUILayout.IntField(selectedSelection.SelectionID, GUILayout.Width(60.0f));
         selectedSelection.SubName = EditorGUILayout.TextField(selectedSelection.SubName, StringCenterStyle);
         GUILayout.FlexibleSpace();
       }
