@@ -6,6 +6,7 @@ using LR.UI.Lobby;
 using LR.UI.GameScene.Stage;
 using LR.UI.GameScene.Player;
 using LR.Stage.Player;
+using System.Resources;
 
 public class LocalManager : MonoBehaviour
 {
@@ -17,9 +18,6 @@ public class LocalManager : MonoBehaviour
 
   [SerializeField] private CameraService cameraService;
   public CameraService CameraService => cameraService;
-
-  private IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-  private ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
 
   private void Awake()
   {
@@ -110,6 +108,8 @@ public class LocalManager : MonoBehaviour
     var model = new UIPreloadingPresenter.Model();
 
     var table = GlobalManager.instance.Table.AddressableKeySO;
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(table.Path.Ui + table.UIName.PreloadingRoot, root);
 
@@ -121,6 +121,8 @@ public class LocalManager : MonoBehaviour
   private async UniTask CreateLobbyUIAsync()
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var model = new UILobbyRootPresenter.Model(
       uiManager: GlobalManager.instance.UIManager,
       uiInputManager: GlobalManager.instance.UIInputManager,
@@ -139,6 +141,8 @@ public class LocalManager : MonoBehaviour
   private async UniTask CreatePlayerUIsAsync()
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(table.Path.Ui + table.UIName.PlayerRoot, root);
 
@@ -165,6 +169,8 @@ public class LocalManager : MonoBehaviour
 
   private async UniTask CreateStageUIAsync()
   {
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var model = new UIStageRootPresenter.Model(
       stageStateHandler: stageManager,
       stageEventSubscriber: stageManager,
@@ -186,6 +192,7 @@ public class LocalManager : MonoBehaviour
 
   private async UniTask LoadPreloadAsync()
   {
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var label = GlobalManager.instance.Table.AddressableKeySO.Label.PreLoad;
     await resourceManager.LoadAssetsAsync(label);
   }

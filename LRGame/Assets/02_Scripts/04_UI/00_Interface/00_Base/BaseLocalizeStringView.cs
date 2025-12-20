@@ -24,5 +24,10 @@ namespace LR.UI
     {
       stringEvent.SetEntry(key);
     }
+
+    public void SetTable(string table)
+    {
+      stringEvent.SetTable(table);
+    }
   }
 }

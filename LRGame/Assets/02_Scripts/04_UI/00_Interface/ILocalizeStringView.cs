@@ -7,6 +7,8 @@ namespace LR.UI
   {
     public void SetEntry(string key);
 
+    public void SetTable(string table);
+
     public void SetArgument(List<object> arguments);
   }
 }

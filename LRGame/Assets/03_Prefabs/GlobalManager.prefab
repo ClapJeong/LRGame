@@ -3019,9 +3019,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TableContainer
   leftPlayerModelSO: {fileID: 11400000, guid: 85d68940133a88c4893f08cd6b444f51, type: 2}
   rightPlayerModelSO: {fileID: 11400000, guid: 4b6c5a44a2b375f4fa9e60aba4d760f5, type: 2}
-  addressableKeySO: {fileID: 11400000, guid: 4aed8bcebb7fc464d8a8d11ffc302864, type: 2}
-  triggerTileModelSO: {fileID: 11400000, guid: 59fc85928b80e2247bac96ca6ade68bd, type: 2}
-  uiSO: {fileID: 11400000, guid: 9ce6f4dd25c72964a99853c9cff4b348, type: 2}
+  <AddressableKeySO>k__BackingField: {fileID: 11400000, guid: 4aed8bcebb7fc464d8a8d11ffc302864, type: 2}
+  <TriggerTileModelSO>k__BackingField: {fileID: 11400000, guid: 59fc85928b80e2247bac96ca6ade68bd, type: 2}
+  <UISO>k__BackingField: {fileID: 11400000, guid: 9ce6f4dd25c72964a99853c9cff4b348, type: 2}
+  <LocalizationSO>k__BackingField: {fileID: 11400000, guid: dd7c391b4b7f3754d8819490f6b65230, type: 2}
 --- !u!1 &5099033681175359271
 GameObject:
   m_ObjectHideFlags: 0
