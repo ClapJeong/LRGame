@@ -43,14 +43,14 @@ namespace LR.Table.Dialogue
     [SerializeField] private int background;
     [SerializeField] private DialogueCondition condition;
 
-    public DialogueTalkingData(bool isDefault, string subName, UnityAction onDirty)
+    public DialogueTalkingData(DialogueTalkingData previousTalkingData, string subName, UnityAction onDirty)
     {
       this.onDirty = onDirty;
       this.subName = subName;
-      left = new(this.onDirty);
-      center = new(this.onDirty);
-      right = new(this.onDirty);
-      condition = condition = new DialogueCondition(isDefault, onDirty);
+      left = new(previousTalkingData != null ? previousTalkingData.left.Portrait : 0,  "name_left_idle", "dialogue_sample", this.onDirty);
+      center = new(previousTalkingData != null ? previousTalkingData.center.Portrait : 0, "name_right_idle", "dialogue_sample", this.onDirty);
+      right = new(previousTalkingData != null ? previousTalkingData.right.Portrait : 0, "name_doctor_idle", "dialogue_sample", this.onDirty);
+      condition = condition = new DialogueCondition(onDirty);
     }
 
     public override void SetOnDirty(UnityAction onDirty)

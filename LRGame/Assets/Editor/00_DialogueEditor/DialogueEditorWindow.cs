@@ -1,12 +1,11 @@
+using UnityEngine;
 using LR.Table.Dialogue;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEditorInternal;
-using UnityEngine;
 
 public class DialogueEditorWindow : EditorWindow
 {
@@ -83,10 +82,12 @@ public class DialogueEditorWindow : EditorWindow
       => IsDirty = false;
   }
 
+  #region Const
   private const string FolderPath = "Assets/08_DialogueData/";
   private const string FileNameFormat = "{0}_{1}.json";
   private const string NewDataSetName = "newName";
   private const string DataSubNameTextField = "DataSubName";
+  #endregion
 
   #region Static
   private static readonly GUILayoutOption[] IOButtonSize = new[]
@@ -104,13 +105,25 @@ public class DialogueEditorWindow : EditorWindow
     GUILayout.Width(20.0f),
     GUILayout.Height(20.0f),
   };
+  private static readonly float SelectionWidth = 80.0f;
+  private static readonly float SelectionHeight = 40.0f;
+  private static readonly GUILayoutOption[] SelectionSize = new[]
+  {
+    GUILayout.Width(SelectionWidth),
+    GUILayout.Height(SelectionHeight),
+  };
+
   private GUIStyle IntCenterStyle;
   private GUIStyle IntLeftStyle;
   private GUIStyle IntRightStyle;
   private GUIStyle StringCenterStyle;
   private GUIStyle StringLeftStyle;
   private GUIStyle StringRightStyle;
+  private GUIStyle LabelLeftStyle;
+  private GUIStyle LabelCenterStyle;
+  private GUIStyle LabelRightStyle;
   #endregion
+
   private readonly List<RootData> RootDatas = new();
   
   private ReorderableList rootReordableList;
@@ -161,7 +174,20 @@ public class DialogueEditorWindow : EditorWindow
     {
       alignment = TextAnchor.UpperRight
     };
+    LabelLeftStyle = new GUIStyle(EditorStyles.label)
+    {
+      alignment = TextAnchor.MiddleCenter
+    };
+    LabelCenterStyle = new GUIStyle(EditorStyles.label)
+    {
+      alignment = TextAnchor.MiddleCenter
+    };
+    LabelRightStyle = new GUIStyle(EditorStyles.label)
+    {
+      alignment = TextAnchor.MiddleCenter
+    };
   }
+
   private void CreateGUI()
   {
     LoadAllDatas();
@@ -277,8 +303,10 @@ public class DialogueEditorWindow : EditorWindow
       var stb = new StringBuilder(targetSequenceSet.SequenceType + ": ");
       for (int j = 0; j < targetSequenceSet.Sequences.Count; j++)
       {
+        stb.Append("[ ");
         stb.Append(targetSequenceSet.Sequences[j].SubName);
-        if(j < targetSequenceSet.Sequences.Count - 1)
+        stb.Append(" ]");
+        if (j < targetSequenceSet.Sequences.Count - 1)
           stb.Append(", ");
       }
       EditorGUI.LabelField(rect, stb.ToString());
@@ -361,6 +389,7 @@ public class DialogueEditorWindow : EditorWindow
 
           if(selectedSequence != null)
           {
+            GUILayout.Space(30.0f);
             switch (selectedSequence.SequenceType)
             {
               case IDialogueSequence.Type.Talking:
@@ -404,7 +433,6 @@ public class DialogueEditorWindow : EditorWindow
 
       if (isFoldRootDataList)
       {
-        GUILayout.Space(15.0f);
         rootReordableList.DoLayoutList();
       }
     }
@@ -516,7 +544,6 @@ public class DialogueEditorWindow : EditorWindow
       {
         var isDefault = i == 0;
         var sequence = sequenceSet.Sequences[i];
-        var condition = sequence.GetCondition();
         var interactable = sequence == selectedSequence;
 
         if (isDefault)
@@ -546,7 +573,7 @@ public class DialogueEditorWindow : EditorWindow
   private void DrawConditionSettingArea()
   {
     var selectedConditon = selectedSequence.GetCondition();
-    if (selectedConditon.TargetID < 0)
+    if (string.IsNullOrEmpty(selectedConditon.TargetSubName))
       return;
 
     using (new GUILayout.HorizontalScope())
@@ -560,11 +587,11 @@ public class DialogueEditorWindow : EditorWindow
     {
       selectedSequence.SubName = EditorGUILayout.TextField(selectedSequence.SubName, GUILayout.Width(100.0f), GUILayout.Height(20.0f));
 
-      var conditionIndex = availableSelections.IndexOf(availableSelections.FirstOrDefault(data => data.SelectionID == selectedConditon.TargetID));
+      var conditionIndex = availableSelections.IndexOf(availableSelections.FirstOrDefault(data => data.SubName == selectedConditon.TargetSubName));
       var selectedIndex = EditorGUILayout.Popup(conditionIndex, availableSelectionNames.ToArray());
       if(conditionIndex != selectedIndex)
       {
-        selectedConditon.TargetID = availableSelections[selectedIndex].SelectionID;
+        selectedConditon.TargetSubName = availableSelections[selectedIndex].SubName;
         SaveData(selectedRootData);
       }
 
@@ -600,7 +627,7 @@ public class DialogueEditorWindow : EditorWindow
         {
           var selectionData = sequence as DialogueSelectionData;
           availableSelections.Add(selectionData);
-          availableSelectionNames.Add($"{selectionData.SelectionID}_{selectionData.SubName}");
+          availableSelectionNames.Add(selectionData.SubName);
         }          
       }
     }
@@ -627,71 +654,66 @@ public class DialogueEditorWindow : EditorWindow
     {
       using (new GUILayout.HorizontalScope())
       {
-        var labelCenterStyle = new GUIStyle(EditorStyles.label)
-        {
-          alignment = TextAnchor.MiddleCenter
-        };
-
         GUILayout.FlexibleSpace();
-        EditorGUILayout.LabelField("[ Selection ]", labelCenterStyle);
+        EditorGUILayout.LabelField("[ Selection ]", LabelCenterStyle);
         GUILayout.FlexibleSpace();
       }
+
+      EditorGUILayout.Space(5.0f);
 
       using (new GUILayout.HorizontalScope())
       {
         GUILayout.FlexibleSpace();
-        selectedSelection.SelectionID = EditorGUILayout.IntField(selectedSelection.SelectionID, GUILayout.Width(60.0f));
-        selectedSelection.SubName = EditorGUILayout.TextField(selectedSelection.SubName, StringCenterStyle);
+        selectedSelection.SubName = EditorGUILayout.TextField(selectedSelection.SubName, StringCenterStyle, GUILayout.Width(150.0f));
         GUILayout.FlexibleSpace();
       }
 
-      EditorGUILayout.Space(10.0f);
+      EditorGUILayout.Space(15.0f);
 
       using (new GUILayout.HorizontalScope())
       {
-        var space = 60.0f;
         GUILayout.FlexibleSpace();
         using (new GUILayout.VerticalScope(GUI.skin.box))
         {          
           using (new GUILayout.HorizontalScope())
           {
-            GUILayout.Space(space);
-            selectedSelection.LeftUpKey = EditorGUILayout.TextField(selectedSelection.LeftUpKey, StringCenterStyle, GUILayout.Width(space));
-            GUILayout.Space(space);
+            GUILayout.Space(SelectionWidth);
+            selectedSelection.LeftUpKey = EditorGUILayout.TextField(selectedSelection.LeftUpKey, StringCenterStyle, SelectionSize);
+            GUILayout.Space(SelectionWidth);
           }
           using (new GUILayout.HorizontalScope())
           {
-            selectedSelection.LeftLeftKey = EditorGUILayout.TextField(selectedSelection.LeftLeftKey, StringCenterStyle, GUILayout.Width(space));
-             GUILayout.Space(space);
-            selectedSelection.LeftRightKey = EditorGUILayout.TextField(selectedSelection.LeftRightKey, StringCenterStyle, GUILayout.Width(space));
+            selectedSelection.LeftLeftKey = EditorGUILayout.TextField(selectedSelection.LeftLeftKey, StringCenterStyle, SelectionSize);
+             GUILayout.Space(SelectionWidth);
+            selectedSelection.LeftRightKey = EditorGUILayout.TextField(selectedSelection.LeftRightKey, StringCenterStyle, SelectionSize);
           }
           using (new GUILayout.HorizontalScope())
           {
-             GUILayout.Space(space);
-            selectedSelection.LeftDownKey = EditorGUILayout.TextField(selectedSelection.LeftDownKey, StringCenterStyle, GUILayout.Width(space));
-             GUILayout.Space(space);
+             GUILayout.Space(SelectionWidth);
+            selectedSelection.LeftDownKey = EditorGUILayout.TextField(selectedSelection.LeftDownKey, StringCenterStyle, SelectionSize);
+             GUILayout.Space(SelectionWidth);
           }
         }
-
+        GUILayout.Space(50.0f);
         using (new GUILayout.VerticalScope(GUI.skin.box))
         {
           using (new GUILayout.HorizontalScope())
           {
-             GUILayout.Space(space);
-            selectedSelection.RightUpKey = EditorGUILayout.TextField(selectedSelection.RightUpKey, StringCenterStyle, GUILayout.Width(space));
-             GUILayout.Space(space);
+             GUILayout.Space(SelectionWidth);
+            selectedSelection.RightUpKey = EditorGUILayout.TextField(selectedSelection.RightUpKey, StringCenterStyle, SelectionSize);
+             GUILayout.Space(SelectionWidth);
           }
           using (new GUILayout.HorizontalScope())
           {
-            selectedSelection.RightLeftKey = EditorGUILayout.TextField(selectedSelection.RightLeftKey, StringCenterStyle, GUILayout.Width(space));
-             GUILayout.Space(space);
-            selectedSelection.RightRightKey = EditorGUILayout.TextField(selectedSelection.RightRightKey, StringCenterStyle, GUILayout.Width(space));
+            selectedSelection.RightLeftKey = EditorGUILayout.TextField(selectedSelection.RightLeftKey, StringCenterStyle, SelectionSize);
+             GUILayout.Space(SelectionWidth);
+            selectedSelection.RightRightKey = EditorGUILayout.TextField(selectedSelection.RightRightKey, StringCenterStyle, SelectionSize);
           }
           using (new GUILayout.HorizontalScope())
           {
-             GUILayout.Space(space);
-            selectedSelection.RightDownKey = EditorGUILayout.TextField(selectedSelection.RightDownKey, StringCenterStyle, GUILayout.Width(space));
-             GUILayout.Space(space);
+             GUILayout.Space(SelectionWidth);
+            selectedSelection.RightDownKey = EditorGUILayout.TextField(selectedSelection.RightDownKey, StringCenterStyle, SelectionSize);
+             GUILayout.Space(SelectionWidth);
           }          
         }
         GUILayout.FlexibleSpace();
@@ -701,7 +723,167 @@ public class DialogueEditorWindow : EditorWindow
 
   private void DrawTalkingArea()
   {
+    var talkingData = selectedSequence as DialogueTalkingData;
+    var prevTalkingData = GetPreviousTalkingData();
+    using (new EditorGUILayout.VerticalScope(GUI.skin.box))
+    {
+      EditorGUILayout.LabelField("[ Talking ]", LabelCenterStyle);
 
+      EditorGUILayout.Space(5.0f);
+
+      using (new EditorGUILayout.HorizontalScope())
+      {
+        GUILayout.FlexibleSpace();
+        talkingData.SubName = EditorGUILayout.TextField(talkingData.SubName, StringCenterStyle, GUILayout.Width(150.0f));
+        GUILayout.FlexibleSpace();
+      }
+
+      EditorGUILayout.Space(15.0f);
+
+      using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
+      {
+        EditorGUILayout.Space(50.0f);
+        using (new GUILayout.VerticalScope(GUI.skin.box))
+        {
+          var left = talkingData.left;
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("Portrait");
+            left.Portrait = (int)(PortraitEnum.Left)EditorGUILayout.EnumPopup((PortraitEnum.Left)left.Portrait);
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("ChangeType");
+            EditorGUI.BeginDisabledGroup(prevTalkingData == null || prevTalkingData.left.Portrait == left.Portrait);
+            left.PortraitChangeType = (int)(PortraitEnum.ChangeType)EditorGUILayout.EnumPopup((PortraitEnum.ChangeType)left.PortraitChangeType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("AnimationType");
+            EditorGUI.BeginDisabledGroup(left.Portrait == 0);
+            left.PortraitAnimationType = (int)(PortraitEnum.AnimationType)EditorGUILayout.EnumPopup((PortraitEnum.AnimationType)left.PortraitAnimationType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("AlphaType");
+            EditorGUI.BeginDisabledGroup(left.Portrait == 0);
+            left.PortraitAlphaType = (int)(PortraitEnum.AlphaType)EditorGUILayout.EnumPopup((PortraitEnum.AlphaType)left.PortraitAlphaType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          left.NameKey = EditorGUILayout.TextField(left.NameKey, StringCenterStyle);
+          left.DialogueKey = EditorGUILayout.TextField(left.DialogueKey, StringCenterStyle);
+        }
+        GUILayout.FlexibleSpace();
+        using (new GUILayout.VerticalScope(GUI.skin.box))
+        {
+          var center = talkingData.center;
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("Portrait");
+            center.Portrait = (int)(PortraitEnum.Center)EditorGUILayout.EnumPopup((PortraitEnum.Center)center.Portrait);
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("ChangeType");
+            EditorGUI.BeginDisabledGroup(prevTalkingData == null || prevTalkingData.center.Portrait == center.Portrait);
+            center.PortraitChangeType = (int)(PortraitEnum.ChangeType)EditorGUILayout.EnumPopup((PortraitEnum.ChangeType)center.PortraitChangeType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("AnimationType");
+            EditorGUI.BeginDisabledGroup(center.Portrait == 0);
+            center.PortraitAnimationType = (int)(PortraitEnum.AnimationType)EditorGUILayout.EnumPopup((PortraitEnum.AnimationType)center.PortraitAnimationType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("AlphaType");
+            EditorGUI.BeginDisabledGroup(center.Portrait == 0);
+            center.PortraitAlphaType = (int)(PortraitEnum.AlphaType)EditorGUILayout.EnumPopup((PortraitEnum.AlphaType)center.PortraitAlphaType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          center.NameKey = EditorGUILayout.TextField(center.NameKey, StringCenterStyle);
+          center.DialogueKey = EditorGUILayout.TextField(center.DialogueKey, StringCenterStyle);
+        }
+        GUILayout.FlexibleSpace();
+        using (new GUILayout.VerticalScope(GUI.skin.box))
+        {
+          var right = talkingData.right;
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("Portrait");
+            right.Portrait = (int)(PortraitEnum.Right)EditorGUILayout.EnumPopup((PortraitEnum.Right)right.Portrait);
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("ChangeType");
+            EditorGUI.BeginDisabledGroup(prevTalkingData == null || prevTalkingData.right.Portrait == right.Portrait);
+            right.PortraitChangeType = (int)(PortraitEnum.ChangeType)EditorGUILayout.EnumPopup((PortraitEnum.ChangeType)right.PortraitChangeType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("AnimationType");
+            EditorGUI.BeginDisabledGroup(right.Portrait == 0);
+            right.PortraitAnimationType = (int)(PortraitEnum.AnimationType)EditorGUILayout.EnumPopup((PortraitEnum.AnimationType)right.PortraitAnimationType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          using (new GUILayout.HorizontalScope())
+          {
+            EditorGUILayout.LabelField("AlphaType");
+            EditorGUI.BeginDisabledGroup(right.Portrait == 0);
+            right.PortraitAlphaType = (int)(PortraitEnum.AlphaType)EditorGUILayout.EnumPopup((PortraitEnum.AlphaType)right.PortraitAlphaType);
+            EditorGUI.EndDisabledGroup();
+          }
+
+          right.NameKey = EditorGUILayout.TextField(right.NameKey, StringCenterStyle);
+          right.DialogueKey = EditorGUILayout.TextField(right.DialogueKey, StringCenterStyle);
+        }
+        EditorGUILayout.Space(50.0f);
+      }
+    }
+  }
+
+  private DialogueTalkingData GetPreviousTalkingData()
+  {
+    if (selectedRootData.Data.SequenceSets.Count == 1)
+      return null;
+
+    var index = 0;
+    for (int i = 0; i < selectedRootData.Data.SequenceSets.Count; i++)
+    {
+      if (selectedRootData.Data.SequenceSets[i] == selectedSequenceSet)
+      {
+        index = i;
+        break;
+      }  
+    }
+
+    for (int i = index - 1; i > -1; i--)
+    {
+      var targetSequenceSet = selectedRootData.Data.SequenceSets[i];
+      if (targetSequenceSet.SequenceType == IDialogueSequence.Type.Talking)
+        return targetSequenceSet.Sequences.First() as DialogueTalkingData;
+    }
+
+    return null;
   }
 
   #region Save&Load

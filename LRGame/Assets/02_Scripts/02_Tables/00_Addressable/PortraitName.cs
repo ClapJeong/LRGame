@@ -5,27 +5,27 @@ public class PortraitName
 {
   [SerializeField] private string Null;
 
-  public string GetLeftName(PortraitType.Left left)
+  public string GetLeftName(PortraitEnum.Left left)
   {
-    if (left == PortraitType.Left.Null)
+    if (left == PortraitEnum.Left.Null)
       return Null;
     else
 
     return left.ToString();
   }
 
-  public string GetRightName(PortraitType.Right right)
+  public string GetRightName(PortraitEnum.Right right)
   {
-    if (right == PortraitType.Right.Null)
+    if (right == PortraitEnum.Right.Null)
       return Null;
     else
 
       return right.ToString();
   }
 
-  public string GetCenterName(PortraitType.Center center)
+  public string GetCenterName(PortraitEnum.Center center)
   {
-    if (center == PortraitType.Center.Null)
+    if (center == PortraitEnum.Center.Null)
       return Null;
     else
 

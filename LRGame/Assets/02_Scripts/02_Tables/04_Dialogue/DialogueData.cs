@@ -19,7 +19,7 @@ namespace LR.Table.Dialogue
       [SerializeReference] private List<DialogueSequenceBase> sequences = new();
       private UnityAction onDirty;
 
-      public SequenceSet(IDialogueSequence.Type type, UnityAction onDirty)
+      public SequenceSet(IDialogueSequence.Type type, UnityAction onDirty, SequenceSet previousTalkingSequenceSet)
       {
         this.onDirty = onDirty;
         this.sequenceType = type;
@@ -28,13 +28,14 @@ namespace LR.Table.Dialogue
         {
           case IDialogueSequence.Type.Talking:
             {
-              sequences.Add(new DialogueTalkingData(true, "default", onDirty));
+              var previousTalkingData = previousTalkingSequenceSet != null ? previousTalkingSequenceSet.sequences.First() as DialogueTalkingData : null;
+              sequences.Add(new DialogueTalkingData(previousTalkingData, "default", onDirty));
             }
             break;
 
           case IDialogueSequence.Type.Selection:
             {
-              sequences.Add(new DialogueSelectionData(true, "default", onDirty));
+              sequences.Add(new DialogueSelectionData("default", onDirty));
             }
             break;
         }
@@ -48,13 +49,13 @@ namespace LR.Table.Dialogue
         {
           case IDialogueSequence.Type.Talking:
             {
-              sequences.Add(new DialogueTalkingData(false, "talking", onDirty));
+              sequences.Add(new DialogueTalkingData(null, "talking", onDirty));
             }
             break;
 
           case IDialogueSequence.Type.Selection:
             {
-              sequences.Add(new DialogueSelectionData(false, "selection", onDirty));
+              sequences.Add(new DialogueSelectionData("selection", onDirty));
             }
             break;
         }
@@ -79,7 +80,7 @@ namespace LR.Table.Dialogue
       }
     }
 
-    private readonly UnityAction onDirty;
+    private UnityAction onDirty;
 
     [SerializeField] private List<SequenceSet> sequenceSets = new();
     public List<SequenceSet> SequenceSets => sequenceSets;
@@ -91,7 +92,8 @@ namespace LR.Table.Dialogue
 
     public void AddSequenceSet(IDialogueSequence.Type type)
     {
-      sequenceSets.Add(new SequenceSet(type, onDirty));
+      var lastSequenceSet = sequenceSets.LastOrDefault();
+      sequenceSets.Add(new SequenceSet(type, onDirty, lastSequenceSet != null && lastSequenceSet.SequenceType == IDialogueSequence.Type.Talking ? lastSequenceSet : null));
       onDirty?.Invoke();
     }
 
@@ -103,6 +105,7 @@ namespace LR.Table.Dialogue
 
     public void SetOnDirty(UnityAction onDirty)
     {
+      this.onDirty = onDirty;
       foreach(var sequenceSet in sequenceSets)
         sequenceSet.SetOnDirty(onDirty);
     }

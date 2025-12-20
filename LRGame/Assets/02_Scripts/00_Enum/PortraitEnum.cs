@@ -1,8 +1,8 @@
-﻿public static class PortraitType
+﻿public static class PortraitEnum
 {
   public enum Left
   {
-    Null = -1,
+    Null,
     Test0,
     Test1, 
     Test2,
@@ -10,7 +10,7 @@
 
   public enum Right
   {
-    Null = -1,
+    Null,
     Test0,
     Test1,
     Test2,
@@ -18,7 +18,7 @@
 
   public enum Center
   {
-    Null = -1,
+    Null,
     Test0,
     Test1,
     Test2,

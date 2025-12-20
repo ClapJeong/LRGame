@@ -8,7 +8,7 @@ namespace LR.Table.Dialogue
   {
     private UnityAction onDirty;
     public override IDialogueSequence.Type SequenceType => IDialogueSequence.Type.Selection;
-    public override string FormatedName => $"{SequenceType}_{selectionID}_{subName}";
+    public override string FormatedName => $"{SequenceType}_{subName}";
 
     public override string SubName
     {
@@ -20,18 +20,6 @@ namespace LR.Table.Dialogue
 
         onDirty?.Invoke();
         subName = value;
-      }
-    }
-    public int SelectionID
-    {
-      get => this.selectionID;
-      set
-      {
-        if (selectionID == value)
-          return;
-
-        onDirty?.Invoke();
-        selectionID = value;
       }
     }
 
@@ -133,8 +121,6 @@ namespace LR.Table.Dialogue
       }
     }
 
-    [SerializeField] private int selectionID;
-
     [SerializeField] private DialogueCondition condition;
 
     [SerializeField] private string leftUpKey;
@@ -148,11 +134,11 @@ namespace LR.Table.Dialogue
     [SerializeField] private string rightLeftKey;
 
 
-    public DialogueSelectionData(bool isDefault, string subName, UnityAction onDirty)
+    public DialogueSelectionData(string subName, UnityAction onDirty)
     {
       this.onDirty = onDirty;
       this.subName = subName;
-      condition = new DialogueCondition(isDefault, onDirty);
+      condition = new DialogueCondition( onDirty);
     }
 
     public override void SetOnDirty(UnityAction onDirty)

@@ -14,7 +14,7 @@ namespace LR.Table.Dialogue
     [SerializeField] private int portraitAnimationType;
     [SerializeField] private int portraitAlphaType;
     [SerializeField] private string nameKey;
-    [SerializeField] private string descriptionKey;
+    [SerializeField] private string dialogueKey;
 
     public int Portrait 
     {  
@@ -27,7 +27,7 @@ namespace LR.Table.Dialogue
         onDirty?.Invoke();
         portrait = value;
       }}
-    public int PortraitChangelType
+    public int PortraitChangeType
     {
       get => this.portraitChangeType;
       set
@@ -75,22 +75,26 @@ namespace LR.Table.Dialogue
         nameKey = value;
       }
     }
-    public string DescriptionKey
+    public string DialogueKey
     {
-      get => this.descriptionKey;
+      get => this.dialogueKey;
       set
       {
-        if (descriptionKey == value)
+        if (dialogueKey == value)
           return;
 
         onDirty?.Invoke();
-        descriptionKey = value;
+        dialogueKey = value;
       }
     }
 
-    public DialogueCharacterData(UnityAction onDirty)
+    public DialogueCharacterData(int defaultPortrait, string defaultName, string defaultDialogue, UnityAction onDirty)
     {
       this.onDirty = onDirty;
+      portrait = defaultPortrait;
+      nameKey = defaultName;
+      dialogueKey = defaultDialogue;
+      onDirty?.Invoke();
     }
 
     public void SetOnDirty(UnityAction onDirty)

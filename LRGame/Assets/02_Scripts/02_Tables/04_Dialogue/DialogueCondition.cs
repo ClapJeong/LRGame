@@ -8,16 +8,16 @@ namespace LR.Table.Dialogue
   {
     private UnityAction onDirty;
 
-    public int TargetID
+    public string TargetSubName
     {
-      get => this.targetID;
+      get => this.targetSubName;
       set
       {
-        if (targetID == value)
+        if (targetSubName == value)
           return;
 
         onDirty?.Invoke();
-        targetID = value;
+        targetSubName = value;
       }
     }
     public int LeftKey
@@ -45,15 +45,13 @@ namespace LR.Table.Dialogue
       }
     }
 
-    [SerializeField] private int targetID;
+    [SerializeField] private string targetSubName;
     [SerializeField] private int leftKey;
     [SerializeField] private int rightKey;
 
-    public DialogueCondition(bool isDefault, UnityAction onDirty)
+    public DialogueCondition( UnityAction onDirty)
     {
       this.onDirty = onDirty;
-      if (isDefault)
-        targetID = -1;
     }
 
     public bool IsCondition(int leftKey, int rightKey)
