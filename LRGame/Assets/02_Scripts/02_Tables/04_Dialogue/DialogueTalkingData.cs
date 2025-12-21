@@ -48,8 +48,8 @@ namespace LR.Table.Dialogue
       this.onDirty = onDirty;
       this.subName = subName;
       left = new(previousTalkingData != null ? previousTalkingData.left.Portrait : 0,  "name_left_idle", "dialogue_sample", this.onDirty);
-      center = new(previousTalkingData != null ? previousTalkingData.center.Portrait : 0, "name_right_idle", "dialogue_sample", this.onDirty);
-      right = new(previousTalkingData != null ? previousTalkingData.right.Portrait : 0, "name_doctor_idle", "dialogue_sample", this.onDirty);
+      center = new(previousTalkingData != null ? previousTalkingData.center.Portrait : 0, "name_doctor_idle", "dialogue_sample", this.onDirty);
+      right = new(previousTalkingData != null ? previousTalkingData.right.Portrait : 0, "name_right_idle", "dialogue_sample", this.onDirty);
       condition = condition = new DialogueCondition(onDirty);
     }
 

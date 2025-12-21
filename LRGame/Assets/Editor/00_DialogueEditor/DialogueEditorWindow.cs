@@ -672,7 +672,8 @@ public class DialogueEditorWindow : EditorWindow
 
       using (new GUILayout.HorizontalScope())
       {
-        GUILayout.FlexibleSpace();
+        EditorGUILayout.Space(100.0f);
+        
         using (new GUILayout.VerticalScope(GUI.skin.box))
         {          
           using (new GUILayout.HorizontalScope())
@@ -694,7 +695,9 @@ public class DialogueEditorWindow : EditorWindow
              GUILayout.Space(SelectionWidth);
           }
         }
-        GUILayout.Space(50.0f);
+
+        GUILayout.FlexibleSpace();
+
         using (new GUILayout.VerticalScope(GUI.skin.box))
         {
           using (new GUILayout.HorizontalScope())
@@ -716,7 +719,8 @@ public class DialogueEditorWindow : EditorWindow
              GUILayout.Space(SelectionWidth);
           }          
         }
-        GUILayout.FlexibleSpace();
+
+        EditorGUILayout.Space(100.0f);
       }
     }
   }
@@ -740,7 +744,7 @@ public class DialogueEditorWindow : EditorWindow
 
       EditorGUILayout.Space(15.0f);
 
-      using (new EditorGUILayout.HorizontalScope(GUI.skin.box))
+      using (new EditorGUILayout.HorizontalScope())
       {
         EditorGUILayout.Space(50.0f);
         using (new GUILayout.VerticalScope(GUI.skin.box))
