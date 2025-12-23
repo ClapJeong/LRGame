@@ -3,9 +3,9 @@ using UnityEngine;
 [System.Serializable]
 public class AddressableLabel
 {
-  [SerializeField] private string preload;
-  public string PreLoad => preload;
+  [field: SerializeField] public string Preload { get; private set;  }
 
-  [SerializeField] private string stage;
-  public string Stage => stage;
+  [field: SerializeField] public string Stage { get; private set;  }
+
+  [field: SerializeField] public string Dialogue { get; private set; }
 }

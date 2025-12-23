@@ -1,23 +1,23 @@
 using Cysharp.Threading.Tasks;
-using System.Threading;
-using UnityEngine;
-using LR.UI.Preloading;
-using LR.UI.Lobby;
-using LR.UI.GameScene.Stage;
+using LR.UI.GameScene.Dialogue;
 using LR.UI.GameScene.Player;
-using LR.Stage.Player;
-using System.Resources;
+using LR.UI.GameScene.Stage;
+using LR.UI.Lobby;
+using LR.UI.Preloading;
+using System.Threading;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class LocalManager : MonoBehaviour
 {
-  [SerializeField] private SceneType sceneType;
   public static LocalManager instance;
 
-  private StageManager stageManager;
-  public StageManager StageManager => stageManager;
+  [SerializeField] private SceneType sceneType;
 
   [SerializeField] private CameraService cameraService;
-  public CameraService CameraService => cameraService;
+  private StageManager stageManager;
+  private DialogueService dialogueService;
+
 
   private void Awake()
   {
@@ -29,10 +29,14 @@ public class LocalManager : MonoBehaviour
   private void InitializeManagers()
   {
     var model = new StageManager.Model(
+      table: GlobalManager.instance.Table,
+      gameDataService: GlobalManager.instance.GameDataService,
       resourceManager: GlobalManager.instance.ResourceManager,
       sceneProvider: GlobalManager.instance.SceneProvider,
       cameraService: cameraService);
     stageManager = new StageManager(model);
+
+    dialogueService = new DialogueService(stageManager);
   }
 
   private async UniTask InitializeSceneAsync()
@@ -49,6 +53,7 @@ public class LocalManager : MonoBehaviour
         {
           await CreateFirstUIAsync();
           await LoadPreloadAsync();
+          await LoadDialogueAsync();
           ISceneProvider sceneProvider = GlobalManager.instance.SceneProvider;
           sceneProvider.LoadSceneAsync(SceneType.Lobby, CancellationToken.None).Forget();
         }
@@ -62,17 +67,18 @@ public class LocalManager : MonoBehaviour
 
       case SceneType.Game:
         {
-          await CreateFirstUIAsync();
           GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
           var index = chapter * 4 + stage;
           await CreateStageAsync(index);
+          await CreateFirstUIAsync();          
         }
         break;
     }
   }
+
   private async UniTask CreateStageAsync(int index)
   {
-    await StageManager.CreateAsync(index, true);
+    await stageManager.CreateAsync(index, true);
   }
 
   private async UniTask CreateFirstUIAsync()
@@ -98,6 +104,7 @@ public class LocalManager : MonoBehaviour
         {
           await CreatePlayerUIsAsync();
           await CreateStageUIAsync();
+          await CreateDialogueUIAsync();
         }
         break;
     }
@@ -154,7 +161,7 @@ public class LocalManager : MonoBehaviour
 
     var leftPresenter = new UIPlayerRootPresenter(Leftmodel, leftView);
     leftPresenter.AttachOnDestroy(gameObject);
-    leftPresenter.ActivateAsync().Forget();
+    leftPresenter.DeactivateAsync().Forget();
 
     var rightmodel = new UIPlayerRootPresenter.Model(
       stageManager: stageManager,
@@ -164,7 +171,15 @@ public class LocalManager : MonoBehaviour
 
     var rightPresenter = new UIPlayerRootPresenter(rightmodel, rightView);
     rightPresenter.AttachOnDestroy(gameObject);
-    rightPresenter.ActivateAsync().Forget();
+    rightPresenter.DeactivateAsync().Forget();
+
+    dialogueService.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, () =>
+    {
+      if (leftPresenter.GetVisibleState() == UIVisibleState.Hidden)
+        leftPresenter.ActivateAsync().Forget();
+      if (rightPresenter.GetVisibleState() == UIVisibleState.Hidden)
+        rightPresenter.ActivateAsync().Forget();
+    });
   }
 
   private async UniTask CreateStageUIAsync()
@@ -172,6 +187,7 @@ public class LocalManager : MonoBehaviour
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var model = new UIStageRootPresenter.Model(
+      dialogueSubscriber: dialogueService,
       stageStateHandler: stageManager,
       stageEventSubscriber: stageManager,
       resourceManager: resourceManager,
@@ -187,15 +203,49 @@ public class LocalManager : MonoBehaviour
 
     var presenter = new UIStageRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
-    presenter.ActivateAsync().Forget();
+  }
+
+  private async UniTask CreateDialogueUIAsync()
+  {
+    ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+
+    var model = new UIDialogueRootPresenter.Model(
+      table: GlobalManager.instance.Table,
+      resourceManager: resourceManager,
+      gameDataService: GlobalManager.instance.GameDataService,
+      uiInputActionManager: GlobalManager.instance.UIInputManager,
+      dialogueDataProvider: stageManager,
+      subscriber: dialogueService,
+      controller: dialogueService,
+      stageStateHandler: stageManager);
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var key = table.Path.UI + table.UIName.DialogueRoot;
+    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var view = await resourceManager.CreateAssetAsync<UIDialogueRootView>(key, root);
+
+    var presenter = new UIDialogueRootPresenter(model, view);
+    presenter.AttachOnDestroy(gameObject);
+    presenter.DeactivateAsync().Forget();
+
+    dialogueService.SubscribeEvent(IDialogueSubscriber.EventType.OnPlay, () => presenter.ActivateAsync().Forget());
+    dialogueService.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, () => presenter.DeactivateAsync().Forget());
   }
 
   private async UniTask LoadPreloadAsync()
   {
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    var label = GlobalManager.instance.Table.AddressableKeySO.Label.PreLoad;
+    var label = GlobalManager.instance.Table.AddressableKeySO.Label.Preload;
     await resourceManager.LoadAssetsAsync(label);
   }
+
+  private async UniTask LoadDialogueAsync()
+  {
+    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    var label = GlobalManager.instance.Table.AddressableKeySO.Label.Dialogue;
+    await resourceManager.LoadAssetsAsync(label);
+  }
+
 
   #region DebugginMethods
   public void Debugging_StageComplete()
@@ -230,7 +280,7 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageStateHandler stageService = StageManager;
+    IStageStateHandler stageService = stageManager;
     stageService.RestartAsync().Forget();
   }
 

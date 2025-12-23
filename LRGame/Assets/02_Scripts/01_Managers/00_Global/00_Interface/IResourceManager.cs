@@ -15,6 +15,8 @@ public interface IResourceManager
 
   public UniTask<AsyncOperationHandle> LoadAsync(IResourceLocation location);
 
+  public UniTask<T> LoadAssetAsync<T>(string key) where T : UnityEngine.Object;
+
   public UniTask<T> CreateAssetAsync<T>(string key, Transform root = null) where T : UnityEngine.Object;
 
   public UniTask<T> CreateAssetAsync<T>(AssetReference assetReference, Transform root = null) where T : UnityEngine.Object;
@@ -30,6 +32,8 @@ public interface IResourceManager
   public UniTask<IList<IResourceLocation>> GetLocationsAsync(AssetReference assetReference);
 
   public void ReleaseInstance(GameObject gameObject, bool releaseHandle = false);
+
+  public void ReleaseAsset(string key);
 
   public void ReleaseAll();
 }

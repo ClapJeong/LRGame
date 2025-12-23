@@ -16,6 +16,7 @@ public class UIName
   [field: Header("[ Stage ]")]
   [field: SerializeField] public string StageRoot {  get; set; }
   [field: SerializeField] public string PlayerRoot {  get; set; }
+  [field: SerializeField] public string DialogueRoot { get; set; }
 
   [field: Space(10)]
   [field: Header("[ General ]")]

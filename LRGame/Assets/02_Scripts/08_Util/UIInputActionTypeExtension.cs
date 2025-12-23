@@ -8,7 +8,7 @@ public static class UIinputDirectionTypeExtension
       UIInputDirectionType.LeftDown => Direction.Down,
       UIInputDirectionType.LeftLeft => Direction.Left,
 
-      UIInputDirectionType.RightUP => Direction.Up,
+      UIInputDirectionType.RightUp => Direction.Up,
       UIInputDirectionType.RightRight => Direction.Right,
       UIInputDirectionType.RightDown => Direction.Down,
       UIInputDirectionType.RightLeft => Direction.Left,

@@ -48,7 +48,7 @@ namespace LR.UI.GameScene.Stage
     private static readonly UIInputDirectionType RestartMinDirection = UIInputDirectionType.RightRight;
     private static readonly UIInputDirectionType RestartMaxDirection = UIInputDirectionType.RightLeft;
 
-    private static readonly UIInputDirectionType QuitMinDirection = UIInputDirectionType.RightUP;
+    private static readonly UIInputDirectionType QuitMinDirection = UIInputDirectionType.RightUp;
     private static readonly UIInputDirectionType QuitMaxDirection = UIInputDirectionType.RightDown;
 
     private readonly Model model;

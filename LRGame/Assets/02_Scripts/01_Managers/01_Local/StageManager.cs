@@ -1,25 +1,33 @@
 using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
-using UnityEngine.Events;
+using LR.Stage;
 using LR.Stage.Player;
 using LR.Stage.TriggerTile;
-using LR.Stage;
+using LR.Table.Dialogue;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class StageManager : 
   IStageStateHandler, 
   IStageResultHandler,
   IStageEventSubscriber,
   IPlayerGetter,
-  IStageCreator
+  IStageCreator,
+  IDialogueDataProvider
 {
   public class Model
   {
+    public TableContainer table;
+    public IGameDataService gameDataService;
     public IResourceManager resourceManager;
     public ISceneProvider sceneProvider;
     public ICameraService cameraService;
 
-    public Model(IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService)
+    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService)
     {
+      this.table = table;
+      this.gameDataService = gameDataService;
       this.resourceManager = resourceManager;
       this.sceneProvider = sceneProvider;
       this.cameraService = cameraService;
@@ -39,6 +47,9 @@ public class StageManager :
   private bool isLeftClear = false;
   private bool isRightClear = false;
 
+  private DialogueData beforeDialogueData;
+  private DialogueData afterDialogueData;
+
   public StageManager(Model model)
   {
     this.model = model;
@@ -52,22 +63,22 @@ public class StageManager :
   #region IStageCreator
   public async UniTask CreateAsync(int index, bool isEnableImmediately = false)
   {
-    var table = GlobalManager.instance.Table.AddressableKeySO;
-    var key = table.Path.Stage + string.Format(table.StageName.StageNameFormat, index);
+    var key = model.table.AddressableKeySO.Path.Stage + string.Format(model.table.AddressableKeySO.StageName.StageNameFormat, index);
     try
     {
       var stageDataContainer = await model.resourceManager.CreateAssetAsync<StageDataContainer>(key);
 
+      var handles = await model.resourceManager.LoadAssetsAsync(model.table.AddressableKeySO.Label.Dialogue);
+      CacheDialogueDatas(handles, stageDataContainer);
+
       SetupCamera(stageDataContainer);
       SetupPlayers(stageDataContainer);
       SetupTriggers(stageDataContainer);
-      SetupDynamicObstacles(stageDataContainer);
-
-      SetState(IStageStateHandler.State.Ready);
+      SetupDynamicObstacles(stageDataContainer);      
     }
     catch
     {
-      GlobalManager.instance.GameDataService.SetSelectedStage(-1, -1);
+      model.gameDataService.SetSelectedStage(-1, -1);
       model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
     }
   }
@@ -96,6 +107,7 @@ public class StageManager :
     IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
+
     SetState(IStageStateHandler.State.Success);
   }
 
@@ -251,4 +263,33 @@ public class StageManager :
 
     }
   }
+
+  #region IDialogueDataProvider
+  private void CacheDialogueDatas(
+    List<AsyncOperationHandle> handles, 
+    StageDataContainer stageDataContainer)
+  {
+    foreach (var handle in handles)
+    {
+      var data = handle.Result as TextAsset;
+      var index = int.Parse(data.name.Split('_')[0]);
+      if (index == stageDataContainer.BeforeDialogueIndex)
+        beforeDialogueData = JsonUtility.FromJson<DialogueData>(data.text);
+      else if (index == stageDataContainer.AfterDialogueIndex)
+        afterDialogueData = JsonUtility.FromJson<DialogueData>(data.text);
+    }
+  }
+
+  public bool TryGetBeforeDialogueData(out DialogueData beforeDialogueData)
+  {
+    beforeDialogueData = this.beforeDialogueData;    
+    return beforeDialogueData != null;
+  }
+
+  public bool TryGetAfterDialogueData(out DialogueData afterDialogueData)
+  {
+    afterDialogueData = this.afterDialogueData;
+    return afterDialogueData != null;
+  }
+  #endregion
 }

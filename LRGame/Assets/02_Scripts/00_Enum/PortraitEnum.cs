@@ -27,6 +27,7 @@
   public enum ChangeType
   {
     None,
+    Fade,
   }
 
   public enum AnimationType

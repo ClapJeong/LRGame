@@ -7,6 +7,10 @@ namespace LR.Stage
 {
   public class StageDataContainer : MonoBehaviour
   {
+    [field: SerializeField] public int BeforeDialogueIndex { get; private set; } = -1;
+    [field: SerializeField] public int AfterDialogueIndex { get; private set; } = -1;
+
+    [Space(5)]
     public float CameraSize;
 
     [Space(5)]

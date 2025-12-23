@@ -99,7 +99,7 @@ public class UIInputManager : IUIInputActionManager
     inputSets[UIInputDirectionType.RightLeft] = new InputActionSet(paths.RightLeftPath, inputActionFactory);
     inputSets[UIInputDirectionType.RightRight] = new InputActionSet(paths.RightRightPath, inputActionFactory);
     inputSets[UIInputDirectionType.RightDown] = new InputActionSet(paths.RightDownPath, inputActionFactory);
-    inputSets[UIInputDirectionType.RightUP] = new InputActionSet(paths.RightUPPath, inputActionFactory);
+    inputSets[UIInputDirectionType.RightUp] = new InputActionSet(paths.RightUPPath, inputActionFactory);
 
     inputSets[UIInputDirectionType.Space] = new InputActionSet(paths.Space, inputActionFactory);
   }

@@ -4,7 +4,7 @@ public enum UIInputDirectionType
   LeftRight,
   LeftDown,
   LeftLeft,
-  RightUP,
+  RightUp,
   RightRight,
   RightDown,
   RightLeft,

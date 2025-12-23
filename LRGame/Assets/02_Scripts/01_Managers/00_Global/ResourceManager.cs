@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
@@ -12,6 +11,7 @@ public class ResourceManager : IResourceManager, IDisposable
 {
   readonly private Dictionary<IResourceLocation, AsyncOperationHandle> cachedHandles = new();
   readonly private Dictionary<GameObject, IResourceLocation> createdLocations = new();
+  private readonly Dictionary<string, AsyncOperationHandle> assetHandles = new();
 
   public async UniTask<List<AsyncOperationHandle>> LoadAssetsAsync(string key)
   {
@@ -46,6 +46,18 @@ public class ResourceManager : IResourceManager, IDisposable
     await handle;
     cachedHandles[location] = handle;
     return handle;
+  }
+
+  public async UniTask<T> LoadAssetAsync<T>(string key) where T : UnityEngine.Object
+  {
+    if (assetHandles.TryGetValue(key, out var cached))
+      return cached.Result as T;
+
+    var handle = Addressables.LoadAssetAsync<T>(key);
+    await handle;
+
+    assetHandles[key] = handle;
+    return handle.Result;
   }
 
   public async UniTask<T> CreateAssetAsync<T>(string key, Transform root = null) where T: UnityEngine.Object
@@ -124,6 +136,15 @@ public class ResourceManager : IResourceManager, IDisposable
     foreach (var handle in cachedHandles.Values)
       handle.Release();
     cachedHandles.Clear();
+  }
+
+  public void ReleaseAsset(string key)
+  {
+    if (!assetHandles.TryGetValue(key, out var handle))
+      return;
+
+    Addressables.Release(handle);
+    assetHandles.Remove(key);
   }
 
   public void Dispose()

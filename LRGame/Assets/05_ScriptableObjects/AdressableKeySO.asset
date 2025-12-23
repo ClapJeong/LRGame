@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: AdressableKeySO
   m_EditorClassIdentifier: Assembly-CSharp::AddressableKeySO
   <Label>k__BackingField:
-    preload: Preload
-    stage: Stage
+    <Preload>k__BackingField: Preload
+    <Stage>k__BackingField: Stage
+    <Dialogue>k__BackingField: Dialogue
   <Path>k__BackingField:
     <Player>k__BackingField: Player/
     <UI>k__BackingField: UI/
     <Scene>k__BackingField: Scene/
     <Stage>k__BackingField: Stage/
-    <Portrait>k__BackingField: 
+    <LeftPortrait>k__BackingField: Portrait/00_Left/
+    <CenterPortrait>k__BackingField: Portrait/01_Right/
+    <RightPortrait>k__BackingField: Portrait/02_Center/
   <SceneName>k__BackingField:
     preloading: Preloading
     lobby: Lobby
@@ -35,6 +38,7 @@ MonoBehaviour:
     <LobbyChapterPanel>k__BackingField: LobbyChapterPanel
     <StageRoot>k__BackingField: StageRoot
     <PlayerRoot>k__BackingField: PlayerRoot
+    <DialogueRoot>k__BackingField: DialogueRoot
     <Indicator>k__BackingField: Indicator
   <StageName>k__BackingField:
     StageNameFormat: Stage_{0}

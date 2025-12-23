@@ -77,7 +77,7 @@ namespace LR.UI.GameScene.Stage
 
       var rightInputs = new List<UIInputDirectionType>()
             {
-              UIInputDirectionType.RightUP,
+              UIInputDirectionType.RightUp,
               UIInputDirectionType.RightRight,
               UIInputDirectionType.RightDown,
               UIInputDirectionType.RightLeft,

@@ -214,7 +214,7 @@ namespace LR.UI.Lobby
       var upModel = new UIStageButtonPresenter.Model(
         chapter: model.chapter, 
         stage: 1,
-        inputType: UIInputDirectionType.RightUP,
+        inputType: UIInputDirectionType.RightUp,
         onComplete: subscribeHandle.Unsubscribe,
         uiInputActionManager: model.uiInputActionManager,
         gameDataService: model.gameDataService,

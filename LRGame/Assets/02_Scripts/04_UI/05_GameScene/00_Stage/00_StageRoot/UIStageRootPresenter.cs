@@ -9,6 +9,7 @@ namespace LR.UI.GameScene.Stage
   {
     public class Model
     {
+      public IDialogueSubscriber dialogueSubscriber;
       public IStageStateHandler stageStateHandler;
       public IStageEventSubscriber stageEventSubscriber;
       public IResourceManager resourceManager;
@@ -17,7 +18,9 @@ namespace LR.UI.GameScene.Stage
       public ISceneProvider sceneProvider;
       public IUIInputActionManager uiInputActionManager;
 
-      public Model(IStageStateHandler stageStateHandler,
+      public Model(
+        IDialogueSubscriber dialogueSubscriber,
+        IStageStateHandler stageStateHandler,
         IStageEventSubscriber stageEventSubscriber,
         IResourceManager resourceManager, 
         IGameDataService gameDataService, 
@@ -25,6 +28,7 @@ namespace LR.UI.GameScene.Stage
         ISceneProvider sceneProvider, 
         IUIInputActionManager uiInputActionManager)
       {
+        this.dialogueSubscriber = dialogueSubscriber;
         this.stageStateHandler = stageStateHandler;
         this.stageEventSubscriber = stageEventSubscriber;
         this.resourceManager = resourceManager;
@@ -55,7 +59,7 @@ namespace LR.UI.GameScene.Stage
       CreateSuccessPresenter();
       CreatePausePresenter();
 
-      beginPresenter.ActivateAsync(true).Forget();
+      beginPresenter.DeactivateAsync().Forget();
       failPresenter.DeactivateAsync().Forget();
       successPresenter.DeactivateAsync().Forget();
       pausePresenter.DeactivateAsync().Forget();
@@ -63,7 +67,7 @@ namespace LR.UI.GameScene.Stage
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, OnStageSuccess);
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, OnStageFailed);
 
-      SubscribePauseInput();
+      model.dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);      
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -88,6 +92,26 @@ namespace LR.UI.GameScene.Stage
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       await view.ShowAsync(isImmediately, token);
+    }
+
+    private void OnBeforeDialgoueComplete()
+    {
+      beginPresenter.ActivateAsync().Forget();
+      SubscribePauseInput();
+
+      model.dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
+      model.dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
+    }
+
+    private void OnAfterDialogueBegin()
+    {
+      model.dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
+      model.dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
+    }
+
+    private void OnAfterDialogueComplete()
+    {
+      model.dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
     }
 
     private void CreateBeginPresenter()

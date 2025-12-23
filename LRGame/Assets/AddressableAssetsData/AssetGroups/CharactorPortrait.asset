@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 01aed87b5b460224192685463cc98f97
   m_SerializeEntries:
   - m_GUID: cb718db1893765a4fbdcd5640243467c
-    m_Address: Assets/01_Art/00_Sprites/00_Portrait
+    m_Address: Portrait
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

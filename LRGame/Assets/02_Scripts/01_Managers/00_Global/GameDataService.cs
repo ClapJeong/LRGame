@@ -114,6 +114,19 @@ public class GameDataService : IGameDataService
     var stages = await resourceManager.LoadAssetsAsync(stageLabel);
     stageCount = stages.Count;
   }
+
+  public void AddDialogueCondition(string key, int left, int right)
+  {
+    var newCondition = new GameData.ConditionData(key, left, right);
+    gameData.dialogueConditions.Add(newCondition);
+  }
+
+  public bool IsContainsCondition(string key, int left, int right)
+  {
+    var targetCondition = gameData.dialogueConditions.FirstOrDefault(data => data.IsSame(key, left, right));
+    return targetCondition != null;
+  }
+
   #region Debugging
   public void Debugging_RaiseClearData()
   {
