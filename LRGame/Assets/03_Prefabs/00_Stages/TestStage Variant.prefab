@@ -117,6 +117,10 @@ PrefabInstance:
       propertyPath: 'triggerTiles.Array.data[3]'
       value: 
       objectReference: {fileID: 8734229957748750245}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: <BeforeDialogueIndex>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 694102038830734641, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647

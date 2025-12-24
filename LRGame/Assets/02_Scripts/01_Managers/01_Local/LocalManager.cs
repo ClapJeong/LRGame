@@ -5,6 +5,8 @@ using LR.UI.GameScene.Stage;
 using LR.UI.Lobby;
 using LR.UI.Preloading;
 using System.Threading;
+using UniRx;
+using UniRx.Triggers;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -70,7 +72,8 @@ public class LocalManager : MonoBehaviour
           GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
           var index = chapter * 4 + stage;
           await CreateStageAsync(index);
-          await CreateFirstUIAsync();          
+          await CreateFirstUIAsync();
+          dialogueService.Play();
         }
         break;
     }
@@ -180,6 +183,12 @@ public class LocalManager : MonoBehaviour
       if (rightPresenter.GetVisibleState() == UIVisibleState.Hidden)
         rightPresenter.ActivateAsync().Forget();
     });
+
+    this.OnDestroyAsObservable().Subscribe(_ =>
+    {
+      if (viewRoot)
+        Destroy(viewRoot.gameObject);
+    });
   }
 
   private async UniTask CreateStageUIAsync()
@@ -226,10 +235,7 @@ public class LocalManager : MonoBehaviour
 
     var presenter = new UIDialogueRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
-    presenter.DeactivateAsync().Forget();
-
-    dialogueService.SubscribeEvent(IDialogueSubscriber.EventType.OnPlay, () => presenter.ActivateAsync().Forget());
-    dialogueService.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, () => presenter.DeactivateAsync().Forget());
+    await presenter.DeactivateAsync();
   }
 
   private async UniTask LoadPreloadAsync()

@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using LR.Stage.Player;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -43,9 +44,9 @@ namespace LR.UI.GameScene.Player
     public IDisposable AttachOnDestroy(GameObject target)
       => target.AttachDisposable(this);
 
-    public UniTask DeactivateAsync(bool isImmedieately = false, CancellationToken token = default)
+    public async UniTask DeactivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      throw new NotImplementedException();
+      await view.HideAsync(isImmedieately, token);
     }
 
     public void Dispose()

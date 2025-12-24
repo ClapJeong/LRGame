@@ -58,7 +58,6 @@ namespace LR.UI.GameScene.Stage
       await view.HideAsync(isImmediately, token);
     }
 
-
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       subscribeHandle.Subscribe();
@@ -86,6 +85,16 @@ namespace LR.UI.GameScene.Stage
       subscribeHandle = new SubscribeHandle(
         onSubscribe: () =>
         {
+          leftPerfomedCount = 0;
+          rightPerfomedCount = 0;
+          foreach (var leftInput in leftInputs)
+            if (model.uiInputActionManager.IsPerforming(leftInput))
+              leftPerfomedCount++;
+
+          foreach (var rightInput in rightInputs)
+            if (model.uiInputActionManager.IsPerforming(rightInput))
+              rightPerfomedCount++;
+
           model.uiInputActionManager.SubscribePerformedEvent(leftInputs, OnLeftPerformed);
           model.uiInputActionManager.SubscribeCanceledEvent(leftInputs, OnLeftCanceled);
 
@@ -94,6 +103,9 @@ namespace LR.UI.GameScene.Stage
         },
         onUnsubscribe: () =>
         {
+          leftPerfomedCount = 0;
+          rightPerfomedCount = 0;
+
           model.uiInputActionManager.UnsubscribePerformedEvent(leftInputs, OnLeftPerformed);
           model.uiInputActionManager.UnsubscribeCanceledEvent(leftInputs, OnLeftCanceled);
 

@@ -390,8 +390,8 @@ GameObject:
   - component: {fileID: 6622441159130187471}
   - component: {fileID: 5965623135424994866}
   - component: {fileID: 883733328262041214}
-  - component: {fileID: 2325919600112907257}
-  - component: {fileID: 413709099743243404}
+  - component: {fileID: 1453709605029319823}
+  - component: {fileID: 5812240576691404087}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -517,7 +517,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &2325919600112907257
+--- !u!114 &1453709605029319823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -541,11 +541,23 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 883733328262041214}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   references:
     version: 2
     RefIds: []
---- !u!114 &413709099743243404
+--- !u!114 &5812240576691404087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -805,8 +817,8 @@ GameObject:
   - component: {fileID: 8935703693876814212}
   - component: {fileID: 6771733782143563431}
   - component: {fileID: 6171802754100383382}
-  - component: {fileID: 3505598398327108438}
-  - component: {fileID: 1845956889927176025}
+  - component: {fileID: 7733124709208251942}
+  - component: {fileID: 7009260577009261581}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -932,7 +944,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &3505598398327108438
+--- !u!114 &7733124709208251942
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -956,11 +968,23 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6171802754100383382}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   references:
     version: 2
     RefIds: []
---- !u!114 &1845956889927176025
+--- !u!114 &7009260577009261581
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -993,8 +1017,8 @@ GameObject:
   - component: {fileID: 5930295672900109610}
   - component: {fileID: 9164499277606957407}
   - component: {fileID: 2688112655498350497}
-  - component: {fileID: 4804526965712377362}
-  - component: {fileID: 3767372857562640264}
+  - component: {fileID: 1476887825341188251}
+  - component: {fileID: 8714843154905596262}
   m_Layer: 5
   m_Name: LeftText
   m_TagString: Untagged
@@ -1120,7 +1144,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4804526965712377362
+--- !u!114 &1476887825341188251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1144,11 +1168,23 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2688112655498350497}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   references:
     version: 2
     RefIds: []
---- !u!114 &3767372857562640264
+--- !u!114 &8714843154905596262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1635,8 +1671,8 @@ GameObject:
   - component: {fileID: 6427595324626747421}
   - component: {fileID: 2807236730644087468}
   - component: {fileID: 2321066024763555699}
-  - component: {fileID: 1030431421803634092}
-  - component: {fileID: 4507277741525387388}
+  - component: {fileID: 5287380085069589832}
+  - component: {fileID: 4408304198037302227}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1762,7 +1798,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1030431421803634092
+--- !u!114 &5287380085069589832
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1786,11 +1822,23 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2321066024763555699}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   references:
     version: 2
     RefIds: []
---- !u!114 &4507277741525387388
+--- !u!114 &4408304198037302227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2017,9 +2065,9 @@ MonoBehaviour:
   portraitImageB: {fileID: 1990257769519271716}
   nameRoot: {fileID: 1414125378291346319}
   nameTMP: {fileID: 883733328262041214}
-  nameLocalize: {fileID: 2325919600112907257}
+  nameLocalize: {fileID: 7916936932888042866}
   dialogueTMP: {fileID: 1593114390721588774}
-  dialogueLocalize: {fileID: 6240162187347718532}
+  dialogueLocalize: {fileID: 1453709605029319823}
 --- !u!1 &5403821808741419526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,10 +2079,10 @@ GameObject:
   - component: {fileID: 6157627524444476648}
   - component: {fileID: 6823304469079671849}
   - component: {fileID: 1593114390721588774}
-  - component: {fileID: 6240162187347718532}
-  - component: {fileID: 6698357885676513383}
+  - component: {fileID: 7916936932888042866}
+  - component: {fileID: 7818706699773523592}
   m_Layer: 5
-  m_Name: LeftText
+  m_Name: RightText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2158,7 +2206,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6240162187347718532
+--- !u!114 &7916936932888042866
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2182,11 +2230,23 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1593114390721588774}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   references:
     version: 2
     RefIds: []
---- !u!114 &6698357885676513383
+--- !u!114 &7818706699773523592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2340,10 +2400,10 @@ GameObject:
   - component: {fileID: 7097023496915181150}
   - component: {fileID: 3801920243171375489}
   - component: {fileID: 6476411043700418763}
-  - component: {fileID: 8237726751863972783}
-  - component: {fileID: 4469293728846053772}
+  - component: {fileID: 8814833276567490728}
+  - component: {fileID: 1019903383310807978}
   m_Layer: 5
-  m_Name: LeftText
+  m_Name: CenterText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2467,7 +2527,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8237726751863972783
+--- !u!114 &8814833276567490728
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2491,11 +2551,23 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6476411043700418763}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   references:
     version: 2
     RefIds: []
---- !u!114 &4469293728846053772
+--- !u!114 &1019903383310807978
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2572,9 +2644,9 @@ MonoBehaviour:
   portraitImageB: {fileID: 1078469309723877629}
   nameRoot: {fileID: 86520250462480592}
   nameTMP: {fileID: 2321066024763555699}
-  nameLocalize: {fileID: 1030431421803634092}
+  nameLocalize: {fileID: 5287380085069589832}
   dialogueTMP: {fileID: 6476411043700418763}
-  dialogueLocalize: {fileID: 8237726751863972783}
+  dialogueLocalize: {fileID: 8814833276567490728}
 --- !u!1 &7076944196152299919
 GameObject:
   m_ObjectHideFlags: 0
@@ -3121,9 +3193,9 @@ MonoBehaviour:
   portraitImageB: {fileID: 1060760658396333168}
   nameRoot: {fileID: 3047836688167525383}
   nameTMP: {fileID: 6171802754100383382}
-  nameLocalize: {fileID: 3505598398327108438}
+  nameLocalize: {fileID: 7733124709208251942}
   dialogueTMP: {fileID: 2688112655498350497}
-  dialogueLocalize: {fileID: 4804526965712377362}
+  dialogueLocalize: {fileID: 1476887825341188251}
 --- !u!1 &8938787082532237409
 GameObject:
   m_ObjectHideFlags: 0

@@ -3023,6 +3023,7 @@ MonoBehaviour:
   <TriggerTileModelSO>k__BackingField: {fileID: 11400000, guid: 59fc85928b80e2247bac96ca6ade68bd, type: 2}
   <UISO>k__BackingField: {fileID: 11400000, guid: 9ce6f4dd25c72964a99853c9cff4b348, type: 2}
   <LocalizationSO>k__BackingField: {fileID: 11400000, guid: dd7c391b4b7f3754d8819490f6b65230, type: 2}
+  <DialogueDataSO>k__BackingField: {fileID: 11400000, guid: af474d6579907144b86d4458c5e44c59, type: 2}
 --- !u!1 &5099033681175359271
 GameObject:
   m_ObjectHideFlags: 0

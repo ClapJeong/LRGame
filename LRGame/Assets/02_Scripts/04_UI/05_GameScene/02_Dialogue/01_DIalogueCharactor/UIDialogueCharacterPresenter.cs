@@ -4,9 +4,9 @@ using LR.UI.GameScene.Dialogue.Character;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -21,14 +21,16 @@ namespace LR.UI.GameScene.Dialogue
 
     public class Model
     {
+      public PortraitName portraitNameProvider;
       public CharacterType type;
       public IResourceManager resourceManager;
       public string portraitPath;
       public PortraitData portraitData;
       public TextPresentationData textPresentationData;
 
-      public Model(CharacterType type, IResourceManager resourceManager, string portraitPath, PortraitData portraitData, TextPresentationData textPresentationData)
+      public Model(PortraitName portraitNameProvider, CharacterType type, IResourceManager resourceManager, string portraitPath, PortraitData portraitData, TextPresentationData textPresentationData)
       {
+        this.portraitNameProvider = portraitNameProvider;
         this.type = type;
         this.resourceManager = resourceManager;
         this.portraitPath = portraitPath;
@@ -63,6 +65,8 @@ namespace LR.UI.GameScene.Dialogue
 
     public async UniTask DeactivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
+      view.dialogueTMP.text = "";
+      view.nameTMP.text = "";
       await view.HideAsync(isImmedieately, token);
       await UniTask.CompletedTask;
     }
@@ -95,9 +99,9 @@ namespace LR.UI.GameScene.Dialogue
     {
       var assetName = model.type switch
       {
-        CharacterType.Left => ((PortraitEnum.Left)index).ToString(),
-        CharacterType.Center => ((PortraitEnum.Center)index).ToString(),
-        CharacterType.Right => ((PortraitEnum.Right)index).ToString(),
+        CharacterType.Left => model.portraitNameProvider.GetLeftName(index),
+        CharacterType.Center => model.portraitNameProvider.GetLeftName(index),
+        CharacterType.Right => model.portraitNameProvider.GetLeftName(index),
         _ => throw new NotImplementedException(),
       };
        return await model.resourceManager.LoadAssetAsync<Sprite>(model.portraitPath + assetName);
@@ -110,22 +114,22 @@ namespace LR.UI.GameScene.Dialogue
       {
         case CharacterType.Left:
           {
-            foreach (var name in Enum.GetNames(typeof(PortraitEnum.Left)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + name));
+            foreach (var value in Enum.GetValues(typeof(PortraitEnum.Left)))
+              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetLeftName((PortraitEnum.Left)value)));
           }
           break;
 
         case CharacterType.Center:
           {
-            foreach (var name in Enum.GetNames(typeof(PortraitEnum.Center)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + name));
+            foreach (var value in Enum.GetValues(typeof(PortraitEnum.Center)))
+              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetCenterName((PortraitEnum.Center)value)));
           }
           break;
 
         case CharacterType.Right:
           {
-            foreach (var name in Enum.GetNames(typeof(PortraitEnum.Right)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + name));
+            foreach (var value in Enum.GetValues(typeof(PortraitEnum.Right)))
+              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetRightName((PortraitEnum.Right)value)));
           }
           break;
       }

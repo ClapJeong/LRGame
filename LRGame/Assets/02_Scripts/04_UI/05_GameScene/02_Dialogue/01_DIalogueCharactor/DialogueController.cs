@@ -1,8 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using LR.Table.Dialogue;
 using System;
 using System.Threading;
+using TMPro;
 
 namespace LR.UI.GameScene.Dialogue.Character
 {
@@ -50,19 +50,52 @@ namespace LR.UI.GameScene.Dialogue.Character
     {
       try
       {
-        view.dialogueLocalize.SetEntry(key);
-        view.dialogueTMP.maxVisibleCharacters = 0;
+        string resolvedText = null;
 
-        await DOTween.To(
-            () => view.dialogueTMP.maxVisibleCharacters,
-            x => view.dialogueTMP.maxVisibleCharacters = x,
-            view.dialogueTMP.textInfo.characterCount,
-            tableData.CharacterInterval).ToUniTask(TweenCancelBehaviour.Kill, token);
+        void OnUpdate(string value) => resolvedText = value;
+
+        view.dialogueLocalize.OnUpdateString.AddListener(OnUpdate);
+        view.dialogueLocalize.SetEntry(key);
+
+        await UniTask.WaitUntil(
+            () => resolvedText != null,
+            cancellationToken: token);
+
+        view.dialogueLocalize.OnUpdateString.RemoveListener(OnUpdate);
+
+        await TypewriterRichTextAsync(
+            view.dialogueTMP,
+            resolvedText,
+            tableData.CharacterInterval,
+            token);
       }
       catch (OperationCanceledException) { }
-      finally
-      {
+    }
 
+    private async UniTask TypewriterRichTextAsync(
+    TMP_Text text,
+    string fullText,
+    float charInterval,
+    CancellationToken token)
+    {
+      text.text = fullText;
+      text.ForceMeshUpdate();
+
+      var textInfo = text.textInfo;
+      int totalVisibleChars = textInfo.characterCount;
+
+      text.text = fullText;
+      text.maxVisibleCharacters = 0;
+
+      for (int visibleCount = 1; visibleCount <= totalVisibleChars; visibleCount++)
+      {
+        token.ThrowIfCancellationRequested();
+
+        text.maxVisibleCharacters = visibleCount;
+
+        await UniTask.Delay(
+            TimeSpan.FromSeconds(charInterval),
+            cancellationToken: token);
       }
     }
   }

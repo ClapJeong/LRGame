@@ -3,4 +3,5 @@
   None,
   Talking,
   Selecting,
+  Complete,
 }

@@ -80,6 +80,22 @@ public class UIInputManager : IUIInputActionManager
       UnsubscribeCanceledEvent(inputDirectionType, onCanceled);
   }
 
+  public bool IsPerforming(UIInputDirectionType type)
+  {
+    if (inputSets.TryGetValue(type, out var inputActionSet))
+      return inputActionSet.inputAction.IsPressed();
+    else
+      return false;
+  }
+
+  public bool IsAnyPerforming(List<UIInputDirectionType> types)
+  {
+    foreach(var inputDirectionType in types)
+      if(IsPerforming(inputDirectionType)) return true;
+
+    return false;
+  }
+
 
   private void DisableMouse()
   {

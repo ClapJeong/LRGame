@@ -52,6 +52,7 @@ namespace LR.UI.GameScene.Dialogue
       this.view = view;
 
       var leftModel = new UIDialogueCharacterPresenter.Model(
+        this.model.table.AddressableKeySO.PortraitName,
         UIDialogueCharacterPresenter.CharacterType.Left,
         this.model.resourceManager,
         this.model.table.AddressableKeySO.Path.LeftPortrait,
@@ -60,6 +61,7 @@ namespace LR.UI.GameScene.Dialogue
       this.leftPresenter = new UIDialogueCharacterPresenter(leftModel, view.leftView);
 
       var centerModel = new UIDialogueCharacterPresenter.Model(
+        this.model.table.AddressableKeySO.PortraitName,
         UIDialogueCharacterPresenter.CharacterType.Center,
         this.model.resourceManager,
         this.model.table.AddressableKeySO.Path.CenterPortrait,
@@ -68,6 +70,7 @@ namespace LR.UI.GameScene.Dialogue
       this.centerPresenter = new UIDialogueCharacterPresenter(centerModel, view.centerView);
 
       var rightModel = new UIDialogueCharacterPresenter.Model(
+        this.model.table.AddressableKeySO.PortraitName,
         UIDialogueCharacterPresenter.CharacterType.Right,
         this.model.resourceManager,
         this.model.table.AddressableKeySO.Path.RightPortrait,
@@ -87,6 +90,7 @@ namespace LR.UI.GameScene.Dialogue
         this.model.subscriber,
         this.model.controller,
         this.model.stageStateHandler,
+        this,
         this.leftPresenter,
         this.centerPresenter,
         this.rightPresenter,
@@ -95,18 +99,12 @@ namespace LR.UI.GameScene.Dialogue
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      if (GetVisibleState() != UIVisibleState.Hidden)
-        return;
-
       await view.ShowAsync(isImmedieately, token);
     }
 
 
     public async UniTask DeactivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      if (GetVisibleState() != UIVisibleState.Showen)
-        return;
-
       await view.HideAsync(isImmedieately, token);
     }
 
@@ -115,6 +113,7 @@ namespace LR.UI.GameScene.Dialogue
 
     public void Dispose()
     {
+      sequenceController.Dispose();
       if (view)
         view.DestroySelf();
     }

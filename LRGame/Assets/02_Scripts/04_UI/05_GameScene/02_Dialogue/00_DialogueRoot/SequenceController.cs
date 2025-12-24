@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using LR.Stage;
 using LR.Table.Dialogue;
 using System;
 using System.Linq;
@@ -14,6 +13,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private readonly IDialogueController controller;
     private readonly IStageStateHandler stageStateHandler;
 
+    private readonly UIDialogueRootPresenter rootPresenter;
     private readonly UIDialogueCharacterPresenter leftPresenter;
     private readonly UIDialogueCharacterPresenter centerPresenter;
     private readonly UIDialogueCharacterPresenter rightPresenter;
@@ -32,6 +32,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       IDialogueSubscriber subscriber, 
       IDialogueController controller,
       IStageStateHandler stageStateHandler,
+      UIDialogueRootPresenter rootPresenter,
       UIDialogueCharacterPresenter leftPresenter,
       UIDialogueCharacterPresenter centerPresenter,
       UIDialogueCharacterPresenter rightPresenter,
@@ -42,6 +43,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       this.subscriber = subscriber;
       this.controller = controller;
       this.stageStateHandler = stageStateHandler;
+      this.rootPresenter = rootPresenter;
       this.leftPresenter = leftPresenter;
       this.centerPresenter = centerPresenter;
       this.rightPresenter = rightPresenter;
@@ -81,12 +83,12 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private async void OnPlayDialogue()
     {
-      if (isPlayedBeforeDialogue &&
+      if (!isPlayedBeforeDialogue &&
           dialogueDataProvider.TryGetBeforeDialogueData(out var beforeDialogueData))
       {
         PlayFirstSequence(beforeDialogueData);        
       }
-      else if(!isPlayedBeforeDialogue &&
+      else if(isPlayedBeforeDialogue &&
               dialogueDataProvider.TryGetAfterDialogueData(out var afterDialogueData))
       {
         PlayFirstSequence(afterDialogueData);
@@ -103,7 +105,14 @@ namespace LR.UI.GameScene.Dialogue.Root
       inputPresenter.DeactivateLeftInput();
       inputPresenter.DeactivateRightInput();
 
-      PlaySequence(currentDialogueData.SequenceSets[sequenceIndex]);
+      if(currentDialogueData.SequenceSets.Count > sequenceIndex)
+      {
+        PlaySequence(currentDialogueData.SequenceSets[sequenceIndex]);
+      }
+      else
+      {
+        controller.Complete();
+      }
     }
 
     private void OnSkipDialogue()
@@ -113,9 +122,11 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private void OnCompleteDialogue()
     {
+      controller.SetState(DialogueState.None);
       sequenceIndex = 0;
       isPlayedBeforeDialogue = true;
 
+      rootPresenter.DeactivateAsync().Forget();
       leftPresenter.DeactivateAsync().Forget();
       rightPresenter.DeactivateAsync().Forget();
       centerPresenter.DeactivateAsync().Forget();
@@ -129,6 +140,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private void PlayFirstSequence(DialogueData dialogueData)
     {
       currentDialogueData = dialogueData;
+      rootPresenter.ActivateAsync().Forget();
       leftPresenter.ActivateAsync().Forget();
       centerPresenter.ActivateAsync().Forget();
       rightPresenter.ActivateAsync().Forget();
@@ -164,12 +176,15 @@ namespace LR.UI.GameScene.Dialogue.Root
         case IDialogueSequence.Type.Selection:
           PlaySelectionSeqeuence(targetSequence as DialogueSelectionData);
           break;
+
+        default: throw new System.NotImplementedException();
       }
       sequenceIndex++;
     }
 
     private void PlayTalkingSequence(DialogueTalkingData talkingData)
     {
+      controller.SetState(DialogueState.Talking);
       leftPresenter.PlayCharacterDataAsync(talkingData.left).Forget();
       centerPresenter.PlayCharacterDataAsync(talkingData.center).Forget();
       rightPresenter.PlayCharacterDataAsync(talkingData.right).Forget();
@@ -177,6 +192,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private void PlaySelectionSeqeuence(DialogueSelectionData selectionData)
     {
+      controller.SetState(DialogueState.Selecting);
       //TODO: Selection
     }
 

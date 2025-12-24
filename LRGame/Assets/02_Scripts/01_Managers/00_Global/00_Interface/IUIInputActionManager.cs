@@ -19,4 +19,8 @@ public interface IUIInputActionManager: IDisposable
   public void SubscribeCanceledEvent(List<UIInputDirectionType> types, UnityAction onCanceled);
 
   public void UnsubscribeCanceledEvent(List<UIInputDirectionType> types, UnityAction onCanceled);
+
+  public bool IsPerforming(UIInputDirectionType type);
+
+  public bool IsAnyPerforming(List<UIInputDirectionType> types);
 }

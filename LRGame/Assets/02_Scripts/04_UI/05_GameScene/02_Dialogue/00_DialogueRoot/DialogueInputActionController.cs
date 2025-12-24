@@ -158,6 +158,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       {
         while(duration < textPresentationData.SkipInputDuration)
         {
+          token.ThrowIfCancellationRequested();
           onSkipProgress?.Invoke(duration / textPresentationData.SkipInputDuration);
 
           duration += Time.deltaTime;

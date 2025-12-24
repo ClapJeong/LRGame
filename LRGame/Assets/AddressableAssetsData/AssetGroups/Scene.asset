@@ -18,8 +18,7 @@ MonoBehaviour:
   - m_GUID: 731b7e771a98e574782ecb2589e1b0df
     m_Address: Scene/Lobby
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Preload
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
     m_Address: Scene/Game

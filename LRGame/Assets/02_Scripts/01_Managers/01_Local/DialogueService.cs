@@ -1,5 +1,4 @@
-﻿using LR.Table.Dialogue;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine.Events;
 
 public class DialogueService : IDialogueController, IDialogueSubscriber
@@ -12,7 +11,11 @@ public class DialogueService : IDialogueController, IDialogueSubscriber
   {
     state = DialogueState.None;
 
-    stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, Play);
+    stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, ()=>
+    {
+      state = DialogueState.None;
+      Play();
+    });
   }
 
   #region IDialogueController
@@ -26,7 +29,7 @@ public class DialogueService : IDialogueController, IDialogueSubscriber
 
   public void Complete()
   {
-    if (state == DialogueState.None)
+    if (state == DialogueState.Complete)
       return;
 
     events.TryInvoke(IDialogueSubscriber.EventType.OnComplete);
