@@ -144,6 +144,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
       rootPresenter.DeactivateAsync().Forget();
       talkingController.DeactivateAsync(false, default).Forget();
+      talkingController.DisalbeTalkingInputs();
       selectionController.DeactivateAsync(false, default).Forget();
 
       if(isPlayedBeforeDialogue == false)
@@ -179,7 +180,6 @@ namespace LR.UI.GameScene.Dialogue.Root
           var targetCondition = sequence.GetCondition();
           return gameDataService.IsContainsCondition(targetCondition.TargetSubName, targetCondition.LeftKey, targetCondition.RightKey);
         });
-        Debug.Log(targetSequence != null);
         targetSequence ??= sequenceSet.Sequences[0];        
       }
 

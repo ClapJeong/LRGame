@@ -28,6 +28,11 @@ namespace LR.UI.GameScene.Dialogue.Selection
             uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.LeftRight, OnRightPerformed);
             uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.LeftDown, OnDownPerformed);
             uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.LeftLeft, OnLeftPerformed);
+          
+            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftUp, OnUpCanceled);
+            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftRight, OnRightCanceled);
+            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftDown, OnDownCanceled);
+            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftLeft, OnLeftCanceled);
           }
           break;
 
@@ -37,6 +42,11 @@ namespace LR.UI.GameScene.Dialogue.Selection
             uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightRight, OnRightPerformed);
             uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightDown, OnDownPerformed);
             uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightLeft, OnLeftPerformed);
+          
+            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightUp, OnUpCanceled);
+            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightRight, OnRightCanceled);
+            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightDown, OnDownCanceled);
+            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightLeft, OnLeftCanceled);
           }
           break;
       }
@@ -48,19 +58,29 @@ namespace LR.UI.GameScene.Dialogue.Selection
       {
         case PlayerType.Left:
           {
-            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftUp, OnUpCanceled);
-            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftRight, OnRightCanceled);
-            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftDown, OnDownCanceled);
-            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftLeft, OnLeftCanceled);
+            uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.LeftUp, OnUpPerformed);
+            uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.LeftRight, OnRightPerformed);
+            uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.LeftDown, OnDownPerformed);
+            uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.LeftLeft, OnLeftPerformed);
+
+            uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.LeftUp, OnUpCanceled);
+            uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.LeftRight, OnRightCanceled);
+            uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.LeftDown, OnDownCanceled);
+            uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.LeftLeft, OnLeftCanceled);
           }
           break;
 
         case PlayerType.Right:
           {
-            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightUp, OnUpCanceled);
-            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightRight, OnRightCanceled);
-            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightDown, OnDownCanceled);
-            uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightLeft, OnLeftCanceled);
+            uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightUp, OnUpPerformed);
+            uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightRight, OnRightPerformed);
+            uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightDown, OnDownPerformed);
+            uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightLeft, OnLeftPerformed);
+
+            uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.RightUp, OnUpCanceled);
+            uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.RightRight, OnRightCanceled);
+            uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.RightDown, OnDownCanceled);
+            uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.RightLeft, OnLeftCanceled);
           }
           break;
       }

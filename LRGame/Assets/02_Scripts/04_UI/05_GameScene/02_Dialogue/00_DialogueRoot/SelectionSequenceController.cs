@@ -112,8 +112,9 @@ namespace LR.UI.GameScene.Dialogue.Root
       if (leftSelections.Contains(direction))
       {
         leftSelections.Remove(direction);
-        leftSelectionPresenter.SetOutlinePosition(leftSelections.Count > 0 ? leftSelections.Last()
-                                                                           : Direction.Space);
+        var targetDirection = leftSelections.Count > 0 ? leftSelections.Last()
+                                                       : Direction.Space;
+        leftSelectionPresenter.SetOutlinePosition(targetDirection);
       }
     }
 
@@ -134,8 +135,9 @@ namespace LR.UI.GameScene.Dialogue.Root
       if (rightSelections.Contains(direction))
       {
         rightSelections.Remove(direction);
-        rightSelectionPresenter.SetOutlinePosition(rightSelections.Count > 0 ? rightSelections.Last()
-                                                                             : Direction.Space);
+        var targetDirection = leftSelections.Count > 0 ? leftSelections.Last()
+                                                       : Direction.Space;
+        rightSelectionPresenter.SetOutlinePosition(targetDirection);
       }
     }
   }

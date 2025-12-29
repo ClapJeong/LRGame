@@ -34,8 +34,6 @@ namespace LR.UI.GameScene.Dialogue
     private readonly InputEventHolder inputEventHolder;
     private readonly SubscribeHandle subscribeHandle;
 
-    private Direction currentSelectionDirection = Direction.Space;
-
 
     public UISelectionCharacterPresenter(Model model, UISelectionCharacterView view)
     {
@@ -53,7 +51,6 @@ namespace LR.UI.GameScene.Dialogue
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      currentSelectionDirection = Direction.Space;
       subscribeHandle.Subscribe();
       await view.ShowAsync(isImmedieately, token);
     }
@@ -115,9 +112,6 @@ namespace LR.UI.GameScene.Dialogue
 
     private void OnInputCanceled(Direction direction) 
     {
-      if (currentSelectionDirection != direction)
-        return;
-
       model.onCanceled?.Invoke(direction);
     }
   }
