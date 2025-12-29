@@ -1,7 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.Table.Dialogue;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,8 +18,8 @@ namespace LR.UI.GameScene.Dialogue.Root
     private readonly UnityAction onRightPerformed;
     private readonly UnityAction onRightCanceled;
 
-    private readonly UnityAction onSkipPressed;
-    private readonly UnityAction onSkipCanceled;
+    private readonly UnityAction onLeftRightPerformed;
+
     private readonly UnityAction<float> onSkipProgress;
     private readonly CTSContainer skipCTS = new();
 
@@ -28,7 +27,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private bool isLeftPerformed;
     private bool isRightPerformed;
 
-    public DialogueInputActionController(IDialogueController dialogueController, IUIInputActionManager uiInputActionManager, UITextPresentationData textPresentationData, UnityAction onLeftPerformed, UnityAction onLeftCanceled, UnityAction onRightPerformed, UnityAction onRightCanceled, UnityAction onSkipPressed, UnityAction onSkipCanceled, UnityAction<float> onSkipProgress)
+    public DialogueInputActionController(IDialogueController dialogueController, IUIInputActionManager uiInputActionManager, UITextPresentationData textPresentationData, UnityAction onLeftPerformed, UnityAction onLeftCanceled, UnityAction onRightPerformed, UnityAction onRightCanceled, UnityAction onLeftRightPerformed, UnityAction<float> onSkipProgress)
     {
       this.dialogueController = dialogueController;
       this.uiInputActionManager = uiInputActionManager;
@@ -37,8 +36,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       this.onLeftCanceled = onLeftCanceled;
       this.onRightPerformed = onRightPerformed;
       this.onRightCanceled = onRightCanceled;
-      this.onSkipPressed = onSkipPressed;
-      this.onSkipCanceled = onSkipCanceled;
+      this.onLeftRightPerformed = onLeftRightPerformed;
       this.onSkipProgress = onSkipProgress;
     }
 
@@ -100,7 +98,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
       isLeftPerformed = true;
       if (isLeftPerformed && isRightPerformed)
-        dialogueController.NextSequence();
+        onLeftRightPerformed?.Invoke();
     }
 
     private void OnLeftCanceled()
@@ -116,7 +114,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
       isRightPerformed = true;
       if (isLeftPerformed && isRightPerformed)
-        dialogueController.NextSequence();
+        onLeftRightPerformed?.Invoke();
     }
 
     private void OnRightCanceled()
@@ -128,7 +126,6 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private void OnSkipPerformed()
     {
-      onSkipPressed?.Invoke();
       skipCTS.Dispose();
       skipCTS.Create();
       SkipAsync(skipCTS.token).Forget();
@@ -136,7 +133,6 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private void OnSkipCanceled()
     {
-      onSkipCanceled?.Invoke();
       skipCTS.Cancel();
     }
 

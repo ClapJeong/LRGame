@@ -38,7 +38,7 @@ namespace LR.Stage.TriggerTile
 
     public void Restart()
     {
-
+      isEnable = true;
     }
 
     private void OnEnter(Collider2D collider2D)

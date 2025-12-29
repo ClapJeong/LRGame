@@ -610,9 +610,11 @@ public class DialogueEditorWindow : EditorWindow
     selectedSequence = sequence;
 
     if (selectedSequence != null)
+    {
       UpdateAvailableSelectionDatas();
 
-    selectedConditionIndex = selectedSequenceSet.Sequences.ToList().IndexOf(sequence);
+      selectedConditionIndex = selectedSequenceSet.Sequences.ToList().IndexOf(sequence);
+    }      
   }
 
   private void UpdateAvailableSelectionDatas()

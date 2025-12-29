@@ -1,7 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
@@ -26,7 +25,7 @@ namespace LR.UI.GameScene.Dialogue
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       visibleState = UIVisibleState.Showen;
-      outlineRect.position = idleRect.position;
+      outlineRect.position = GetDirectionPosition(Direction.Space);;
       gameObject.SetActive(true);
       await UniTask.CompletedTask;
     }
@@ -34,11 +33,11 @@ namespace LR.UI.GameScene.Dialogue
     public Vector3 GetDirectionPosition(Direction direction)
       => direction switch
       {
-        Direction.Up => upLocalize.GetComponent<RectTransform>().position,
-        Direction.Down => downLocalize.GetComponent<RectTransform>().position,
-        Direction.Left => leftLocalize.GetComponent<RectTransform>().position,
-        Direction.Right => rightLocalize.GetComponent<RectTransform>().position,
-        Direction.Space => idleRect.position,
+        Direction.Up => upLocalize.GetComponent<RectTransform>().GetCenterPosition(),
+        Direction.Down => downLocalize.GetComponent<RectTransform>().GetCenterPosition(),
+        Direction.Left => leftLocalize.GetComponent<RectTransform>().GetCenterPosition(),
+        Direction.Right => rightLocalize.GetComponent<RectTransform>().GetCenterPosition(),
+        Direction.Space => idleRect.GetCenterPosition(),
         _ => throw new NotImplementedException()
       };
   }

@@ -11,6 +11,13 @@ namespace LR.UI.GameScene.Dialogue.Root
 {
   public class SequenceController : IDisposable
   {
+    private enum StateType
+    {
+      Before,
+      After,
+      Complete,
+    }
+
     private readonly IGameDataService gameDataService;
     private readonly IDialogueDataProvider dialogueDataProvider;
     private readonly IDialogueSubscriber dialogueSubscriber;
@@ -26,7 +33,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private readonly CTSContainer selectionCTS = new();
     private IDialogueSequence.Type prevSequenceType;
     private DialogueData currentDialogueData;
-    private bool isPlayedBeforeDialogue = false;
+    private StateType dialogueState = StateType.Before;
     private int sequenceIndex = 0;
 
     public SequenceController(
@@ -99,19 +106,31 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private async void OnPlayDialogue()
     {
-      if (!isPlayedBeforeDialogue &&
-          dialogueDataProvider.TryGetBeforeDialogueData(out var beforeDialogueData))
+      switch (dialogueState)
       {
-        PlayFirstSequence(beforeDialogueData);        
-      }
-      else if(isPlayedBeforeDialogue &&
-              dialogueDataProvider.TryGetAfterDialogueData(out var afterDialogueData))
-      {
-        PlayFirstSequence(afterDialogueData);
-      }
-      else
-      {
-        dialogueController.Complete();
+        case StateType.Before:
+          {
+            if (dialogueDataProvider.TryGetBeforeDialogueData(out var beforeDialogueData))
+              PlayFirstSequence(beforeDialogueData);
+            else
+              dialogueController.Complete();
+          }
+          break;
+
+        case StateType.After:
+          {
+            if(dialogueDataProvider.TryGetAfterDialogueData(out var afterDialogueData))
+              PlayFirstSequence(afterDialogueData);
+            else
+              dialogueController.Complete();
+          }
+          break;
+
+        case StateType.Complete:
+          {
+            dialogueController.Complete();
+          }
+          break;
       }
     }
 
@@ -147,10 +166,22 @@ namespace LR.UI.GameScene.Dialogue.Root
       talkingController.DisalbeTalkingInputs();
       selectionController.DeactivateAsync(false, default).Forget();
 
-      if(isPlayedBeforeDialogue == false)
-        stageStateHandler.SetState(IStageStateHandler.State.Ready);
+      switch (dialogueState)
+      {
+        case StateType.Before:
+          {
+            dialogueState = StateType.After;
+            stageStateHandler.SetState(IStageStateHandler.State.Ready);
+          }
+          break;
 
-      isPlayedBeforeDialogue = true;
+        case StateType.After:
+          {
+            dialogueState = StateType.Complete;
+          }
+          break;
+
+      }
     }
     #endregion
 
@@ -217,13 +248,15 @@ namespace LR.UI.GameScene.Dialogue.Root
     private async UniTask PlaySelectionSeqeuenceAsync(DialogueSelectionData selectionData, CancellationToken token)
     {
       talkingController.DisalbeTalkingInputs();
-      var prev = prevSequenceType;
+      
       dialogueController.SetState(DialogueState.Selecting);
+      var prev = prevSequenceType;
       prevSequenceType = IDialogueSequence.Type.Selection;
+
       selectionController.SetString(selectionData);      
 
       var duration = new FloatReactiveProperty(selectionTableData.Duration);
-      var timerDisposable = selectionController.SubscribeTimer(selectionData.DescriptionKey, duration);
+      var timerDisposable = selectionController.SubscribeTimer(duration);
       try
       {
         if (prev == IDialogueSequence.Type.Talking)
@@ -242,7 +275,7 @@ namespace LR.UI.GameScene.Dialogue.Root
         gameDataService.SetDialogueCondition(selectionData.SubName, (int)leftResult, (int)rightResult);
         gameDataService.SaveDataAsync().Forget();
 
-        await UniTask.WaitForSeconds(3.0f);
+        await UniTask.WaitForSeconds(1.5f);
         dialogueController.NextSequence();
       }
       catch (OperationCanceledException)

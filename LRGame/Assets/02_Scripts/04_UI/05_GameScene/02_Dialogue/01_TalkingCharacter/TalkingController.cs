@@ -3,6 +3,7 @@ using LR.Table.Dialogue;
 using System;
 using System.Threading;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 namespace LR.UI.GameScene.Dialogue.Character
 {
@@ -32,7 +33,7 @@ namespace LR.UI.GameScene.Dialogue.Character
       }
     }
 
-    public void SetDialogue(string key)
+    public async UniTask SetDialogueAsync(string key)
     {
       dialogueCTS.Cancel();
       dialogueCTS.Create();
@@ -42,38 +43,42 @@ namespace LR.UI.GameScene.Dialogue.Character
       }
       else
       {
-        SetDialogueAsync(key, dialogueCTS.token).Forget();
+        await SetLocalizeKeyAsync(key, dialogueCTS.token);
+        await TypewriterRichTextAsync(
+          view.dialogueTMP,
+          view.dialogueTMP.text,
+          tableData.CharacterInterval,
+          dialogueCTS.token);
       }
     }
 
-    private async UniTask SetDialogueAsync(string key, CancellationToken token)
+    private async UniTask SetLocalizeKeyAsync(string key, CancellationToken token)
     {
+      string resolvedText = null;
+
+      void OnUpdate(string value) => resolvedText = value;
       try
       {
-        string resolvedText = null;
-
-        void OnUpdate(string value) => resolvedText = value;
 
         view.dialogueLocalize.OnUpdateString.AddListener(OnUpdate);
         view.dialogueLocalize.SetEntry(key);
 
         await UniTask.WaitUntil(
             () => resolvedText != null,
-            cancellationToken: token);
-
-        view.dialogueLocalize.OnUpdateString.RemoveListener(OnUpdate);
-
-        await TypewriterRichTextAsync(
-            view.dialogueTMP,
-            resolvedText,
-            tableData.CharacterInterval,
-            token);
+            cancellationToken: token);        
       }
       catch (OperationCanceledException) { }
+      finally
+      {
+        view.dialogueLocalize.OnUpdateString.RemoveListener(OnUpdate);
+      }
     }
 
+    public void CompleteDialogueImmediately()
+      => dialogueCTS.Cancel();
+
     private async UniTask TypewriterRichTextAsync(
-    TMP_Text text,
+    TextMeshProUGUI text,
     string fullText,
     float charInterval,
     CancellationToken token)
@@ -87,15 +92,23 @@ namespace LR.UI.GameScene.Dialogue.Character
       text.text = fullText;
       text.maxVisibleCharacters = 0;
 
-      for (int visibleCount = 1; visibleCount <= totalVisibleChars; visibleCount++)
+      try
       {
-        token.ThrowIfCancellationRequested();
+        for (int visibleCount = 1; visibleCount <= totalVisibleChars; visibleCount++)
+        {
+          token.ThrowIfCancellationRequested();
 
-        text.maxVisibleCharacters = visibleCount;
+          text.maxVisibleCharacters = visibleCount;
 
-        await UniTask.Delay(
-            TimeSpan.FromSeconds(charInterval),
-            cancellationToken: token);
+          await UniTask.Delay(
+              TimeSpan.FromSeconds(charInterval),
+              cancellationToken: token);
+        }
+      }
+      catch (OperationCanceledException) { }
+      finally
+      {
+        text.maxVisibleCharacters = totalVisibleChars;
       }
     }
   }

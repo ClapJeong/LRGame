@@ -91,8 +91,11 @@ namespace LR.UI.GameScene.Dialogue
       portraitController.SetAlpha((PortraitEnum.AlphaType)data.PortraitAlphaType);
 
       dialogueController.SetName(data.NameKey);
-      dialogueController.SetDialogue(data.DialogueKey);
+      await dialogueController.SetDialogueAsync(data.DialogueKey);
     }
+
+    public void CompleteDialogueImmedieately()
+      => dialogueController.CompleteDialogueImmediately();
 
     private async UniTask<Sprite> GetPortraitSpriteAsync(int index)
     {

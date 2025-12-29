@@ -44,10 +44,10 @@ namespace LR.UI.GameScene.Dialogue
     public UIVisibleState GetVisibleState()
       => view.GetVisibleState();
 
-    public IDisposable SubscribeTimer(string key, FloatReactiveProperty normalizeTime)
-    {
-      view.subNameLocalize.SetEntry(key);
-      return normalizeTime.Subscribe(value => view.timerImage.localScale = new Vector3(value, 1.0f, 1.0f));
-    }
+    public void SetString(string key)
+      => view.subNameLocalize.SetEntry(key);
+
+    public IDisposable SubscribeTimer(FloatReactiveProperty normalizeTime)
+      => normalizeTime.Subscribe(value => view.timerImage.localScale = new Vector3(value, 1.0f, 1.0f));
   }
 }

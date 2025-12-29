@@ -110,7 +110,6 @@ namespace LR.UI.GameScene.Stage
 
     private void OnAfterDialogueComplete()
     {
-      model.dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
       successPresenter.ActivateAsync().Forget();
     }
 

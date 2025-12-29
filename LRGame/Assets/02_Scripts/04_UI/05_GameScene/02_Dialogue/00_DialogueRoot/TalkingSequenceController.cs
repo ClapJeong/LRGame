@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.Table.Dialogue;
+using System;
 using System.Threading;
 using UnityEngine;
 
@@ -12,6 +13,10 @@ namespace LR.UI.GameScene.Dialogue.Root
     private readonly UITalkingCharacterPresenter rightCharacterPresenter;
     private readonly UITalkingInputsPresenter inputPresenter;
     private readonly DialogueInputActionController dialogueInputActionController;
+    private readonly IDialogueController dialogueController;
+
+    private readonly CTSContainer cts = new();
+    private bool isTalkling = false;
 
     public TalkingSequenceController(
       GameObject attachTarget,
@@ -24,6 +29,8 @@ namespace LR.UI.GameScene.Dialogue.Root
       UITalkingCharacterView rightView,
       UITalkingInputsView inputView)
     {
+      this.dialogueController = dialogueController;
+
       var leftModel = new UITalkingCharacterPresenter.Model(
         table.AddressableKeySO.PortraitName,
         UITalkingCharacterPresenter.CharacterType.Left,
@@ -67,8 +74,7 @@ namespace LR.UI.GameScene.Dialogue.Root
         onLeftCanceled: inputPresenter.DeactivateLeftInput,
         onRightPerformed: inputPresenter.ActivateRightInput,
         onRightCanceled: inputPresenter.DeactivateRightInput,
-        onSkipPressed: null,
-        onSkipCanceled: null,
+        onLeftRightPerformed: OnLeftRightPerfomed,
         onSkipProgress: inputPresenter.SkipProgress);
     }
 
@@ -97,9 +103,30 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     public async UniTask PlayCharacterDataAsync(DialogueTalkingData talkingData)
     {
-      leftCharacterPresenter.PlayCharacterDataAsync(talkingData.left).Forget();
-      centerCharacterPresenter.PlayCharacterDataAsync(talkingData.center).Forget();
-      rightCharacterPresenter.PlayCharacterDataAsync(talkingData.right).Forget();
+      cts.Cancel();
+      cts.Create();
+      var token = cts.token;
+      try
+      {
+        isTalkling = true;
+        await UniTask.WhenAll(
+          leftCharacterPresenter.PlayCharacterDataAsync(talkingData.left),
+          centerCharacterPresenter.PlayCharacterDataAsync(talkingData.center),
+          rightCharacterPresenter.PlayCharacterDataAsync(talkingData.right))
+          .AttachExternalCancellation(token);
+
+        token.ThrowIfCancellationRequested();
+      }
+      catch (OperationCanceledException)
+      {
+        leftCharacterPresenter.CompleteDialogueImmedieately();
+        centerCharacterPresenter.CompleteDialogueImmedieately();
+        rightCharacterPresenter.CompleteDialogueImmedieately();
+      }
+      finally
+      {
+        isTalkling = false;
+      }
     }
 
     public void EnableTalkingInputs()
@@ -110,6 +137,18 @@ namespace LR.UI.GameScene.Dialogue.Root
     public void DisalbeTalkingInputs()
     {
       dialogueInputActionController.UnsubscribeInputActions();
+    }
+
+    private void OnLeftRightPerfomed()
+    {
+      if (isTalkling)
+      {
+        cts.Cancel();
+      }
+      else
+      {
+        dialogueController.NextSequence();
+      }
     }
   }
 }

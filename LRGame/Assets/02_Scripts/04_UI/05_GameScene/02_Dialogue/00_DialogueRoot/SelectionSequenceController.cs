@@ -67,12 +67,13 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     public void SetString(DialogueSelectionData selectionData)
     {
+      selectionTimerPresenter.SetString(selectionData.DescriptionKey);
       leftSelectionPresenter.SetStrings(selectionData);
       rightSelectionPresenter.SetStrings(selectionData);
     }
 
-    public IDisposable SubscribeTimer(string descriptionKey, FloatReactiveProperty time)
-      => selectionTimerPresenter.SubscribeTimer(descriptionKey, time);
+    public IDisposable SubscribeTimer( FloatReactiveProperty time)
+      => selectionTimerPresenter.SubscribeTimer(time);
 
     public void BeginSelecting()
     {

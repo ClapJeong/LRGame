@@ -130,6 +130,7 @@ namespace LR.Stage.Player
       energyService.Restart();        
 
       view.SetWorldPosition(model.beginPosition);
+      stateService.ChangeState(PlayerStateType.Idle);
     }
     #endregion
 

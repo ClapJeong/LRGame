@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
@@ -552,7 +552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
@@ -788,7 +788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
@@ -1191,7 +1191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
@@ -1527,7 +1527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
@@ -1863,7 +1863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
@@ -2251,7 +2251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
@@ -2451,7 +2451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:61ffa6566ad92c143a9a047e7bf566c4
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 
