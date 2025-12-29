@@ -18,7 +18,9 @@ MonoBehaviour:
     <AlphaHalfHidden>k__BackingField: 0.6
     <AlphaMin>k__BackingField: 0
   <TextPresentationData>k__BackingField:
-    <CharacterInterval>k__BackingField: 0.1
+    <CharacterInterval>k__BackingField: 0.06
     <SkipInputDuration>k__BackingField: 1
     <InputPerformedAlpha>k__BackingField: 1
     <InputCanceledAlpha>k__BackingField: 0.3
+  <SelectionData>k__BackingField:
+    <Duration>k__BackingField: 3

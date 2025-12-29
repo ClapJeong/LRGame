@@ -23,6 +23,19 @@ namespace LR.Table.Dialogue
       }
     }
 
+    public string DescriptionKey
+    {
+      get => this.descriptionKey;
+      set
+      {
+        if (descriptionKey == value)
+          return;
+
+        onDirty?.Invoke();
+        descriptionKey = value;
+      }
+    }
+
     public string LeftUpKey
     {
       get => this.leftUpKey;
@@ -122,6 +135,8 @@ namespace LR.Table.Dialogue
     }
 
     [SerializeField] private DialogueCondition condition;
+
+    [SerializeField] private string descriptionKey;
 
     [SerializeField] private string leftUpKey;
     [SerializeField] private string leftRightKey;

@@ -1,13 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
-using LR.UI;
 using LR.UI.GameScene.Dialogue.Root;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -40,10 +35,6 @@ namespace LR.UI.GameScene.Dialogue
     private readonly Model model;
     private readonly UIDialogueRootView view;
 
-    private readonly UIDialogueCharacterPresenter leftPresenter;
-    private readonly UIDialogueCharacterPresenter centerPresenter;
-    private readonly UIDialogueCharacterPresenter rightPresenter;
-    private readonly UIDialogueInputsPresenter inputPresenter;
     private readonly SequenceController sequenceController;
 
     public UIDialogueRootPresenter(Model model, UIDialogueRootView view)
@@ -51,50 +42,24 @@ namespace LR.UI.GameScene.Dialogue
       this.model = model;
       this.view = view;
 
-      var leftModel = new UIDialogueCharacterPresenter.Model(
-        this.model.table.AddressableKeySO.PortraitName,
-        UIDialogueCharacterPresenter.CharacterType.Left,
-        this.model.resourceManager,
-        this.model.table.AddressableKeySO.Path.LeftPortrait,
-        this.model.table.DialogueDataSO.PortraitData,
-        this.model.table.DialogueDataSO.TextPresentationData);
-      this.leftPresenter = new UIDialogueCharacterPresenter(leftModel, view.leftView);
-
-      var centerModel = new UIDialogueCharacterPresenter.Model(
-        this.model.table.AddressableKeySO.PortraitName,
-        UIDialogueCharacterPresenter.CharacterType.Center,
-        this.model.resourceManager,
-        this.model.table.AddressableKeySO.Path.CenterPortrait,
-        this.model.table.DialogueDataSO.PortraitData,
-        this.model.table.DialogueDataSO.TextPresentationData);
-      this.centerPresenter = new UIDialogueCharacterPresenter(centerModel, view.centerView);
-
-      var rightModel = new UIDialogueCharacterPresenter.Model(
-        this.model.table.AddressableKeySO.PortraitName,
-        UIDialogueCharacterPresenter.CharacterType.Right,
-        this.model.resourceManager,
-        this.model.table.AddressableKeySO.Path.RightPortrait,
-        this.model.table.DialogueDataSO.PortraitData,
-        this.model.table.DialogueDataSO.TextPresentationData);
-      this.rightPresenter = new UIDialogueCharacterPresenter(rightModel, view.rightView);
-
-      var inputModel = new UIDialogueInputsPresenter.Model(
-        this.model.table.DialogueDataSO.TextPresentationData);
-      this.inputPresenter = new UIDialogueInputsPresenter(inputModel, view.inputView);
-
       sequenceController = new(
+        view.gameObject,
         this.model.table,
         this.model.gameDataService,
+        this.model.resourceManager,
         this.model.uiInputActionManager,
         this.model.dialogueDataProvider,
         this.model.subscriber,
         this.model.controller,
         this.model.stageStateHandler,
         this,
-        this.leftPresenter,
-        this.centerPresenter,
-        this.rightPresenter,
-        this.inputPresenter);
+        view.leftTalkingCharacterView,
+        view.centerTalkingCharacterView,
+        view.rightTalkingCharacterView,
+        view.talkingInputView,
+        view.leftSelectionCharacterView,
+        view.rightSelectionCharacterView,
+        view.selectionTimerView);
     }
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)

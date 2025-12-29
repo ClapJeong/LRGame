@@ -10,8 +10,8 @@ namespace LR.UI.GameScene.Dialogue.Character
 {
   public class PortraitController
   {
-    private readonly PortraitData portraitData;
-    private readonly UIDialogueCharacterView view;
+    private readonly UIPortraitData portraitData;
+    private readonly UITalkingCharacterView view;
 
     private readonly CTSContainer portriatImageCTS = new();
     private readonly CTSContainer animationCTS = new();
@@ -23,7 +23,7 @@ namespace LR.UI.GameScene.Dialogue.Character
     private Image forwardImage;
     private float forwardImageAlpha = 1.0f;
 
-    public PortraitController(PortraitData portraitData, UIDialogueCharacterView view)
+    public PortraitController(UIPortraitData portraitData, UITalkingCharacterView view)
     {
       this.portraitData = portraitData;
       this.view = view;

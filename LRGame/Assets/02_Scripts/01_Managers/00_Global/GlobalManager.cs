@@ -73,7 +73,13 @@ public class GlobalManager : MonoBehaviour
   public void Debugging_AddClearStage()
     => gameDataService.Debugging_RaiseClearData();
 
+  public void Debugging_MinusClearState()
+    => gameDataService.Debugging_LowerClearData();
+
   public void Debugging_ClearClearStage()
     => gameDataService.Debugging_RaiseClearData();
+
+  public void Debugging_ClearAllConditions()
+    => gameDataService.Debugging_ClearAllDialogueConditions();
   #endregion
 }

@@ -3,7 +3,7 @@ using UnityEngine.Localization;
 using ScriptableEvent;
 using TMPro;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+using Cysharp.Threading.Tasks;
 
 namespace LR.UI.Debugging
 {
@@ -13,7 +13,13 @@ namespace LR.UI.Debugging
     [SerializeField] private GameObject root;
     [SerializeField] private ScriptableEventSO scriptableEventSO;
     [SerializeField] private TextMeshProUGUI selectedStageIndexText;
-    [SerializeField] private TextMeshProUGUI clearedStageIndexText;
+
+    [Header("[ Dialogue Conditions ]")]
+    [SerializeField] private GameObject conditionArea;
+    [SerializeField] private TextMeshProUGUI currentDialogueConditions;
+    [SerializeField] private TMP_InputField conditionKeyInputField;
+    [SerializeField] private TMP_InputField conditionLeftInputField;
+    [SerializeField] private TMP_InputField conditionRightInputField;
 
     private void Awake()
     {
@@ -32,7 +38,6 @@ namespace LR.UI.Debugging
       gameDataService.GetSelectedStage(out var chapter, out var stage);
       selectedStageIndexText.text = $"current: {chapter}/{stage}";
       var topClearData = gameDataService.GetTopClearData();
-      clearedStageIndexText.text = $"cleared: {topClearData.chapter}/{topClearData.stage}";
     }
 
     public void OnLocaleButtonClicked(Locale locale)
@@ -42,12 +47,50 @@ namespace LR.UI.Debugging
       => scriptableEventSO.OnStageEvent((StageEventType)stageEventType);
 
     public void OnGameDataButtonClicked(int gameDataEventType)
-      => scriptableEventSO.OnGameDataEvent((GameDataEventType)gameDataEventType);
+    {
+      var type = (GameDataEventType)gameDataEventType;
+      switch (type)
+      {
+        case GameDataEventType.AddDialogueCondition:
+          {
+            var key = conditionKeyInputField.text;
+            if (int.TryParse(conditionLeftInputField.text, out var left) == false ||
+                int.TryParse(conditionRightInputField.text, out var right) == false)
+              return;
+
+            IGameDataService gameDataService = GlobalManager.instance.GameDataService;
+            gameDataService.SetDialogueCondition(key, left, right);
+            gameDataService.SaveDataAsync().Forget();
+          }
+          break;
+
+        default:
+          {
+            scriptableEventSO.OnGameDataEvent(type);
+          }
+          break;
+      }
+    }
 
     public void OnLeftEnergyButtonClicked(float value)
       =>scriptableEventSO.OnLeftEnergyChanged(value);
 
     public void OnRightEnergyButtonClicked(float value)
       => scriptableEventSO.OnRightEnergyChanged(value);
+
+    public void OnFoldConditionArea()
+    {
+      var value = !conditionArea.activeSelf;
+      if (value)
+      {
+        currentDialogueConditions.text = GlobalManager.instance.GameDataService.Debugging_GetAllConditions();
+        conditionKeyInputField.text = "";
+        conditionLeftInputField.text = "";
+        conditionRightInputField.text = "";
+      }      
+
+      conditionArea.SetActive(value);
+      LayoutRebuilder.ForceRebuildLayoutImmediate(conditionArea.GetComponent<RectTransform>());
+    }
   }
 }

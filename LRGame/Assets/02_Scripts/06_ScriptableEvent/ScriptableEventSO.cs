@@ -134,9 +134,14 @@ namespace ScriptableEvent
       var set = gameDataListnerSets.FirstOrDefault(s => s.type == gameDataEventType);
       set?.Remove(listener);
     }
+
+    public void SetDialogueCondition(string key, int left, int right)
+    {
+      
+    }
     #endregion
 
-    #region HP
+    #region Energy
     public void OnLeftEnergyChanged(float value)
     {
       for (int i = 0; i < leftEnergyListners.Count; i++)

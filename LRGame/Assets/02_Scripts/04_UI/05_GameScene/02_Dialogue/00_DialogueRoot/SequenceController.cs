@@ -1,7 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.Table.Dialogue;
+using LR.UI.GameScene.Dialogue.Character;
 using System;
 using System.Linq;
+using System.Threading;
+using UniRx;
+using UnityEngine;
 
 namespace LR.UI.GameScene.Dialogue.Root
 {
@@ -9,57 +13,69 @@ namespace LR.UI.GameScene.Dialogue.Root
   {
     private readonly IGameDataService gameDataService;
     private readonly IDialogueDataProvider dialogueDataProvider;
-    private readonly IDialogueSubscriber subscriber;
-    private readonly IDialogueController controller;
+    private readonly IDialogueSubscriber dialogueSubscriber;
+    private readonly IDialogueController dialogueController;
     private readonly IStageStateHandler stageStateHandler;
 
     private readonly UIDialogueRootPresenter rootPresenter;
-    private readonly UIDialogueCharacterPresenter leftPresenter;
-    private readonly UIDialogueCharacterPresenter centerPresenter;
-    private readonly UIDialogueCharacterPresenter rightPresenter;
-    private readonly UIDialogueInputsPresenter inputPresenter;
-    private readonly DialogueInputActionController dialogueInputActionController;
 
+    private readonly TalkingSequenceController talkingController;
+    private readonly SelectionSequenceController selectionController;
+
+    private readonly UISelectionData selectionTableData;
+    private readonly CTSContainer selectionCTS = new();
+    private IDialogueSequence.Type prevSequenceType;
     private DialogueData currentDialogueData;
     private bool isPlayedBeforeDialogue = false;
     private int sequenceIndex = 0;
 
     public SequenceController(
+      GameObject attachTarget,
       TableContainer table,
       IGameDataService gameDataService,
+      IResourceManager resourceManager,
       IUIInputActionManager uiInputActionManager,    
       IDialogueDataProvider dialogueDataProvider,
-      IDialogueSubscriber subscriber, 
-      IDialogueController controller,
+      IDialogueSubscriber dialogueSubscriber, 
+      IDialogueController dialogueController,
       IStageStateHandler stageStateHandler,
       UIDialogueRootPresenter rootPresenter,
-      UIDialogueCharacterPresenter leftPresenter,
-      UIDialogueCharacterPresenter centerPresenter,
-      UIDialogueCharacterPresenter rightPresenter,
-      UIDialogueInputsPresenter inputPresenter)
+      UITalkingCharacterView leftTalkingView,
+      UITalkingCharacterView centerTalkingView,
+      UITalkingCharacterView rightTalkingView,
+      UITalkingInputsView talkingInputView,
+      UISelectionCharacterView leftSelectionView,
+      UISelectionCharacterView rightSelectionView,
+      UISelectionTimerView selectionTimerView)
     {
       this.gameDataService = gameDataService;
       this.dialogueDataProvider = dialogueDataProvider;
-      this.subscriber = subscriber;
-      this.controller = controller;
+      this.dialogueSubscriber = dialogueSubscriber;
+      this.dialogueController = dialogueController;
       this.stageStateHandler = stageStateHandler;
       this.rootPresenter = rootPresenter;
-      this.leftPresenter = leftPresenter;
-      this.centerPresenter = centerPresenter;
-      this.rightPresenter = rightPresenter;
-      this.inputPresenter = inputPresenter;
+      this.selectionTableData = table.DialogueUIDataSO.SelectionData;
 
-      dialogueInputActionController = new(
-        controller,
+      talkingController = new(
+        attachTarget,
+        table,
+        resourceManager,
         uiInputActionManager,
-        table.DialogueDataSO.TextPresentationData,
-        onLeftPerformed: inputPresenter.ActivateLeftInput,
-        onLeftCanceled: inputPresenter.DeactivateLeftInput,
-        onRightPerformed: inputPresenter.ActivateRightInput,
-        onRightCanceled: inputPresenter.DeactivateRightInput,
-        onSkipPressed: null,
-        onSkipCanceled: null,
-        onSkipProgress: inputPresenter.SkipProgress);
+        dialogueController,
+        leftTalkingView,
+        centerTalkingView,
+        rightTalkingView,
+        talkingInputView);
+      talkingController.DeactivateAsync(true, default).Forget();
+
+      selectionController = new(
+        attachTarget,
+        table,
+        uiInputActionManager,
+        selectionTimerView,
+        leftSelectionView,
+        rightSelectionView);
+      selectionController.DeactivateAsync(true, default).Forget();
 
       SubscribeService();
     }
@@ -67,18 +83,18 @@ namespace LR.UI.GameScene.Dialogue.Root
     #region Dialogue Events&Subscribe
     private void SubscribeService()
     {
-      subscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnPlay, OnPlayDialogue);
-      subscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnNextSequence, OnNextSequence);
-      subscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnSkip, OnSkipDialogue);
-      subscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnCompleteDialogue);
+      dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnPlay, OnPlayDialogue);
+      dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnNextSequence, OnNextSequence);
+      dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnSkip, OnSkipDialogue);
+      dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnCompleteDialogue);
     }
 
     private void UnSubscribeService()
     {
-      subscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnPlay, OnPlayDialogue);
-      subscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnNextSequence, OnNextSequence);
-      subscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnSkip, OnSkipDialogue);
-      subscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnCompleteDialogue);
+      dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnPlay, OnPlayDialogue);
+      dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnNextSequence, OnNextSequence);
+      dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnSkip, OnSkipDialogue);
+      dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnCompleteDialogue);
     }
 
     private async void OnPlayDialogue()
@@ -95,15 +111,14 @@ namespace LR.UI.GameScene.Dialogue.Root
       }
       else
       {
-        controller.Complete();
+        dialogueController.Complete();
       }
     }
 
     private void OnNextSequence()
     {
-      dialogueInputActionController.ResetLeftRightPeformed();
-      inputPresenter.DeactivateLeftInput();
-      inputPresenter.DeactivateRightInput();
+      if (prevSequenceType == IDialogueSequence.Type.Talking)
+        talkingController.ResetInputs();
 
       if(currentDialogueData.SequenceSets.Count > sequenceIndex)
       {
@@ -111,29 +126,30 @@ namespace LR.UI.GameScene.Dialogue.Root
       }
       else
       {
-        controller.Complete();
+        dialogueController.Complete();
       }
     }
 
     private void OnSkipDialogue()
     {
-      controller.Complete();
+      selectionCTS.Cancel();
+      selectionCTS.Dispose();
+      dialogueController.Complete();
     }
 
     private void OnCompleteDialogue()
     {
-      controller.SetState(DialogueState.None);
-      sequenceIndex = 0;
-      isPlayedBeforeDialogue = true;
+      dialogueController.SetState(DialogueState.None);
+      sequenceIndex = 0;      
 
       rootPresenter.DeactivateAsync().Forget();
-      leftPresenter.DeactivateAsync().Forget();
-      rightPresenter.DeactivateAsync().Forget();
-      centerPresenter.DeactivateAsync().Forget();
-      inputPresenter.DeactivateAsync().Forget();
-      dialogueInputActionController.UnsubscribeInputActions();
+      talkingController.DeactivateAsync(false, default).Forget();
+      selectionController.DeactivateAsync(false, default).Forget();
 
-      stageStateHandler.SetState(IStageStateHandler.State.Ready);
+      if(isPlayedBeforeDialogue == false)
+        stageStateHandler.SetState(IStageStateHandler.State.Ready);
+
+      isPlayedBeforeDialogue = true;
     }
     #endregion
 
@@ -141,13 +157,12 @@ namespace LR.UI.GameScene.Dialogue.Root
     {
       currentDialogueData = dialogueData;
       rootPresenter.ActivateAsync().Forget();
-      leftPresenter.ActivateAsync().Forget();
-      centerPresenter.ActivateAsync().Forget();
-      rightPresenter.ActivateAsync().Forget();
-      inputPresenter.ActivateAsync().Forget();
-      dialogueInputActionController.SubscribeInputActions();
 
-      PlaySequence(currentDialogueData.SequenceSets[sequenceIndex]);      
+      talkingController.ActivateAsync(false, default).Forget();
+
+      prevSequenceType = IDialogueSequence.Type.Talking;
+      var targetSequenceSet = currentDialogueData.SequenceSets[sequenceIndex];      
+      PlaySequence(targetSequenceSet);
     }
 
     private void PlaySequence(DialogueData.SequenceSet sequenceSet)
@@ -164,7 +179,8 @@ namespace LR.UI.GameScene.Dialogue.Root
           var targetCondition = sequence.GetCondition();
           return gameDataService.IsContainsCondition(targetCondition.TargetSubName, targetCondition.LeftKey, targetCondition.RightKey);
         });
-        targetSequence ??= sequenceSet.Sequences[0];
+        Debug.Log(targetSequence != null);
+        targetSequence ??= sequenceSet.Sequences[0];        
       }
 
       switch (sequenceSet.SequenceType)
@@ -174,7 +190,11 @@ namespace LR.UI.GameScene.Dialogue.Root
           break;
 
         case IDialogueSequence.Type.Selection:
-          PlaySelectionSeqeuence(targetSequence as DialogueSelectionData);
+          {
+            selectionCTS.Cancel();
+            selectionCTS.Create();
+            PlaySelectionSeqeuenceAsync(targetSequence as DialogueSelectionData, selectionCTS.token).Forget();
+          }
           break;
 
         default: throw new System.NotImplementedException();
@@ -184,16 +204,56 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private void PlayTalkingSequence(DialogueTalkingData talkingData)
     {
-      controller.SetState(DialogueState.Talking);
-      leftPresenter.PlayCharacterDataAsync(talkingData.left).Forget();
-      centerPresenter.PlayCharacterDataAsync(talkingData.center).Forget();
-      rightPresenter.PlayCharacterDataAsync(talkingData.right).Forget();
+      if (prevSequenceType == IDialogueSequence.Type.Selection)
+        selectionController.DeactivateAsync(false, default).Forget();
+      
+      dialogueController.SetState(DialogueState.Talking);
+      prevSequenceType = IDialogueSequence.Type.Talking;
+      
+      talkingController.PlayCharacterDataAsync(talkingData).Forget();
+      talkingController.EnableTalkingInputs();
     }
 
-    private void PlaySelectionSeqeuence(DialogueSelectionData selectionData)
+    private async UniTask PlaySelectionSeqeuenceAsync(DialogueSelectionData selectionData, CancellationToken token)
     {
-      controller.SetState(DialogueState.Selecting);
-      //TODO: Selection
+      talkingController.DisalbeTalkingInputs();
+      var prev = prevSequenceType;
+      dialogueController.SetState(DialogueState.Selecting);
+      prevSequenceType = IDialogueSequence.Type.Selection;
+      selectionController.SetString(selectionData);      
+
+      var duration = new FloatReactiveProperty(selectionTableData.Duration);
+      var timerDisposable = selectionController.SubscribeTimer(selectionData.DescriptionKey, duration);
+      try
+      {
+        if (prev == IDialogueSequence.Type.Talking)
+          await selectionController.ActivateAsync(false, default);
+
+        selectionController.BeginSelecting();
+        while(duration.Value > 0.0f)
+        {
+          duration.Value -= UnityEngine.Time.deltaTime;
+          await UniTask.Yield(PlayerLoopTiming.Update);
+        }
+        duration.Value = 0.0f;
+        selectionController.StopSelecting();
+        selectionController.GetSelectionResults(out var leftResult, out var rightResult);
+
+        gameDataService.SetDialogueCondition(selectionData.SubName, (int)leftResult, (int)rightResult);
+        gameDataService.SaveDataAsync().Forget();
+
+        await UniTask.WaitForSeconds(3.0f);
+        dialogueController.NextSequence();
+      }
+      catch (OperationCanceledException)
+      {
+        
+      }
+      finally
+      {
+        selectionController.StopSelecting();
+        timerDisposable.Dispose();
+      }
     }
 
     public void Dispose()

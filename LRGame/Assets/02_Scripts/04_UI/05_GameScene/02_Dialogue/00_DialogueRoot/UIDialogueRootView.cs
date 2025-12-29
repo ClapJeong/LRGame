@@ -1,14 +1,21 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEngine;
 
 namespace LR.UI.GameScene.Dialogue
 {
   public class UIDialogueRootView : BaseUIView
   {
-    public UIDialogueCharacterView leftView;
-    public UIDialogueCharacterView centerView;
-    public UIDialogueCharacterView rightView;
-    public UIDialogueInputsView inputView;
+    [Header("[ Talking ]")]
+    public UITalkingCharacterView leftTalkingCharacterView;
+    public UITalkingCharacterView centerTalkingCharacterView;
+    public UITalkingCharacterView rightTalkingCharacterView;
+    public UITalkingInputsView talkingInputView;
+
+    [Header("[ Selectoin ]")]
+    public UISelectionCharacterView leftSelectionCharacterView;
+    public UISelectionCharacterView rightSelectionCharacterView;
+    public UISelectionTimerView selectionTimerView;
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

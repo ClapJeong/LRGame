@@ -14,7 +14,7 @@ public class TableContainer : MonoBehaviour
 
   [field: SerializeField] public LocalizationSO LocalizationSO { get; set; }
 
-  [field: SerializeField] public DialogueUIDataSO DialogueDataSO { get; set; }
+  [field: SerializeField] public DialogueUIDataSO DialogueUIDataSO { get; set; }
 
   public PlayerModelSO GetPlayerModelSO(PlayerType playerType)
     => playerType switch

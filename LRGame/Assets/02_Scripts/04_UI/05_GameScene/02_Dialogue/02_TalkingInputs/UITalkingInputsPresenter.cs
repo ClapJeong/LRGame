@@ -6,22 +6,22 @@ using UnityEngine;
 
 namespace LR.UI.GameScene.Dialogue
 {
-  public class UIDialogueInputsPresenter : IUIPresenter
+  public class UITalkingInputsPresenter : IUIPresenter
   {
     public class Model
     {
-      public TextPresentationData textPresentationData;
+      public UITextPresentationData textPresentationData;
 
-      public Model(TextPresentationData textPresentationData)
+      public Model(UITextPresentationData textPresentationData)
       {
         this.textPresentationData = textPresentationData;
       }
     }
 
     private readonly Model model;
-    private readonly UIDialogueInputsView view;
+    private readonly UITalkingInputsView view;
 
-    public UIDialogueInputsPresenter(Model model, UIDialogueInputsView view)
+    public UITalkingInputsPresenter(Model model, UITalkingInputsView view)
     {
       this.model = model;
       this.view = view;

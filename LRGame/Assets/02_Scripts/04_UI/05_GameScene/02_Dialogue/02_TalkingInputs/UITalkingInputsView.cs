@@ -1,15 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace LR.UI.GameScene.Dialogue
 {
-  public class UIDialogueInputsView : BaseUIView
+  public class UITalkingInputsView : BaseUIView
   {
     public Image left;
     public Image right;

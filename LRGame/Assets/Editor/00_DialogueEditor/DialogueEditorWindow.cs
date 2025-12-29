@@ -105,7 +105,7 @@ public class DialogueEditorWindow : EditorWindow
     GUILayout.Width(20.0f),
     GUILayout.Height(20.0f),
   };
-  private static readonly float SelectionWidth = 80.0f;
+  private static readonly float SelectionWidth = 150.0f;
   private static readonly float SelectionHeight = 40.0f;
   private static readonly GUILayoutOption[] SelectionSize = new[]
   {
@@ -137,6 +137,7 @@ public class DialogueEditorWindow : EditorWindow
 
   private List<DialogueSelectionData> availableSelections = new();
   private List<string> availableSelectionNames = new();
+  private int selectedConditionIndex = 0;
 
   private bool wasFocused;
   private Vector2 scrollPos;
@@ -482,7 +483,7 @@ public class DialogueEditorWindow : EditorWindow
     => e.type == EventType.KeyUp && e.keyCode == KeyCode.Return;
   #endregion
 
-  #region SequenceSett Create Buttons
+  #region SequenceSet Create Buttons
   private void DrawAddSequenceSetButtons()
   {
     using (new EditorGUILayout.HorizontalScope())
@@ -532,6 +533,7 @@ public class DialogueEditorWindow : EditorWindow
 
       DrawSequenceButtons(selectedSequenceSet);
 
+      if(selectedConditionIndex > 0)
       DrawConditionSettingArea();
     }
   }
@@ -573,30 +575,29 @@ public class DialogueEditorWindow : EditorWindow
   private void DrawConditionSettingArea()
   {
     var selectedConditon = selectedSequence.GetCondition();
-    if (string.IsNullOrEmpty(selectedConditon.TargetSubName))
-      return;
 
-    using (new GUILayout.HorizontalScope())
+    using (new GUILayout.VerticalScope(GUI.skin.box))
     {
-      GUILayout.FlexibleSpace();
-      GUILayout.Label("[ Condition Setting ]");
-      GUILayout.FlexibleSpace();
-    }
-
-    using (new GUILayout.HorizontalScope(GUI.skin.box))
-    {
-      selectedSequence.SubName = EditorGUILayout.TextField(selectedSequence.SubName, GUILayout.Width(100.0f), GUILayout.Height(20.0f));
-
-      var conditionIndex = availableSelections.IndexOf(availableSelections.FirstOrDefault(data => data.SubName == selectedConditon.TargetSubName));
-      var selectedIndex = EditorGUILayout.Popup(conditionIndex, availableSelectionNames.ToArray());
-      if(conditionIndex != selectedIndex)
+      using (new GUILayout.HorizontalScope())
       {
-        selectedConditon.TargetSubName = availableSelections[selectedIndex].SubName;
-        SaveData(selectedRootData);
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("[ Condition Setting ]");
+        GUILayout.FlexibleSpace();
       }
 
-      selectedConditon.LeftKey = (int)(Direction)EditorGUILayout.EnumPopup("Left: ", (Direction)selectedConditon.LeftKey);
-      selectedConditon.RightKey = (int)(Direction)EditorGUILayout.EnumPopup("Right: ", (Direction)selectedConditon.RightKey);
+      using (new GUILayout.HorizontalScope(GUI.skin.box))
+      {
+        var conditionIndex = availableSelections.IndexOf(availableSelections.FirstOrDefault(data => data.SubName == selectedConditon.TargetSubName));
+        var selectedIndex = EditorGUILayout.Popup(conditionIndex, availableSelectionNames.ToArray());
+        if (conditionIndex != selectedIndex)
+        {
+          selectedConditon.TargetSubName = availableSelections[selectedIndex].SubName;
+          SaveData(selectedRootData);
+        }
+
+        selectedConditon.LeftKey = (int)(Direction)EditorGUILayout.EnumPopup("Left: ", (Direction)selectedConditon.LeftKey);
+        selectedConditon.RightKey = (int)(Direction)EditorGUILayout.EnumPopup("Right: ", (Direction)selectedConditon.RightKey);
+      }
     }
   }
 
@@ -610,25 +611,37 @@ public class DialogueEditorWindow : EditorWindow
 
     if (selectedSequence != null)
       UpdateAvailableSelectionDatas();
+
+    selectedConditionIndex = selectedSequenceSet.Sequences.ToList().IndexOf(sequence);
   }
 
   private void UpdateAvailableSelectionDatas()
   {
     availableSelections.Clear();
     availableSelectionNames.Clear();
-    foreach (var sequenceSet in selectedRootData.Data.SequenceSets)
+    bool stopAfterThis = false;
+    foreach(var rootData in RootDatas)
     {
-      if (sequenceSet == selectedSequenceSet)
+      if (stopAfterThis)
         break;
+      
+      if (rootData == selectedRootData)
+        stopAfterThis = true;
 
-      if(sequenceSet.SequenceType == IDialogueSequence.Type.Selection)
+      foreach (var sequenceSet in rootData.Data.SequenceSets)
       {
-        foreach (var sequence in sequenceSet.Sequences)
+        if (sequenceSet == selectedSequenceSet)
+          break;
+
+        if (sequenceSet.SequenceType == IDialogueSequence.Type.Selection)
         {
-          var selectionData = sequence as DialogueSelectionData;
-          availableSelections.Add(selectionData);
-          availableSelectionNames.Add(selectionData.SubName);
-        }          
+          foreach (var sequence in sequenceSet.Sequences)
+          {
+            var selectionData = sequence as DialogueSelectionData;
+            availableSelections.Add(selectionData);
+            availableSelectionNames.Add(selectionData.SubName);
+          }
+        }
       }
     }
   }
@@ -672,7 +685,16 @@ public class DialogueEditorWindow : EditorWindow
 
       using (new GUILayout.HorizontalScope())
       {
-        EditorGUILayout.Space(100.0f);
+        GUILayout.FlexibleSpace();
+        selectedSelection.DescriptionKey = EditorGUILayout.TextField(selectedSelection.DescriptionKey, StringCenterStyle, GUILayout.Width(150.0f));
+        GUILayout.FlexibleSpace();
+      }
+
+      EditorGUILayout.Space(15.0f);
+
+      using (new GUILayout.HorizontalScope())
+      {
+        GUILayout.FlexibleSpace();
         
         using (new GUILayout.VerticalScope(GUI.skin.box))
         {          
@@ -720,7 +742,7 @@ public class DialogueEditorWindow : EditorWindow
           }          
         }
 
-        EditorGUILayout.Space(100.0f);
+        GUILayout.FlexibleSpace();
       }
     }
   }

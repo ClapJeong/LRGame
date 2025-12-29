@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace LR.UI.GameScene.Dialogue
 {
-  public class UIDialogueCharacterView : BaseUIView
+  public class UITalkingCharacterView : BaseUIView
   {
     [Header("[ Portrait ]")]
     public Image portraitImageA;

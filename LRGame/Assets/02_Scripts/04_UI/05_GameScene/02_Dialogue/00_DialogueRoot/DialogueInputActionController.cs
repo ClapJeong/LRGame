@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.Table.Dialogue;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,7 +12,7 @@ namespace LR.UI.GameScene.Dialogue.Root
   {
     private readonly IDialogueController dialogueController;
     private readonly IUIInputActionManager uiInputActionManager;
-    private readonly TextPresentationData textPresentationData; 
+    private readonly UITextPresentationData textPresentationData; 
 
     private readonly UnityAction onLeftPerformed;
     private readonly UnityAction onLeftCanceled;
@@ -27,7 +28,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private bool isLeftPerformed;
     private bool isRightPerformed;
 
-    public DialogueInputActionController(IDialogueController dialogueController, IUIInputActionManager uiInputActionManager, TextPresentationData textPresentationData, UnityAction onLeftPerformed, UnityAction onLeftCanceled, UnityAction onRightPerformed, UnityAction onRightCanceled, UnityAction onSkipPressed, UnityAction onSkipCanceled, UnityAction<float> onSkipProgress)
+    public DialogueInputActionController(IDialogueController dialogueController, IUIInputActionManager uiInputActionManager, UITextPresentationData textPresentationData, UnityAction onLeftPerformed, UnityAction onLeftCanceled, UnityAction onRightPerformed, UnityAction onRightCanceled, UnityAction onSkipPressed, UnityAction onSkipCanceled, UnityAction<float> onSkipProgress)
     {
       this.dialogueController = dialogueController;
       this.uiInputActionManager = uiInputActionManager;
@@ -55,52 +56,40 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     public void SubscribeInputActions()
     {
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.LeftUp, OnLeftPerformed);
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.LeftRight, OnLeftPerformed);
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.LeftDown, OnLeftPerformed);
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.LeftLeft, OnLeftPerformed);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftUp, OnLeftCanceled);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftRight, OnLeftCanceled);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftDown, OnLeftCanceled);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.LeftLeft, OnLeftCanceled);
+      if (isSubscribed)
+        return;
 
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightUp, OnRightPerformed);
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightRight, OnRightPerformed);
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightDown, OnRightPerformed);
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightLeft, OnRightPerformed);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightUp, OnRightCanceled);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightRight, OnRightCanceled);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightDown, OnRightCanceled);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.RightLeft, OnRightCanceled);
+      var leftDirections = UIinputDirectionTypeExtension.GetLefts();
+      uiInputActionManager.SubscribePerformedEvent(leftDirections, OnLeftPerformed);
+      uiInputActionManager.SubscribeCanceledEvent(leftDirections, OnLeftCanceled);
 
-      uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.Space, OnSkipPerformed);
-      uiInputActionManager.SubscribeCanceledEvent(UIInputDirectionType.Space, OnSkipCanceled);
+      var rightDirections = UIinputDirectionTypeExtension.GetRights();
+      uiInputActionManager.SubscribePerformedEvent(rightDirections, OnRightPerformed);
+      uiInputActionManager.SubscribeCanceledEvent(rightDirections, OnRightCanceled);
+
+      var space = UIInputDirectionType.Space;
+      uiInputActionManager.SubscribePerformedEvent(space, OnSkipPerformed);
+      uiInputActionManager.SubscribeCanceledEvent(space, OnSkipCanceled);
 
       isSubscribed = true;
     }
 
     public void UnsubscribeInputActions()
     {
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.LeftUp, OnLeftPerformed);
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.LeftRight, OnLeftPerformed);
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.LeftDown, OnLeftPerformed);
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.LeftLeft, OnLeftPerformed);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.LeftUp, OnLeftCanceled);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.LeftRight, OnLeftCanceled);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.LeftDown, OnLeftCanceled);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.LeftLeft, OnLeftCanceled);
+      if (isSubscribed == false)
+        return;
 
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightUp, OnRightPerformed);
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightRight, OnRightPerformed);
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightDown, OnRightPerformed);
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightLeft, OnRightPerformed);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.RightUp, OnRightCanceled);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.RightRight, OnRightCanceled);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.RightDown, OnRightCanceled);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.RightLeft, OnRightCanceled);
+      var leftDirections = UIinputDirectionTypeExtension.GetLefts();
+      uiInputActionManager.UnsubscribePerformedEvent(leftDirections, OnLeftPerformed);
+      uiInputActionManager.UnsubscribeCanceledEvent(leftDirections, OnLeftCanceled);
 
-      uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.Space, OnSkipPerformed);
-      uiInputActionManager.UnsubscribeCanceledEvent(UIInputDirectionType.Space, OnSkipCanceled);
+      var rightDirections = UIinputDirectionTypeExtension.GetRights();
+      uiInputActionManager.UnsubscribePerformedEvent(rightDirections, OnRightPerformed);
+      uiInputActionManager.UnsubscribeCanceledEvent(rightDirections, OnRightCanceled);
+
+      var space = UIInputDirectionType.Space;
+      uiInputActionManager.UnsubscribePerformedEvent(space, OnSkipPerformed);
+      uiInputActionManager.UnsubscribeCanceledEvent(space, OnSkipCanceled);
 
       isSubscribed = false;
     }

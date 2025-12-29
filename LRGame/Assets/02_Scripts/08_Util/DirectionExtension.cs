@@ -10,4 +10,14 @@ public static class DirectionExtension
       Direction.Space => Direction.Space,
       _ => throw new System.NotImplementedException(),
     };
+
+  public static Direction Random(bool isInclusiveSpace = false)
+  {
+    var min = 0;
+    var max = (int)Direction.Space;
+    if (isInclusiveSpace == false)
+      max--;
+
+    return (Direction)UnityEngine.Random.Range(min, max + 1);
+  }
 }

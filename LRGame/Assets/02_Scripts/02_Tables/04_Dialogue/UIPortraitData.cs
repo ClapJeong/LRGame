@@ -3,7 +3,7 @@
 namespace LR.Table.Dialogue
 {
   [System.Serializable]
-  public class PortraitData
+  public class UIPortraitData
   {
     [field: Header("ChangeType")]
     [field: SerializeField] public float ChangeFadeDuration { get; private set; }

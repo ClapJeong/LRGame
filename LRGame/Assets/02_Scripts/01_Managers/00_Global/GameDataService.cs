@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using UnityEngine;
 
@@ -115,10 +116,19 @@ public class GameDataService : IGameDataService
     stageCount = stages.Count;
   }
 
-  public void AddDialogueCondition(string key, int left, int right)
+  public void SetDialogueCondition(string key, int left, int right)
   {
-    var newCondition = new GameData.ConditionData(key, left, right);
-    gameData.dialogueConditions.Add(newCondition);
+    var existCondition = gameData.dialogueConditions.FirstOrDefault(data => data.key == key);
+    if(existCondition == null)
+    {
+      var newCondition = new GameData.ConditionData(key, left, right);
+      gameData.dialogueConditions.Add(newCondition);
+    }
+    else
+    {
+      existCondition.left = left; 
+      existCondition.right = right; 
+    }
   }
 
   public bool IsContainsCondition(string key, int left, int right)
@@ -146,6 +156,26 @@ public class GameDataService : IGameDataService
       gameData.chaterStageDatas.Remove(topData);
     else
       topData.stage--;
+
+    SaveDataAsync().Forget();
+  }
+
+  public string Debugging_GetAllConditions()
+  {
+    var stb = new StringBuilder();
+    for(int i = 0; i < gameData.dialogueConditions.Count; i++)
+    {
+      var condition = gameData.dialogueConditions[i];
+      stb.Append($"{condition.key}: {condition.left}/{condition.right}");
+      if (i < gameData.dialogueConditions.Count - 1)
+        stb.Append("\n");
+    }
+    return stb.ToString();
+  }
+
+  public void Debugging_ClearAllDialogueConditions()
+  {
+    gameData.dialogueConditions.Clear();
 
     SaveDataAsync().Forget();
   }

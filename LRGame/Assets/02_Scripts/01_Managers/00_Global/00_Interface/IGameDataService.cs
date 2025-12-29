@@ -21,7 +21,7 @@ public interface IGameDataService
 
   public bool IsStageExist(int chapter, int stage);
 
-  public void AddDialogueCondition(string key, int left, int right);
+  public void SetDialogueCondition(string key, int left, int right);
 
   public bool IsContainsCondition(string key, int left, int right);
 }

@@ -6,11 +6,10 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace LR.UI.GameScene.Dialogue
 {
-  public class UIDialogueCharacterPresenter : IUIPresenter
+  public class UITalkingCharacterPresenter : IUIPresenter
   {
     public enum CharacterType
     {
@@ -25,10 +24,10 @@ namespace LR.UI.GameScene.Dialogue
       public CharacterType type;
       public IResourceManager resourceManager;
       public string portraitPath;
-      public PortraitData portraitData;
-      public TextPresentationData textPresentationData;
+      public UIPortraitData portraitData;
+      public UITextPresentationData textPresentationData;
 
-      public Model(PortraitName portraitNameProvider, CharacterType type, IResourceManager resourceManager, string portraitPath, PortraitData portraitData, TextPresentationData textPresentationData)
+      public Model(PortraitName portraitNameProvider, CharacterType type, IResourceManager resourceManager, string portraitPath, UIPortraitData portraitData, UITextPresentationData textPresentationData)
       {
         this.portraitNameProvider = portraitNameProvider;
         this.type = type;
@@ -40,12 +39,12 @@ namespace LR.UI.GameScene.Dialogue
     }
 
     private readonly Model model;
-    private readonly UIDialogueCharacterView view;
+    private readonly UITalkingCharacterView view;
 
     private readonly PortraitController portraitController;
-    private readonly DialogueController dialogueController;
+    private readonly TalkingController dialogueController;
 
-    public UIDialogueCharacterPresenter(Model model, UIDialogueCharacterView view)
+    public UITalkingCharacterPresenter(Model model, UITalkingCharacterView view)
     {
       this.model = model;
       this.view = view;

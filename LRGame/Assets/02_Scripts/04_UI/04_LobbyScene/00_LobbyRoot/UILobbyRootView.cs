@@ -23,16 +23,5 @@ namespace LR.UI.Lobby
       visibleState = UIVisibleState.Showen;
       return UniTask.CompletedTask;
     }
-
-#if UNITY_EDITOR
-    private void Update()
-    {
-      if(Input.GetKeyDown(KeyCode.F2))
-      {
-        GlobalManager.instance.GameDataService.SetSelectedStage(0, -1);
-        GlobalManager.instance.SceneProvider.LoadSceneAsync(SceneType.Game).Forget();
-      }
-    }
-#endif
   }
 }

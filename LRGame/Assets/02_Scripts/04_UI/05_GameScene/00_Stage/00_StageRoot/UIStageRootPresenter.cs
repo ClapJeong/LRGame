@@ -64,7 +64,6 @@ namespace LR.UI.GameScene.Stage
       successPresenter.DeactivateAsync().Forget();
       pausePresenter.DeactivateAsync().Forget();
 
-      model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, OnStageSuccess);
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, OnStageFailed);
 
       model.dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);      
@@ -112,6 +111,7 @@ namespace LR.UI.GameScene.Stage
     private void OnAfterDialogueComplete()
     {
       model.dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
+      successPresenter.ActivateAsync().Forget();
     }
 
     private void CreateBeginPresenter()
@@ -183,11 +183,6 @@ namespace LR.UI.GameScene.Stage
     private void OnStageFailed()
     {
       failPresenter.ActivateAsync().Forget();
-    }
-
-    private void OnStageSuccess()
-    {
-      successPresenter.ActivateAsync().Forget();
     }
     #endregion
   }

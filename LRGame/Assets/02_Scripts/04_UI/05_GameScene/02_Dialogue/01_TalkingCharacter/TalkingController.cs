@@ -6,14 +6,14 @@ using TMPro;
 
 namespace LR.UI.GameScene.Dialogue.Character
 {
-  public class DialogueController
+  public class TalkingController
   {
-    private readonly UIDialogueCharacterView view;
-    private readonly TextPresentationData tableData;
+    private readonly UITalkingCharacterView view;
+    private readonly UITextPresentationData tableData;
 
     private readonly CTSContainer dialogueCTS = new();
 
-    public DialogueController(UIDialogueCharacterView view, TextPresentationData tableData)
+    public TalkingController(UITalkingCharacterView view, UITextPresentationData tableData)
     {
       this.view = view;
       this.tableData = tableData;

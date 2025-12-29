@@ -6,7 +6,9 @@ namespace ScriptableEvent
   public enum GameDataEventType
   {
     AddClearedStage,
-    MinusClearedStage
+    MinusClearedStage,
+    ClearDialogueConditions,
+    AddDialogueCondition,
   }
   public class ScriptableGameDataEventListener : MonoBehaviour
   {
