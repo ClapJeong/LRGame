@@ -32,11 +32,11 @@ namespace LR.UI.GameScene.Dialogue.Character
     public void SetTransparent(Sprite transparent)
       => this.transparent = transparent;
 
-    public void SetImage(Sprite sprite, PortraitEnum.ChangeType animType)
+    public void SetImage(Sprite sprite, PortraitEnum.ChangeType changeType)
     {
       portriatImageCTS.Cancel();
       portriatImageCTS.Create();
-      SetImageAsync(sprite, animType, portriatImageCTS.token).Forget();
+      SetImageAsync(sprite, changeType, portriatImageCTS.token).Forget();
     }
 
     public void PlayAnimation(PortraitEnum.AnimationType animType)
@@ -51,16 +51,17 @@ namespace LR.UI.GameScene.Dialogue.Character
         forwardImage.SetAlpha(forwardImageAlpha);
     }
 
-    private async UniTask SetImageAsync(Sprite sprite, PortraitEnum.ChangeType animType, CancellationToken token)
+    private async UniTask SetImageAsync(Sprite sprite, PortraitEnum.ChangeType changeType, CancellationToken token)
     {
       view.SwapImageOrders(out var forwardImage, out var backwardImage);
       this.forwardImage = forwardImage;
-      switch (animType)
+      switch (changeType)
       {
         case PortraitEnum.ChangeType.None:
           {
             forwardImage.sprite = sprite;
             backwardImage.sprite = transparent;
+            backwardImage.SetAlpha(0.0f);
           }
           break;
 
