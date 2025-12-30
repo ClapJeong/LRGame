@@ -45,11 +45,6 @@ namespace LR.UI.GameScene.Dialogue.Character
       {
         await SetLocalizeKeyAsync(key, dialogueCTS.token);
         await view.dialogueTMP.TypeRichTextAsync(tableData.CharacterInterval, dialogueCTS.token);
-        //await TypewriterRichTextAsync(
-        //  view.dialogueTMP,
-        //  view.dialogueTMP.text,
-        //  tableData.CharacterInterval,
-        //  dialogueCTS.token);
       }
     }
 
@@ -77,40 +72,5 @@ namespace LR.UI.GameScene.Dialogue.Character
 
     public void CompleteDialogueImmediately()
       => dialogueCTS.Cancel();
-
-    private async UniTask TypewriterRichTextAsync(
-    TextMeshProUGUI text,
-    string fullText,
-    float charInterval,
-    CancellationToken token)
-    {
-      text.text = fullText;
-      text.ForceMeshUpdate();
-
-      var textInfo = text.textInfo;
-      int totalVisibleChars = textInfo.characterCount;
-
-      text.text = fullText;
-      text.maxVisibleCharacters = 0;
-
-      try
-      {
-        for (int visibleCount = 1; visibleCount <= totalVisibleChars; visibleCount++)
-        {
-          token.ThrowIfCancellationRequested();
-
-          text.maxVisibleCharacters = visibleCount;
-
-          await UniTask.Delay(
-              TimeSpan.FromSeconds(charInterval),
-              cancellationToken: token);
-        }
-      }
-      catch (OperationCanceledException) { }
-      finally
-      {
-        text.maxVisibleCharacters = totalVisibleChars;
-      }
-    }
   }
 }
