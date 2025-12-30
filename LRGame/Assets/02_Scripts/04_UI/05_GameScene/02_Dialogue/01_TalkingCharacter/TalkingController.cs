@@ -44,11 +44,12 @@ namespace LR.UI.GameScene.Dialogue.Character
       else
       {
         await SetLocalizeKeyAsync(key, dialogueCTS.token);
-        await TypewriterRichTextAsync(
-          view.dialogueTMP,
-          view.dialogueTMP.text,
-          tableData.CharacterInterval,
-          dialogueCTS.token);
+        await view.dialogueTMP.TypeRichTextAsync(tableData.CharacterInterval, dialogueCTS.token);
+        //await TypewriterRichTextAsync(
+        //  view.dialogueTMP,
+        //  view.dialogueTMP.text,
+        //  tableData.CharacterInterval,
+        //  dialogueCTS.token);
       }
     }
 

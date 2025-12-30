@@ -57,11 +57,11 @@ namespace LR.UI.GameScene.Dialogue.Root
       if (isSubscribed)
         return;
 
-      var leftDirections = UIinputDirectionTypeExtension.GetLefts();
+      var leftDirections = UIInputDirectionTypeUtil.GetLefts();
       uiInputActionManager.SubscribePerformedEvent(leftDirections, OnLeftPerformed);
       uiInputActionManager.SubscribeCanceledEvent(leftDirections, OnLeftCanceled);
 
-      var rightDirections = UIinputDirectionTypeExtension.GetRights();
+      var rightDirections = UIInputDirectionTypeUtil.GetRights();
       uiInputActionManager.SubscribePerformedEvent(rightDirections, OnRightPerformed);
       uiInputActionManager.SubscribeCanceledEvent(rightDirections, OnRightCanceled);
 
@@ -77,11 +77,11 @@ namespace LR.UI.GameScene.Dialogue.Root
       if (isSubscribed == false)
         return;
 
-      var leftDirections = UIinputDirectionTypeExtension.GetLefts();
+      var leftDirections = UIInputDirectionTypeUtil.GetLefts();
       uiInputActionManager.UnsubscribePerformedEvent(leftDirections, OnLeftPerformed);
       uiInputActionManager.UnsubscribeCanceledEvent(leftDirections, OnLeftCanceled);
 
-      var rightDirections = UIinputDirectionTypeExtension.GetRights();
+      var rightDirections = UIInputDirectionTypeUtil.GetRights();
       uiInputActionManager.UnsubscribePerformedEvent(rightDirections, OnRightPerformed);
       uiInputActionManager.UnsubscribeCanceledEvent(rightDirections, OnRightCanceled);
 

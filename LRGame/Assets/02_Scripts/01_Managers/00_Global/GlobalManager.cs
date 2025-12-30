@@ -53,10 +53,10 @@ public class GlobalManager : MonoBehaviour
       uiManager.Initialize();
 
       sceneProvider = new SceneProvider();
-      SceneProvider.LoadSceneAsync(SceneType.Preloading).Forget();      
+      SceneProvider.LoadSceneAsync(SceneType.Preloading).Forget();
     }
-      else
-      Destroy(gameObject);    
+    else
+      Destroy(gameObject);
   }
 
   private void OnDestroy()
