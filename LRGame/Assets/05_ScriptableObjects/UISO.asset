@@ -24,4 +24,4 @@ MonoBehaviour:
     space: 32
   <IndicatorDuration>k__BackingField: 0.15
   <ProgressSubmitDuration>k__BackingField: 1.2
-  <LoadingFaceDuraton>k__BackingField: 0.6
+  <LoadingFaceDuraton>k__BackingField: 0.8
