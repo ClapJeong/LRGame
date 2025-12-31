@@ -40,7 +40,6 @@ MonoBehaviour:
     <PlayerRoot>k__BackingField: PlayerRoot
     <DialogueRoot>k__BackingField: DialogueRoot
     <Indicator>k__BackingField: Indicator
+    <Loading>k__BackingField: Loading
   <StageName>k__BackingField:
     StageNameFormat: Stage_{0}
-  <PortraitName>k__BackingField:
-    Null: Transparent

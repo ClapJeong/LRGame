@@ -101,11 +101,7 @@ namespace LR.UI.Lobby
 
       model.gameDataService.SetSelectedStage(model.chapter, model.stage);
 
-      model.sceneProvider.LoadSceneAsync(
-        SceneType.Game,
-        CancellationToken.None,
-        onProgress: null,
-        onComplete: null).Forget();
+      model.sceneProvider.LoadSceneAsync(SceneType.Game).Forget();
     }
 
     private void UnsubscribeSubmitView()

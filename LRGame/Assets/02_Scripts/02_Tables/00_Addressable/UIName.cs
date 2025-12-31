@@ -4,21 +4,22 @@ using UnityEngine;
 public class UIName
 {
   [field: Header("[ Prealoading ]")]
-  [field: SerializeField] public string PreloadingRoot {  get; set; }
+  [field: SerializeField] public string PreloadingRoot {  get; private set; }
 
   [field: Space(10)]
   [field: Header("[ Lobby ]")]
-  [field: SerializeField] public string LobbyRoot {  get; set; }
-  [field: SerializeField] public string LobbyChapterButton {  get; set; }
-  [field: SerializeField] public string LobbyChapterPanel {  get; set; }
+  [field: SerializeField] public string LobbyRoot {  get; private set; }
+  [field: SerializeField] public string LobbyChapterButton {  get; private set; }
+  [field: SerializeField] public string LobbyChapterPanel {  get; private set; }
 
   [field: Space(10)]
   [field: Header("[ Stage ]")]
-  [field: SerializeField] public string StageRoot {  get; set; }
-  [field: SerializeField] public string PlayerRoot {  get; set; }
-  [field: SerializeField] public string DialogueRoot { get; set; }
+  [field: SerializeField] public string StageRoot {  get; private set; }
+  [field: SerializeField] public string PlayerRoot {  get; private set; }
+  [field: SerializeField] public string DialogueRoot { get; private set; }
 
   [field: Space(10)]
   [field: Header("[ General ]")]
-  [field: SerializeField] public string Indicator {  get; set; }
+  [field: SerializeField] public string Indicator {  get; private set; }
+  [field: SerializeField] public string Loading { get; private set; }
 }

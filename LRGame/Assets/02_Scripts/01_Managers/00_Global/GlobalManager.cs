@@ -52,8 +52,8 @@ public class GlobalManager : MonoBehaviour
 
       uiManager.Initialize();
 
-      sceneProvider = new SceneProvider();
-      SceneProvider.LoadSceneAsync(SceneType.Preloading).Forget();
+      sceneProvider = new SceneProvider(resourceManager, uiManager, table.AddressableKeySO);
+      SceneProvider.LoadSceneAsync(SceneType.Preloading, false).Forget();
     }
     else
       Destroy(gameObject);

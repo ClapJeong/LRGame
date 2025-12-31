@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
+using LR.UI.Loading;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,64 +9,95 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-
 public class SceneProvider : ISceneProvider
 {
-  readonly private Dictionary<SceneType, AsyncOperationHandle<SceneInstance>> cachedHandled = new();
-  private SceneType currentScene;
+  private readonly IResourceManager resourceManager;
+  private readonly ICanvasProvider canvasProvider;
+  private readonly AddressableKeySO addressableSO;
+  private readonly string loadingUIViewPath;
 
-  public SceneProvider()
+  private SceneType currentScene = SceneType.Initialize;
+  private AsyncOperationHandle<SceneInstance>? currentHandle;
+
+  public SceneProvider(IResourceManager resourceManager, ICanvasProvider canvasProvider, AddressableKeySO addressableSO)
   {
+    this.resourceManager = resourceManager;
+    this.canvasProvider = canvasProvider;
+    this.addressableSO = addressableSO;
 
+    loadingUIViewPath = addressableSO.Path.UI + addressableSO.UIName.Loading;
   }
 
   public async UniTask LoadSceneAsync(
     SceneType sceneType,
+    bool useUI = true,
     CancellationToken token = default,
     UnityAction<float> onProgress = null, 
-    UnityAction onComplete = null, Func<UniTask> 
-    waitUntilLoad = null)
+    UnityAction onComplete = null, 
+    Func<UniTask> waitUntilLoad = null)
   {
-    var handle = LoadSceneHandle(sceneType);
+    var model = new UILoadingPresenter.Model(GlobalManager.instance.Table.UISO);
+    var view = await CreateLoadingUIViewAsync();
+    var loadingPresenter = new UILoadingPresenter(model, view);
     try
     {
+      if(useUI)
+        await loadingPresenter.ActivateAsync(false, token);
+      if (currentHandle.HasValue && currentHandle.Value.IsValid())
+      {
+        await Addressables.UnloadSceneAsync(currentHandle.Value);
+        currentHandle = null;
+      }
+
+      var handle = Addressables.LoadSceneAsync(
+          GetSceneKey(sceneType),
+          LoadSceneMode.Single,
+          activateOnLoad: false
+      );
+
+      currentHandle = handle;
+
       while (!handle.IsDone)
       {
         token.ThrowIfCancellationRequested();
-
         onProgress?.Invoke(handle.PercentComplete);
-        await UniTask.Yield(PlayerLoopTiming.Update);
+        await UniTask.Yield();
       }
-      onProgress?.Invoke(1.0f);
 
-      if (waitUntilLoad != null)
-        await waitUntilLoad.Invoke();
-
+      await handle.Result.ActivateAsync();      
+      
       currentScene = sceneType;
-      await handle.Result.ActivateAsync();
+      onComplete?.Invoke();
+
+      LocalManager localManager = null;
+      foreach (var root in handle.Result.Scene.GetRootGameObjects())
+      {
+        localManager = root.GetComponentInChildren<LocalManager>(true);
+        if (localManager != null)
+        {
+          await localManager.InitializeAsync();          
+          break;
+        }          
+      }
+
+      if (useUI)
+      {
+        await loadingPresenter.DeactivateAsync();
+        resourceManager.ReleaseInstance(view.gameObject);
+      }        
+      localManager?.Play();
     }
     catch (OperationCanceledException e) { Debug.Log(e); }
   }
 
   public async UniTask ReloadCurrentSceneAsync(
-    CancellationToken token, 
+    bool useUI = true,
+    CancellationToken token = default,    
     UnityAction<float> onProgress = null, 
     UnityAction onComplete = null, 
     Func<UniTask> waitUntilLoad = null)
   {
-    await LoadSceneAsync(currentScene, token, onProgress, onComplete, waitUntilLoad);
-  }
-
-
-  private AsyncOperationHandle<SceneInstance> LoadSceneHandle(SceneType sceneType)
-  {
-    if (cachedHandled.TryGetValue(sceneType, out var existHandle) == false)
-    {
-      var sceneKey = GetSceneKey(sceneType);
-      existHandle = Addressables.LoadSceneAsync(sceneKey, LoadSceneMode.Single, false);
-    }
-
-    return existHandle;
+    await LoadSceneAsync(currentScene, useUI, token, onProgress, onComplete, waitUntilLoad);
   }
 
   private string GetSceneKey(SceneType sceneType)
@@ -80,5 +111,12 @@ public class SceneProvider : ISceneProvider
       SceneType.Game => table.Path.Scene + table.SceneName.Game,
       _ => throw new NotImplementedException()
     };
+  }
+
+  private async UniTask<UILoadingView> CreateLoadingUIViewAsync()
+  {
+    var canvasRoot = canvasProvider.GetCanvas(UIRootType.SceneLoading);    
+    var view = await resourceManager.CreateAssetAsync<UILoadingView>(loadingUIViewPath, canvasRoot.transform);
+    return view;
   }
 }

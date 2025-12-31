@@ -5,9 +5,9 @@ using LR.UI.GameScene.Stage;
 using LR.UI.Lobby;
 using LR.UI.Preloading;
 using System.Threading;
+using System.Threading.Tasks;
 using UniRx;
 using UniRx.Triggers;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class LocalManager : MonoBehaviour
@@ -20,12 +20,35 @@ public class LocalManager : MonoBehaviour
   private StageManager stageManager;
   private DialogueService dialogueService;
 
+  private bool isSceneInitialized = false;
 
-  private void Awake()
+  public async UniTask InitializeAsync()
   {
     instance = this;
     InitializeManagers();
-    InitializeSceneAsync().Forget();
+    await InitializeSceneAsync();
+  }
+
+  public async void Play()
+  {
+    switch (sceneType)
+    {
+      case SceneType.Initialize:
+        break;
+
+      case SceneType.Preloading:
+        break;
+
+      case SceneType.Lobby:
+        break;
+
+      case SceneType.Game:
+        {
+          await UniTask.WaitUntil(() => isSceneInitialized);
+          dialogueService.Play();
+        }        
+        break;
+    }
   }
 
   private void InitializeManagers()
@@ -47,7 +70,6 @@ public class LocalManager : MonoBehaviour
     {
       case SceneType.Initialize:
         {
-          GlobalManager.instance.SceneProvider.LoadSceneAsync(SceneType.Preloading, CancellationToken.None).Forget();
         }
         break;
 
@@ -57,13 +79,14 @@ public class LocalManager : MonoBehaviour
           await LoadPreloadAsync();
           await LoadDialogueAsync();
           ISceneProvider sceneProvider = GlobalManager.instance.SceneProvider;
-          sceneProvider.LoadSceneAsync(SceneType.Lobby, CancellationToken.None).Forget();
+          sceneProvider.LoadSceneAsync(SceneType.Lobby, false).Forget();
         }
         break;
 
       case SceneType.Lobby:
         {
           await CreateFirstUIAsync();
+          isSceneInitialized = true;
         }
         break;
 
@@ -73,7 +96,7 @@ public class LocalManager : MonoBehaviour
           var index = chapter * 4 + stage;
           await CreateStageAsync(index);
           await CreateFirstUIAsync();
-          dialogueService.Play();
+          isSceneInitialized = true;
         }
         break;
     }
@@ -145,7 +168,7 @@ public class LocalManager : MonoBehaviour
 
     var presenter = new UILobbyRootPresenter(model, view);
     presenter.AttachOnDestroy(gameObject);
-    presenter.ActivateAsync().Forget();
+    await presenter.ActivateAsync();
   }
 
   private async UniTask CreatePlayerUIsAsync()
