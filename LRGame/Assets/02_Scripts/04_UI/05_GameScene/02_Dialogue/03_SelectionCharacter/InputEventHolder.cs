@@ -108,6 +108,6 @@ namespace LR.UI.GameScene.Dialogue.Selection
       => onPerformed?.Invoke(Direction.Left);
 
     private void OnLeftCanceled()
-      => onCanceled?.Invoke(Direction.Up);
+      => onCanceled?.Invoke(Direction.Left);
   }
 }

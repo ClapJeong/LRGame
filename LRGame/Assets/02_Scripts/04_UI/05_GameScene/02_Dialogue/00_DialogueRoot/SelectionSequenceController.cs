@@ -136,8 +136,8 @@ namespace LR.UI.GameScene.Dialogue.Root
       if (rightSelections.Contains(direction))
       {
         rightSelections.Remove(direction);
-        var targetDirection = leftSelections.Count > 0 ? leftSelections.Last()
-                                                       : Direction.Space;
+        var targetDirection = rightSelections.Count > 0 ? rightSelections.Last()
+                                                        : Direction.Space;
         rightSelectionPresenter.SetOutlinePosition(targetDirection);
       }
     }
