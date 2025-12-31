@@ -12,10 +12,17 @@ namespace LR.UI
 
     protected Dictionary<UIViewEventType, UnityEvent> events = new();
 
-    protected UISO uiSO;
+    private UISO uiSO;
+    protected UISO UISO
+    {
+      get
+      {
+        if (uiSO == null)
+          uiSO = GlobalManager.instance.Table.UISO;
 
-    public void InjectUISO(UISO uiSO)
-      => this.uiSO = uiSO;
+        return uiSO;
+      }
+    }
 
     public UIVisibleState GetVisibleState()
       => visibleState;

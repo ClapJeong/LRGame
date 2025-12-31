@@ -9,11 +9,9 @@ namespace LR.UI.Loading
   {
     public class Model
     {
-      public UISO uiSO;
 
-      public Model(UISO uiSO)
+      public Model()
       {
-        this.uiSO = uiSO;
       }
     }
 
@@ -25,7 +23,6 @@ namespace LR.UI.Loading
       this.model = model;
       this.view = view;
 
-      view.InjectUISO(model.uiSO);
       view.HideAsync(true).Forget();
     }
 

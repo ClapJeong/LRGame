@@ -15,7 +15,7 @@ namespace LR.UI.Loading
       visibleState = UIVisibleState.Hiding;
       try
       {
-        await canvasGroup.DOFade(0.0f, isImmediately ? 0.0f : uiSO.LoadingFaceDuraton).ToUniTask(TweenCancelBehaviour.Kill, token);
+        await canvasGroup.DOFade(0.0f, isImmediately ? 0.0f : UISO.LoadingFaceDuraton).ToUniTask(TweenCancelBehaviour.Kill, token);
       }
       catch (OperationCanceledException) 
       {
@@ -29,7 +29,7 @@ namespace LR.UI.Loading
       visibleState = UIVisibleState.Showing;
       try
       {
-        await canvasGroup.DOFade(1.0f, isImmediately ? 0.0f : uiSO.LoadingFaceDuraton).ToUniTask(TweenCancelBehaviour.Kill, token);
+        await canvasGroup.DOFade(1.0f, isImmediately ? 0.0f : UISO.LoadingFaceDuraton).ToUniTask(TweenCancelBehaviour.Kill, token);
       }
       catch (OperationCanceledException)
       {
