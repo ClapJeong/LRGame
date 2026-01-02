@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,11 +11,12 @@ namespace LR.Stage.Effect
     [SerializeField] private float beforeDelay;
     [SerializeField] private float afterDelay;
 
-    private readonly CancellationTokenSource cts = new();
+    private readonly CTSContainer cts = new();
 
-    public override async UniTask PlayAsync(UnityAction onComplete = null, bool autoDestroy = true)
+    public override async UniTask PlayAsync(UnityAction onComplete = null)
     {
-      var token = cts.Token;
+      cts.Create();
+      var token = cts.token;
       await UniTask.WaitForSeconds(beforeDelay, false, PlayerLoopTiming.Update, token);
 
       var playHash = EffectTable.AnimEffectTable.PlayHash;
@@ -45,8 +45,6 @@ namespace LR.Stage.Effect
 
       await UniTask.WaitForSeconds(afterDelay, false, PlayerLoopTiming.Update, token);
       onComplete?.Invoke();
-      if (autoDestroy)
-        Destroy(gameObject);
     }
 
     public override void DestoryImmediately()

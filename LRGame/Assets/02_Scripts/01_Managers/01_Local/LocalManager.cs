@@ -22,7 +22,6 @@ public class LocalManager : MonoBehaviour
   [SerializeField] private Transform defaultEffectRoot;
   public StageManager StageManager { get; private set; }
   public DialogueService DialogueService {  get; private set; }
-
   private bool isSceneInitialized = false;
 
   public async UniTask InitializeAsync()
@@ -62,8 +61,7 @@ public class LocalManager : MonoBehaviour
       resourceManager: GlobalManager.instance.ResourceManager,
       sceneProvider: GlobalManager.instance.SceneProvider,
       cameraService: CameraService,
-      defaultEffectRoot: defaultEffectRoot,
-      effectService: GlobalManager.instance.EffectService);
+      defaultEffectRoot: defaultEffectRoot);
     StageManager = new StageManager(model);
 
     DialogueService = new DialogueService(StageManager);

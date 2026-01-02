@@ -14,8 +14,7 @@ public class StageManager :
   IStageEventSubscriber,
   IPlayerGetter,
   IStageCreator,
-  IDialogueDataProvider,
-  IEffectRootGeter
+  IDialogueDataProvider
 {
   public class Model
   {
@@ -25,9 +24,8 @@ public class StageManager :
     public ISceneProvider sceneProvider;
     public ICameraService cameraService;
     public Transform defaultEffectRoot;
-    public IEffectService effectService;
 
-    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, IEffectService effectService)
+    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot)
     {
       this.table = table;
       this.gameDataService = gameDataService;
@@ -35,12 +33,12 @@ public class StageManager :
       this.sceneProvider = sceneProvider;
       this.cameraService = cameraService;
       this.defaultEffectRoot = defaultEffectRoot;
-      this.effectService = effectService;
     }
   }
 
   private readonly Model model;
 
+  private readonly EffectService effectService;
   private readonly PlayerService playerSetupService;
   private readonly TriggerTileService triggerTileSetupService;
 
@@ -59,6 +57,11 @@ public class StageManager :
   {
     this.model = model;
 
+    effectService = new(
+      model.resourceManager, 
+      model.table.AddressableKeySO, 
+      model.table.EffectTableSO,
+      model.defaultEffectRoot);
     playerSetupService = new PlayerService(
       stageService: this,
       stageResultHandler: this);
@@ -261,7 +264,7 @@ public class StageManager :
   private void SetupTriggers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
     var model = new TriggerTileService.Model(
-      this.model.effectService,
+      effectService,
       stageResultHandler: this,
       playerGetter: this,
       existViews: stageData.TriggerTiles);

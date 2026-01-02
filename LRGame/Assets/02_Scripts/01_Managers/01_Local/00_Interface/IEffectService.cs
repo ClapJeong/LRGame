@@ -8,7 +8,6 @@ public interface IEffectService
     Vector3 position, 
     Quaternion rotation, 
     Transform root = null,
-    bool autoDestroy = true,
     UnityAction onComplete = null);
 
   public void Create(
@@ -16,6 +15,5 @@ public interface IEffectService
     Vector3 position, 
     Vector3 euler, 
     Transform root = null,
-    bool autoDestroy = true,
     UnityAction onComplete = null);
 }

@@ -15,7 +15,6 @@ public class GlobalManager : MonoBehaviour
   public SceneProvider SceneProvider { get; private set; }  
   public UIInputManager UIInputManager { get; private set; }
   public GameDataService GameDataService { get; private set; }
-  public EffectService EffectService { get; private set; }
 
   private CompositeDisposable disposables = new();
   private void Awake()
@@ -38,8 +37,6 @@ public class GlobalManager : MonoBehaviour
       GameDataService.LoadDataAsync().Forget();
 
       UIManager.Initialize(ResourceManager, FactoryManager);
-
-      EffectService = new(ResourceManager, Table.AddressableKeySO);
 
       SceneProvider = new (ResourceManager, UIManager, Table.AddressableKeySO);
       SceneProvider.LoadSceneAsync(SceneType.Preloading, false).Forget();
