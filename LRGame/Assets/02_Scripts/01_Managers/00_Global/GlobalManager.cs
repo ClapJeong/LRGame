@@ -8,29 +8,16 @@ public class GlobalManager : MonoBehaviour
 {
   public static GlobalManager instance;
 
-  private FactoryManager factoryManager;
-  public FactoryManager FactoryManager => factoryManager;
-
-  [SerializeField] private TableContainer table;
-  public TableContainer Table => table;
-
-  private ResourceManager resourceManager;
-  public ResourceManager ResourceManager => resourceManager;
+  [field: SerializeField] public TableContainer Table { get; private set; }
+  [field: SerializeField] public UIManager UIManager { get; private set; }
+  public FactoryManager FactoryManager { get; private set; }  
+  public ResourceManager ResourceManager { get; private set; } 
+  public SceneProvider SceneProvider { get; private set; }  
+  public UIInputManager UIInputManager { get; private set; }
+  public GameDataService GameDataService { get; private set; }
+  public EffectService EffectService { get; private set; }
 
   private CompositeDisposable disposables = new();
-
-  private SceneProvider sceneProvider;
-  public SceneProvider SceneProvider => sceneProvider;
-
-  [SerializeField] private UIManager uiManager;
-  public UIManager UIManager => uiManager;
-
-  [SerializeField] private UIInputManager uiInputManager;
-  public UIInputManager UIInputManager => uiInputManager;
-
-  private GameDataService gameDataService;
-  public GameDataService GameDataService => gameDataService;
-
   private void Awake()
   {
     if (instance == null)
@@ -38,21 +25,23 @@ public class GlobalManager : MonoBehaviour
       instance = this;
       DontDestroyOnLoad(gameObject);
 
-      factoryManager = new FactoryManager();
-      factoryManager.Initialize();
+      FactoryManager = new ();
+      FactoryManager.Initialize();
 
-      resourceManager = new ResourceManager();
-      disposables.Add(resourceManager);
+      ResourceManager = new ();
+      disposables.Add(ResourceManager);
 
-      uiInputManager = new UIInputManager(table: table, inputActionFactory: factoryManager.InputActionFactory);
-      disposables.Add(uiInputManager);
+      UIInputManager = new (Table, FactoryManager.InputActionFactory);
+      disposables.Add(UIInputManager);
 
-      gameDataService = new GameDataService(resourceManager: resourceManager);
-      gameDataService.LoadDataAsync().Forget();
+      GameDataService = new (ResourceManager);
+      GameDataService.LoadDataAsync().Forget();
 
-      uiManager.Initialize();
+      UIManager.Initialize(ResourceManager, FactoryManager);
 
-      sceneProvider = new SceneProvider(resourceManager, uiManager, table.AddressableKeySO);
+      EffectService = new(ResourceManager, Table.AddressableKeySO);
+
+      SceneProvider = new (ResourceManager, UIManager, Table.AddressableKeySO);
       SceneProvider.LoadSceneAsync(SceneType.Preloading, false).Forget();
     }
     else
@@ -71,15 +60,15 @@ public class GlobalManager : MonoBehaviour
 
   #region Debugging
   public void Debugging_AddClearStage()
-    => gameDataService.Debugging_RaiseClearData();
+    => GameDataService.Debugging_RaiseClearData();
 
   public void Debugging_MinusClearState()
-    => gameDataService.Debugging_LowerClearData();
+    => GameDataService.Debugging_LowerClearData();
 
   public void Debugging_ClearClearStage()
-    => gameDataService.Debugging_RaiseClearData();
+    => GameDataService.Debugging_RaiseClearData();
 
   public void Debugging_ClearAllConditions()
-    => gameDataService.Debugging_ClearAllDialogueConditions();
+    => GameDataService.Debugging_ClearAllDialogueConditions();
   #endregion
 }

@@ -6,15 +6,17 @@ public class TableContainer : MonoBehaviour
 
   [SerializeField] private PlayerModelSO rightPlayerModelSO;
 
-  [field: SerializeField] public AddressableKeySO AddressableKeySO {  get; set; }
+  [field: SerializeField] public AddressableKeySO AddressableKeySO {  get; private set; }
 
-  [field: SerializeField] public TriggerTileModelSO TriggerTileModelSO {  get; set; }
+  [field: SerializeField] public TriggerTileModelSO TriggerTileModelSO {  get; private set; }
 
-  [field: SerializeField] public UISO UISO {  get; set; }
+  [field: SerializeField] public UISO UISO {  get; private set; }
 
-  [field: SerializeField] public LocalizationSO LocalizationSO { get; set; }
+  [field: SerializeField] public LocalizationSO LocalizationSO { get; private set; }
 
-  [field: SerializeField] public DialogueUIDataSO DialogueUIDataSO { get; set; }
+  [field: SerializeField] public DialogueUIDataSO DialogueUIDataSO { get; private set; }
+
+  [field: SerializeField] public EffectTableSO EffectTableSO { get; private set; }
 
   public PlayerModelSO GetPlayerModelSO(PlayerType playerType)
     => playerType switch

@@ -89,8 +89,8 @@ public class ResourceManager : IResourceManager, IDisposable
     var objects = new List<T>();
     foreach (var location in locations)
     {
-      if (!cachedHandles.TryGetValue(location, out var handle))
-        handle = await LoadAsync(location);
+      if (!cachedHandles.ContainsKey(location))
+        await LoadAsync(location);
 
       var createdGameObject = await Addressables.InstantiateAsync(location, instantiateParameters: new(parent: root, false));
       createdLocations[createdGameObject] = location;

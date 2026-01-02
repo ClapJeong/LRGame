@@ -11,7 +11,7 @@ namespace LR.Stage.Player
   {
     private readonly PlayerEnergyData playerEnergyData;
     private readonly Dictionary<IPlayerEnergySubscriber.EventType, UnityEvent> energyEvents = new();
-    private readonly ISpriteRendererView spriteRendererView;
+    private readonly SpriteRenderer spriteRenderer;
     private readonly CancellationTokenSource cts = new();
 
     private float energy;
@@ -28,10 +28,10 @@ namespace LR.Stage.Player
     public float CurrentEnergy => energy;
     #endregion
 
-    public BasePlayerEnergyService(PlayerEnergyData playerEnergyData, ISpriteRendererView spriteRendererView)
+    public BasePlayerEnergyService(PlayerEnergyData playerEnergyData, SpriteRenderer spriteRenderer)
     {
       this.playerEnergyData = playerEnergyData;
-      this.spriteRendererView = spriteRendererView;
+      this.spriteRenderer = spriteRenderer;
 
       energy = playerEnergyData.MaxEnergy;
     }
@@ -134,12 +134,12 @@ namespace LR.Stage.Player
         var interval = 0.15f;
         while(durataion< targetDuration)
         {
-          spriteRendererView.SetAlpha(playerEnergyData.InvincibleBlinkAlphaMax);
+          spriteRenderer.SetAlpha(playerEnergyData.InvincibleBlinkAlphaMax);
           await UniTask.WaitForSeconds(interval, false, PlayerLoopTiming.Update, token);
           durataion += interval;
           token.ThrowIfCancellationRequested();
 
-          spriteRendererView.SetAlpha(playerEnergyData.InvincibleBlinkAlphaMin);
+          spriteRenderer.SetAlpha(playerEnergyData.InvincibleBlinkAlphaMin);
           await UniTask.WaitForSeconds(interval, false, PlayerLoopTiming.Update, token);
           token.ThrowIfCancellationRequested();
           durataion += interval;
@@ -150,7 +150,7 @@ namespace LR.Stage.Player
       catch (OperationCanceledException) { }
       finally
       {
-        spriteRendererView.SetAlpha(1.0f);
+        spriteRenderer.SetAlpha(1.0f);
       }
     }
   }

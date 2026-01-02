@@ -4453,6 +4453,7 @@ MonoBehaviour:
   <UISO>k__BackingField: {fileID: 11400000, guid: 9ce6f4dd25c72964a99853c9cff4b348, type: 2}
   <LocalizationSO>k__BackingField: {fileID: 11400000, guid: dd7c391b4b7f3754d8819490f6b65230, type: 2}
   <DialogueUIDataSO>k__BackingField: {fileID: 11400000, guid: af474d6579907144b86d4458c5e44c59, type: 2}
+  <EffectTableSO>k__BackingField: {fileID: 11400000, guid: b526d0e7f8d1d664e9f5eb61a4056494, type: 2}
 --- !u!1 &5015589118774862497
 GameObject:
   m_ObjectHideFlags: 0
@@ -7887,8 +7888,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e12192d3683cac54b87fcc03057045c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GlobalManager
-  table: {fileID: 436146255533738933}
-  uiManager: {fileID: 3920139911844893437}
+  <Table>k__BackingField: {fileID: 436146255533738933}
+  <UIManager>k__BackingField: {fileID: 3920139911844893437}
 --- !u!1 &8445386830654143088
 GameObject:
   m_ObjectHideFlags: 0

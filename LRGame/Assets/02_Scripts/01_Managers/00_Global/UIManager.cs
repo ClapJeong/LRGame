@@ -34,13 +34,13 @@ public class UIManager : MonoBehaviour,
   private UIDepthService depthService;
   private UIProgressSubmitController progressSubmitController;
 
-  public void Initialize()
+  public void Initialize(IResourceManager resourceManager, FactoryManager factoryManager)
   {
     presenterContainer = new UIPresenterContainer();
     selectedGameObjectService = new UISelectedGameObjectService();
     depthService = new UIDepthService();
-    indicatorService = new UIIndicatorService(resourceManager: GlobalManager.instance.ResourceManager, disableRoot: disableRoot);
-    progressSubmitController = new UIProgressSubmitController(selectedGameObjectService: selectedGameObjectService, inputActionFactory: GlobalManager.instance.FactoryManager.InputActionFactory);
+    indicatorService = new UIIndicatorService(resourceManager, disableRoot);
+    progressSubmitController = new UIProgressSubmitController(selectedGameObjectService, factoryManager.InputActionFactory);
   }
 
   private void Update()

@@ -16,9 +16,12 @@ public class LocalManager : MonoBehaviour
 
   [SerializeField] private SceneType sceneType;
 
-  [SerializeField] private CameraService cameraService;
-  private StageManager stageManager;
-  private DialogueService dialogueService;
+  [field: SerializeField] public CameraService CameraService { get; private set; }
+
+  [Space(10)]
+  [SerializeField] private Transform defaultEffectRoot;
+  public StageManager StageManager { get; private set; }
+  public DialogueService DialogueService {  get; private set; }
 
   private bool isSceneInitialized = false;
 
@@ -45,7 +48,7 @@ public class LocalManager : MonoBehaviour
       case SceneType.Game:
         {
           await UniTask.WaitUntil(() => isSceneInitialized);
-          dialogueService.Play();
+          DialogueService.Play();
         }        
         break;
     }
@@ -58,10 +61,12 @@ public class LocalManager : MonoBehaviour
       gameDataService: GlobalManager.instance.GameDataService,
       resourceManager: GlobalManager.instance.ResourceManager,
       sceneProvider: GlobalManager.instance.SceneProvider,
-      cameraService: cameraService);
-    stageManager = new StageManager(model);
+      cameraService: CameraService,
+      defaultEffectRoot: defaultEffectRoot,
+      effectService: GlobalManager.instance.EffectService);
+    StageManager = new StageManager(model);
 
-    dialogueService = new DialogueService(stageManager);
+    DialogueService = new DialogueService(StageManager);
   }
 
   private async UniTask InitializeSceneAsync()
@@ -104,7 +109,7 @@ public class LocalManager : MonoBehaviour
 
   private async UniTask CreateStageAsync(int index)
   {
-    await stageManager.CreateAsync(index, true);
+    await StageManager.CreateAsync(index, true);
   }
 
   private async UniTask CreateFirstUIAsync()
@@ -180,9 +185,9 @@ public class LocalManager : MonoBehaviour
     var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(table.Path.UI + table.UIName.PlayerRoot, root);
 
     var Leftmodel = new UIPlayerRootPresenter.Model(
-      stageManager: stageManager,
+      stageManager: StageManager,
       playerType: PlayerType.Left,
-      playerGetter: stageManager);
+      playerGetter: StageManager);
     var leftView = viewRoot.leftView;
 
     var leftPresenter = new UIPlayerRootPresenter(Leftmodel, leftView);
@@ -190,16 +195,16 @@ public class LocalManager : MonoBehaviour
     leftPresenter.DeactivateAsync().Forget();
 
     var rightmodel = new UIPlayerRootPresenter.Model(
-      stageManager: stageManager,
+      stageManager: StageManager,
       playerType: PlayerType.Right,
-      playerGetter: stageManager);
+      playerGetter: StageManager);
     var rightView = viewRoot.rightView;
 
     var rightPresenter = new UIPlayerRootPresenter(rightmodel, rightView);
     rightPresenter.AttachOnDestroy(gameObject);
     rightPresenter.DeactivateAsync().Forget();
 
-    dialogueService.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, () =>
+    DialogueService.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, () =>
     {
       if (leftPresenter.GetVisibleState() == UIVisibleState.Hidden)
         leftPresenter.ActivateAsync().Forget();
@@ -219,9 +224,9 @@ public class LocalManager : MonoBehaviour
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var model = new UIStageRootPresenter.Model(
-      dialogueSubscriber: dialogueService,
-      stageStateHandler: stageManager,
-      stageEventSubscriber: stageManager,
+      dialogueSubscriber: DialogueService,
+      stageStateHandler: StageManager,
+      stageEventSubscriber: StageManager,
       resourceManager: resourceManager,
       gameDataService: GlobalManager.instance.GameDataService,
       uiManager: GlobalManager.instance.UIManager,
@@ -247,10 +252,10 @@ public class LocalManager : MonoBehaviour
       resourceManager: resourceManager,
       gameDataService: GlobalManager.instance.GameDataService,
       uiInputActionManager: GlobalManager.instance.UIInputManager,
-      dialogueDataProvider: stageManager,
-      subscriber: dialogueService,
-      controller: dialogueService,
-      stageStateHandler: stageManager);
+      dialogueDataProvider: StageManager,
+      subscriber: DialogueService,
+      controller: DialogueService,
+      stageStateHandler: StageManager);
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var key = table.Path.UI + table.UIName.DialogueRoot;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
@@ -282,7 +287,7 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageStateHandler stageStateHandler = stageManager;
+    IStageStateHandler stageStateHandler = StageManager;
     stageStateHandler.Complete();    
   }
 
@@ -291,7 +296,7 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    var leftPlayer = stageManager.GetPlayer(PlayerType.Left);
+    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
     leftPlayer.GetEnergyController().Damage(float.MaxValue, ignoreInvincible: true);
   }
 
@@ -300,7 +305,7 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    var rightPlayer = stageManager.GetPlayer(PlayerType.Right);
+    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
     rightPlayer.GetEnergyController().Damage(float.MaxValue, ignoreInvincible: true);
   }
 
@@ -309,16 +314,16 @@ public class LocalManager : MonoBehaviour
     if (sceneType != SceneType.Game)
       return;
 
-    IStageStateHandler stageService = stageManager;
+    IStageStateHandler stageService = StageManager;
     stageService.RestartAsync().Forget();
   }
 
   public void Debugging_LeftPlayeEnergyDamaged(float value)
   {
-    if (stageManager.IsAllPlayerExist() == false)
+    if (StageManager.IsAllPlayerExist() == false)
       return;
 
-    var leftPlayer = stageManager.GetPlayer(PlayerType.Left);
+    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
     leftPlayer
       .GetEnergyController()
       .Damage(value, true);
@@ -326,10 +331,10 @@ public class LocalManager : MonoBehaviour
 
   public void Debugging_LeftPlayerEnergyRestored(float value)
   {
-    if (stageManager.IsAllPlayerExist() == false)
+    if (StageManager.IsAllPlayerExist() == false)
       return;
     
-    var leftPlayer = stageManager.GetPlayer(PlayerType.Left);
+    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
     leftPlayer
       .GetEnergyController()
       .Restore(value);
@@ -337,10 +342,10 @@ public class LocalManager : MonoBehaviour
 
   public void Debugging_RightPlayerEnergyDamaged(float value)
   {
-    if (stageManager.IsAllPlayerExist() == false)
+    if (StageManager.IsAllPlayerExist() == false)
       return;
     
-    var rightPlayer = stageManager.GetPlayer(PlayerType.Right);
+    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
     rightPlayer
       .GetEnergyController()
       .Damage(value, true);
@@ -348,10 +353,10 @@ public class LocalManager : MonoBehaviour
 
   public void Debugging_RightPlayerEnergyRestored(float value)
   {
-    if (stageManager.IsAllPlayerExist() == false)
+    if (StageManager.IsAllPlayerExist() == false)
       return; 
     
-    var rightPlayer = stageManager.GetPlayer(PlayerType.Right);
+    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
     rightPlayer
       .GetEnergyController()
       .Restore(value);

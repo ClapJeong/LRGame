@@ -1,18 +1,19 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using UnityEngine;
 using LR.Stage.TriggerTile;
 
 public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectControlService<ITriggerTilePresenter>
 {
   public class Model
   {
+    public readonly IEffectService effectService;
     public readonly IStageResultHandler stageResultHandler;
     public readonly IPlayerGetter playerGetter;
     public readonly List<ITriggerTileView> existViews;
 
-    public Model(IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews)
+    public Model(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews)
     {
+      this.effectService = effectService;
       this.stageResultHandler = stageResultHandler;
       this.playerGetter = playerGetter;
       this.existViews = existViews;
@@ -56,7 +57,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.Spike:
           {
-            var model = new SpikeTriggerTilePresenter.Model(triggerDataSO.SpikeTrigger, this.model.playerGetter);
+            var model = new SpikeTriggerTilePresenter.Model(triggerDataSO.SpikeTrigger, this.model.playerGetter, this.model.effectService);
             var spikeTriggerTileView = view as SpikeTriggerTileView;
             presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
           }
@@ -64,7 +65,7 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
         case TriggerTileType.EnergyItem:
           {
-            var model = new EnergyItemTriggerPresenter.Model(triggerDataSO.EnergyItem, this.model.playerGetter);
+            var model = new EnergyItemTriggerPresenter.Model(triggerDataSO.EnergyItem, this.model.playerGetter, this.model.effectService);
             var energyItemView = view as EnergyItemTriggerView;
             presenter = new EnergyItemTriggerPresenter(model, energyItemView);
           }

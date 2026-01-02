@@ -14,7 +14,8 @@ public class StageManager :
   IStageEventSubscriber,
   IPlayerGetter,
   IStageCreator,
-  IDialogueDataProvider
+  IDialogueDataProvider,
+  IEffectRootGeter
 {
   public class Model
   {
@@ -23,14 +24,18 @@ public class StageManager :
     public IResourceManager resourceManager;
     public ISceneProvider sceneProvider;
     public ICameraService cameraService;
+    public Transform defaultEffectRoot;
+    public IEffectService effectService;
 
-    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService)
+    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, IEffectService effectService)
     {
       this.table = table;
       this.gameDataService = gameDataService;
       this.resourceManager = resourceManager;
       this.sceneProvider = sceneProvider;
       this.cameraService = cameraService;
+      this.defaultEffectRoot = defaultEffectRoot;
+      this.effectService = effectService;
     }
   }
 
@@ -234,6 +239,12 @@ public class StageManager :
     => playerSetupService.IsAllPlayerExist();
   #endregion
 
+  #region IEffectRootGetter
+  public Transform GetDefaultEffectRoot()
+    => model.defaultEffectRoot;
+
+  #endregion
+
   private void SetupCamera(StageDataContainer stageData)
   {
     model.cameraService.SetSize(stageData.CameraSize);
@@ -250,6 +261,7 @@ public class StageManager :
   private void SetupTriggers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
     var model = new TriggerTileService.Model(
+      this.model.effectService,
       stageResultHandler: this,
       playerGetter: this,
       existViews: stageData.TriggerTiles);

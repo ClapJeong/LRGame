@@ -22,9 +22,9 @@ namespace LR.Stage.Player
       this.view = view;
       this.model = model;
 
-      view.SetWorldPosition(model.beginPosition);
+      view.transform.position = model.beginPosition;
 
-      energyService = new BasePlayerEnergyService(model.so.Energy, view).AddTo(disposables);
+      energyService = new BasePlayerEnergyService(model.so.Energy, view.SpriteRenderer).AddTo(disposables);
       inputActionController = new BasePlayerInputActionController(model).AddTo(disposables);
       moveController = new BasePlayerMoveController(view, inputActionController: this.inputActionController, model).AddTo(disposables);
 
@@ -127,9 +127,9 @@ namespace LR.Stage.Player
       GetInputActionController().
         EnableAllInputActions(true);
 
-      energyService.Restart();        
+      energyService.Restart();
 
-      view.SetWorldPosition(model.beginPosition);
+      view.transform.position = model.beginPosition;
       stateService.ChangeState(PlayerStateType.Idle);
     }
     #endregion

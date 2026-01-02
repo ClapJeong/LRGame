@@ -10,11 +10,13 @@ namespace LR.Stage.TriggerTile
     {
       public EnergyItemData data;
       public IPlayerGetter playerGetter;
+      public IEffectService effectService;
 
-      public Model(EnergyItemData data, IPlayerGetter playerGetter)
+      public Model(EnergyItemData data, IPlayerGetter playerGetter, IEffectService effectService)
       {
         this.data = data;
         this.playerGetter = playerGetter;
+        this.effectService = effectService;
       }
     }
 
@@ -48,12 +50,14 @@ namespace LR.Stage.TriggerTile
 
       var playerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
       var playerPresenter = model.playerGetter.GetPlayer(playerType.ParseOpposite());
-      var energyProvider = playerPresenter.GetEnergyProvider();
-      var energyController = playerPresenter.GetEnergyController();
+      var energyProvider = playerPresenter.GetEnergyProvider();      
       if (energyProvider.IsFull)
         return;
 
+      var energyController = playerPresenter.GetEnergyController();
       energyController.Restore(model.data.RestoreValue);
+
+      model.effectService.Create(model.data.EffectType, view.transform.position, Quaternion.identity);
 
       Deactivate();
     }

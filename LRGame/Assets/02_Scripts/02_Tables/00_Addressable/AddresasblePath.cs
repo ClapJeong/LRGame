@@ -10,4 +10,5 @@ public class AddresasblePath
   [field: SerializeField] public string LeftPortrait {  get; private set; }
   [field: SerializeField] public string CenterPortrait { get; private set; }
   [field: SerializeField] public string RightPortrait { get; private set; }
+  [field: SerializeField] public string Effect {  get; private set; }
 }

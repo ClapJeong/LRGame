@@ -24,6 +24,7 @@ MonoBehaviour:
     <LeftPortrait>k__BackingField: Portrait/00_Left/
     <CenterPortrait>k__BackingField: Portrait/01_Right/
     <RightPortrait>k__BackingField: Portrait/02_Center/
+    <Effect>k__BackingField: Effect/
   <SceneName>k__BackingField:
     preloading: Preloading
     lobby: Lobby

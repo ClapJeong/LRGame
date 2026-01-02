@@ -17,7 +17,9 @@ MonoBehaviour:
     <BounceData>k__BackingField:
       force: 5
       stunDuration: 0.8
+    <EffectType>k__BackingField: 1
   <EnergyItem>k__BackingField:
     <RestoreValue>k__BackingField: 50
+    <EffectType>k__BackingField: 0
   <EnergyCharger>k__BackingField:
     <ChargeValue>k__BackingField: 2
