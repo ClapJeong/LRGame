@@ -66,5 +66,14 @@ namespace LR.Table.Dialogue
     {
       return condition;
     }
+
+    public DialogueCharacterData GetCharacterData(CharacterPositionType positionType)
+      => positionType switch
+      {
+        CharacterPositionType.Left => left,
+        CharacterPositionType.Center => center,
+        CharacterPositionType.Right => right,
+        _ => throw new System.NotImplementedException(),
+      };
   }
 }

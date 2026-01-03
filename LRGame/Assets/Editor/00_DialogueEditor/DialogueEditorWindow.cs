@@ -1,4 +1,3 @@
-using UnityEngine;
 using LR.Table.Dialogue;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +5,8 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEditorInternal;
+using UnityEngine;
+using static PortraitEnum;
 
 public class DialogueEditorWindow : EditorWindow
 {
@@ -87,9 +88,22 @@ public class DialogueEditorWindow : EditorWindow
   private const string FileNameFormat = "{0}_{1}.json";
   private const string NewDataSetName = "newName";
   private const string DataSubNameTextField = "DataSubName";
+  private const string LeftPortraitPath = "Assets/01_Art/00_Sprites/00_Portrait/00_Left/";
+  private const string RightPortraitPath = "Assets/01_Art/00_Sprites/00_Portrait/01_Right/"; 
+  private const string CenterPortraitPath = "Assets/01_Art/00_Sprites/00_Portrait/02_Center/";
+  private const float PortraitWidth = 100.0f;
+  private const float PortraitHeight = 100.0f;
+  private string GetPortraitPath(CharacterPositionType positionType)
+    => positionType switch
+    {
+      CharacterPositionType.Left => LeftPortraitPath,
+      CharacterPositionType.Center => CenterPortraitPath,
+      CharacterPositionType.Right => RightPortraitPath,
+      _ => throw new System.NotImplementedException(),
+    };
   #endregion
 
-  #region Static
+    #region Static
   private static readonly GUILayoutOption[] IOButtonSize = new[]
   {
     GUILayout.Width(80.0f),
@@ -771,121 +785,90 @@ public class DialogueEditorWindow : EditorWindow
       using (new EditorGUILayout.HorizontalScope())
       {
         EditorGUILayout.Space(50.0f);
-        using (new GUILayout.VerticalScope(GUI.skin.box))
-        {
-          var left = talkingData.left;
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("Portrait");
-            left.Portrait = (int)(PortraitEnum.Left)EditorGUILayout.EnumPopup((PortraitEnum.Left)left.Portrait);
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("ChangeType");
-            EditorGUI.BeginDisabledGroup(prevTalkingData == null || prevTalkingData.left.Portrait == left.Portrait);
-            left.PortraitChangeType = (int)(PortraitEnum.ChangeType)EditorGUILayout.EnumPopup((PortraitEnum.ChangeType)left.PortraitChangeType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("AnimationType");
-            EditorGUI.BeginDisabledGroup(left.Portrait == 0);
-            left.PortraitAnimationType = (int)(PortraitEnum.AnimationType)EditorGUILayout.EnumPopup((PortraitEnum.AnimationType)left.PortraitAnimationType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("AlphaType");
-            EditorGUI.BeginDisabledGroup(left.Portrait == 0);
-            left.PortraitAlphaType = (int)(PortraitEnum.AlphaType)EditorGUILayout.EnumPopup((PortraitEnum.AlphaType)left.PortraitAlphaType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          left.NameKey = EditorGUILayout.TextField(left.NameKey, StringCenterStyle);
-          left.DialogueKey = EditorGUILayout.TextField(left.DialogueKey, StringCenterStyle);
-        }
+        DrawCharacterDataArea(talkingData, prevTalkingData, CharacterPositionType.Left);
         GUILayout.FlexibleSpace();
-        using (new GUILayout.VerticalScope(GUI.skin.box))
-        {
-          var center = talkingData.center;
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("Portrait");
-            center.Portrait = (int)(PortraitEnum.Center)EditorGUILayout.EnumPopup((PortraitEnum.Center)center.Portrait);
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("ChangeType");
-            EditorGUI.BeginDisabledGroup(prevTalkingData == null || prevTalkingData.center.Portrait == center.Portrait);
-            center.PortraitChangeType = (int)(PortraitEnum.ChangeType)EditorGUILayout.EnumPopup((PortraitEnum.ChangeType)center.PortraitChangeType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("AnimationType");
-            EditorGUI.BeginDisabledGroup(center.Portrait == 0);
-            center.PortraitAnimationType = (int)(PortraitEnum.AnimationType)EditorGUILayout.EnumPopup((PortraitEnum.AnimationType)center.PortraitAnimationType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("AlphaType");
-            EditorGUI.BeginDisabledGroup(center.Portrait == 0);
-            center.PortraitAlphaType = (int)(PortraitEnum.AlphaType)EditorGUILayout.EnumPopup((PortraitEnum.AlphaType)center.PortraitAlphaType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          center.NameKey = EditorGUILayout.TextField(center.NameKey, StringCenterStyle);
-          center.DialogueKey = EditorGUILayout.TextField(center.DialogueKey, StringCenterStyle);
-        }
+        DrawCharacterDataArea(talkingData, prevTalkingData, CharacterPositionType.Center);
         GUILayout.FlexibleSpace();
-        using (new GUILayout.VerticalScope(GUI.skin.box))
-        {
-          var right = talkingData.right;
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("Portrait");
-            right.Portrait = (int)(PortraitEnum.Right)EditorGUILayout.EnumPopup((PortraitEnum.Right)right.Portrait);
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("ChangeType");
-            EditorGUI.BeginDisabledGroup(prevTalkingData == null || prevTalkingData.right.Portrait == right.Portrait);
-            right.PortraitChangeType = (int)(PortraitEnum.ChangeType)EditorGUILayout.EnumPopup((PortraitEnum.ChangeType)right.PortraitChangeType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("AnimationType");
-            EditorGUI.BeginDisabledGroup(right.Portrait == 0);
-            right.PortraitAnimationType = (int)(PortraitEnum.AnimationType)EditorGUILayout.EnumPopup((PortraitEnum.AnimationType)right.PortraitAnimationType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          using (new GUILayout.HorizontalScope())
-          {
-            EditorGUILayout.LabelField("AlphaType");
-            EditorGUI.BeginDisabledGroup(right.Portrait == 0);
-            right.PortraitAlphaType = (int)(PortraitEnum.AlphaType)EditorGUILayout.EnumPopup((PortraitEnum.AlphaType)right.PortraitAlphaType);
-            EditorGUI.EndDisabledGroup();
-          }
-
-          right.NameKey = EditorGUILayout.TextField(right.NameKey, StringCenterStyle);
-          right.DialogueKey = EditorGUILayout.TextField(right.DialogueKey, StringCenterStyle);
-        }
+        DrawCharacterDataArea(talkingData, prevTalkingData, CharacterPositionType.Right);
         EditorGUILayout.Space(50.0f);
       }
+    }
+  }
+
+  private void DrawCharacterDataArea(DialogueTalkingData currentData, DialogueTalkingData previousData, CharacterPositionType positionType)
+  {
+    using (new GUILayout.VerticalScope(GUI.skin.box))
+    {
+      var current = currentData.GetCharacterData(positionType);
+
+      if (current.Portrait > 0)
+      {
+        var portraitName = positionType switch
+        {
+          CharacterPositionType.Left => ((PortraitEnum.Left)current.Portrait).ToString(),
+          CharacterPositionType.Center => ((PortraitEnum.Center)current.Portrait).ToString(),
+          CharacterPositionType.Right => ((PortraitEnum.Right)current.Portrait).ToString(),
+          _ => throw new System.NotImplementedException(),
+        };
+        var portraitAssetPath = GetPortraitPath(positionType) + portraitName + ".png";
+        if (AssetDatabase.AssetPathExists(portraitAssetPath))
+        {
+          using (new GUILayout.HorizontalScope())
+          {
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(portraitAssetPath);
+            var rect = GUILayoutUtility.GetRect(PortraitWidth, PortraitHeight);
+            GUI.DrawTexture(rect, texture, ScaleMode.ScaleToFit);
+          }
+        }
+
+        EditorGUILayout.Space(5.0f);
+      }
+
+      using (new GUILayout.HorizontalScope())
+      {
+        EditorGUILayout.LabelField("Portrait");
+        switch (positionType)
+        {
+          case CharacterPositionType.Left:
+            current.Portrait = (int)(PortraitEnum.Left)EditorGUILayout.EnumPopup((PortraitEnum.Left)current.Portrait);
+            break;
+
+          case CharacterPositionType.Center:
+            current.Portrait = (int)(PortraitEnum.Center)EditorGUILayout.EnumPopup((PortraitEnum.Center)current.Portrait);
+            break;
+
+          case CharacterPositionType.Right:
+            current.Portrait = (int)(PortraitEnum.Right)EditorGUILayout.EnumPopup((PortraitEnum.Right)current.Portrait);
+            break;
+        }
+      }
+
+      using (new GUILayout.HorizontalScope())
+      {
+        EditorGUILayout.LabelField("ChangeType");
+        EditorGUI.BeginDisabledGroup(previousData == null || previousData.GetCharacterData(positionType).Portrait == current.Portrait);
+        current.PortraitChangeType = (int)(PortraitEnum.ChangeType)EditorGUILayout.EnumPopup((PortraitEnum.ChangeType)current.PortraitChangeType);
+        EditorGUI.EndDisabledGroup();
+      }
+
+      using (new GUILayout.HorizontalScope())
+      {
+        EditorGUILayout.LabelField("AnimationType");
+        EditorGUI.BeginDisabledGroup(current.Portrait == 0);
+        current.PortraitAnimationType = (int)(PortraitEnum.AnimationType)EditorGUILayout.EnumPopup((PortraitEnum.AnimationType)current.PortraitAnimationType);
+        EditorGUI.EndDisabledGroup();
+      }
+
+      using (new GUILayout.HorizontalScope())
+      {
+        EditorGUILayout.LabelField("AlphaType");
+        EditorGUI.BeginDisabledGroup(current.Portrait == 0);
+        current.PortraitAlphaType = (int)(PortraitEnum.AlphaType)EditorGUILayout.EnumPopup((PortraitEnum.AlphaType)current.PortraitAlphaType);
+        EditorGUI.EndDisabledGroup();
+      }
+
+      current.NameKey = EditorGUILayout.TextField(current.NameKey, StringCenterStyle);
+      current.DialogueKey = EditorGUILayout.TextField(current.DialogueKey, StringCenterStyle);
     }
   }
 
