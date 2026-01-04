@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f359101d4ba3d949a4c3b438117b058, type: 3}
   m_Name: ChatCardDatasSO
   m_EditorClassIdentifier: Assembly-CSharp::ChatCardDatasSO
-  Duration: 1
+  Duration: 2
   datas:
   - type: 0
     portraitType: 1

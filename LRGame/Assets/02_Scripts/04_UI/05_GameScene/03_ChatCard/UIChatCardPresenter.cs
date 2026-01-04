@@ -42,7 +42,7 @@ namespace LR.UI.GameScene.ChatCard
     {
       this.model = model;
       this.view = view;
-      view.HideAsync(true).Forget();
+      view.CanvasGroup.alpha = 0.0f;
     }
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)

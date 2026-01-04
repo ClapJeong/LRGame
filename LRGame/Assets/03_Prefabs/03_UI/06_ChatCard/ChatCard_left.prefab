@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d65734101601b478777f0b90909393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.ChatCard.UIChatCardView
-  canvasGroup: {fileID: 5211572316005663168}
+  <CanvasGroup>k__BackingField: {fileID: 5211572316005663168}
   <PortraitImage>k__BackingField: {fileID: 9037104751681912279}
   <LocalizeStringEvent>k__BackingField: {fileID: 7736700198712376138}
 --- !u!225 &5211572316005663168
