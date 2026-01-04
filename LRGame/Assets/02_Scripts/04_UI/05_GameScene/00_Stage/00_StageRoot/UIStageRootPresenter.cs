@@ -127,7 +127,7 @@ namespace LR.UI.GameScene.Stage
     {
       var model = new UIStageFailPresenter.Model(
         uiInputActionManager: this.model.uiInputActionManager,
-        indicatorService: this.model.uiManager,
+        indicatorService: this.model.uiManager.GetIUIIndicatorService(),
         stageService: this.model.stageStateHandler,
         sceneProvider: this.model.sceneProvider);
       var failView = view.failViewContainer;
@@ -140,7 +140,7 @@ namespace LR.UI.GameScene.Stage
       var model = new UIStageSuccessPresenter.Model(
         gameDataService: this.model.gameDataService,
         uiInputActionManager: this.model.uiInputActionManager,
-        indicatorService: this.model.uiManager,
+        indicatorService: this.model.uiManager.GetIUIIndicatorService(),
         stageService: this.model.stageStateHandler,
         sceneProvider: this.model.sceneProvider);
       var view = this.view.successViewContainer;
@@ -152,7 +152,7 @@ namespace LR.UI.GameScene.Stage
     {
       var model = new UIStagePausePresenter.Model(
         uiInputActionManager: this.model.uiInputActionManager,
-        indicatorService: this.model.uiManager,
+        indicatorService: this.model.uiManager.GetIUIIndicatorService(),
         sceneProvider: this.model.sceneProvider,
         stageService: this.model.stageStateHandler);
       var view = this.view.pauseViewContainer;

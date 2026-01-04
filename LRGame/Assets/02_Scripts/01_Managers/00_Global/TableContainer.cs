@@ -18,6 +18,8 @@ public class TableContainer : MonoBehaviour
 
   [field: SerializeField] public EffectTableSO EffectTableSO { get; private set; }
 
+  [field: SerializeField] public ChatCardDatasSO ChatCardDatasSO { get; private set; }
+
   public PlayerModelSO GetPlayerModelSO(PlayerType playerType)
     => playerType switch
     {

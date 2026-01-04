@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 namespace LR.UI.Lobby
 {
@@ -33,8 +31,6 @@ namespace LR.UI.Lobby
 
     private readonly Model model;
     private readonly UILobbyRootView view;
-
-    private IUIIndicatorService indicatorService => model.uiManager;
 
     private IUIIndicatorPresenter currentIndicator;
     private Dictionary<UIChapterButtonView, UIChapterButtonPresenter> chapterButtons = new();
@@ -87,12 +83,12 @@ namespace LR.UI.Lobby
         var model = new UIChapterButtonPresenter.Model(
           chapter: chapter,
           panelRoot: this.view.chapterPanelRoot,
-          depthService: this.model.uiManager,
+          depthService: this.model.uiManager.GetIUIDepthService(),
           uiInputActionManager: this.model.uiInputManager,
           resourceManager: this.model.resourceManager,
           gameDataService: this.model.gameDataService,
           sceneProvider: this.model.sceneProvider,
-          indicatorService: this.model.uiManager);
+          indicatorService: this.model.uiManager.GetIUIIndicatorService());
         var view = await this.model.resourceManager.CreateAssetAsync<UIChapterButtonView>(key, this.view.stageButtonRoot);
         view.name = $"ChapterView_{i}";
         var presenter = new UIChapterButtonPresenter(model, view);
@@ -128,14 +124,19 @@ namespace LR.UI.Lobby
 
     private void RegisterContainer()
     {
-      IUIPresenterContainer presenterContainer = GlobalManager.instance.UIManager;
-      presenterContainer.Add(this);
+      GlobalManager
+        .instance
+        .UIManager
+        .GetIUIPresenterContainer()
+        .Add(this);
     }
 
     private void UnregisterContainer()
     {
-      IUIPresenterContainer presenterContainer = model.uiManager;
-      presenterContainer.Remove(this);
+      GlobalManager
+        .instance
+        .UIManager
+        .GetIUIPresenterContainer().Remove(this);
     }
 
     #region Depths
@@ -144,35 +145,40 @@ namespace LR.UI.Lobby
       LayoutRebuilder.ForceRebuildLayoutImmediate(view.stageButtonRoot.GetComponent<RectTransform>());
       await UniTask.Yield();
 
+      var indicatorService = GlobalManager.instance.UIManager.GetIUIIndicatorService();
       currentIndicator = await indicatorService.GetNewAsync(view.indicatorRoot, firstView.rectView);
       currentIndicator.SetLeftGuide(firstView.navigationView.GetNavigation());
       currentIndicator.SetRightGuide(Direction.Right, Direction.Left);
       indicatorService.ReleaseTopIndicatorOnDestroy(view.gameObject);
 
-      IUIDepthService depthService = model.uiManager;
-      depthService.RaiseDepth(firstView.gameObject);
+      model
+        .uiManager
+        .GetIUIDepthService()
+        .RaiseDepth(firstView.gameObject);
 
       SubscribeSelectedGameObjectService();
     }
 
     private void LowerDepth()
     {
-      IUIDepthService depthService = model.uiManager;
-      depthService.LowerDepth();
+      model
+        .uiManager
+        .GetIUIDepthService()
+        .LowerDepth();
     }
     #endregion
 
     #region Subscribes
     private void SubscribeSelectedGameObjectService()
     {
-      IUISelectedGameObjectService selectedGameObjectService = model.uiManager;
+      var selectedGameObjectService = model.uiManager.GetIUISelectedGameObjectService();
       selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
       selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnExit, OnSelectedGameObjectExit);
     }
 
     private void UnsubscribeSelectedGameObjectService()
-    {     
-      IUISelectedGameObjectService selectedGameObjectService = model.uiManager;
+    {
+      var selectedGameObjectService = model.uiManager.GetIUISelectedGameObjectService();
       selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
       selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnExit, OnSelectedGameObjectExit);
     }
@@ -181,7 +187,7 @@ namespace LR.UI.Lobby
     private void OnSelectedGameObjectEnter(GameObject target)
     {
       if (target.TryGetComponent<UIChapterButtonView>(out var targetView) &&
-          indicatorService.IsTopIndicatorIsThis(currentIndicator))
+          GlobalManager.instance.UIManager.GetIUIIndicatorService().IsTopIndicatorIsThis(currentIndicator))
       {
         currentIndicator.MoveAsync(targetView.rectView).Forget();
         currentIndicator.SetLeftGuide(targetView.navigationView.GetNavigation());
@@ -192,7 +198,7 @@ namespace LR.UI.Lobby
     private void OnSelectedGameObjectExit(GameObject target)
     {
       if (target.TryGetComponent<UIChapterButtonView>(out var targetView) &&
-          indicatorService.IsTopIndicatorIsThis(currentIndicator))
+          GlobalManager.instance.UIManager.GetIUIIndicatorService().IsTopIndicatorIsThis(currentIndicator))
       {
         chapterButtons[targetView].DeactivateAsync().Forget();
       }

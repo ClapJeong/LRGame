@@ -1,50 +1,92 @@
 ﻿using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ChatCardDatasSO))]
-public class ChatCardDataSOEditor : Editor
+public class ChatCardDatasSOEditor : Editor
 {
-  private const float TypeLabelWidth = 80.0f;
-  private const float PortraitPopupWidth = 80.0f;
+  private const float TypeLabelWidth = 90f;
+  private const float PortraitPopupWidth = 100f;
 
-  private ChatCardDatasSO so;
+  private SerializedProperty durationProp;
+  private SerializedProperty datasProp;
 
   private void OnEnable()
   {
-    so = target as ChatCardDatasSO;
-    UpdateDictionary();
-  }
+    durationProp = serializedObject.FindProperty("Duration");
+    datasProp = serializedObject.FindProperty("datas");
 
-  private void UpdateDictionary()
-  {
-    foreach(var value in Enum.GetValues(typeof(ChatCardType)))
-    {
-      var type = (ChatCardType)value;
-      if (so.datas.ContainsKey(type) == false)
-        so.datas[type] = new();
-    }
+    SyncEnumEntries();
   }
 
   public override void OnInspectorGUI()
   {
-    foreach (var value in Enum.GetValues(typeof(ChatCardType)))
+    serializedObject.Update();
+
+    DrawDuration();
+    EditorGUILayout.Space(10f);
+
+    DrawDatas();
+
+    serializedObject.ApplyModifiedProperties();
+  }
+
+  private void DrawDuration()
+  {
+    EditorGUILayout.PropertyField(durationProp);
+  }
+
+  private void DrawDatas()
+  {
+    for (int i = 0; i < datasProp.arraySize; i++)
     {
-      var type = (ChatCardType)value;
-      DrawChatCardData(type, so.datas[type]);
-      EditorGUILayout.Space(10.0f);
+      var element = datasProp.GetArrayElementAtIndex(i);
+
+      var typeProp = element.FindPropertyRelative("type");
+      var portraitProp = element.FindPropertyRelative("portraitType");
+      var keyProp = element.FindPropertyRelative("key");
+
+      using (new GUILayout.HorizontalScope(GUI.skin.box))
+      {
+        EditorGUILayout.LabelField(
+            typeProp.enumDisplayNames[typeProp.enumValueIndex],
+            GUILayout.Width(TypeLabelWidth)
+        );
+
+        GUILayout.FlexibleSpace();
+
+        EditorGUILayout.PropertyField(
+            portraitProp,
+            GUIContent.none,
+            GUILayout.Width(PortraitPopupWidth)
+        );
+
+        GUILayout.FlexibleSpace();
+
+        EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+      }
     }
   }
 
-  private void DrawChatCardData(ChatCardType type, ChatCardData data)
+  private void SyncEnumEntries()
   {
-    using (new GUILayout.HorizontalScope(GUI.skin.box))
+    serializedObject.Update();
+
+    var so = (ChatCardDatasSO)target;
+
+    foreach (ChatCardType type in Enum.GetValues(typeof(ChatCardType)))
     {
-      EditorGUILayout.LabelField(type.ToString(), GUILayout.Width(TypeLabelWidth));
-      GUILayout.FlexibleSpace();
-      data.portraitType = (ChatCardPortraitType)EditorGUILayout.EnumPopup(data.portraitType, GUILayout.Width(PortraitPopupWidth));
-      GUILayout.FlexibleSpace();
-      data.key = EditorGUILayout.TextField(data.key);
+      bool exists = so.datas.Any(d => d.type == type);
+      if (exists)
+        continue;
+
+      Undo.RecordObject(so, "Add ChatCardData");
+
+      so.datas.Add(new ChatCardData(type));
+      EditorUtility.SetDirty(so);
     }
+
+    serializedObject.ApplyModifiedProperties();
   }
 }

@@ -37,8 +37,11 @@ namespace LR.UI
 
     private void OnDestroy()
     {
-      IUIProgressSubmitController progressSubmitController = GlobalManager.instance.UIManager;
-      progressSubmitController.Release(this);
+      GlobalManager
+        .instance
+        .UIManager
+        .GetIUIProgressSubmitController()
+        .Release(this);
       updateDisposable?.Dispose();
     }
 
@@ -51,6 +54,9 @@ namespace LR.UI
 
     public void Cancel(Direction direction)
     {
+      if (!isEnable)
+        return;
+
       if (eventSets.ContainsKey(direction) == false)
         return;
 
@@ -75,15 +81,15 @@ namespace LR.UI
 
     public void Perform(Direction direction)
     {
+      if (!isEnable)
+        return;
+
       if (eventSets.TryGetValue(direction, out var set))
       {
         set.onPerformed?.Invoke();
         set.state = EventSet.EventState.Progressing;
 
-        if(updateDisposable == null)
-        {
-          updateDisposable = this.UpdateAsObservable().Subscribe(_ => UpdateProgress());
-        }          
+        updateDisposable ??= this.UpdateAsObservable().Subscribe(_ => UpdateProgress());          
       }
     }
 

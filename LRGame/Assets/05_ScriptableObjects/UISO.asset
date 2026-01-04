@@ -25,3 +25,5 @@ MonoBehaviour:
   <IndicatorDuration>k__BackingField: 0.15
   <ProgressSubmitDuration>k__BackingField: 1.2
   <LoadingFaceDuraton>k__BackingField: 0.8
+  <ChatCardShowDuration>k__BackingField: 1
+  <ChatCardHideDuration>k__BackingField: 1

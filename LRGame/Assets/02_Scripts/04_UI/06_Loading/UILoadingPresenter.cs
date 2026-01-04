@@ -35,6 +35,7 @@ namespace LR.UI.Loading
     public async UniTask DeactivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
       await view.HideAsync(isImmedieately, token);
+      Dispose();
     }
 
     public IDisposable AttachOnDestroy(GameObject target)

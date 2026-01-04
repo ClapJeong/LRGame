@@ -10,11 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: CharactorPortrait
+  m_Name: Sprite
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: CharactorPortrait
+  m_GroupName: Sprite
   m_GUID: 01aed87b5b460224192685463cc98f97
   m_SerializeEntries:
+  - m_GUID: 21906a83570b55e40a9e65e4eae127d1
+    m_Address: ChatPortrait
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cb718db1893765a4fbdcd5640243467c
     m_Address: Portrait
     m_ReadOnly: 0

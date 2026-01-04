@@ -39,60 +39,88 @@ MonoBehaviour:
     m_Key: name_null
     m_Metadata:
       m_Items: []
-  - m_Id: 7
+  - m_Id: 101
     m_Key: dialogue_sample
     m_Metadata:
       m_Items: []
-  - m_Id: 8
+  - m_Id: 102
     m_Key: dlg_nrt_FirstTalking
     m_Metadata:
       m_Items: []
-  - m_Id: 9
+  - m_Id: 103
     m_Key: dlg_left_test
     m_Metadata:
       m_Items: []
-  - m_Id: 10
+  - m_Id: 104
     m_Key: dlg_doctor_test
     m_Metadata:
       m_Items: []
-  - m_Id: 11
+  - m_Id: 105
     m_Key: dlg_right_test
     m_Metadata:
       m_Items: []
-  - m_Id: 12
+  - m_Id: 106
     m_Key: dlg_congratuation
     m_Metadata:
       m_Items: []
-  - m_Id: 13
+  - m_Id: 107
     m_Key: dlg_FirstAfter_1_result
     m_Metadata:
       m_Items: []
-  - m_Id: 14
+  - m_Id: 108
     m_Key: dlg_FirstAfter_2_result
     m_Metadata:
       m_Items: []
-  - m_Id: 15
+  - m_Id: 1001
     m_Key: selection_sample
     m_Metadata:
       m_Items: []
-  - m_Id: 16
+  - m_Id: 1002
     m_Key: sel_firstSel
     m_Metadata:
       m_Items: []
-  - m_Id: 17
+  - m_Id: 1003
     m_Key: sel_firstSel_LeftCor
     m_Metadata:
       m_Items: []
-  - m_Id: 18
+  - m_Id: 1004
     m_Key: sel_firstSel_LeftDif
     m_Metadata:
       m_Items: []
-  - m_Id: 19
+  - m_Id: 1005
     m_Key: sel_firstSel_RightCor
     m_Metadata:
       m_Items: []
-  - m_Id: 20
+  - m_Id: 1006
     m_Key: sel_firstSel_RightDif
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2001
+    m_Key: chatCard_sample
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2002
+    m_Key: cc_leftTest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2003
+    m_Key: cc_centerTest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2004
+    m_Key: cc_rightTest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2005
+    m_Key: cc_leftTest2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2006
+    m_Key: cc_centerTest2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2007
+    m_Key: cc_rightTest2
     m_Metadata:
       m_Items: []
   m_Metadata:

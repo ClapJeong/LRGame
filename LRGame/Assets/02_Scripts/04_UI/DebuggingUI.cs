@@ -4,6 +4,8 @@ using ScriptableEvent;
 using TMPro;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using System;
+using System.Linq;
 
 namespace LR.UI.Debugging
 {
@@ -21,9 +23,16 @@ namespace LR.UI.Debugging
     [SerializeField] private TMP_InputField conditionLeftInputField;
     [SerializeField] private TMP_InputField conditionRightInputField;
 
+    [Header("[ ChatCard ]")]
+    [SerializeField] private TMP_Dropdown chatCardEnumDropdown;
+
     private void Awake()
     {
       root.SetActive(false);
+
+      chatCardEnumDropdown.ClearOptions();
+      var names = Enum.GetNames(typeof(ChatCardType));
+      chatCardEnumDropdown.AddOptions(names.ToList());
     }
 
     private void Update()
@@ -73,7 +82,7 @@ namespace LR.UI.Debugging
     }
 
     public void OnLeftEnergyButtonClicked(float value)
-      =>scriptableEventSO.OnLeftEnergyChanged(value);
+      => scriptableEventSO.OnLeftEnergyChanged(value);
 
     public void OnRightEnergyButtonClicked(float value)
       => scriptableEventSO.OnRightEnergyChanged(value);
@@ -91,6 +100,12 @@ namespace LR.UI.Debugging
 
       conditionArea.SetActive(value);
       LayoutRebuilder.ForceRebuildLayoutImmediate(conditionArea.GetComponent<RectTransform>());
+    }
+
+    public void OnPlayChatCard()
+    {
+      var index = chatCardEnumDropdown.value;
+      scriptableEventSO.PlayChatCard(index);
     }
   }
 }

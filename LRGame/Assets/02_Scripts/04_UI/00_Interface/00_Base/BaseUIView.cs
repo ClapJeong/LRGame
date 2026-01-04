@@ -6,8 +6,20 @@ using UnityEngine.Events;
 
 namespace LR.UI
 {
+  [RequireComponent(typeof(RectTransform))]
   public abstract class BaseUIView : MonoBehaviour, IUIView
   {
+    private RectTransform rectTransform;
+    public RectTransform RectTransform
+    {
+      get
+      {
+        if(rectTransform == null)
+          rectTransform = GetComponent<RectTransform>();
+        return rectTransform;
+      }
+    }
+
     protected UIVisibleState visibleState = UIVisibleState.None;
 
     protected Dictionary<UIViewEventType, UnityEvent> events = new();

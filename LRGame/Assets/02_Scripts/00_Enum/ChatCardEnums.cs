@@ -7,6 +7,9 @@ public enum ChatCardType
   LeftTest,
   CenterTest,
   RightTest,
+  LeftTest2,
+  CenterTest2,
+  RightTest2,
 }
 
 public enum ChatCardPortraitType
@@ -15,4 +18,7 @@ public enum ChatCardPortraitType
   LeftTest,
   CenterTest,
   RightTest,
+  LeftTest2,
+  CenterTest2,
+  RightTest2,
 }

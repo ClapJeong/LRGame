@@ -1,19 +1,10 @@
-using Cysharp.Threading.Tasks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using LR.UI;
-using UnityEngine.Events;
-using LR.UI.Indicator;
 
 public class UIManager : MonoBehaviour, 
   ICanvasProvider, 
-  IUIPresenterContainer, 
-  IUISelectedGameObjectService,
-  IUIIndicatorService,
-  IUIDepthService,
-  IUIProgressSubmitController
+  IChatCardPositionGetter
 {
   [System.Serializable]
   public class CanvasSet
@@ -27,6 +18,11 @@ public class UIManager : MonoBehaviour,
 
   [Header("[ Root ]")]
   [SerializeField] private Transform disableRoot;
+
+  [Header("[ IChatCardPositionGetter ]")]
+  [SerializeField] private RectTransform LeftChatCardPosition;
+  [SerializeField] private RectTransform CenterChatCardPosition;
+  [SerializeField] private RectTransform RightChatCardPosition;
 
   private UIPresenterContainer presenterContainer;
   private UISelectedGameObjectService selectedGameObjectService;  
@@ -49,78 +45,38 @@ public class UIManager : MonoBehaviour,
     depthService.UpdateFocusingSelectedGameObject();
   }
 
+  #region ICanvasProvider
   public Canvas GetCanvas(UIRootType rootType)
   {
     var set = canvasSets.First(set=>set.type == rootType);
 
-    if (set == null)
-      throw new System.NotImplementedException();
-
-    return set.canvas;
+    return set == null ? throw new System.NotImplementedException() : set.canvas;
   }
-
-
-  #region IUIPresenterContainer
-  public void Add(IUIPresenter presenter)
-    => presenterContainer.Add(presenter);
-
-  public void Remove(IUIPresenter presenter)
-    => presenterContainer.Remove(presenter);
-
-  public IReadOnlyList<T> GetAll<T>() where T : IUIPresenter
-    => presenterContainer.GetAll<T>();
-
-  public T GetFirst<T>() where T : IUIPresenter
-    => presenterContainer.GetFirst<T>();
-
-  public T GetLast<T>() where T : IUIPresenter
-    => presenterContainer.GetLast<T>();
   #endregion
 
-  #region IUISelectionEventService
-  public void SetSelectedObject(GameObject gameObject)
-    => selectedGameObjectService.SetSelectedObject(gameObject);
+  public IUIPresenterContainer GetIUIPresenterContainer()
+    => presenterContainer;
 
-  public void SubscribeEvent(IUISelectedGameObjectService.EventType type, UnityAction<GameObject> action)
-    => selectedGameObjectService.SubscribeEvent(type, action);
+  public IUISelectedGameObjectService GetIUISelectedGameObjectService()
+    => selectedGameObjectService;
 
-  public void UnsubscribeEvent(IUISelectedGameObjectService.EventType type, UnityAction<GameObject> action)
-    => selectedGameObjectService.UnsubscribeEvent(type, action);
-  #endregion
+  public IUIIndicatorService GetIUIIndicatorService()
+    => indicatorService;
 
-  #region IUIIndicatorService
-  public IDisposable ReleaseTopIndicatorOnDestroy(GameObject target)
-    => indicatorService.ReleaseTopIndicatorOnDestroy(target);
+  public IUIDepthService GetIUIDepthService()
+    => depthService;
 
-  public IUIIndicatorPresenter GetTopIndicator()
-    => indicatorService.GetTopIndicator();
+  public IUIProgressSubmitController GetIUIProgressSubmitController()
+    => progressSubmitController;
 
-  public bool TryGetTopIndicator(out IUIIndicatorPresenter current)
-    => indicatorService.TryGetTopIndicator(out current);
-
-  public async UniTask<IUIIndicatorPresenter> GetNewAsync(Transform root, IRectView beginTarget)
-    => await indicatorService.GetNewAsync(root, beginTarget);
-
-  public void ReleaseTopIndicator()
-    => indicatorService.ReleaseTopIndicator();
-
-  public bool IsTopIndicatorIsThis(IUIIndicatorPresenter target)
-    => indicatorService.IsTopIndicatorIsThis(target);
-  #endregion
-
-  #region IUIDepthService
-  public void SelectTopObject()
-    => depthService.SelectTopObject();
-
-  public void RaiseDepth(GameObject targetSelectingGameObject)
-    =>depthService.RaiseDepth(targetSelectingGameObject);
-
-  public void LowerDepth()
-    => depthService.LowerDepth();
-  #endregion
-
-  #region IUIProgressSubmitController
-  public void Release(IUIProgressSubmitView view)
-    => progressSubmitController.Release(view);
+  #region IChatCardPositionGetter
+  public Vector2 GetPosition(CharacterPositionType positionType)
+    => positionType switch
+    {
+      CharacterPositionType.Left => LeftChatCardPosition.position,
+      CharacterPositionType.Center => CenterChatCardPosition.position,
+      CharacterPositionType.Right => RightChatCardPosition.position,
+      _ => throw new System.NotImplementedException(),
+    };
   #endregion
 }

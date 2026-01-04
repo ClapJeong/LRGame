@@ -4,13 +4,11 @@ using LR.UI.GameScene.Player;
 using LR.UI.GameScene.Stage;
 using LR.UI.Lobby;
 using LR.UI.Preloading;
-using System.Threading;
-using System.Threading.Tasks;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-public class LocalManager : MonoBehaviour
+public partial class LocalManager : MonoBehaviour
 {
   public static LocalManager instance;
 
@@ -22,7 +20,7 @@ public class LocalManager : MonoBehaviour
   [SerializeField] private Transform defaultEffectRoot;
   public StageManager StageManager { get; private set; }
   public DialogueService DialogueService {  get; private set; }
-  private bool isSceneInitialized = false;
+  public ChatCardService ChatCardService { get; private set; }
 
   public async UniTask InitializeAsync()
   {
@@ -46,7 +44,6 @@ public class LocalManager : MonoBehaviour
 
       case SceneType.Game:
         {
-          await UniTask.WaitUntil(() => isSceneInitialized);
           DialogueService.Play();
         }        
         break;
@@ -65,6 +62,15 @@ public class LocalManager : MonoBehaviour
     StageManager = new StageManager(model);
 
     DialogueService = new DialogueService(StageManager);
+
+    ChatCardService = new(
+      gameObject,
+      GlobalManager.instance.UIManager,
+      GlobalManager.instance.ResourceManager,
+      GlobalManager.instance.UIManager,
+      GlobalManager.instance.Table.AddressableKeySO,
+      GlobalManager.instance.Table.ChatCardDatasSO,
+      GlobalManager.instance.Table.UISO);
   }
 
   private async UniTask InitializeSceneAsync()
@@ -89,7 +95,6 @@ public class LocalManager : MonoBehaviour
       case SceneType.Lobby:
         {
           await CreateFirstUIAsync();
-          isSceneInitialized = true;
         }
         break;
 
@@ -99,7 +104,6 @@ public class LocalManager : MonoBehaviour
           var index = chapter * 4 + stage;
           await CreateStageAsync(index);
           await CreateFirstUIAsync();
-          isSceneInitialized = true;
         }
         break;
     }
@@ -277,87 +281,4 @@ public class LocalManager : MonoBehaviour
     var label = GlobalManager.instance.Table.AddressableKeySO.Label.Dialogue;
     await resourceManager.LoadAssetsAsync(label);
   }
-
-
-  #region DebugginMethods
-  public void Debugging_StageComplete()
-  {
-    if (sceneType != SceneType.Game)
-      return;
-
-    IStageStateHandler stageStateHandler = StageManager;
-    stageStateHandler.Complete();    
-  }
-
-  public void Debugging_StageLeftFail()
-  {
-    if (sceneType != SceneType.Game)
-      return;
-
-    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
-    leftPlayer.GetEnergyController().Damage(float.MaxValue, ignoreInvincible: true);
-  }
-
-  public void Debugging_StageRightFail()
-  {
-    if (sceneType != SceneType.Game)
-      return;
-
-    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
-    rightPlayer.GetEnergyController().Damage(float.MaxValue, ignoreInvincible: true);
-  }
-
-  public void Debugging_StageRestart()
-  {
-    if (sceneType != SceneType.Game)
-      return;
-
-    IStageStateHandler stageService = StageManager;
-    stageService.RestartAsync().Forget();
-  }
-
-  public void Debugging_LeftPlayeEnergyDamaged(float value)
-  {
-    if (StageManager.IsAllPlayerExist() == false)
-      return;
-
-    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
-    leftPlayer
-      .GetEnergyController()
-      .Damage(value, true);
-  }
-
-  public void Debugging_LeftPlayerEnergyRestored(float value)
-  {
-    if (StageManager.IsAllPlayerExist() == false)
-      return;
-    
-    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
-    leftPlayer
-      .GetEnergyController()
-      .Restore(value);
-  }
-
-  public void Debugging_RightPlayerEnergyDamaged(float value)
-  {
-    if (StageManager.IsAllPlayerExist() == false)
-      return;
-    
-    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
-    rightPlayer
-      .GetEnergyController()
-      .Damage(value, true);
-  }
-
-  public void Debugging_RightPlayerEnergyRestored(float value)
-  {
-    if (StageManager.IsAllPlayerExist() == false)
-      return; 
-    
-    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
-    rightPlayer
-      .GetEnergyController()
-      .Restore(value);
-  }
-  #endregion
 }

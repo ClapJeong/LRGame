@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: UI
   m_GUID: e7a13ee7806382f4eb36159e76260aff
   m_SerializeEntries:
+  - m_GUID: 038e48ee2b8c6784784d9a2b370db383
+    m_Address: UI/LeftChatCard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0d7ef29e8d7fac04099c55f01c86624f
     m_Address: UI/StageRoot
     m_ReadOnly: 0
@@ -35,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 210c736398ed52949aae4a91bda99f7a
+    m_Address: UI/RightChatCard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d37167132dab1f45a3422ee3e7df7e8
     m_Address: UI/PreloadingRoot
     m_ReadOnly: 0
@@ -45,6 +55,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4fa06f48ea09e845bef6404f9ffda16
+    m_Address: UI/CenterChatCard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: afaae4bb13f3afa429587c154c6a0e0a
     m_Address: UI/LobbyChapterButton

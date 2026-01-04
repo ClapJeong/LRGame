@@ -83,7 +83,6 @@ public class SceneProvider : ISceneProvider
       if (useUI)
       {
         await loadingPresenter.DeactivateAsync();
-        resourceManager.ReleaseInstance(view.gameObject);
       }        
       localManager?.Play();
     }

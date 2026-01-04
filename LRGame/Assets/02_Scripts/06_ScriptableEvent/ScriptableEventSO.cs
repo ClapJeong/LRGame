@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
-using static IStageStateHandler;
 
 namespace ScriptableEvent
 {
@@ -65,6 +64,7 @@ namespace ScriptableEvent
     private readonly List<GameDataListnerSet> gameDataListnerSets = new();
     private readonly List<ScriptableEnergyEventListener> leftEnergyListners = new();
     private readonly List<ScriptableEnergyEventListener> rightEnergyListners = new();
+    private  ScriptableChatCardEventListener chatCardEventListner;
 
     public static ScriptableEventSO instance;
 
@@ -165,6 +165,17 @@ namespace ScriptableEvent
 
     public void UnregisterRightEnergyEvent(ScriptableEnergyEventListener listener)
       => rightEnergyListners.Remove(listener);
+    #endregion
+
+    #region ChatCard
+    public void PlayChatCard(int index)
+      => chatCardEventListner?.Raise(index);
+
+    public void RegisterChatCardEvent(ScriptableChatCardEventListener listner)
+      => chatCardEventListner = listner;
+
+    public void UnRegisterChatCardEvent()
+      => chatCardEventListner = null;
     #endregion
   }
 }

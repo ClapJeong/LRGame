@@ -25,6 +25,7 @@ MonoBehaviour:
     <CenterPortrait>k__BackingField: Portrait/01_Right/
     <RightPortrait>k__BackingField: Portrait/02_Center/
     <Effect>k__BackingField: Effect/
+    <ChatCardPortrait>k__BackingField: ChatPortrait/
   <SceneName>k__BackingField:
     preloading: Preloading
     lobby: Lobby
@@ -40,6 +41,9 @@ MonoBehaviour:
     <StageRoot>k__BackingField: StageRoot
     <PlayerRoot>k__BackingField: PlayerRoot
     <DialogueRoot>k__BackingField: DialogueRoot
+    <LeftChatCard>k__BackingField: LeftChatCard
+    <CenterChatCard>k__BackingField: CenterChatCard
+    <RightChatCard>k__BackingField: RightChatCard
     <Indicator>k__BackingField: Indicator
     <Loading>k__BackingField: Loading
   <StageName>k__BackingField:
