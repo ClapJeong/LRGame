@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: LeftPlayerModel
   m_EditorClassIdentifier: Assembly-CSharp::PlayerModelSO
   <Movement>k__BackingField:
-    upKeyCode: 119
-    downKeyCode: 115
-    leftKeyCode: 97
-    rightKeyCode: 100
+    <KeyCodeData>k__BackingField:
+      <UP>k__BackingField: 119
+      <Right>k__BackingField: 100
+      <Down>k__BackingField: 115
+      <Left>k__BackingField: 97
     upVector: {x: 0, y: 2, z: 0}
     downVector: {x: 0, y: -2, z: 0}
     leftVector: {x: -2, y: 0, z: 0}

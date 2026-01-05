@@ -79,10 +79,10 @@ public class PlayerService :
       .GetInputActionController()
       .CreateMoveInputAction(new Dictionary<string, Direction>()
     {
-      { InputActionPaths.ParshPath(modelSO.Movement.UpKeyCode), Direction.Up },
-      { InputActionPaths.ParshPath(modelSO.Movement.RightKeyCode), Direction.Right },
-      { InputActionPaths.ParshPath(modelSO.Movement.DownKeyCode), Direction.Down },
-      { InputActionPaths.ParshPath(modelSO.Movement.LeftKeyCode), Direction.Left },
+      { InputActionPaths.ParshPath(modelSO.Movement.KeyCodeData.UP), Direction.Up },
+      { InputActionPaths.ParshPath(modelSO.Movement.KeyCodeData.Right), Direction.Right },
+      { InputActionPaths.ParshPath(modelSO.Movement.KeyCodeData.Down), Direction.Down },
+      { InputActionPaths.ParshPath(modelSO.Movement.KeyCodeData.Left), Direction.Left },
     }); 
 
     await UniTask.CompletedTask;

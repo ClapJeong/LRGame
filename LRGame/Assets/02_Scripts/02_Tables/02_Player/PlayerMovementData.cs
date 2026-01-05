@@ -3,18 +3,8 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerMovementData
 {
-  [SerializeField] private KeyCode upKeyCode;
-  public KeyCode UpKeyCode => upKeyCode;
-
-  [SerializeField] private KeyCode downKeyCode;
-  public KeyCode DownKeyCode => downKeyCode;
-
-  [SerializeField] private KeyCode leftKeyCode;
-  public KeyCode LeftKeyCode => leftKeyCode;
-
-  [SerializeField] private KeyCode rightKeyCode;
-  public KeyCode RightKeyCode => rightKeyCode;
-
+  [field: SerializeField] public CharacterMoveKeyCodeData KeyCodeData { get; private set; }
+  
   [Space(10)]
   [SerializeField] private Vector3 upVector;
   public Vector3 UpVector => upVector;
