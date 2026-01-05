@@ -70,8 +70,7 @@ namespace LR.UI.GameScene.Player
 
     private void SubscribePlayerState()
     {
-      model.playerStateSubscriber.SubscribeOnEnter(PlayerStateType.ChargingIdle, OnEnterCharging);
-      model.playerStateSubscriber.SubscribeOnEnter(PlayerStateType.ChargingMove, OnEnterCharging);
+      model.playerStateSubscriber.SubscribeOnEnter(PlayerStateType.Inputting, OnEnterCharging);
 
       model.playerStateSubscriber.SubscribeOnEnter(PlayerStateType.Idle, OnExitCharging);
       model.playerStateSubscriber.SubscribeOnEnter(PlayerStateType.Move, OnExitCharging);
@@ -80,8 +79,7 @@ namespace LR.UI.GameScene.Player
 
     private void UnsubscribePlayerState()
     {
-      model.playerStateSubscriber.UnsubscribeOnEnter(PlayerStateType.ChargingIdle, OnEnterCharging);
-      model.playerStateSubscriber.UnsubscribeOnEnter(PlayerStateType.ChargingMove, OnEnterCharging);
+      model.playerStateSubscriber.UnsubscribeOnEnter(PlayerStateType.Inputting, OnEnterCharging);
 
       model.playerStateSubscriber.UnsubscribeOnEnter(PlayerStateType.Idle, OnExitCharging);
       model.playerStateSubscriber.UnsubscribeOnEnter(PlayerStateType.Move, OnExitCharging);

@@ -52,19 +52,11 @@ namespace LR.Stage.Player
         stateController: this.stateService,
         energyUpdater: this.energyService,
         bounceData));
-      stateService.AddState(PlayerStateType.ChargingIdle, new PlayerChargingIdleState(
+      stateService.AddState(PlayerStateType.Inputting, new PlayerInputState(
         moveController: this.moveController,
-        inputActionController: this.inputActionController,
         stateController: this.stateService,
-        reactionController: this.reactionController));
-      stateService.AddState(PlayerStateType.ChargingMove, new PlayerChargingMoveState(
-        stateController: stateService,
-        inputActionController: inputActionController,
-        moveController: moveController,
-        reactionController: reactionController,
-        playerGetter: model.playerGetter,
-        energyChargerData: GlobalManager.instance.Table.TriggerTileModelSO.EnergyCharger,
-        playerType: this.model.playerType));
+        reactionController: this.reactionController,
+        energyUpdater: this.energyService));
 
       stateService.ChangeState(PlayerStateType.Idle);
 
@@ -155,10 +147,10 @@ namespace LR.Stage.Player
     public IPlayerEnergyProvider GetEnergyProvider()
       => energyService;
 
-    public IPlayerStateProvider GetPlayerStateProvider()
+    public IPlayerStateProvider GetStateProvider()
       => stateService;
 
-    public IPlayerStateSubscriber GetPlayerStateSubscriber()
+    public IPlayerStateSubscriber GetStateSubscriber()
       => stateService;
 
     public void Dispose()

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
@@ -15,6 +14,7 @@ namespace LR.Stage.Player
       private readonly UnityAction onCanceled;
 
       private InputAction inputAction;
+      private bool enableInputAction;
 
       public InputActionSet(InputActionFactory factory, string path, UnityAction onPerformed, UnityAction onCanceled)
       {
@@ -37,17 +37,24 @@ namespace LR.Stage.Player
 
       public void Enable(bool isEnable)
       {
-        if (isEnable)
-          inputAction.Enable();
-        else
-          inputAction.Disable();
+        ResetState();
+        enableInputAction = isEnable;
       }
 
       public bool IsPressed()
         => inputAction.IsPressed();
 
+      private void ResetState()
+      {
+        inputAction.Disable();
+        inputAction.Enable();
+      }
+
       private void OnInputAction(InputAction.CallbackContext context)
       {
+        if (enableInputAction == false)
+          return;
+
         switch (context.phase)
         {
           case InputActionPhase.Started:
@@ -99,7 +106,7 @@ namespace LR.Stage.Player
     }
 
     public void SubscribeOnPerformed(UnityAction<Direction> performed)
-    => onPerformed.AddListener(performed);
+      => onPerformed.AddListener(performed);
 
     public void SubscribeOnCanceled(UnityAction<Direction> canceled)
       => onCanceled.AddListener(canceled);

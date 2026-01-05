@@ -4,11 +4,17 @@ using LR.Table.TriggerTile;
 [CreateAssetMenu(fileName = "TriggerTileSO", menuName = "SO/TriggerTile")]
 public class TriggerTileModelSO : ScriptableObject
 {
-  [field: SerializeField] public ClearTriggerData ClearTrigger {  get; set; }
+  [field: SerializeField] public ClearTriggerData ClearTrigger {  get; private set; }
 
-  [field: SerializeField] public SpikeTriggerData SpikeTrigger { get; set; }
+  [field: Space(15)]
+  [field: SerializeField] public SpikeTriggerData SpikeTrigger { get; private set; }
 
-  [field: SerializeField] public EnergyItemData EnergyItem { get; set; }
+  [field: Space(15)]
+  [field: SerializeField] public EnergyItemData EnergyItem { get; private set; }
 
+  [field: Space(15)]
   [field: SerializeField] public EnergyChargerData EnergyCharger { get; set; }
+
+  [field: Space(15)]
+  [field: SerializeField] public RightEnergyItemTriggerData RightEnergyItemTrigger { get; set; }
 }

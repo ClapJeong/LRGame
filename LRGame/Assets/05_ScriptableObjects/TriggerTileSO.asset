@@ -23,3 +23,10 @@ MonoBehaviour:
     <EffectType>k__BackingField: 0
   <EnergyCharger>k__BackingField:
     <ChargeValue>k__BackingField: 2
+  <RightEnergyItemTrigger>k__BackingField:
+    <UIType>k__BackingField: 0
+    <RestoreValue>k__BackingField: 50
+    <InputMashProgressData>k__BackingField:
+      <BeginValue>k__BackingField: 0.5
+      <DecreaseValuePerSecond>k__BackingField: 0.4
+      <IncreaseValueOnInput>k__BackingField: 0.1

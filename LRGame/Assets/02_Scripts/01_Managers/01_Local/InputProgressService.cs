@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using LR.UI.GameScene.InputMashProgress;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -6,9 +7,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class InputMashProgressService : IInputMashProgressService
+public class InputProgressService : IInputProgressService
 {
   private readonly InputActionFactory InputActionFactory;
+  private readonly InputProgressUIService uiService;
+  private readonly ICameraService cameraService;
 
   private readonly List<InputAction> inputActions = new();
   private readonly CTSContainer cts = new();
@@ -16,14 +19,18 @@ public class InputMashProgressService : IInputMashProgressService
   private InputMashProgressData currentData;
   private float value;
 
-  public InputMashProgressService(InputActionFactory inputActionFactory)
+  public InputProgressService(InputActionFactory inputActionFactory, InputProgressUIService uiService, ICameraService cameraService)
   {
     InputActionFactory = inputActionFactory;
+    this.uiService = uiService;
+    this.cameraService = cameraService;
   }
 
-  public void Play(
+  public async void Play(
+    InputProgressEnum.InputProgressUIType type,
     CharacterMoveKeyCodeData keyCodeData, 
-    InputMashProgressData data, 
+    InputMashProgressData data,
+    Transform followTarget,
     UnityAction<float> onProgress, 
     UnityAction onComplete,
     UnityAction onFail)
@@ -36,8 +43,32 @@ public class InputMashProgressService : IInputMashProgressService
 
     value = data.BeginValue;
     currentData = data;
-    InputMashProgressAsync(keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
+    var presenter = await uiService.CreateAsync(type, followTarget);
+    InputMashProgressAsync(presenter, keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
   }
+
+  public async void Play(
+  InputProgressEnum.InputProgressUIType type,
+  CharacterMoveKeyCodeData keyCodeData,
+  InputMashProgressData data,
+  Vector3 worldPosition,
+  UnityAction<float> onProgress,
+  UnityAction onComplete,
+  UnityAction onFail)
+  {
+    if (isPlaying)
+      return;
+
+    cts.Dispose();
+    cts.Create();
+
+    value = data.BeginValue;
+    currentData = data;
+    var screenPosition = cameraService.GetScreenPosition(worldPosition);
+    var presenter = await uiService.CreateAsync(type, screenPosition);
+    InputMashProgressAsync(presenter, keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
+  }
+
 
   public void Stop()
   {
@@ -45,22 +76,25 @@ public class InputMashProgressService : IInputMashProgressService
   }
 
   private async UniTask InputMashProgressAsync(
+    IInputProgressUIPresenter presenter,
     CharacterMoveKeyCodeData keyCodeData, 
     UnityAction<float> onProgress, 
     UnityAction onComplete,
     UnityAction onFail,
     CancellationToken token)
   {
-    SubscribeInputActions(keyCodeData);
+    await presenter.ActivateAsync();
 
     try
     {
       isPlaying = true;
+      SubscribeInputActions(keyCodeData);
       while (value > 0 && value < 1.0f)
       {
         token.ThrowIfCancellationRequested();
         value -= currentData.DecreaseValuePerSecond * Time.deltaTime;
         onProgress?.Invoke(value);
+        presenter.OnProgress(value);
         await UniTask.Yield();
       }
 
@@ -69,12 +103,18 @@ public class InputMashProgressService : IInputMashProgressService
         value = 1.0f;
         onProgress?.Invoke(value);
         onComplete?.Invoke();
+
+        presenter.OnProgress(value);
+        presenter.OnComplete();
       }        
       else if (value <= 0.0f)
       {
         value = 0.0f;
-        onProgress?.Invoke(value);
+        onProgress?.Invoke(value);        
         onFail?.Invoke();
+
+        presenter.OnProgress(value);
+        presenter.OnComplete();
       }
     }
     catch (OperationCanceledException) { }
@@ -82,6 +122,7 @@ public class InputMashProgressService : IInputMashProgressService
     {
       isPlaying = false;
       UnsubscribeInputActions();
+      presenter.DeactivateAsync().Forget();
     }
   }
   

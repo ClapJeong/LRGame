@@ -53,10 +53,10 @@ public class PlayerService :
   {
     leftPlayer
       .GetInputActionController()
-      .EnableAllInputActions(false);
+      .Dispose();
     rightPlayer
       .GetInputActionController()
-      .EnableAllInputActions(false);
+      .Dispose();
   }
 
   private async UniTask<IPlayerPresenter> CreatePlayerAsync(PlayerType playerType, Vector3 beginPosition)
@@ -86,9 +86,8 @@ public class PlayerService :
       { InputActionPaths.ParshPath(modelSO.Movement.KeyCodeData.Right), Direction.Right },
       { InputActionPaths.ParshPath(modelSO.Movement.KeyCodeData.Down), Direction.Down },
       { InputActionPaths.ParshPath(modelSO.Movement.KeyCodeData.Left), Direction.Left },
-    }); 
+    });
 
-    await UniTask.CompletedTask;
     return presenter;
   }
 

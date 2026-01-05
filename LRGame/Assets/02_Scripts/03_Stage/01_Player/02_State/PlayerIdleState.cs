@@ -28,7 +28,7 @@ namespace LR.Stage.Player
       energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
 
       if (reactionController.IsCharging)
-        stateController.ChangeState(PlayerStateType.ChargingIdle);
+        stateController.ChangeState(PlayerStateType.Inputting);
     }
 
     public void OnEnter()

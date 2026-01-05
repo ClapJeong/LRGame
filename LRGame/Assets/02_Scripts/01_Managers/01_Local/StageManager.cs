@@ -25,8 +25,9 @@ public class StageManager :
     public ICameraService cameraService;
     public Transform defaultEffectRoot;
     public InputActionFactory inputActionFactory;
+    public InputProgressService inputMashProgressService;
 
-    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory)
+    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory, InputProgressService inputMashProgressService)
     {
       this.table = table;
       this.gameDataService = gameDataService;
@@ -35,6 +36,7 @@ public class StageManager :
       this.cameraService = cameraService;
       this.defaultEffectRoot = defaultEffectRoot;
       this.inputActionFactory = inputActionFactory;
+      this.inputMashProgressService = inputMashProgressService;
     }
   }
 
@@ -270,7 +272,9 @@ public class StageManager :
       effectService,
       stageResultHandler: this,
       playerGetter: this,
-      existViews: stageData.TriggerTiles);
+      existViews: stageData.TriggerTiles,
+      this.model.table,
+      this.model.inputMashProgressService);
     triggerTileSetupService.SetupAsync(model,isEnableImmediately).Forget();
   }
 

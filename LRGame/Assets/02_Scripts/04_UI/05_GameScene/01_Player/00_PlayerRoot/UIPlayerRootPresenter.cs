@@ -113,8 +113,8 @@ namespace LR.UI.GameScene.Player
     {
       await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
 
-      var stateProvider = this.model.GetPlayer().GetPlayerStateProvider();
-      var stateSubscriber = this.model.GetPlayer().GetPlayerStateSubscriber();
+      var stateProvider = this.model.GetPlayer().GetStateProvider();
+      var stateSubscriber = this.model.GetPlayer().GetStateSubscriber();
 
       var model = new UIPlayerChargingPresenter.Model(
         stateProvider,

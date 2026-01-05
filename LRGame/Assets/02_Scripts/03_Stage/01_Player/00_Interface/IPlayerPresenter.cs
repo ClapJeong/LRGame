@@ -16,8 +16,8 @@ namespace LR.Stage.Player
 
     public IPlayerEnergyProvider GetEnergyProvider();
 
-    public IPlayerStateProvider GetPlayerStateProvider();
+    public IPlayerStateProvider GetStateProvider();
 
-    public IPlayerStateSubscriber GetPlayerStateSubscriber();
+    public IPlayerStateSubscriber GetStateSubscriber();
   }
 }

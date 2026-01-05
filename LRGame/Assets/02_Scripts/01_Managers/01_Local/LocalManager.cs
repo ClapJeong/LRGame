@@ -21,7 +21,8 @@ public partial class LocalManager : MonoBehaviour
   public StageManager StageManager { get; private set; }
   public DialogueService DialogueService {  get; private set; }
   public ChatCardService ChatCardService { get; private set; }
-  public InputMashProgressService InputMashProgressService { get; private set; }
+  public InputProgressService InputProgressService { get; private set; }
+  public InputProgressUIService InputProgressUIService { get; private set; }
 
   public async UniTask InitializeAsync()
   {
@@ -53,15 +54,27 @@ public partial class LocalManager : MonoBehaviour
 
   private void InitializeManagers()
   {
-    var model = new StageManager.Model(
+    InputProgressUIService = new(
+      gameObject,
+      GlobalManager.instance.UIManager,
+      GlobalManager.instance.ResourceManager,
+      GlobalManager.instance.Table.AddressableKeySO);
+
+    InputProgressService = new(
+      GlobalManager.instance.FactoryManager.InputActionFactory,
+      InputProgressUIService,
+      CameraService);
+
+    var stageManagerModel = new StageManager.Model(
       table: GlobalManager.instance.Table,
       gameDataService: GlobalManager.instance.GameDataService,
       resourceManager: GlobalManager.instance.ResourceManager,
       sceneProvider: GlobalManager.instance.SceneProvider,
       cameraService: CameraService,
       defaultEffectRoot: defaultEffectRoot,
-      GlobalManager.instance.FactoryManager.InputActionFactory);
-    StageManager = new StageManager(model);
+      GlobalManager.instance.FactoryManager.InputActionFactory,
+      InputProgressService);
+    StageManager = new StageManager(stageManagerModel);
 
     DialogueService = new DialogueService(StageManager);
 
@@ -73,8 +86,6 @@ public partial class LocalManager : MonoBehaviour
       GlobalManager.instance.Table.AddressableKeySO,
       GlobalManager.instance.Table.ChatCardDatasSO,
       GlobalManager.instance.Table.UISO);
-
-    InputMashProgressService = new(GlobalManager.instance.FactoryManager.InputActionFactory);
   }
 
   private async UniTask InitializeSceneAsync()

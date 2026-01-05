@@ -9,9 +9,9 @@ public class UIInputManager : IUIInputActionManager
   {
     private readonly InputActionFactory inputActionFactory;
 
-    public InputAction inputAction;
-    public UnityAction onPerformed;
-    public UnityAction onCanceled;
+    public readonly InputAction inputAction;
+    public readonly UnityEvent onPerformed = new();
+    public readonly UnityEvent onCanceled = new();
 
     public InputActionSet(string path, InputActionFactory inputActionFactory)
     {
@@ -54,16 +54,16 @@ public class UIInputManager : IUIInputActionManager
 
 
   public void SubscribeCanceledEvent(UIInputDirectionType type, UnityAction onCanceled)
-    => inputSets[type].onCanceled += onCanceled;
+    => inputSets[type].onCanceled.AddListener(onCanceled);
 
   public void SubscribePerformedEvent(UIInputDirectionType type, UnityAction onPerformed)
-    => inputSets[type].onPerformed += onPerformed;
+    => inputSets[type].onPerformed.AddListener(onPerformed);
 
   public void UnsubscribeCanceledEvent(UIInputDirectionType type, UnityAction onCanceled)
-    => inputSets[type].onCanceled -= onCanceled;
+    => inputSets[type].onCanceled.RemoveListener(onCanceled);
 
   public void UnsubscribePerformedEvent(UIInputDirectionType type, UnityAction onPerformed)
-    => inputSets[type].onPerformed -= onPerformed;
+    => inputSets[type].onPerformed.RemoveListener(onPerformed);
 
   public void SubscribePerformedEvent(List<UIInputDirectionType> types, UnityAction onPerformed)
   {
@@ -104,7 +104,6 @@ public class UIInputManager : IUIInputActionManager
 
     return false;
   }
-
 
   private void DisableMouse()
   {

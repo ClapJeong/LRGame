@@ -10,13 +10,17 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
     public readonly IStageResultHandler stageResultHandler;
     public readonly IPlayerGetter playerGetter;
     public readonly List<ITriggerTileView> existViews;
+    public readonly TableContainer table;
+    public readonly InputProgressService inputMashProgressService;
 
-    public Model(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews)
+    public Model(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews, TableContainer table, InputProgressService inputMashProgressService)
     {
       this.effectService = effectService;
       this.stageResultHandler = stageResultHandler;
       this.playerGetter = playerGetter;
       this.existViews = existViews;
+      this.table = table;
+      this.inputMashProgressService = inputMashProgressService;
     }
   }
 
@@ -76,6 +80,18 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
             var model = new EnergyChargerTriggerPresenter.Model(this.model.playerGetter);
             var energyChargerView = view as EnergyChargerTriggerView;
             presenter = new EnergyChargerTriggerPresenter(model, energyChargerView);
+          }
+          break;
+
+        case TriggerTileType.RightEnergyItem:
+          {
+            var model = new RightEnergyItemTriggerPresenter.Model(
+              this.model.table.TriggerTileModelSO.RightEnergyItemTrigger,
+              this.model.inputMashProgressService,
+              this.model.playerGetter,
+              this.model.table);
+            var energyChargerView = view as RightEnergyItmeTriggerView;
+            presenter = new RightEnergyItemTriggerPresenter(model, energyChargerView);
           }
           break;
 

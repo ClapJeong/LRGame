@@ -50,8 +50,8 @@ namespace LR.Stage.Player
 
     public void Dispose()
     {
-      inputActionController?.UnsubscribePerfoemd(OnPerformed);
-      inputActionController?.UnsubscribeCanceled(OnCanceled);
+      inputActionController.UnsubscribePerfoemd(OnPerformed);
+      inputActionController.UnsubscribeCanceled(OnCanceled);
     }
 
     private void OnPerformed(Direction direction)

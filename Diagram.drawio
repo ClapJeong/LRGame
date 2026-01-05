@@ -772,10 +772,22 @@
           <mxGeometry height="60" width="120" x="330" y="30" as="geometry" />
         </mxCell>
         <mxCell id="e3Y8ayG8_sowx0bzYBmY-4" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="IInputMashProgressService" vertex="1">
-          <mxGeometry height="250" width="310" x="235" y="260" as="geometry" />
+          <mxGeometry height="100" width="310" x="235" y="260" as="geometry" />
         </mxCell>
-        <mxCell id="e3Y8ayG8_sowx0bzYBmY-5" parent="e3Y8ayG8_sowx0bzYBmY-4" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&lt;div&gt;ProgressData&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Play(playerType, onProgress, onComplete)&lt;div&gt;Stop&lt;/div&gt;" vertex="1">
-          <mxGeometry height="221" width="310" y="29" as="geometry" />
+        <mxCell id="e3Y8ayG8_sowx0bzYBmY-5" parent="e3Y8ayG8_sowx0bzYBmY-4" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Play(playerType, data, onProgress, onComplete)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Stop&lt;/div&gt;" vertex="1">
+          <mxGeometry height="71" width="310" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="e3Y8ayG8_sowx0bzYBmY-8" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="InputMashProgresService" vertex="1">
+          <mxGeometry height="140" width="310" x="235" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="e3Y8ayG8_sowx0bzYBmY-9" parent="e3Y8ayG8_sowx0bzYBmY-8" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="float progress&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="111" width="310" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="e3Y8ayG8_sowx0bzYBmY-11" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="&lt;div&gt;InputMashProgressData&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="180" x="10" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="e3Y8ayG8_sowx0bzYBmY-12" parent="e3Y8ayG8_sowx0bzYBmY-11" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="decreasePerSecond&lt;div&gt;increaseValue&lt;/div&gt;" vertex="1">
+          <mxGeometry height="71" width="180" y="29" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
