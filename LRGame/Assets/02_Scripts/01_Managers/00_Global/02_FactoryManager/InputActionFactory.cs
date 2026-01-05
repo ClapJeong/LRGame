@@ -17,100 +17,110 @@ public class InputActionFactory
     Canceled
   }
 
-  private readonly Dictionary<InputAction, UnityEvent<InputAction.CallbackContext>> inputActions = new();
+  private readonly Dictionary<string, InputAction> actionMap = new();
+  private readonly Dictionary<InputAction, UnityEvent<InputAction.CallbackContext>> eventMap = new();
 
-  public InputAction Get(List<string> paths, UnityAction action, InputActionPhaseType type)
+  // ---------- Get / Register ----------
+
+  public InputAction Register(
+      List<string> paths,
+      UnityAction action,
+      InputActionPhaseType type)
   {
-    var contextEvent = new UnityEvent<InputAction.CallbackContext>();
-    contextEvent.AddListener(CreatePhaseFilteredCallback(action, type));
+    var inputAction = GetOrCreate(paths);
+    var unityEvent = eventMap[inputAction];
 
-    var inputAction = CreateInputAction(paths, contextEvent);
+    var callback = CreatePhaseFilteredCallback(action, type);
+    unityEvent.AddListener(callback);
 
     return inputAction;
   }
 
-  public InputAction Get(string path, UnityAction action, InputActionPhaseType type)
-      => Get(new List<string>() { path }, action, type);
+  public InputAction Register(
+      string path,
+      UnityAction action,
+      InputActionPhaseType type)
+    => Register(new List<string> { path }, action, type);
 
-  public InputAction Get(List<string> paths, UnityAction<InputAction.CallbackContext> contextAction)
+  public InputAction Register(
+      List<string> paths,
+      UnityAction<InputAction.CallbackContext> contextAction)
   {
-    var contextEvent = new UnityEvent<InputAction.CallbackContext>();
-    contextEvent.AddListener(contextAction);
-
-    var inputAction = CreateInputAction(paths, contextEvent);
-
+    var inputAction = GetOrCreate(paths);
+    eventMap[inputAction].AddListener(contextAction);
     return inputAction;
   }
 
-  public InputAction Get(string path, UnityAction<InputAction.CallbackContext> contextAction)
-      => Get(new List<string>() { path }, contextAction);
+  public InputAction Register(
+      string path,
+      UnityAction<InputAction.CallbackContext> contextAction)
+    => Register(new List<string> { path }, contextAction);
 
-  public void Add(InputAction inputAction, UnityAction addAction, InputActionPhaseType type)
-  {
-    if (inputActions.TryGetValue(inputAction, out var unityEvent))
-    {
-      unityEvent.AddListener(CreatePhaseFilteredCallback(addAction, type));
-    }
-  }
+  // ---------- Unregister ----------
 
-  public void Add(InputAction inputAction, UnityAction<InputAction.CallbackContext> addContextAction)
+  public void Unregister(
+      InputAction inputAction,
+      UnityAction action,
+      InputActionPhaseType type)
   {
-    if (inputActions.TryGetValue(inputAction, out var unityEvent))
-    {
-      unityEvent.AddListener(addContextAction);
-    }
-  }
-
-  public void Release(params InputAction[] inputActions)
-  {
-    for (int i = 0; i < inputActions.Length; i++)
-      if (inputActions[i] != null)
-        ReleaseAsync(inputActions[i]).Forget();
-  }
-
-  private async UniTask ReleaseAsync(InputAction inputAction)
-  {
-    if (inputAction == null)
+    if (!eventMap.TryGetValue(inputAction, out var unityEvent))
       return;
 
-    if (inputActions.TryGetValue(inputAction, out var unityEvent))
-    {
-      unityEvent.RemoveAllListeners();
-      inputActions.Remove(inputAction);
-    }
-
-    inputAction.Disable();
-    await UniTask.Yield();
-    inputAction.Dispose();
+    unityEvent.RemoveListener(CreatePhaseFilteredCallback(action, type));
   }
 
-  public void Clear()
+  public void Unregister(
+      InputAction inputAction,
+      UnityAction<InputAction.CallbackContext> contextAction)
   {
-    foreach (var key in inputActions.Keys.ToList())
-    {
-      ReleaseAsync(key).Forget();
-    }
-
-    inputActions.Clear();
+    if (eventMap.TryGetValue(inputAction, out var unityEvent))
+      unityEvent.RemoveListener(contextAction);
   }
 
-  public void AttachOnDestroy(InputAction inputAction, GameObject gameObject)
+  // ---------- 내부 ----------
+
+  private InputAction GetOrCreate(List<string> paths)
   {
-    gameObject
-      .OnDestroyAsObservable()
-      .Subscribe(_=>Release(inputAction));
+    var key = CreateKey(paths);
+
+    if (actionMap.TryGetValue(key, out var inputAction))
+      return inputAction;
+
+    var unityEvent = new UnityEvent<InputAction.CallbackContext>();
+
+    inputAction = new InputAction(
+        $"InputAction_{key}",
+        InputActionType.Button);
+
+    inputAction.started += ctx => unityEvent.Invoke(ctx);
+    inputAction.performed += ctx => unityEvent.Invoke(ctx);
+    inputAction.canceled += ctx => unityEvent.Invoke(ctx);
+
+    foreach (var path in paths)
+      inputAction.AddBinding(path);
+
+    inputAction.Enable();
+
+    actionMap[key] = inputAction;
+    eventMap[inputAction] = unityEvent;
+
+    return inputAction;
   }
 
-  // ---------- 내부 유틸 메서드 ----------
+  private string CreateKey(List<string> paths)
+  {
+    // 순서 차이 방지
+    return string.Join("|", paths.OrderBy(p => p));
+  }
 
-  private UnityAction<InputAction.CallbackContext> CreatePhaseFilteredCallback(UnityAction action, InputActionPhaseType type)
+  private UnityAction<InputAction.CallbackContext> CreatePhaseFilteredCallback(
+      UnityAction action,
+      InputActionPhaseType type)
   {
     return context =>
     {
       if (IsMatchingPhase(context.phase, type))
-      {
         action?.Invoke();
-      }
     };
   }
 
@@ -123,26 +133,5 @@ public class InputActionFactory
       InputActionPhaseType.Canceled => phase == InputActionPhase.Canceled,
       _ => false
     };
-  }
-
-  private InputAction CreateInputAction(List<string> paths, UnityEvent<InputAction.CallbackContext> contextEvent)
-  {
-    var inputAction = new InputAction(
-        $"InputAction_{Guid.NewGuid()}",
-        InputActionType.Button,
-        null);
-
-    inputAction.started += context => contextEvent.Invoke(context);
-    inputAction.performed += context => contextEvent.Invoke(context);
-    inputAction.canceled += context => contextEvent.Invoke(context);
-
-    foreach (var path in paths)
-    {
-      inputAction.AddBinding(path);
-    }
-
-    inputActions[inputAction] = contextEvent;
-    inputAction.Enable();
-    return inputAction;
   }
 }

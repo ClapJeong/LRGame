@@ -7,13 +7,17 @@ public class UIInputManager : IUIInputActionManager
 {
   private class InputActionSet
   {
+    private readonly InputActionFactory inputActionFactory;
+
     public InputAction inputAction;
     public UnityAction onPerformed;
     public UnityAction onCanceled;
 
     public InputActionSet(string path, InputActionFactory inputActionFactory)
     {
-      inputAction = inputActionFactory.Get(path, OnInputAction);
+      this.inputActionFactory = inputActionFactory;
+
+      inputAction = inputActionFactory.Register(path, OnInputAction);
       inputAction.Enable();
     }
 
@@ -24,6 +28,11 @@ public class UIInputManager : IUIInputActionManager
         case InputActionPhase.Performed: onPerformed?.Invoke(); break;
         case InputActionPhase.Canceled: onCanceled?.Invoke(); break;
       }
+    }
+
+    public void Release()
+    {
+      inputActionFactory.Unregister(inputAction, OnInputAction);
     }
   }
 
@@ -125,7 +134,7 @@ public class UIInputManager : IUIInputActionManager
     if (inputActionFactory != null)
     {
       foreach (var set in inputSets.Values)
-        inputActionFactory.Release(set.inputAction);
+        set.Release();
     }
   }
 }

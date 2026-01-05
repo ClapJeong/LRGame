@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
@@ -7,15 +8,71 @@ namespace LR.Stage.Player
 {
   public class BasePlayerInputActionController : IPlayerInputActionController
   {
-    private readonly PlayerModel model;
-    private readonly Dictionary<Direction, InputAction> moveInputActions = new();
-
-    private UnityEvent<Direction> onPerformed = new();
-    private UnityEvent<Direction> onCanceled = new();
-
-    public BasePlayerInputActionController(PlayerModel model)
+    private class InputActionSet : IDisposable
     {
-      this.model = model;
+      private readonly InputActionFactory factory;
+      private readonly UnityAction onPerformed;
+      private readonly UnityAction onCanceled;
+
+      private InputAction inputAction;
+
+      public InputActionSet(InputActionFactory factory, string path, UnityAction onPerformed, UnityAction onCanceled)
+      {
+        this.factory = factory;
+        this.onPerformed = onPerformed;
+        this.onCanceled = onCanceled;
+
+        Register(path);
+      }
+
+      private void Register(string path)
+      {
+        inputAction = factory.Register(path, OnInputAction);
+      }
+
+      public void Dispose()
+      {
+        factory.Unregister(inputAction, OnInputAction);
+      }
+
+      public void Enable(bool isEnable)
+      {
+        if (isEnable)
+          inputAction.Enable();
+        else
+          inputAction.Disable();
+      }
+
+      public bool IsPressed()
+        => inputAction.IsPressed();
+
+      private void OnInputAction(InputAction.CallbackContext context)
+      {
+        switch (context.phase)
+        {
+          case InputActionPhase.Started:
+            break;
+
+          case InputActionPhase.Performed:
+            onPerformed?.Invoke();
+            break;
+
+          case InputActionPhase.Canceled:
+            onCanceled?.Invoke();
+            break;
+        }
+      }
+    }
+
+    private readonly InputActionFactory inputActionFactory;
+
+    private readonly Dictionary<Direction, InputActionSet> inputActionSets = new();
+    private readonly UnityEvent<Direction> onPerformed = new();
+    private readonly UnityEvent<Direction> onCanceled = new();
+
+    public BasePlayerInputActionController(InputActionFactory inputActionFactory)
+    {
+      this.inputActionFactory = inputActionFactory;
     }
 
     public void CreateMoveInputAction(Dictionary<string, Direction> pathDirectionPairs)
@@ -26,46 +83,19 @@ namespace LR.Stage.Player
 
     public void CreateMoveInputAction(string path, Direction direction)
     {
-      moveInputActions[direction] = GlobalManager.instance.FactoryManager.InputActionFactory.Get(path, NestedOnMove);
-
-      void NestedOnMove(InputAction.CallbackContext context)
-      {
-        switch (context.phase)
-        {
-          case InputActionPhase.Started:
-            break;
-
-          case InputActionPhase.Performed:
-            onPerformed?.Invoke(direction);
-            break;
-
-          case InputActionPhase.Canceled:
-            onCanceled?.Invoke(direction);
-            break;
-        }
-      }
+      inputActionSets[direction] = (new(inputActionFactory, path, () => onPerformed?.Invoke(direction), () => onCanceled?.Invoke(direction)));
     }
 
     public void EnableInputAction(Direction direction, bool enable)
     {
-      if (moveInputActions.TryGetValue(direction, out InputAction action))
-      {
-        if (enable)
-          action.Enable();
-        else
-          action.Disable();
-      }
+      if (inputActionSets.TryGetValue(direction, out var set))
+        set.Enable(enable);
     }
 
     public void EnableAllInputActions(bool enable)
     {
-      foreach (var inputAction in moveInputActions.Values)
-      {
-        if (enable)
-          inputAction.Enable();
-        else
-          inputAction.Disable();
-      }
+      foreach (var set in inputActionSets.Values)
+        set.Enable(enable);
     }
 
     public void SubscribeOnPerformed(UnityAction<Direction> performed)
@@ -82,14 +112,14 @@ namespace LR.Stage.Player
 
     public void Dispose()
     {
-      foreach (var inputAction in moveInputActions.Values.ToList())
-        GlobalManager.instance.FactoryManager.InputActionFactory.Release(inputAction);
+      foreach (var set in inputActionSets.Values)
+        set.Dispose();
     }
 
     public bool IsAnyInput()
     {
-      foreach (var inputAction in moveInputActions.Values)
-        if (inputAction.IsPressed())
+      foreach (var set in inputActionSets.Values)
+        if (set.IsPressed())
           return true;
 
       return false;

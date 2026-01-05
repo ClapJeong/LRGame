@@ -24,8 +24,9 @@ public class StageManager :
     public ISceneProvider sceneProvider;
     public ICameraService cameraService;
     public Transform defaultEffectRoot;
+    public InputActionFactory inputActionFactory;
 
-    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot)
+    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory)
     {
       this.table = table;
       this.gameDataService = gameDataService;
@@ -33,6 +34,7 @@ public class StageManager :
       this.sceneProvider = sceneProvider;
       this.cameraService = cameraService;
       this.defaultEffectRoot = defaultEffectRoot;
+      this.inputActionFactory = inputActionFactory;
     }
   }
 
@@ -64,7 +66,8 @@ public class StageManager :
       model.defaultEffectRoot);
     playerSetupService = new PlayerService(
       stageService: this,
-      stageResultHandler: this);
+      stageResultHandler: this,
+      model.inputActionFactory);
     triggerTileSetupService = new TriggerTileService();
   }
 

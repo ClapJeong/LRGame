@@ -25,7 +25,7 @@ namespace LR.Stage.Player
       view.transform.position = model.beginPosition;
 
       energyService = new BasePlayerEnergyService(model.so.Energy, view.SpriteRenderer).AddTo(disposables);
-      inputActionController = new BasePlayerInputActionController(model).AddTo(disposables);
+      inputActionController = new BasePlayerInputActionController(model.inputActionFactory).AddTo(disposables);
       moveController = new BasePlayerMoveController(view, inputActionController: this.inputActionController, model).AddTo(disposables);
 
       stateService = new PlayerStateService().AddTo(disposables);

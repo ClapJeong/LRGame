@@ -21,16 +21,18 @@ public class PlayerService :
 
   private readonly IStageStateHandler stageService;
   private readonly IStageResultHandler stageResultHandler;
+  private readonly InputActionFactory inputActionFactory;
 
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
   private bool isSetupComplete = false;
 
-  public PlayerService(IStageStateHandler stageService, IStageResultHandler stageResultHandler)
+  public PlayerService(IStageStateHandler stageService, IStageResultHandler stageResultHandler, InputActionFactory inputActionFactory)
   {
     this.stageService = stageService;
     this.stageResultHandler = stageResultHandler;
+    this.inputActionFactory = inputActionFactory;
   }
 
   public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
@@ -72,7 +74,8 @@ public class PlayerService :
       beginPosition,
       stageService: stageService,
       stageResultHandler: stageResultHandler,
-      playerGetter: this);
+      playerGetter: this,
+      inputActionFactory);
     var presenter = new BasePlayerPresenter(model, view);
 
     presenter

@@ -21,6 +21,7 @@ public partial class LocalManager : MonoBehaviour
   public StageManager StageManager { get; private set; }
   public DialogueService DialogueService {  get; private set; }
   public ChatCardService ChatCardService { get; private set; }
+  public InputMashProgressService InputMashProgressService { get; private set; }
 
   public async UniTask InitializeAsync()
   {
@@ -58,7 +59,8 @@ public partial class LocalManager : MonoBehaviour
       resourceManager: GlobalManager.instance.ResourceManager,
       sceneProvider: GlobalManager.instance.SceneProvider,
       cameraService: CameraService,
-      defaultEffectRoot: defaultEffectRoot);
+      defaultEffectRoot: defaultEffectRoot,
+      GlobalManager.instance.FactoryManager.InputActionFactory);
     StageManager = new StageManager(model);
 
     DialogueService = new DialogueService(StageManager);
@@ -71,6 +73,8 @@ public partial class LocalManager : MonoBehaviour
       GlobalManager.instance.Table.AddressableKeySO,
       GlobalManager.instance.Table.ChatCardDatasSO,
       GlobalManager.instance.Table.UISO);
+
+    InputMashProgressService = new(GlobalManager.instance.FactoryManager.InputActionFactory);
   }
 
   private async UniTask InitializeSceneAsync()

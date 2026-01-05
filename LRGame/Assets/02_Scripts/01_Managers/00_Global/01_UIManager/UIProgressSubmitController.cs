@@ -13,10 +13,10 @@ public class UIProgressSubmitController : IUIProgressSubmitController
   public UIProgressSubmitController(IUISelectedGameObjectService selectedGameObjectService, InputActionFactory inputActionFactory)
   {
     var table = GlobalManager.instance.Table.UISO.InputPaths;
-    rightInputActions[Direction.Up] = inputActionFactory.Get(table.RightUPPath, context => OnInputAction(Direction.Up, context));
-    rightInputActions[Direction.Right] = inputActionFactory.Get(table.RightRightPath, context => OnInputAction(Direction.Right, context));
-    rightInputActions[Direction.Down] = inputActionFactory.Get(table.RightDownPath, context => OnInputAction(Direction.Down, context));
-    rightInputActions[Direction.Left] = inputActionFactory.Get(table.RightLeftPath, context => OnInputAction(Direction.Left, context));
+    rightInputActions[Direction.Up] = inputActionFactory.Register(table.RightUPPath, context => OnInputAction(Direction.Up, context));
+    rightInputActions[Direction.Right] = inputActionFactory.Register(table.RightRightPath, context => OnInputAction(Direction.Right, context));
+    rightInputActions[Direction.Down] = inputActionFactory.Register(table.RightDownPath, context => OnInputAction(Direction.Down, context));
+    rightInputActions[Direction.Left] = inputActionFactory.Register(table.RightLeftPath, context => OnInputAction(Direction.Left, context));
 
     selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
     selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnExit, OnSelectedGameObjectExit);

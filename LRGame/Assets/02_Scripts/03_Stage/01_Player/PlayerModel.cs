@@ -11,6 +11,7 @@ namespace LR.Stage.Player
     public IStageStateHandler stageService;
     public IStageResultHandler stageResultHandler;
     public IPlayerGetter playerGetter;
+    public InputActionFactory inputActionFactory;
 
     public PlayerModel(
       PlayerModelSO so, 
@@ -18,7 +19,8 @@ namespace LR.Stage.Player
       Vector3 beginPosition, 
       IStageStateHandler stageService,
       IStageResultHandler stageResultHandler,
-      IPlayerGetter playerGetter)
+      IPlayerGetter playerGetter,
+      InputActionFactory inputActionFactory)
     {
       this.so = so;
       this.playerType = playerType;
@@ -26,6 +28,7 @@ namespace LR.Stage.Player
       this.stageService = stageService;
       this.stageResultHandler = stageResultHandler;
       this.playerGetter = playerGetter;
+      this.inputActionFactory = inputActionFactory;
     }
 
     public Vector3 ParseDirection(Direction direction)
