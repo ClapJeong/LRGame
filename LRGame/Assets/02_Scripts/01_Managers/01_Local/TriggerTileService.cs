@@ -11,16 +11,18 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
     public readonly IPlayerGetter playerGetter;
     public readonly List<ITriggerTileView> existViews;
     public readonly TableContainer table;
-    public readonly InputProgressService inputMashProgressService;
+    public readonly IInputProgressService inputProgressService;
+    public readonly IInputQTEService inputQTEService;
 
-    public Model(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews, TableContainer table, InputProgressService inputMashProgressService)
+    public Model(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews, TableContainer table, IInputProgressService inputProgressService, IInputQTEService inputQTEService)
     {
       this.effectService = effectService;
       this.stageResultHandler = stageResultHandler;
       this.playerGetter = playerGetter;
       this.existViews = existViews;
       this.table = table;
-      this.inputMashProgressService = inputMashProgressService;
+      this.inputProgressService = inputProgressService;
+      this.inputQTEService = inputQTEService;
     }
   }
 
@@ -67,31 +69,27 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
           }
           break;
 
-        case TriggerTileType.EnergyItem:
-          {
-            var model = new EnergyItemTriggerPresenter.Model(triggerDataSO.EnergyItem, this.model.playerGetter, this.model.effectService);
-            var energyItemView = view as EnergyItemTriggerView;
-            presenter = new EnergyItemTriggerPresenter(model, energyItemView);
-          }
-          break;
-
-        case TriggerTileType.EnergyCharger:
-          {
-            var model = new EnergyChargerTriggerPresenter.Model(this.model.playerGetter);
-            var energyChargerView = view as EnergyChargerTriggerView;
-            presenter = new EnergyChargerTriggerPresenter(model, energyChargerView);
-          }
-          break;
-
         case TriggerTileType.RightEnergyItem:
           {
             var model = new RightEnergyItemTriggerPresenter.Model(
               this.model.table.TriggerTileModelSO.RightEnergyItemTrigger,
-              this.model.inputMashProgressService,
+              this.model.inputProgressService,
               this.model.playerGetter,
               this.model.table);
-            var energyChargerView = view as RightEnergyItmeTriggerView;
-            presenter = new RightEnergyItemTriggerPresenter(model, energyChargerView);
+            var rightEnergyItemView = view as RightEnergyItmeTriggerView;
+            presenter = new RightEnergyItemTriggerPresenter(model, rightEnergyItemView);
+          }
+          break;
+
+        case TriggerTileType.LeftEnergyItem:
+          {
+            var model = new LeftEnergyItemTriggerPresenter.Model(
+              this.model.table.TriggerTileModelSO.LeftEnergyItemTrigger,
+              this.model.inputQTEService,
+              this.model.playerGetter,
+              this.model.table);
+            var leftEnergyItemView = view as LeftEnergyItemTriggerView;
+            presenter = new LeftEnergyItemTriggerPresenter(model, leftEnergyItemView);
           }
           break;
 

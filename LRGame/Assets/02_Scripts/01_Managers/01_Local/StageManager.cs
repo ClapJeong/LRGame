@@ -25,9 +25,10 @@ public class StageManager :
     public ICameraService cameraService;
     public Transform defaultEffectRoot;
     public InputActionFactory inputActionFactory;
-    public InputProgressService inputMashProgressService;
+    public IInputProgressService inputProgressService;
+    public IInputQTEService inputQTEService;
 
-    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory, InputProgressService inputMashProgressService)
+    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory, InputProgressService inputProgressService, IInputQTEService inputQTEService)
     {
       this.table = table;
       this.gameDataService = gameDataService;
@@ -36,7 +37,8 @@ public class StageManager :
       this.cameraService = cameraService;
       this.defaultEffectRoot = defaultEffectRoot;
       this.inputActionFactory = inputActionFactory;
-      this.inputMashProgressService = inputMashProgressService;
+      this.inputProgressService = inputProgressService;
+      this.inputQTEService = inputQTEService;
     }
   }
 
@@ -71,6 +73,12 @@ public class StageManager :
       stageResultHandler: this,
       model.inputActionFactory);
     triggerTileSetupService = new TriggerTileService();
+
+    SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, () =>
+    {
+      model.inputProgressService.Stop();
+      model.inputQTEService.Stop();
+    });
   }
 
   #region IStageCreator
@@ -274,7 +282,8 @@ public class StageManager :
       playerGetter: this,
       existViews: stageData.TriggerTiles,
       this.model.table,
-      this.model.inputMashProgressService);
+      this.model.inputProgressService,
+      this.model.inputQTEService);
     triggerTileSetupService.SetupAsync(model,isEnableImmediately).Forget();
   }
 

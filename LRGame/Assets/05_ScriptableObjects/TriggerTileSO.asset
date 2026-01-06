@@ -18,15 +18,20 @@ MonoBehaviour:
       force: 5
       stunDuration: 0.8
     <EffectType>k__BackingField: 1
-  <EnergyItem>k__BackingField:
-    <RestoreValue>k__BackingField: 50
-    <EffectType>k__BackingField: 0
-  <EnergyCharger>k__BackingField:
-    <ChargeValue>k__BackingField: 2
   <RightEnergyItemTrigger>k__BackingField:
-    <UIType>k__BackingField: 0
     <RestoreValue>k__BackingField: 50
-    <InputMashProgressData>k__BackingField:
+    <InputProgressData>k__BackingField:
+      <UIType>k__BackingField: 0
+      <Failable>k__BackingField: 0
       <BeginValue>k__BackingField: 0.5
       <DecreaseValuePerSecond>k__BackingField: 0.4
-      <IncreaseValueOnInput>k__BackingField: 0.1
+      <IncreaseValueOnInput>k__BackingField: 0.08
+  <LeftEnergyItemTrigger>k__BackingField:
+    <QTEData>k__BackingField:
+      <UIType>k__BackingField: 0
+      <QTEFailType>k__BackingField: 1
+      <Count>k__BackingField: 3
+      <SequenceDuration>k__BackingField: 5
+      <QTEDuration>k__BackingField: 1
+      <Directions>k__BackingField: 00000000010000000200000003000000
+    <RestoreValue>k__BackingField: 50

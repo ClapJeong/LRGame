@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using LR.Stage.Player;
+using LR.Table.Input;
 
 public class PlayerService : 
   IStageObjectSetupService<IPlayerPresenter>, 

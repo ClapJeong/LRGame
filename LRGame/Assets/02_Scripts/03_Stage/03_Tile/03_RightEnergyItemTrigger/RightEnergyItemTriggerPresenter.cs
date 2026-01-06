@@ -9,14 +9,14 @@ namespace LR.Stage.TriggerTile
     public class Model
     {
       public RightEnergyItemTriggerData data;
-      public InputProgressService inputMashProgressService;
+      public IInputProgressService inputProgressService;
       public IPlayerGetter playerGetter;
       public TableContainer table;
 
-      public Model(RightEnergyItemTriggerData data, InputProgressService inputMashProgressService, IPlayerGetter playerGetter, TableContainer table)
+      public Model(RightEnergyItemTriggerData data, IInputProgressService inputProgressService, IPlayerGetter playerGetter, TableContainer table)
       {
         this.data = data;
-        this.inputMashProgressService = inputMashProgressService;
+        this.inputProgressService = inputProgressService;
         this.playerGetter = playerGetter;
         this.table = table;
       }
@@ -56,40 +56,34 @@ namespace LR.Stage.TriggerTile
       if (collider2D.CompareTag("Player") == false)
         return;
 
-      var currentPlayerType = collider2D
-              .GetComponent<IPlayerView>()
-              .GetPlayerType();
-      var currentPlayerKeyCodeData = model
+      Enable(false);
+
+      var enterPlayerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
+      var enterPlayerKeyCodeData = model
         .table
-        .GetPlayerModelSO(currentPlayerType)
+        .GetPlayerModelSO(enterPlayerType)
         .Movement
         .KeyCodeData;
+      var enterPlayerReactionController = model
+              .playerGetter
+              .GetPlayer(enterPlayerType)
+              .GetReactionController();
 
-      var targetPlayerType = collider2D
-              .GetComponent<IPlayerView>()
-              .GetPlayerType()
-              .ParseOpposite();
       var targetPlayerPresenter = model
         .playerGetter
-        .GetPlayer(targetPlayerType);
+        .GetPlayer(enterPlayerType.ParseOpposite());      
 
-      var playerReactionController = model
-        .playerGetter
-        .GetPlayer(currentPlayerType)
-        .GetReactionController();
-
-      playerReactionController.SetCharging(true);
-      model.inputMashProgressService.Play(
-        model.data.UIType,
-        currentPlayerKeyCodeData,
-        model.data.InputMashProgressData,
+      enterPlayerReactionController.SetCharging(true);
+      model.inputProgressService.Play(
+        model.data.InputProgressData.UIType,
+        enterPlayerKeyCodeData,
+        model.data.InputProgressData,
         view.transform.position,
         OnChargingProgress,
         () =>
         {
           OnChargerComplete(targetPlayerPresenter);
-          playerReactionController.SetCharging(false);
-          Enable(false);
+          enterPlayerReactionController.SetCharging(false);
         }, 
         null);
     }

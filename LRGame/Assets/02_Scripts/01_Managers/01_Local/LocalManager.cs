@@ -23,6 +23,8 @@ public partial class LocalManager : MonoBehaviour
   public ChatCardService ChatCardService { get; private set; }
   public InputProgressService InputProgressService { get; private set; }
   public InputProgressUIService InputProgressUIService { get; private set; }
+  public InputQTEService InputQTEService { get; private set; }
+  public InputQTEUIService InputQTEUIService { get; private set; }
 
   public async UniTask InitializeAsync()
   {
@@ -54,6 +56,17 @@ public partial class LocalManager : MonoBehaviour
 
   private void InitializeManagers()
   {
+    InputQTEUIService = new(
+      gameObject,
+      GlobalManager.instance.UIManager,
+      GlobalManager.instance.ResourceManager,
+      GlobalManager.instance.Table.AddressableKeySO);
+
+    InputQTEService = new(
+      GlobalManager.instance.FactoryManager.InputActionFactory,
+      InputQTEUIService,
+      CameraService);
+
     InputProgressUIService = new(
       gameObject,
       GlobalManager.instance.UIManager,
@@ -73,7 +86,8 @@ public partial class LocalManager : MonoBehaviour
       cameraService: CameraService,
       defaultEffectRoot: defaultEffectRoot,
       GlobalManager.instance.FactoryManager.InputActionFactory,
-      InputProgressService);
+      InputProgressService,
+      InputQTEService);
     StageManager = new StageManager(stageManagerModel);
 
     DialogueService = new DialogueService(StageManager);

@@ -1,5 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using LR.UI.GameScene.InputMashProgress;
+using LR.UI.GameScene.InputProgress;
 using UnityEngine;
 
 public class InputProgressUIService : IInputProgressUIService
@@ -17,21 +17,21 @@ public class InputProgressUIService : IInputProgressUIService
     this.addressableSO = addressableSO;
   }
 
-  public async UniTask<IInputProgressUIPresenter> CreateAsync(InputProgressEnum.InputProgressUIType type, Transform followTarget)
+  public async UniTask<IUIInputProgressPresenter> GetPresenterAsync(InputProgressEnum.InputProgressUIType type, Transform followTarget)
   {
     var presenter = await CreateAsync(type);
     presenter.SetFollowTransform(followTarget);
     return presenter;
   }
 
-  public async UniTask<IInputProgressUIPresenter> CreateAsync(InputProgressEnum.InputProgressUIType type, Vector2 canvasPosition)
+  public async UniTask<IUIInputProgressPresenter> GetPresenterAsync(InputProgressEnum.InputProgressUIType type, Vector2 canvasPosition)
   {
     var presenter = await CreateAsync(type);
     presenter.SetPosition(canvasPosition);
     return presenter;
   }
 
-  private async UniTask<IInputProgressUIPresenter> CreateAsync(InputProgressEnum.InputProgressUIType type)
+  private async UniTask<IUIInputProgressPresenter> CreateAsync(InputProgressEnum.InputProgressUIType type)
   {
     var viewKey = addressableSO.Path.UI + type.ToString();
     switch (type)

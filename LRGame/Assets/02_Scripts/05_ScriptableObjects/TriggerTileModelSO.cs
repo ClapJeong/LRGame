@@ -10,11 +10,7 @@ public class TriggerTileModelSO : ScriptableObject
   [field: SerializeField] public SpikeTriggerData SpikeTrigger { get; private set; }
 
   [field: Space(15)]
-  [field: SerializeField] public EnergyItemData EnergyItem { get; private set; }
-
-  [field: Space(15)]
-  [field: SerializeField] public EnergyChargerData EnergyCharger { get; set; }
-
-  [field: Space(15)]
   [field: SerializeField] public RightEnergyItemTriggerData RightEnergyItemTrigger { get; set; }
+  [field: Space(15)]
+  [field: SerializeField] public LeftEnergyItemTriggerData LeftEnergyItemTrigger { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
-using LR.UI.GameScene.InputMashProgress;
+using LR.Table.Input;
+using LR.UI.GameScene.InputProgress;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,16 +11,16 @@ using UnityEngine.InputSystem;
 public class InputProgressService : IInputProgressService
 {
   private readonly InputActionFactory InputActionFactory;
-  private readonly InputProgressUIService uiService;
+  private readonly IInputProgressUIService uiService;
   private readonly ICameraService cameraService;
 
   private readonly List<InputAction> inputActions = new();
   private readonly CTSContainer cts = new();
   private bool isPlaying = false;
-  private InputMashProgressData currentData;
+  private InputProgressData currentData;
   private float value;
 
-  public InputProgressService(InputActionFactory inputActionFactory, InputProgressUIService uiService, ICameraService cameraService)
+  public InputProgressService(InputActionFactory inputActionFactory, IInputProgressUIService uiService, ICameraService cameraService)
   {
     InputActionFactory = inputActionFactory;
     this.uiService = uiService;
@@ -29,7 +30,7 @@ public class InputProgressService : IInputProgressService
   public async void Play(
     InputProgressEnum.InputProgressUIType type,
     CharacterMoveKeyCodeData keyCodeData, 
-    InputMashProgressData data,
+    InputProgressData data,
     Transform followTarget,
     UnityAction<float> onProgress, 
     UnityAction onComplete,
@@ -43,14 +44,14 @@ public class InputProgressService : IInputProgressService
 
     value = data.BeginValue;
     currentData = data;
-    var presenter = await uiService.CreateAsync(type, followTarget);
-    InputMashProgressAsync(presenter, keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
+    var presenter = await uiService.GetPresenterAsync(type, followTarget);
+    PlayAsync(presenter, keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
   }
 
   public async void Play(
   InputProgressEnum.InputProgressUIType type,
   CharacterMoveKeyCodeData keyCodeData,
-  InputMashProgressData data,
+  InputProgressData data,
   Vector3 worldPosition,
   UnityAction<float> onProgress,
   UnityAction onComplete,
@@ -65,8 +66,8 @@ public class InputProgressService : IInputProgressService
     value = data.BeginValue;
     currentData = data;
     var screenPosition = cameraService.GetScreenPosition(worldPosition);
-    var presenter = await uiService.CreateAsync(type, screenPosition);
-    InputMashProgressAsync(presenter, keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
+    var presenter = await uiService.GetPresenterAsync(type, screenPosition);
+    PlayAsync(presenter, keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
   }
 
 
@@ -75,8 +76,8 @@ public class InputProgressService : IInputProgressService
     cts.Cancel();
   }
 
-  private async UniTask InputMashProgressAsync(
-    IInputProgressUIPresenter presenter,
+  private async UniTask PlayAsync(
+    IUIInputProgressPresenter presenter,
     CharacterMoveKeyCodeData keyCodeData, 
     UnityAction<float> onProgress, 
     UnityAction onComplete,
@@ -89,10 +90,13 @@ public class InputProgressService : IInputProgressService
     {
       isPlaying = true;
       SubscribeInputActions(keyCodeData);
-      while (value > 0 && value < 1.0f)
+      while (true)
       {
+        if ((currentData.Failable && value <= 0.0f) || value >= 1.0f)
+          break;
+
         token.ThrowIfCancellationRequested();
-        value -= currentData.DecreaseValuePerSecond * Time.deltaTime;
+        value = Mathf.Max(0.0f, value - currentData.DecreaseValuePerSecond * Time.deltaTime);
         onProgress?.Invoke(value);
         presenter.OnProgress(value);
         await UniTask.Yield();

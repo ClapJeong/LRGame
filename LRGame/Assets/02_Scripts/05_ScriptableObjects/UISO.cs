@@ -1,3 +1,4 @@
+using LR.Table.Input;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UISO", menuName = "SO/UI")]

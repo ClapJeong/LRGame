@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0341dcb509023d4d82bade20ee96061, type: 3}
   m_Name: EffectTableSO
   m_EditorClassIdentifier: Assembly-CSharp::EffectTableSO
-  <PoolingCount>k__BackingField: 3
+  <PoolingCount>k__BackingField: 4
