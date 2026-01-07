@@ -39,14 +39,14 @@ namespace LR.Stage.TriggerTile
     {
       if (isEnable == enable)
         return;
-
-      view.gameObject.SetActive(enable);
-      isEnable = enable;
+      
+      isEnable = enable;      
     }
 
     public void Restart()
     {
       Enable(true);
+      view.gameObject.SetActive(true);
     }
 
     private void OnEnter(Collider2D collider2D)
@@ -82,6 +82,8 @@ namespace LR.Stage.TriggerTile
         () =>
         {
           OnChargerComplete(targetPlayerPresenter);
+          Enable(false);
+          view.gameObject.SetActive(false);
           enterPlayerReactionController.SetInputting(false);
         }, 
         null);
@@ -97,8 +99,6 @@ namespace LR.Stage.TriggerTile
       targetPlayer
         .GetEnergyController()
         .Restore(model.data.RestoreValue);
-
-      Enable(false);
     }
   }
 }

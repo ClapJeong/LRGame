@@ -47,14 +47,14 @@ namespace LR.Stage.TriggerTile
 
     public void Enable(bool enable)
     {
-      this.enable = enable;
-      view.gameObject.SetActive(enable);
+      this.enable = enable;      
     }
 
     public void Restart()
     {
       Enable(true);
       isSignalAcquired = false;
+      view.gameObject.SetActive(true);
     }
 
     private void RegisterKeys()
@@ -174,6 +174,7 @@ namespace LR.Stage.TriggerTile
         case SignalTriggerView.AftersignalType.Deactivate:
           {
             Enable(false);
+            view.gameObject.SetActive(false);
           }
           break;
       }
@@ -186,6 +187,7 @@ namespace LR.Stage.TriggerTile
         case SignalTriggerView.InputFailType.Destroy:
           {
             Enable(false);
+            view.gameObject.SetActive(false);
           }
           break;
 
