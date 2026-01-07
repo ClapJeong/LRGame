@@ -37,7 +37,7 @@ public class InputQTEUIService : IInputQTEUIService
     var viewKey = addressableSO.Path.UI + type.ToString();
     switch (type)
     {
-      case InputQTEEnum.UIType.LeftEnergyItem:
+      case InputQTEEnum.UIType.QTEDefault:
         {
           var model = new UILeftEnergyItemPresenter.Model();
           var view = await resourceManager.CreateAssetAsync<UILeftEnergyItemView>(viewKey, canvasProvider.GetCanvas(UIRootType.Overlay).transform);

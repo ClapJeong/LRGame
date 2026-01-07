@@ -13,4 +13,6 @@ public class TriggerTileModelSO : ScriptableObject
   [field: SerializeField] public RightEnergyItemTriggerData RightEnergyItemTrigger { get; set; }
   [field: Space(15)]
   [field: SerializeField] public LeftEnergyItemTriggerData LeftEnergyItemTrigger { get; set; }
+  [field: Space(15)]
+  [field: SerializeField] public SignalTriggerData DefaultSignalTriggerData {  get; set; }
 }

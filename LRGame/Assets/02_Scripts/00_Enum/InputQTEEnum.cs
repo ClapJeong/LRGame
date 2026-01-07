@@ -3,13 +3,14 @@ public class InputQTEEnum
 {
   public enum UIType
   {
-    LeftEnergyItem,
+    QTEDefault,
   }
 
   public enum QTEFaiResultType
   {
     None,
-    DecreaseCount, 
+    DecreaseOnlyCount, 
+    DecreaseCountWithFail,
     FailSequence,    
   }
 }

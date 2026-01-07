@@ -2,6 +2,6 @@
 {
   public enum InputProgressUIType
   {
-    RightEnergyItem,
+    ProgressDefault,
   }
 }

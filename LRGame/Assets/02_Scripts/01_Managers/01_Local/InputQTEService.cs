@@ -55,7 +55,6 @@ public class InputQTEService : IInputQTEService
   }
 
   public async void Play(
-    InputQTEEnum.UIType uiType, 
     InputQTEData data, 
     CharacterMoveKeyCodeData keyCodeData, 
     Transform followTarget,
@@ -69,13 +68,12 @@ public class InputQTEService : IInputQTEService
     cts.Create();
 
     currentData = data;
-    var presenter = await uiService.GetPrsenterAsync(uiType, followTarget);
+    var presenter = await uiService.GetPrsenterAsync(data.UIType, followTarget);
     isPlaying = true;
     PlayAsync(presenter, keyCodeData, onSuccess, onFail, cts.token).Forget();
   }
 
   public async void Play(
-    InputQTEEnum.UIType uiType, 
     InputQTEData data, 
     CharacterMoveKeyCodeData keyCodeData, 
     Vector2 worldPosition,
@@ -90,7 +88,7 @@ public class InputQTEService : IInputQTEService
 
     currentData = data;
     var screenPosition = cameraService.GetScreenPosition(worldPosition);
-    var presenter = await uiService.GetPrsenterAsync(uiType, screenPosition);
+    var presenter = await uiService.GetPrsenterAsync(data.UIType, screenPosition);
     isPlaying = true;
     PlayAsync(presenter, keyCodeData, onSuccess, onFail, cts.token).Forget();
   }
@@ -155,10 +153,22 @@ public class InputQTEService : IInputQTEService
                   }
                   break;
 
-                case InputQTEEnum.QTEFaiResultType.DecreaseCount:
+                case InputQTEEnum.QTEFaiResultType.DecreaseOnlyCount:
                   {
                     currentCount = Mathf.Max(0, currentCount - 1);
                     presenter.OnQTECountChanged(currentCount);
+                  }
+                  break;
+
+                case InputQTEEnum.QTEFaiResultType.DecreaseCountWithFail:
+                  {
+                    currentCount = Mathf.Max(0, currentCount - 1);
+                    presenter.OnQTECountChanged(currentCount);
+                    if(currentCount == 0)
+                    {
+                      playQTE = false;
+                      isSuccess = false;
+                    }
                   }
                   break;
 

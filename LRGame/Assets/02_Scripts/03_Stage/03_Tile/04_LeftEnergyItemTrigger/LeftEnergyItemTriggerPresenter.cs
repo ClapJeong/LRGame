@@ -74,20 +74,19 @@ namespace LR.Stage.TriggerTile
         .playerGetter
         .GetPlayer(enterPlayerType.ParseOpposite());
 
-      enterPlayerReactionController.SetCharging(true);
+      enterPlayerReactionController.SetInputting(true);
       model.inputQTEService.Play(
-        model.data.QTEData.UIType,
         model.data.QTEData,
         enterPlayerKeyCodeData,        
         view.transform.position,
         onSuccess: () =>
         {
           OnChargerComplete(targetPlayerPresenter);
-          enterPlayerReactionController.SetCharging(false);          
+          enterPlayerReactionController.SetInputting(false);          
         },
         onFail: () =>
         {          
-          enterPlayerReactionController.SetCharging(false);          
+          enterPlayerReactionController.SetInputting(false);          
         });
     }
 

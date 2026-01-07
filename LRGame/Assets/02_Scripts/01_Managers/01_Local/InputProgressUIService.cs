@@ -36,7 +36,7 @@ public class InputProgressUIService : IInputProgressUIService
     var viewKey = addressableSO.Path.UI + type.ToString();
     switch (type)
     {
-      case InputProgressEnum.InputProgressUIType.RightEnergyItem:
+      case InputProgressEnum.InputProgressUIType.ProgressDefault:
         {
           var model = new UIRightEnergyItemPresenter.Model();
           var view = await resourceManager.CreateAssetAsync<UIRightEnergyItemView>(viewKey, canvasProvider.GetCanvas(UIRootType.Overlay).transform);

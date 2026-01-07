@@ -73,17 +73,16 @@ namespace LR.Stage.TriggerTile
         .playerGetter
         .GetPlayer(enterPlayerType.ParseOpposite());      
 
-      enterPlayerReactionController.SetCharging(true);
+      enterPlayerReactionController.SetInputting(true);
       model.inputProgressService.Play(
-        model.data.InputProgressData.UIType,
-        enterPlayerKeyCodeData,
         model.data.InputProgressData,
+        enterPlayerKeyCodeData,
         view.transform.position,
         OnChargingProgress,
         () =>
         {
           OnChargerComplete(targetPlayerPresenter);
-          enterPlayerReactionController.SetCharging(false);
+          enterPlayerReactionController.SetInputting(false);
         }, 
         null);
     }

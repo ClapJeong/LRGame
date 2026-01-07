@@ -28,9 +28,8 @@ public class InputProgressService : IInputProgressService
   }
 
   public async void Play(
-    InputProgressEnum.InputProgressUIType type,
-    CharacterMoveKeyCodeData keyCodeData, 
     InputProgressData data,
+    CharacterMoveKeyCodeData keyCodeData,
     Transform followTarget,
     UnityAction<float> onProgress, 
     UnityAction onComplete,
@@ -44,14 +43,13 @@ public class InputProgressService : IInputProgressService
 
     value = data.BeginValue;
     currentData = data;
-    var presenter = await uiService.GetPresenterAsync(type, followTarget);
+    var presenter = await uiService.GetPresenterAsync(data.UIType, followTarget);
     PlayAsync(presenter, keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
   }
 
   public async void Play(
-  InputProgressEnum.InputProgressUIType type,
-  CharacterMoveKeyCodeData keyCodeData,
   InputProgressData data,
+  CharacterMoveKeyCodeData keyCodeData,
   Vector3 worldPosition,
   UnityAction<float> onProgress,
   UnityAction onComplete,
@@ -66,7 +64,7 @@ public class InputProgressService : IInputProgressService
     value = data.BeginValue;
     currentData = data;
     var screenPosition = cameraService.GetScreenPosition(worldPosition);
-    var presenter = await uiService.GetPresenterAsync(type, screenPosition);
+    var presenter = await uiService.GetPresenterAsync(data.UIType, screenPosition);
     PlayAsync(presenter, keyCodeData, onProgress, onComplete, onFail, cts.token).Forget();
   }
 

@@ -44,6 +44,7 @@ public class StageManager :
 
   private readonly Model model;
 
+  private readonly SignalService signalService;
   private readonly EffectService effectService;
   private readonly PlayerService playerSetupService;
   private readonly TriggerTileService triggerTileSetupService;
@@ -63,6 +64,7 @@ public class StageManager :
   {
     this.model = model;
 
+    signalService = new();
     effectService = new(
       model.resourceManager, 
       model.table.AddressableKeySO, 
@@ -71,7 +73,9 @@ public class StageManager :
     playerSetupService = new PlayerService(
       stageService: this,
       stageResultHandler: this,
-      model.inputActionFactory);
+      model.inputActionFactory,
+      model.inputQTEService,
+      model.inputProgressService);
     triggerTileSetupService = new TriggerTileService();
 
     SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, () =>
@@ -283,7 +287,8 @@ public class StageManager :
       existViews: stageData.TriggerTiles,
       this.model.table,
       this.model.inputProgressService,
-      this.model.inputQTEService);
+      this.model.inputQTEService,
+      signalService);
     triggerTileSetupService.SetupAsync(model,isEnableImmediately).Forget();
   }
 

@@ -23,17 +23,21 @@ public class PlayerService :
   private readonly IStageStateHandler stageService;
   private readonly IStageResultHandler stageResultHandler;
   private readonly InputActionFactory inputActionFactory;
+  private readonly IInputSequenceStopController inputQTEStopController;
+  private readonly IInputSequenceStopController inputProgressStopController;
 
   private IPlayerPresenter leftPlayer;
   private IPlayerPresenter rightPlayer;
 
   private bool isSetupComplete = false;
 
-  public PlayerService(IStageStateHandler stageService, IStageResultHandler stageResultHandler, InputActionFactory inputActionFactory)
+  public PlayerService(IStageStateHandler stageService, IStageResultHandler stageResultHandler, InputActionFactory inputActionFactory, IInputSequenceStopController inputQTEStopController, IInputSequenceStopController inputProgressStopController)
   {
     this.stageService = stageService;
     this.stageResultHandler = stageResultHandler;
     this.inputActionFactory = inputActionFactory;
+    this.inputQTEStopController = inputQTEStopController;
+    this.inputProgressStopController = inputProgressStopController;
   }
 
   public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
@@ -76,7 +80,13 @@ public class PlayerService :
       stageService: stageService,
       stageResultHandler: stageResultHandler,
       playerGetter: this,
-      inputActionFactory);
+      inputActionFactory,
+      playerType switch
+      {
+        PlayerType.Left => inputQTEStopController,
+        PlayerType.Right => inputProgressStopController,
+        _ => throw new System.NotImplementedException()
+      });
     var presenter = new BasePlayerPresenter(model, view);
 
     presenter

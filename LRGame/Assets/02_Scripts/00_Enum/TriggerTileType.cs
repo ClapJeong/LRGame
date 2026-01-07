@@ -5,4 +5,5 @@ public enum TriggerTileType
     Spike,
     RightEnergyItem,
     LeftEnergyItem,
+    DefaultSignal,
 }

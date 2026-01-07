@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using LR.Stage.TriggerTile;
+using LR.Table.TriggerTile;
 
 public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectControlService<ITriggerTilePresenter>
 {
@@ -13,8 +14,9 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
     public readonly TableContainer table;
     public readonly IInputProgressService inputProgressService;
     public readonly IInputQTEService inputQTEService;
+    public readonly SignalService signalService;
 
-    public Model(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews, TableContainer table, IInputProgressService inputProgressService, IInputQTEService inputQTEService)
+    public Model(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews, TableContainer table, IInputProgressService inputProgressService, IInputQTEService inputQTEService, SignalService signalService)
     {
       this.effectService = effectService;
       this.stageResultHandler = stageResultHandler;
@@ -23,14 +25,13 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
       this.table = table;
       this.inputProgressService = inputProgressService;
       this.inputQTEService = inputQTEService;
+      this.signalService = signalService;
     }
   }
 
   private readonly List<ITriggerTilePresenter> cachedTriggers = new();
 
   private Model model;
-  private bool isLeftEnter;
-  private bool isRightEnter;
 
   private bool isSetupComplete = false;
 
@@ -90,6 +91,21 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
               this.model.table);
             var leftEnergyItemView = view as LeftEnergyItemTriggerView;
             presenter = new LeftEnergyItemTriggerPresenter(model, leftEnergyItemView);
+          }
+          break;
+
+        case TriggerTileType.DefaultSignal:
+          {
+            var model = new SignalTriggerPresenter.Model(
+              this.model.table.TriggerTileModelSO.DefaultSignalTriggerData,
+              this.model.table,
+              this.model.signalService,
+              this.model.signalService,
+              this.model.inputProgressService,
+              this.model.inputQTEService,
+              this.model.playerGetter);
+            var defaultSignalView = view as SignalTriggerView;
+            presenter = new SignalTriggerPresenter(model, defaultSignalView);
           }
           break;
 

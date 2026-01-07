@@ -6,8 +6,8 @@ namespace LR.Stage.Player
 {
   public class BasePlayerPresenter : IPlayerPresenter
   {
-    private readonly BasePlayerView view;
     private readonly PlayerModel model;
+    private readonly BasePlayerView view;    
 
     private readonly BasePlayerMoveController moveController;
     private readonly BasePlayerReactionController reactionController;
@@ -56,7 +56,8 @@ namespace LR.Stage.Player
         moveController: this.moveController,
         stateController: this.stateService,
         reactionController: this.reactionController,
-        energyUpdater: this.energyService));
+        energyUpdater: this.energyService,
+        inputSequenceStopController: model.inputSequenceStopController));
 
       stateService.ChangeState(PlayerStateType.Idle);
 
@@ -69,6 +70,7 @@ namespace LR.Stage.Player
       energyService.SubscribeEvent(IPlayerEnergySubscriber.EventType.OnExhausted, () =>
       {
         inputActionController.EnableAllInputActions(false);
+        model.inputSequenceStopController.Stop();
         switch (model.playerType)
         {
           case PlayerType.Left:

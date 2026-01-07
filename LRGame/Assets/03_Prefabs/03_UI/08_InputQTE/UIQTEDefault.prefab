@@ -550,7 +550,7 @@ GameObject:
   - component: {fileID: 6084994670984587621}
   - component: {fileID: 2681799921384497016}
   m_Layer: 5
-  m_Name: UILeftEnergyInputQTE
+  m_Name: UIQTEDefault
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

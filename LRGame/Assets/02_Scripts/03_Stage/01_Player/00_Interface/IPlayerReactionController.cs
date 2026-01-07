@@ -6,10 +6,10 @@ namespace LR.Stage.Player
 {
   public interface IPlayerReactionController : IDisposable
   {
-    public bool IsCharging { get; }
+    public bool IsInputting { get; }
 
     public void Bounce(BounceData data, Vector3 direction);
 
-    public void SetCharging(bool isCharging);
+    public void SetInputting(bool isInputting);
   }
 }

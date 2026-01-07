@@ -2,10 +2,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface IInputQTEService
+public interface IInputQTEService : IInputSequenceStopController
 {
   public void Play(
-    InputQTEEnum.UIType uiType, 
     InputQTEData data, 
     CharacterMoveKeyCodeData keyCodeData, 
     Transform targetTransform,
@@ -13,12 +12,9 @@ public interface IInputQTEService
     UnityAction onFail);
   
   public void Play(
-    InputQTEEnum.UIType uiType, 
     InputQTEData data, 
     CharacterMoveKeyCodeData keyCodeData, 
     Vector2 worldPosition,
     UnityAction onSuccess,
     UnityAction onFail);
-
-  public void Stop();
 }

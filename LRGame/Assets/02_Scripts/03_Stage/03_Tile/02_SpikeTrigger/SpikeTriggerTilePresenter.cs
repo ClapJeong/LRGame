@@ -51,24 +51,23 @@ namespace LR.Stage.TriggerTile
       if (!isEnable)
         return;
 
-      if (collider2D.gameObject.TryGetComponent<IPlayerView>(out var playerView))
-      {
-        var playerType = playerView.GetPlayerType();
-        var playerPresenter = model.playerGetter.GetPlayer(playerType);
-        
-        if (playerPresenter.GetEnergyProvider().IsInvincible == false)
-          playerPresenter.GetEnergyController().Damage(model.data.DamageValue);
+      var playerView = collider2D.gameObject.GetComponent<IPlayerView>();
+      var playerType = playerView.GetPlayerType();
+      var playerPresenter = model.playerGetter.GetPlayer(playerType);
 
-        var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;
-        IPlayerReactionController reactionController = playerPresenter.GetReactionController();
-        reactionController.Bounce(model.data.BounceData, bounceDirection);
+      if (playerPresenter.GetEnergyProvider().IsInvincible == false)
+        playerPresenter.GetEnergyController().Damage(model.data.DamageValue);
 
-        var playerPosition = playerView.Transform.position;
-        model.effectService.Create(
-          model.data.EffectType,
-          playerPosition,
-          Quaternion.identity);
-      }
+      var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;
+      var reactionController = playerPresenter.GetReactionController();
+      reactionController.Bounce(model.data.BounceData, bounceDirection);
+
+      var playerPosition = playerView.Transform.position;
+      model.effectService.Create(
+        model.data.EffectType,
+        playerPosition,
+        Quaternion.identity);
+
     }
   }
 }
