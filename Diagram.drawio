@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.2.9 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.2.9" pages="17">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.2.9 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.2.9" pages="18">
   <diagram name="페이지-1" id="Bxjqc2yabZfjTHqTZWQi">
     <mxGraphModel dx="690" dy="593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -808,6 +808,75 @@
         </mxCell>
         <mxCell id="2VEWVuYP79EHnuAihTzw-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="파이프 연결되는 안전지대 필요" vertex="1">
           <mxGeometry height="110" width="230" x="55" y="470" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ozGDsdxRw_XZZuRDdI8H" name="SignalTrigger">
+    <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fJC0UearUMBH95-Gja2z-8" edge="1" parent="1" source="fJC0UearUMBH95-Gja2z-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="fJC0UearUMBH95-Gja2z-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="StageManager" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-2" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="ISignalReciever" vertex="1">
+          <mxGeometry height="54" width="200" x="140" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-3" parent="fJC0UearUMBH95-Gja2z-2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="PlaySiganal(string key)" vertex="1">
+          <mxGeometry height="25" width="200" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="ISignalSubscriber" vertex="1">
+          <mxGeometry height="80" width="200" x="140" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-6" parent="fJC0UearUMBH95-Gja2z-5" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="Subscribe(string, unityaction)&lt;div&gt;Unsubscribe(string, unityaction)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="200" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SignalService" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-10" edge="1" parent="1" source="fJC0UearUMBH95-Gja2z-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="fJC0UearUMBH95-Gja2z-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="100" y="410" />
+              <mxPoint x="100" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-11" edge="1" parent="1" source="fJC0UearUMBH95-Gja2z-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="fJC0UearUMBH95-Gja2z-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="395" />
+              <mxPoint x="120" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="TriggerTileService" vertex="1">
+          <mxGeometry height="60" width="120" x="160" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Signal 편집은 Scene Inspector에서,&lt;div&gt;즉 View를 통해 해야 할 듯&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Signal Trigger가 내보내는 신호는 1개&lt;/div&gt;&lt;div&gt;신호 받는 클래스(컴포넌트)를 따로?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="280" width="210" x="560" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-20" edge="1" parent="1" source="fJC0UearUMBH95-Gja2z-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="fJC0UearUMBH95-Gja2z-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SignalService" vertex="1">
+          <mxGeometry height="60" width="120" x="400" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SignalReciever&lt;div&gt;&lt;br&gt;&lt;div&gt;key-&amp;gt;unityAction?&lt;br&gt;view만 참조하느라 실제 로직을 직접 가져오진 못할텐데&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="180" x="560" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-25" edge="1" parent="1" source="fJC0UearUMBH95-Gja2z-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="fJC0UearUMBH95-Gja2z-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-22" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="SignalTriggerTile" vertex="1">
+          <mxGeometry height="120" width="190" x="190" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="fJC0UearUMBH95-Gja2z-23" parent="fJC0UearUMBH95-Gja2z-22" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="OnEnter -&amp;gt; key&lt;div&gt;OnInput(QTE/Progress) -&amp;gt; key&lt;/div&gt;&lt;div&gt;OnExit -&amp;gt; key&lt;/div&gt;" vertex="1">
+          <mxGeometry height="91" width="190" y="29" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

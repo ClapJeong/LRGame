@@ -30,33 +30,34 @@ namespace LR.Stage.Player
 
       stateService = new PlayerStateService().AddTo(disposables);
       reactionController = new BasePlayerReactionController(
-        moveController: this.moveController,
-        stateController: this.stateService).AddTo(disposables);
+        moveController,
+        stateService).AddTo(disposables);
 
       stateService.AddState(PlayerStateType.Idle, new PlayerIdleState(
-        moveController: this.moveController, 
-        inputActionController: this.inputActionController, 
-        stateController: this.stateService,
-        energyUpdater: this.energyService,
-        reactionController: reactionController));
+        moveController, 
+        inputActionController, 
+        stateService,
+        energyService,
+        reactionController));
       stateService.AddState(PlayerStateType.Move, new PlayerMoveState(
-        moveController: this.moveController, 
-        inputActionController: this.inputActionController, 
-        stateController: this.stateService,
-        energyUpdater: this.energyService,
-        reactionController: reactionController));
+        moveController, 
+        inputActionController, 
+        stateService,
+        energyService,
+        reactionController));
       var bounceData = GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger.BounceData;
       stateService.AddState(PlayerStateType.Bounce, new PlayerBounceState(
-        moveController: this.moveController, 
-        inputActionController: this.inputActionController, 
-        stateController: this.stateService,
-        energyUpdater: this.energyService,
+        moveController, 
+        inputActionController, 
+        stateService,
+        energyService,
+        reactionController,
         bounceData));
       stateService.AddState(PlayerStateType.Inputting, new PlayerInputState(
-        moveController: this.moveController,
-        stateController: this.stateService,
-        reactionController: this.reactionController,
-        energyUpdater: this.energyService,
+        moveController,
+        stateService,
+        reactionController,
+        energyService ,
         inputSequenceStopController: model.inputSequenceStopController));
 
       stateService.ChangeState(PlayerStateType.Idle);

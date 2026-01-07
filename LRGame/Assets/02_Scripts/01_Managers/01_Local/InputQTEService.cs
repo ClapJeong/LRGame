@@ -41,8 +41,19 @@ public class InputQTEService : IInputQTEService
   private readonly IInputQTEUIService uiService;
   private readonly ICameraService cameraService;
 
-  private InputAction qteInputAction;
-  private readonly CTSContainer cts = new();
+  private IStageStateProvider stageStateProvider;
+  private IStageStateProvider StageStateProvider
+  {
+    get
+    {
+      stageStateProvider ??= LocalManager.instance.StageManager;
+
+      return stageStateProvider;
+    }
+  }
+
+  private readonly CTSContainer cts = new(); 
+  private InputAction qteInputAction;  
   private bool isPlaying = false;
   private bool isPerformed = false;
   private InputQTEData currentData;
@@ -220,7 +231,6 @@ public class InputQTEService : IInputQTEService
     var hasQTE = durationData.qteMaxDuration > 0f;
     var sequenceTimeout = false;
     var qteTimeout = false;
-
     try
     {
       while (!isPerformed && 
@@ -228,6 +238,12 @@ public class InputQTEService : IInputQTEService
              (hasQTE && !qteTimeout))
       {
         token.ThrowIfCancellationRequested();
+        if (StageStateProvider.GetState() == StageEnum.State.Pause)
+        {
+          await UniTask.Yield();
+          continue;
+        }
+
 
         float delta = Time.deltaTime;
 
@@ -304,7 +320,8 @@ public class InputQTEService : IInputQTEService
   private void OnInputActionPerformed(InputAction.CallbackContext context)
   {
     if (!isPlaying ||
-      context.phase != InputActionPhase.Performed)
+      context.phase != InputActionPhase.Performed ||
+      StageStateProvider.GetState() != StageEnum.State.Playing)
       return;
 
     isPerformed = true;

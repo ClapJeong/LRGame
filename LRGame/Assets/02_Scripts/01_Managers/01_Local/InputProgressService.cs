@@ -16,6 +16,18 @@ public class InputProgressService : IInputProgressService
 
   private readonly List<InputAction> inputActions = new();
   private readonly CTSContainer cts = new();
+
+  private IStageStateProvider stageStateProvider;
+  private IStageStateProvider StageStateProvider
+  {
+    get
+    {
+      stageStateProvider ??= LocalManager.instance.StageManager;
+
+      return stageStateProvider;
+    }
+  }
+
   private bool isPlaying = false;
   private InputProgressData currentData;
   private float value;
@@ -85,15 +97,21 @@ public class InputProgressService : IInputProgressService
     await presenter.ActivateAsync();
 
     try
-    {
+    {      
       isPlaying = true;
       SubscribeInputActions(keyCodeData);
       while (true)
       {
         if ((currentData.Failable && value <= 0.0f) || value >= 1.0f)
           break;
-
         token.ThrowIfCancellationRequested();
+
+        if (StageStateProvider.GetState() == StageEnum.State.Pause)
+        {
+          await UniTask.Yield();
+          continue;
+        }
+        
         value = Mathf.Max(0.0f, value - currentData.DecreaseValuePerSecond * Time.deltaTime);
         onProgress?.Invoke(value);
         presenter.OnProgress(value);
@@ -130,6 +148,9 @@ public class InputProgressService : IInputProgressService
   
   private void OnPerformed()
   {
+    if (StageStateProvider.GetState() != StageEnum.State.Playing)
+      return;
+
     value += currentData.IncreaseValueOnInput;
   }
 

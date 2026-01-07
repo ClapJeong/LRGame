@@ -10,6 +10,7 @@ namespace LR.Stage.Player
     private readonly IPlayerInputActionController inputActionController;
     private readonly IPlayerStateController stateController;
     private readonly IPlayerEnergyUpdater energyUpdater;
+    private readonly IPlayerReactionController reactionController;
     private readonly BounceData bounceData;
 
     private CTSContainer cts = null;
@@ -19,12 +20,14 @@ namespace LR.Stage.Player
       IPlayerInputActionController inputActionController,
       IPlayerStateController stateController,
       IPlayerEnergyUpdater energyUpdater,
+      IPlayerReactionController reactionController,
       BounceData bounceData)
     {
       this.moveController = moveController;
       this.inputActionController = inputActionController;
       this.stateController = stateController;
       this.energyUpdater = energyUpdater;
+      this.reactionController = reactionController;
       this.bounceData = bounceData;
     }
 
@@ -36,6 +39,7 @@ namespace LR.Stage.Player
 
     public void OnEnter()
     {
+      reactionController.SetInputting(false);
       cts?.Dispose();
       cts = new();
       ChangeToIdleAsync().Forget();

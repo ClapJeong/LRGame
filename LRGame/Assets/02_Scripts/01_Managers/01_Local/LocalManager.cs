@@ -257,6 +257,7 @@ public partial class LocalManager : MonoBehaviour
     var model = new UIStageRootPresenter.Model(
       dialogueSubscriber: DialogueService,
       stageStateHandler: StageManager,
+      stageStateProvider: StageManager,
       stageEventSubscriber: StageManager,
       resourceManager: resourceManager,
       gameDataService: GlobalManager.instance.GameDataService,

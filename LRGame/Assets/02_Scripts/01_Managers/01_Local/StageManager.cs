@@ -9,7 +9,8 @@ using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class StageManager : 
-  IStageStateHandler, 
+  IStageStateHandler,
+  IStageStateProvider,
   IStageResultHandler,
   IStageEventSubscriber,
   IPlayerGetter,
@@ -51,7 +52,7 @@ public class StageManager :
 
   private readonly Dictionary<IStageEventSubscriber.StageEventType, UnityEvent> stageEvents = new();  
 
-  private IStageStateHandler.State stageState = IStageStateHandler.State.Ready;
+  private StageEnum.State stageState = StageEnum.State.Ready;
   private bool isLeftExhausted = false;
   private bool isRightExhausted = false;
   private bool isLeftClear = false;
@@ -120,7 +121,7 @@ public class StageManager :
     isLeftClear = false;
     isRightClear = false;
 
-    SetState(IStageStateHandler.State.Playing);
+    SetState(StageEnum.State.Playing);
     return UniTask.CompletedTask;
   }
 
@@ -133,7 +134,7 @@ public class StageManager :
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
 
-    SetState(IStageStateHandler.State.Success);
+    SetState(StageEnum.State.Success);
   }
 
   public void Begin()
@@ -142,7 +143,7 @@ public class StageManager :
 
     playerSetupService.EnableAll(true);
     triggerTileSetupService.EnableAll(true);
-    SetState(IStageStateHandler.State.Playing);
+    SetState(StageEnum.State.Playing);
   }
 
   public void Pause()
@@ -151,7 +152,7 @@ public class StageManager :
 
     playerSetupService.EnableAll(false);
     triggerTileSetupService.EnableAll(false);
-    SetState(IStageStateHandler.State.Pause);
+    SetState(StageEnum.State.Pause);
   }
 
   public void Resume()
@@ -160,13 +161,15 @@ public class StageManager :
 
     playerSetupService.EnableAll(true);
     triggerTileSetupService.EnableAll(true);
-    SetState(IStageStateHandler.State.Playing);
+    SetState(StageEnum.State.Playing);
   }
 
-  public void SetState(IStageStateHandler.State state)
+  public void SetState(StageEnum.State state)
     => stageState = state;
+  #endregion
 
-  public IStageStateHandler.State GetState()
+  #region IStageStateProvider
+  public StageEnum.State GetState()
     => stageState;
   #endregion
 

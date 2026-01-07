@@ -11,6 +11,7 @@ namespace LR.UI.GameScene.Stage
     {
       public IDialogueSubscriber dialogueSubscriber;
       public IStageStateHandler stageStateHandler;
+      public IStageStateProvider stageStateProvider;
       public IStageEventSubscriber stageEventSubscriber;
       public IResourceManager resourceManager;
       public IGameDataService gameDataService;
@@ -21,6 +22,7 @@ namespace LR.UI.GameScene.Stage
       public Model(
         IDialogueSubscriber dialogueSubscriber,
         IStageStateHandler stageStateHandler,
+        IStageStateProvider stageStateProvider,
         IStageEventSubscriber stageEventSubscriber,
         IResourceManager resourceManager, 
         IGameDataService gameDataService, 
@@ -30,6 +32,7 @@ namespace LR.UI.GameScene.Stage
       {
         this.dialogueSubscriber = dialogueSubscriber;
         this.stageStateHandler = stageStateHandler;
+        this.stageStateProvider = stageStateProvider;
         this.stageEventSubscriber = stageEventSubscriber;
         this.resourceManager = resourceManager;
         this.gameDataService = gameDataService;
@@ -172,7 +175,7 @@ namespace LR.UI.GameScene.Stage
 
     private void OnPauseInputPerformed()
     {
-      if (model.stageStateHandler.GetState() != IStageStateHandler.State.Playing)
+      if (model.stageStateProvider.GetState() != StageEnum.State.Playing)
         return;
 
       pausePresenter.ActivateAsync().Forget();

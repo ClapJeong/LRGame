@@ -171,7 +171,7 @@ namespace LR.UI.GameScene.Dialogue.Root
         case StateType.Before:
           {
             dialogueState = StateType.After;
-            stageStateHandler.SetState(IStageStateHandler.State.Ready);
+            stageStateHandler.SetState(StageEnum.State.Ready);
           }
           break;
 
