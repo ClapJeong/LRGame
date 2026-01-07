@@ -38,14 +38,14 @@ MonoBehaviour:
   <DefaultSignalTriggerData>k__BackingField:
     <QTEData>k__BackingField:
       <UIType>k__BackingField: 0
-      <QTEFailType>k__BackingField: 1
+      <QTEFailType>k__BackingField: 3
       <Count>k__BackingField: 3
       <SequenceDuration>k__BackingField: 3.5
       <QTEDuration>k__BackingField: 1
       <Directions>k__BackingField: 00000000010000000200000003000000
     <ProgressData>k__BackingField:
       <UIType>k__BackingField: 0
-      <Failable>k__BackingField: 0
+      <Failable>k__BackingField: 1
       <BeginValue>k__BackingField: 0.5
       <DecreaseValuePerSecond>k__BackingField: 0.66
       <IncreaseValueOnInput>k__BackingField: 0.1
