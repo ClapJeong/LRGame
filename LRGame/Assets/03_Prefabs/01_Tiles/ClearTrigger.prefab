@@ -174,4 +174,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClearTriggerTileView
   triggerTileType: 0
-  animator: {fileID: 3256540705379991725}
+  <Animator>k__BackingField: {fileID: 3256540705379991725}

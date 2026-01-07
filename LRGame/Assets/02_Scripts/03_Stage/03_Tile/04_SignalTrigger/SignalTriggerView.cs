@@ -94,7 +94,7 @@ namespace LR.Stage.TriggerTile
           alignment = TextAnchor.MiddleCenter
         };
         var textIndex = 2;
-        Handles.Label(transform.position + DebuggingTextSpace * textIndex * Vector3.up, $"{EnterType}: {EnterKey}", labelCenterStyle);
+        Handles.Label(transform.position + DebuggingTextSpace * textIndex * Vector3.up, $"EnterType: {EnterKey}", labelCenterStyle);
         textIndex++;
 
         if(EnterType != EnterSignalType.None)

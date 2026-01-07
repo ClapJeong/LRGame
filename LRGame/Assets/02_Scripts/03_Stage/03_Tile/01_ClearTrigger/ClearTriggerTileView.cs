@@ -6,9 +6,7 @@ namespace LR.Stage.TriggerTile
   public class ClearTriggerTileView : MonoBehaviour, ITriggerTileView
   {
     [SerializeField] private TriggerTileType triggerTileType;
-    [SerializeField] private Animator animator;
-
-    private readonly int enterHash = Animator.StringToHash("Enter");
+    [field: SerializeField] public Animator Animator { get; private set; }
 
     private readonly UnityEvent<Collider2D> onEnter = new();
     private readonly UnityEvent<Collider2D> onExit = new();
@@ -48,13 +46,11 @@ namespace LR.Stage.TriggerTile
     private void OnTriggerEnter2D(Collider2D collision)
     {
       onEnter?.Invoke(collision);
-      animator.SetBool(enterHash, true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
       onExit?.Invoke(collision);
-      animator.SetBool(enterHash, false);
     }
   }
 }

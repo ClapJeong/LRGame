@@ -49,6 +49,7 @@ public class StageManager :
   private readonly EffectService effectService;
   private readonly PlayerService playerSetupService;
   private readonly TriggerTileService triggerTileSetupService;
+  private readonly InteractiveObjectService interactiveObjectService;
 
   private readonly Dictionary<IStageEventSubscriber.StageEventType, UnityEvent> stageEvents = new();  
 
@@ -78,6 +79,7 @@ public class StageManager :
       model.inputQTEService,
       model.inputProgressService);
     triggerTileSetupService = new TriggerTileService();
+    interactiveObjectService = new();
 
     SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, () =>
     {
@@ -100,7 +102,8 @@ public class StageManager :
       SetupCamera(stageDataContainer);
       SetupPlayers(stageDataContainer);
       SetupTriggers(stageDataContainer);
-      SetupDynamicObstacles(stageDataContainer);      
+      SetupBaseInteractiveObjects(stageDataContainer);
+      SetupSignalListeners(stageDataContainer);
     }
     catch
     {
@@ -115,6 +118,8 @@ public class StageManager :
   {
     playerSetupService.RestartAll();
     triggerTileSetupService.RestartAll();
+    interactiveObjectService.RestartAll();
+    signalService.ResetAllSignal();
 
     isLeftExhausted = false;
     isRightExhausted = false;
@@ -133,6 +138,7 @@ public class StageManager :
     IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
+    interactiveObjectService.EnableAll(false);
 
     SetState(StageEnum.State.Success);
   }
@@ -143,6 +149,7 @@ public class StageManager :
 
     playerSetupService.EnableAll(true);
     triggerTileSetupService.EnableAll(true);
+    interactiveObjectService.EnableAll(true);
     SetState(StageEnum.State.Playing);
   }
 
@@ -159,7 +166,7 @@ public class StageManager :
     stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Resume);
 
     playerSetupService.EnableAll(true);
-    triggerTileSetupService.EnableAll(true);
+    
     SetState(StageEnum.State.Playing);
   }
 
@@ -294,11 +301,20 @@ public class StageManager :
     triggerTileSetupService.SetupAsync(model,isEnableImmediately).Forget();
   }
 
-  private void SetupDynamicObstacles(StageDataContainer stageData)
+  private void SetupBaseInteractiveObjects(StageDataContainer stageData)
   {
-    foreach (var dynamicObstalce in stageData.DynamicObstacles)
-    {
+    var model = new InteractiveObjectService.Model(
+      stageData.interactiveObject,
+      this);
+    interactiveObjectService.SetupAsync(model).Forget();
+  }
 
+  private void SetupSignalListeners(StageDataContainer stageData)
+  {
+    foreach (var signalListener in stageData.SignalListeners)
+    {
+      signalService.SubscribeActivate(signalListener.RequireKey, signalListener.OnActivate);
+      signalService.SubscribeDeactivate(signalListener.RequireKey, signalListener.OnDeactivate);
     }
   }
 

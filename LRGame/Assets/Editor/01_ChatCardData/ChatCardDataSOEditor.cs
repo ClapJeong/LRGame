@@ -3,90 +3,93 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ChatCardDatasSO))]
-public class ChatCardDatasSOEditor : Editor
+namespace LR.EditorP
 {
-  private const float TypeLabelWidth = 90f;
-  private const float PortraitPopupWidth = 100f;
-
-  private SerializedProperty durationProp;
-  private SerializedProperty datasProp;
-
-  private void OnEnable()
+  [CustomEditor(typeof(ChatCardDatasSO))]
+  public class ChatCardDatasSOEditor : UnityEditor.Editor
   {
-    durationProp = serializedObject.FindProperty("Duration");
-    datasProp = serializedObject.FindProperty("datas");
+    private const float TypeLabelWidth = 90f;
+    private const float PortraitPopupWidth = 100f;
 
-    SyncEnumEntries();
-  }
+    private SerializedProperty durationProp;
+    private SerializedProperty datasProp;
 
-  public override void OnInspectorGUI()
-  {
-    serializedObject.Update();
-
-    DrawDuration();
-    EditorGUILayout.Space(10f);
-
-    DrawDatas();
-
-    serializedObject.ApplyModifiedProperties();
-  }
-
-  private void DrawDuration()
-  {
-    EditorGUILayout.PropertyField(durationProp);
-  }
-
-  private void DrawDatas()
-  {
-    for (int i = 0; i < datasProp.arraySize; i++)
+    private void OnEnable()
     {
-      var element = datasProp.GetArrayElementAtIndex(i);
+      durationProp = serializedObject.FindProperty("Duration");
+      datasProp = serializedObject.FindProperty("datas");
 
-      var typeProp = element.FindPropertyRelative("type");
-      var portraitProp = element.FindPropertyRelative("portraitType");
-      var keyProp = element.FindPropertyRelative("key");
+      SyncEnumEntries();
+    }
 
-      using (new GUILayout.HorizontalScope(GUI.skin.box))
+    public override void OnInspectorGUI()
+    {
+      serializedObject.Update();
+
+      DrawDuration();
+      EditorGUILayout.Space(10f);
+
+      DrawDatas();
+
+      serializedObject.ApplyModifiedProperties();
+    }
+
+    private void DrawDuration()
+    {
+      EditorGUILayout.PropertyField(durationProp);
+    }
+
+    private void DrawDatas()
+    {
+      for (int i = 0; i < datasProp.arraySize; i++)
       {
-        EditorGUILayout.LabelField(
-            typeProp.enumDisplayNames[typeProp.enumValueIndex],
-            GUILayout.Width(TypeLabelWidth)
-        );
+        var element = datasProp.GetArrayElementAtIndex(i);
 
-        GUILayout.FlexibleSpace();
+        var typeProp = element.FindPropertyRelative("type");
+        var portraitProp = element.FindPropertyRelative("portraitType");
+        var keyProp = element.FindPropertyRelative("key");
 
-        EditorGUILayout.PropertyField(
-            portraitProp,
-            GUIContent.none,
-            GUILayout.Width(PortraitPopupWidth)
-        );
+        using (new GUILayout.HorizontalScope(GUI.skin.box))
+        {
+          EditorGUILayout.LabelField(
+              typeProp.enumDisplayNames[typeProp.enumValueIndex],
+              GUILayout.Width(TypeLabelWidth)
+          );
 
-        GUILayout.FlexibleSpace();
+          GUILayout.FlexibleSpace();
 
-        EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+          EditorGUILayout.PropertyField(
+              portraitProp,
+              GUIContent.none,
+              GUILayout.Width(PortraitPopupWidth)
+          );
+
+          GUILayout.FlexibleSpace();
+
+          EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+        }
       }
     }
-  }
 
-  private void SyncEnumEntries()
-  {
-    serializedObject.Update();
-
-    var so = (ChatCardDatasSO)target;
-
-    foreach (ChatCardType type in Enum.GetValues(typeof(ChatCardType)))
+    private void SyncEnumEntries()
     {
-      bool exists = so.datas.Any(d => d.type == type);
-      if (exists)
-        continue;
+      serializedObject.Update();
 
-      Undo.RecordObject(so, "Add ChatCardData");
+      var so = (ChatCardDatasSO)target;
 
-      so.datas.Add(new ChatCardData(type));
-      EditorUtility.SetDirty(so);
+      foreach (ChatCardType type in Enum.GetValues(typeof(ChatCardType)))
+      {
+        bool exists = so.datas.Any(d => d.type == type);
+        if (exists)
+          continue;
+
+        Undo.RecordObject(so, "Add ChatCardData");
+
+        so.datas.Add(new ChatCardData(type));
+        EditorUtility.SetDirty(so);
+      }
+
+      serializedObject.ApplyModifiedProperties();
     }
-
-    serializedObject.ApplyModifiedProperties();
   }
 }

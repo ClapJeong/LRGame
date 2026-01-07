@@ -1,7 +1,4 @@
-using Cysharp.Threading.Tasks;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace LR.Stage.TriggerTile
 {
@@ -10,7 +7,6 @@ namespace LR.Stage.TriggerTile
     public class Model
     {
       public IStageResultHandler stageResultHandler;
-
       public Model(IStageResultHandler stageResultHandler)
       {
         this.stageResultHandler = stageResultHandler;
@@ -19,6 +15,7 @@ namespace LR.Stage.TriggerTile
 
     private readonly Model model;
     private readonly ClearTriggerTileView view;
+    private readonly int enterHash = Animator.StringToHash("Enter");
 
     private bool isEnable = true;
 
@@ -48,6 +45,8 @@ namespace LR.Stage.TriggerTile
       if (!isEnable)
         return;
 
+      view.Animator.SetBool(enterHash, true);      
+
       switch (view.GetTriggerType())
       {
         case TriggerTileType.LeftClearTrigger:
@@ -68,6 +67,8 @@ namespace LR.Stage.TriggerTile
         return;
       if (!isEnable)
         return;
+
+      view.Animator.SetBool(enterHash, false);
 
       switch (view.GetTriggerType())
       {

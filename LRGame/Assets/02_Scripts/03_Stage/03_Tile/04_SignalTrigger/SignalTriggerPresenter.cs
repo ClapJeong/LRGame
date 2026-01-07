@@ -76,8 +76,6 @@ namespace LR.Stage.TriggerTile
         {
           case SignalTriggerView.EnterSignalType.None:
             {
-              model.signalConsumer.AcquireSignal(view.EnterKey);
-              isSignalAcquired = true;
               OnSignalSuccess();
             }
             break;
@@ -118,8 +116,6 @@ namespace LR.Stage.TriggerTile
         view.transform.position,
         onSuccess: () =>
         {
-          model.signalConsumer.AcquireSignal(view.EnterKey);
-          isSignalAcquired = true;
           OnSignalSuccess();
           reactionController.SetInputting(false);
         },
@@ -152,8 +148,6 @@ namespace LR.Stage.TriggerTile
         onProgress: null,
         onComplete: () =>
         {
-          model.signalConsumer.AcquireSignal(view.EnterKey);
-          isSignalAcquired = true;
           OnSignalSuccess();
           reactionController.SetInputting(false);
         },
@@ -166,6 +160,9 @@ namespace LR.Stage.TriggerTile
 
     private void OnSignalSuccess()
     {
+      model.signalConsumer.AcquireSignal(view.EnterKey);
+      isSignalAcquired = true;
+
       switch (view.AfterSignal)
       {
         case SignalTriggerView.AftersignalType.None:

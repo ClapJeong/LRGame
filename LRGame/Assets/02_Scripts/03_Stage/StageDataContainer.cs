@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using LR.Stage.TriggerTile;
+using LR.Stage.InteractiveObject;
 
 namespace LR.Stage
 {
@@ -21,12 +22,10 @@ namespace LR.Stage
     public GameObject StaticObstacle;
 
     [Space(5)]
-    [SerializeField] private Transform triggerTileRoot;
-    public List<ITriggerTileView> TriggerTiles => triggerTileRoot.GetComponentsInChildren<ITriggerTileView>().ToList();
-
-    [Space(5)]
-    [SerializeField] private Transform dynamicObstacleRoot;
-    public List<DynamicObstacleBase> DynamicObstacles => dynamicObstacleRoot.GetComponentsInChildren<DynamicObstacleBase>().ToList();
+    [SerializeField] private Transform otherObjectsRoot;
+    public List<ITriggerTileView> TriggerTiles => otherObjectsRoot.GetComponentsInChildren<ITriggerTileView>().ToList();
+    public List<SignalListener> SignalListeners => otherObjectsRoot.GetComponentsInChildren<SignalListener>().ToList();
+    public List<IInteractiveObject> interactiveObject => otherObjectsRoot.GetComponentsInChildren<IInteractiveObject>().ToList();
 
     private void OnDrawGizmos()
     {

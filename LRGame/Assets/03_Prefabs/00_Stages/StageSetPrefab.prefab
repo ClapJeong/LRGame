@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 2795293574848619248}
   - component: {fileID: 1707059122569254159}
   - component: {fileID: 3632754153518516536}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,6 +571,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStartPositionGizmo
   playerType: 0
+--- !u!1 &3208777888074650649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6189417601972637222}
+  m_Layer: 0
+  m_Name: Else
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6189417601972637222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3208777888074650649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2296857024260036511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5171395531221210927
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,7 +656,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2014870385907263955}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Static Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -647,6 +678,37 @@ Transform:
   m_Children:
   - {fileID: 1262728284770649762}
   m_Father: {fileID: 1660554643628122752}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5715516677530046468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6913556137515469629}
+  m_Layer: 0
+  m_Name: Triggers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6913556137515469629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5715516677530046468}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2296857024260036511}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6395227980473439729
 GameObject:
@@ -748,7 +810,6 @@ Transform:
   - {fileID: 2887420855805764440}
   - {fileID: 6514421978482831419}
   - {fileID: 2296857024260036511}
-  - {fileID: 5439341171836817573}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &8675462211893113140
@@ -775,12 +836,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d415c2e6cb9a9248be27ce5c6fd25b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageDataContainer
+  <BeforeDialogueIndex>k__BackingField: -1
+  <AfterDialogueIndex>k__BackingField: -1
   CameraSize: 5
   LeftPlayerBeginTransform: {fileID: 1333734844811127813}
   RightPlayerBeginTransform: {fileID: 4710254609666413151}
   StaticObstacle: {fileID: 694102038830734641}
-  triggerTileRoot: {fileID: 2296857024260036511}
-  dynamicObstacleRoot: {fileID: 5439341171836817573}
+  otherObjectsRoot: {fileID: 2296857024260036511}
 --- !u!1 &8555581908954857518
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,7 +853,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2296857024260036511}
   m_Layer: 0
-  m_Name: Triggers
+  m_Name: OtherObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -809,37 +871,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1660554643628122752}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8985664156985806969
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5439341171836817573}
-  m_Layer: 0
-  m_Name: DynamicObstacles
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5439341171836817573
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8985664156985806969}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6913556137515469629}
+  - {fileID: 6189417601972637222}
   m_Father: {fileID: 1660554643628122752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

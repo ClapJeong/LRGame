@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using LR.Stage.TriggerTile;
-using LR.Table.TriggerTile;
 
 public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectControlService<ITriggerTilePresenter>
 {

@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.2.9 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.2.9" pages="18">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.2.9 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.2.9" pages="19">
   <diagram name="페이지-1" id="Bxjqc2yabZfjTHqTZWQi">
     <mxGraphModel dx="690" dy="593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -539,17 +539,17 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;startArrow=classic;startFill=1;endArrow=none;endFill=0;" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-1">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-5" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;startArrow=classic;startFill=1;endArrow=none;endFill=0;">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="130" y="120" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-6" value="LocalManager&lt;div&gt;StageManager&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="-YUBdXTR0BWXJgs94Hmq-5">
-          <mxGeometry x="0.9375" relative="1" as="geometry">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-6" connectable="0" parent="-YUBdXTR0BWXJgs94Hmq-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="LocalManager&lt;div&gt;StageManager&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.9375" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-1" target="-YUBdXTR0BWXJgs94Hmq-4">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-7" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="-YUBdXTR0BWXJgs94Hmq-4">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="190" y="135" />
@@ -557,26 +557,26 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-8" value="No Data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="-YUBdXTR0BWXJgs94Hmq-7">
-          <mxGeometry y="-4" relative="1" as="geometry">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-8" connectable="0" parent="-YUBdXTR0BWXJgs94Hmq-7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No Data" vertex="1">
+          <mxGeometry relative="1" y="-4" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-1" target="-YUBdXTR0BWXJgs94Hmq-2">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-9" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="-YUBdXTR0BWXJgs94Hmq-2">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-10" value="FirstSequence&lt;div&gt;(UIDialogue Actrivate)&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="-YUBdXTR0BWXJgs94Hmq-9">
-          <mxGeometry x="-0.2" relative="1" as="geometry">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-10" connectable="0" parent="-YUBdXTR0BWXJgs94Hmq-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="FirstSequence&lt;div&gt;(UIDialogue Actrivate)&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-1" value="OnPlay" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="290" y="90" width="170" height="60" as="geometry" />
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="OnPlay" vertex="1">
+          <mxGeometry height="60" width="170" x="290" y="90" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-2" target="-YUBdXTR0BWXJgs94Hmq-19">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-21" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="-YUBdXTR0BWXJgs94Hmq-19">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-2" target="-YUBdXTR0BWXJgs94Hmq-4">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-22" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="-YUBdXTR0BWXJgs94Hmq-4">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="240" y="285" />
@@ -584,36 +584,36 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-23" value="Final" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="-YUBdXTR0BWXJgs94Hmq-22">
-          <mxGeometry x="-0.0378" relative="1" as="geometry">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-23" connectable="0" parent="-YUBdXTR0BWXJgs94Hmq-22" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Final" vertex="1">
+          <mxGeometry relative="1" x="-0.0378" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-2" value="OnNextSequence" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="290" y="240" width="170" height="60" as="geometry" />
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="OnNextSequence" vertex="1">
+          <mxGeometry height="60" width="170" x="290" y="240" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-3" target="-YUBdXTR0BWXJgs94Hmq-4">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-11" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="-YUBdXTR0BWXJgs94Hmq-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-3" value="OnSkip" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="290" y="390" width="170" height="60" as="geometry" />
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="OnSkip" vertex="1">
+          <mxGeometry height="60" width="170" x="290" y="390" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-4" value="OnComplete" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="290" y="540" width="170" height="60" as="geometry" />
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="OnComplete" vertex="1">
+          <mxGeometry height="60" width="170" x="290" y="540" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-12" target="-YUBdXTR0BWXJgs94Hmq-3">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-13" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="-YUBdXTR0BWXJgs94Hmq-3">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-12" value="Any" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="590" y="320" width="120" height="60" as="geometry" />
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Any" vertex="1">
+          <mxGeometry height="60" width="120" x="590" y="320" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-18" value="Talking&lt;div&gt;&lt;br&gt;&lt;div&gt;UIDialogue&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="140" width="130" height="60" as="geometry" />
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Talking&lt;div&gt;&lt;br&gt;&lt;div&gt;UIDialogue&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="130" x="540" y="140" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-19" value="Selection&lt;div&gt;&lt;br&gt;&lt;div&gt;UIDialogue/UISelection&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="240" width="130" height="60" as="geometry" />
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-19" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Selection&lt;div&gt;&lt;br&gt;&lt;div&gt;UIDialogue/UISelection&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="130" x="540" y="240" as="geometry" />
         </mxCell>
-        <mxCell id="-YUBdXTR0BWXJgs94Hmq-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=-0.008;entryY=0.4;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-2" target="-YUBdXTR0BWXJgs94Hmq-18">
+        <mxCell id="-YUBdXTR0BWXJgs94Hmq-20" edge="1" parent="1" source="-YUBdXTR0BWXJgs94Hmq-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=-0.008;entryY=0.4;entryDx=0;entryDy=0;entryPerimeter=0;" target="-YUBdXTR0BWXJgs94Hmq-18">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
@@ -792,26 +792,6 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="qE1U2gqnp1Yh7HpxOHg3" name="Tutorial">
-    <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="2VEWVuYP79EHnuAihTzw-2" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="튜토리얼" vertex="1">
-          <mxGeometry height="310" width="260" x="40" y="40" as="geometry" />
-        </mxCell>
-        <mxCell id="2VEWVuYP79EHnuAihTzw-3" parent="2VEWVuYP79EHnuAihTzw-2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="A. 이동 튜토리얼 - 에너지 닳지 않게 해야 함, 뭐 파이프 항상 연결시켜놓는 연출 필요&lt;div&gt;B. 에너지 튜토리얼 - 텍스트 및 완료까지 가면 파이프 끊어지는 연출, 이후 평범하게 진행&lt;/div&gt;&lt;div&gt;실패 시 카드 연출 필요&lt;/div&gt;&lt;div&gt;C. 에너지 회복 튜토리얼 - 오른쪽이 중간에 고갈되는 구조로, 왼쪽이 아이템 사용 가이드, 왼쪽이 고갈되도록, 오른쪽이 사용 가이드&lt;/div&gt;" vertex="1">
-          <mxGeometry height="281" width="260" y="29" as="geometry" />
-        </mxCell>
-        <mxCell id="2VEWVuYP79EHnuAihTzw-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="왼쪽이: 에너지 아이템 - 간단한 WASD QTE로 오른쪽이 회복&lt;div&gt;3개 연속으로 성공해야 함, 이동 불가&lt;br&gt;&lt;div&gt;오른쪽이: 에너지 충전소 - 와다다다 채워서 왼쪽이 회복&lt;/div&gt;&lt;div&gt;채우기 전까지 지속적으로 감소&lt;/div&gt;&lt;div&gt;충전소 기존 영역 방식에서 아이템으로 변경, 이동 불가&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;왼쪽: 인텔리니까 테크닉&lt;/div&gt;&lt;div&gt;오른쪽이: 육체파니까 몸으로&lt;/div&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="170" width="340" x="410" y="40" as="geometry" />
-        </mxCell>
-        <mxCell id="2VEWVuYP79EHnuAihTzw-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="파이프 연결되는 안전지대 필요" vertex="1">
-          <mxGeometry height="110" width="230" x="55" y="470" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
   <diagram id="ozGDsdxRw_XZZuRDdI8H" name="SignalTrigger">
     <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -860,23 +840,81 @@
         <mxCell id="fJC0UearUMBH95-Gja2z-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Signal 편집은 Scene Inspector에서,&lt;div&gt;즉 View를 통해 해야 할 듯&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Signal Trigger가 내보내는 신호는 1개&lt;/div&gt;&lt;div&gt;신호 받는 클래스(컴포넌트)를 따로?&lt;/div&gt;" vertex="1">
           <mxGeometry height="280" width="210" x="560" y="70" as="geometry" />
         </mxCell>
-        <mxCell id="fJC0UearUMBH95-Gja2z-20" edge="1" parent="1" source="fJC0UearUMBH95-Gja2z-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="fJC0UearUMBH95-Gja2z-18">
+        <mxCell id="hiF2pOFhnDuT0sVSDKsm-5" edge="1" parent="1" source="fJC0UearUMBH95-Gja2z-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" target="hiF2pOFhnDuT0sVSDKsm-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="fJC0UearUMBH95-Gja2z-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SignalService" vertex="1">
           <mxGeometry height="60" width="120" x="400" y="510" as="geometry" />
         </mxCell>
-        <mxCell id="fJC0UearUMBH95-Gja2z-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SignalReciever&lt;div&gt;&lt;br&gt;&lt;div&gt;key-&amp;gt;unityAction?&lt;br&gt;view만 참조하느라 실제 로직을 직접 가져오진 못할텐데&lt;/div&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="140" width="180" x="560" y="610" as="geometry" />
-        </mxCell>
         <mxCell id="fJC0UearUMBH95-Gja2z-25" edge="1" parent="1" source="fJC0UearUMBH95-Gja2z-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="fJC0UearUMBH95-Gja2z-17">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="fJC0UearUMBH95-Gja2z-22" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="SignalTriggerTile" vertex="1">
-          <mxGeometry height="120" width="190" x="190" y="600" as="geometry" />
+          <mxGeometry height="120" width="300" x="100" y="600" as="geometry" />
         </mxCell>
-        <mxCell id="fJC0UearUMBH95-Gja2z-23" parent="fJC0UearUMBH95-Gja2z-22" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="OnEnter -&amp;gt; key&lt;div&gt;OnInput(QTE/Progress) -&amp;gt; key&lt;/div&gt;&lt;div&gt;OnExit -&amp;gt; key&lt;/div&gt;" vertex="1">
-          <mxGeometry height="91" width="190" y="29" as="geometry" />
+        <mxCell id="fJC0UearUMBH95-Gja2z-23" parent="fJC0UearUMBH95-Gja2z-22" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&lt;div&gt;OnInput(None /QTE/Progress) -&amp;gt; Register(key)&lt;/div&gt;&lt;div&gt;OnExit -&amp;gt; Unregister(key)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="91" width="300" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="h2W1qpOSli53ABEAT8b6-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Target" vertex="1">
+          <mxGeometry height="60" width="120" x="590" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="hiF2pOFhnDuT0sVSDKsm-4" edge="1" parent="1" source="hiF2pOFhnDuT0sVSDKsm-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="h2W1qpOSli53ABEAT8b6-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hiF2pOFhnDuT0sVSDKsm-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;SignalActivator&lt;/span&gt;" vertex="1">
+          <mxGeometry height="120" width="200" x="550" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="hiF2pOFhnDuT0sVSDKsm-2" parent="hiF2pOFhnDuT0sVSDKsm-1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&lt;div&gt;string key&lt;/div&gt;UnityEvent OnActivate&lt;div&gt;UnityEvent OnDeactivate&lt;/div&gt;" vertex="1">
+          <mxGeometry height="91" width="200" y="29" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="HW89WiUva4s1bPi2TvwA" name="TileActionController">
+    <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="zLu3e94ekzwtr9oXzAAP-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="AutoMover" vertex="1">
+          <mxGeometry height="190" width="180" x="70" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="zLu3e94ekzwtr9oXzAAP-2" parent="zLu3e94ekzwtr9oXzAAP-1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&lt;div&gt;CustomEditor 사용&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Enum Movetype" vertex="1">
+          <mxGeometry height="161" width="180" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="zLu3e94ekzwtr9oXzAAP-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="SignalActivator" vertex="1">
+          <mxGeometry height="60" width="120" x="340" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fivgDUJamKcNCeJXtZau-3" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;Enum Movetype&lt;/span&gt;" vertex="1">
+          <mxGeometry height="130" width="170" x="75" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="fivgDUJamKcNCeJXtZau-4" parent="fivgDUJamKcNCeJXtZau-3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="Straight&lt;div&gt;Repeat&lt;/div&gt;&lt;div&gt;Circle&lt;/div&gt;" vertex="1">
+          <mxGeometry height="101" width="170" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="fivgDUJamKcNCeJXtZau-6" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="ColliderController" vertex="1">
+          <mxGeometry height="54" width="140" x="340" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="fivgDUJamKcNCeJXtZau-7" parent="fivgDUJamKcNCeJXtZau-6" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="별거없음" vertex="1">
+          <mxGeometry height="25" width="140" y="29" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="qE1U2gqnp1Yh7HpxOHg3" name="Tutorial">
+    <mxGraphModel dx="1426" dy="841" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2VEWVuYP79EHnuAihTzw-2" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="튜토리얼" vertex="1">
+          <mxGeometry height="310" width="260" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2VEWVuYP79EHnuAihTzw-3" parent="2VEWVuYP79EHnuAihTzw-2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="A. 이동 튜토리얼 - 에너지 닳지 않게 해야 함, 뭐 파이프 항상 연결시켜놓는 연출 필요&lt;div&gt;B. 에너지 튜토리얼 - 텍스트 및 완료까지 가면 파이프 끊어지는 연출, 이후 평범하게 진행&lt;/div&gt;&lt;div&gt;실패 시 카드 연출 필요&lt;/div&gt;&lt;div&gt;C. 에너지 회복 튜토리얼 - 오른쪽이 중간에 고갈되는 구조로, 왼쪽이 아이템 사용 가이드, 왼쪽이 고갈되도록, 오른쪽이 사용 가이드&lt;/div&gt;" vertex="1">
+          <mxGeometry height="281" width="260" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="2VEWVuYP79EHnuAihTzw-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="왼쪽이: 에너지 아이템 - 간단한 WASD QTE로 오른쪽이 회복&lt;div&gt;3개 연속으로 성공해야 함, 이동 불가&lt;br&gt;&lt;div&gt;오른쪽이: 에너지 충전소 - 와다다다 채워서 왼쪽이 회복&lt;/div&gt;&lt;div&gt;채우기 전까지 지속적으로 감소&lt;/div&gt;&lt;div&gt;충전소 기존 영역 방식에서 아이템으로 변경, 이동 불가&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;왼쪽: 인텔리니까 테크닉&lt;/div&gt;&lt;div&gt;오른쪽이: 육체파니까 몸으로&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="340" x="410" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="2VEWVuYP79EHnuAihTzw-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="파이프 연결되는 안전지대 필요" vertex="1">
+          <mxGeometry height="110" width="230" x="55" y="470" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

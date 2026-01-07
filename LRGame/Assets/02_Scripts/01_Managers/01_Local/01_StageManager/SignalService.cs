@@ -5,7 +5,8 @@ public class SignalService : ISignalKeyRegister, ISignalConsumer, ISignalSubscri
 {
   private class EventSet
   {
-    public readonly UnityEvent unityEvent = new();
+    public readonly UnityEvent onActive = new();
+    public readonly UnityEvent onDeactive = new();
     public int ProviderCount { get; private set; } = 1;
 
     private int activeCount;
@@ -17,11 +18,13 @@ public class SignalService : ISignalKeyRegister, ISignalConsumer, ISignalSubscri
     {
       activeCount++;
       if (activeCount == ProviderCount)
-        unityEvent?.Invoke();
+        onActive?.Invoke();
     }
 
     public void Release()
     {
+      if (activeCount == ProviderCount) 
+        onDeactive?.Invoke();
       activeCount--;
     }
 
@@ -53,17 +56,34 @@ public class SignalService : ISignalKeyRegister, ISignalConsumer, ISignalSubscri
   {
     eventSets[key].Release();
   }
+
+  public void ResetAllSignal()
+  {
+    foreach (var eventSet in eventSets.Values)
+      eventSet.ResetActiveCount();
+  }
   #endregion
 
   #region ISignalSubscriber
-  public void Subscribe(string key, UnityAction action)
+  public void SubscribeActivate(string key, UnityAction activate)
   {
-    eventSets[key].unityEvent.AddListener(action);
+    eventSets[key].onActive.AddListener(activate);
   }
 
-  public void Unsubscribe(string key, UnityAction action)
+  public void UnsubscribeActivate(string key, UnityAction activate)
   {
-    eventSets[key].unityEvent.RemoveListener(action);
+    eventSets[key].onActive.RemoveListener(activate);
   }
+
+  public void SubscribeDeactivate(string key, UnityAction deactivate)
+  {
+    eventSets[key].onDeactive.AddListener(deactivate);
+  }
+
+  public void UnsubscribeDeactivate(string key, UnityAction deactivate)
+  {
+    eventSets[key].onDeactive.RemoveListener(deactivate);
+  }
+
   #endregion
 }

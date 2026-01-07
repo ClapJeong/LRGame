@@ -2,6 +2,11 @@
 
 public interface ISignalSubscriber
 {
-  public void Subscribe(string key, UnityAction action);
-  public void Unsubscribe(string key, UnityAction action);
+  public void SubscribeActivate(string key, UnityAction activate);
+
+  public void UnsubscribeActivate(string key, UnityAction activate);
+
+  public void SubscribeDeactivate(string key, UnityAction deactivate);
+
+  public void UnsubscribeDeactivate(string key, UnityAction deactivate);
 }
