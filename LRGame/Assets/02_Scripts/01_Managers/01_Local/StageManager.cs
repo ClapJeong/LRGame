@@ -151,7 +151,6 @@ public class StageManager :
     stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Pause);
 
     playerSetupService.EnableAll(false);
-    triggerTileSetupService.EnableAll(false);
     SetState(StageEnum.State.Pause);
   }
 
