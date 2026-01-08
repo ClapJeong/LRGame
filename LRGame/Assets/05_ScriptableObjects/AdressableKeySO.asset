@@ -35,6 +35,7 @@ MonoBehaviour:
     rightPlayer: RightPlayer
   <UIName>k__BackingField:
     <PreloadingRoot>k__BackingField: PreloadingRoot
+    <VeryFirstCutscene>k__BackingField: VeryFirstCutscene
     <LobbyRoot>k__BackingField: LobbyRoot
     <LobbyChapterButton>k__BackingField: LobbyChapterButton
     <LobbyChapterPanel>k__BackingField: LobbyChapterPanel

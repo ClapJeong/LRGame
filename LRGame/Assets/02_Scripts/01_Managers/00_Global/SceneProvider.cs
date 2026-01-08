@@ -36,9 +36,13 @@ public class SceneProvider : ISceneProvider
     UnityAction onComplete = null, 
     Func<UniTask> waitUntilLoad = null)
   {
-    var model = new UILoadingPresenter.Model();
-    var view = await CreateLoadingUIViewAsync();
-    var loadingPresenter = new UILoadingPresenter(model, view);
+    UILoadingPresenter loadingPresenter = null;
+    if(useUI)
+    {
+      var model = new UILoadingPresenter.Model();
+      var view = await CreateLoadingUIViewAsync();
+      loadingPresenter = new UILoadingPresenter(model, view);
+    }    
     try
     {
       if(useUI)

@@ -137,6 +137,13 @@ public class GameDataService : IGameDataService
     return targetCondition != null;
   }
 
+  public bool IsVeryFirst()
+  {
+    var topClearData = GetTopClearData();
+    return topClearData.chapter == 0 && topClearData.stage == 0;
+  }
+
+
   #region Debugging
   public void Debugging_RaiseClearData()
   {

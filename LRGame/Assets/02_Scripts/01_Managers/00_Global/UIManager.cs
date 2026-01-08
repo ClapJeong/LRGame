@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour, 
@@ -37,9 +39,17 @@ public class UIManager : MonoBehaviour,
     depthService = new UIDepthService();
     indicatorService = new UIIndicatorService(resourceManager, disableRoot);
     progressSubmitController = new UIProgressSubmitController(selectedGameObjectService, factoryManager.InputActionFactory);
+
+    var updateDisposable = gameObject
+      .UpdateAsObservable()
+      .Subscribe(_ => OnUpdate());
+
+    gameObject
+      .OnDestroyAsObservable()
+      .Subscribe(_ => updateDisposable.Dispose());
   }
 
-  private void Update()
+  private void OnUpdate()
   {
     selectedGameObjectService.UpdateDetectingSelectedObject();
     depthService.UpdateFocusingSelectedGameObject();

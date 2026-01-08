@@ -15,31 +15,20 @@ public class GlobalManager : MonoBehaviour
   public SceneProvider SceneProvider { get; private set; }  
   public UIInputManager UIInputManager { get; private set; }
   public GameDataService GameDataService { get; private set; }
+  public VeryFirstService VeryFirstService { get; private set; }
+
+  [field: Space(10)]
+  [field: SerializeField] public bool PlayVeryFirstCutscene = false;
 
   private CompositeDisposable disposables = new();
+
   private void Awake()
   {
     if (instance == null)
     {
       instance = this;
       DontDestroyOnLoad(gameObject);
-
-      FactoryManager = new ();
-      FactoryManager.Initialize();
-
-      ResourceManager = new ();
-      disposables.Add(ResourceManager);
-
-      UIInputManager = new (Table, FactoryManager.InputActionFactory);
-      disposables.Add(UIInputManager);
-
-      GameDataService = new (ResourceManager);
-      GameDataService.LoadDataAsync().Forget();
-
-      UIManager.Initialize(ResourceManager, FactoryManager);
-
-      SceneProvider = new (ResourceManager, UIManager, Table.AddressableKeySO);
-      SceneProvider.LoadSceneAsync(SceneType.Preloading, false).Forget();
+      InitializeAsync().Forget();
     }
     else
       Destroy(gameObject);
@@ -48,6 +37,28 @@ public class GlobalManager : MonoBehaviour
   private void OnDestroy()
   {
     disposables.Dispose();
+  }
+
+  private async UniTask InitializeAsync()
+  {
+    FactoryManager = new();
+    FactoryManager.Initialize();
+
+    ResourceManager = new();
+    disposables.Add(ResourceManager);
+
+    UIInputManager = new(Table, FactoryManager.InputActionFactory);
+    disposables.Add(UIInputManager);
+
+    GameDataService = new(ResourceManager);
+    await GameDataService.LoadDataAsync();
+
+    UIManager.Initialize(ResourceManager, FactoryManager);
+
+    VeryFirstService = new(Table.AddressableKeySO, ResourceManager, UIManager);
+
+    SceneProvider = new(ResourceManager, UIManager, Table.AddressableKeySO);
+    await SceneProvider.LoadSceneAsync(SceneType.Preloading, false);
   }
 
   public void Test_ChangeLocale(Locale locale)

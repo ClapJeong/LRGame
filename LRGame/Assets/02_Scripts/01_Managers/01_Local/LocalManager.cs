@@ -116,8 +116,30 @@ public partial class LocalManager : MonoBehaviour
           await CreateFirstUIAsync();
           await LoadPreloadAsync();
           await LoadDialogueAsync();
-          ISceneProvider sceneProvider = GlobalManager.instance.SceneProvider;
-          sceneProvider.LoadSceneAsync(SceneType.Lobby, false).Forget();
+
+          var gameDataService = GlobalManager.instance.GameDataService;
+#if UNITY_EDITOR
+          if (GlobalManager.instance.PlayVeryFirstCutscene)
+#else
+if(gameDataService.IsVeryFirst())
+#endif
+          {
+            var veryFirstService = GlobalManager.instance.VeryFirstService;
+            await veryFirstService.CreateFirstTimelineAsync();
+            veryFirstService.PlayFirstTimeline(
+              onComplete: async () =>
+              {
+                gameDataService.SetSelectedStage(0, 1);
+                var sceneProvider = GlobalManager.instance.SceneProvider;
+                await sceneProvider.LoadSceneAsync(SceneType.Game, false);
+                veryFirstService.DestroyCutscene();
+              });
+          }
+          else
+          {
+            var sceneProvider = GlobalManager.instance.SceneProvider;
+            sceneProvider.LoadSceneAsync(SceneType.Lobby, false).Forget();
+          }            
         }
         break;
 
