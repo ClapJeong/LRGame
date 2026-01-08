@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System.Text;
 using UnityEditor;
 #endif
 
@@ -88,22 +89,27 @@ namespace LR.Stage.TriggerTile
     private void OnDrawGizmos()
     {
       if (IsEnterKeyExist)
-      {
+      {        
+        var stb = new StringBuilder("{ " + EnterKey +" }");
+        var index = 0;
+
+        stb.Append($"\nEnterType: {EnterType}");
+        index++;
+
+        if (EnterType != EnterSignalType.None)
+        {
+          stb.Append($"\nInput Fail: {InputFail}");
+          index++;
+        }
+        
+        stb.Append($"\nAfter Signal: {AfterSignal}");
+        index++;
+
         var labelCenterStyle = new GUIStyle(EditorStyles.label)
         {
           alignment = TextAnchor.MiddleCenter
         };
-        var textIndex = 2;
-        Handles.Label(transform.position + DebuggingTextSpace * textIndex * Vector3.up, $"EnterType: {EnterKey}", labelCenterStyle);
-        textIndex++;
-
-        if(EnterType != EnterSignalType.None)
-        {          
-          Handles.Label(transform.position + DebuggingTextSpace * textIndex * Vector3.up, $"Input Fail: {InputFail}", labelCenterStyle);
-          textIndex++;
-        }
-
-        Handles.Label(transform.position + DebuggingTextSpace * textIndex * Vector3.up, $"After Signal: {AfterSignal}", labelCenterStyle);
+        Handles.Label(transform.position + DebuggingTextSpace * index * Vector3.up, stb.ToString(), labelCenterStyle);
       }        
     }
 #endif

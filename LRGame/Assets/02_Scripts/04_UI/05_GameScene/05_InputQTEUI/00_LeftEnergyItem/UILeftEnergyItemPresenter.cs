@@ -64,7 +64,14 @@ namespace LR.UI.GameScene.InputQTE
     public void OnQTEBegin(Direction direction)
     {
       view.FillImages[count].fillAmount = 0.0f;
-      view.TMPs[count].text = direction.ToString();
+      view.TMPs[count].text = direction switch
+      {
+        Direction.Up => "▲",
+        Direction.Right => "▶",
+        Direction.Down => "▼",
+        Direction.Left => "◀",
+        _ => throw new NotImplementedException(),
+      };
     }
 
     public void OnQTECountChanged(int count)

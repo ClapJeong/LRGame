@@ -27,7 +27,7 @@ MonoBehaviour:
     <MaxSpeed>k__BackingField: 5
   <Energy>k__BackingField:
     <MaxEnergy>k__BackingField: 100
-    <DecreasingValue>k__BackingField: 10
+    <DecreasingValue>k__BackingField: 6
     <InvincibleDuration>k__BackingField: 1.5
     <InvincibleBlinkAlphaMax>k__BackingField: 0.8
     <InvincibleBlinkAlphaMin>k__BackingField: 0.2
