@@ -28,10 +28,10 @@ public class ChatCardService : IChatCardService
     this.uiSO = uiSO;
   }
 
-  public async UniTask PlayChatCardAsync(ChatCardType type)
+  public async UniTask PlayChatCardAsync(ChatCardEnum.ID id)
   {
-    var positionType = ParsePositionType(type);
-    var data = datasSO.GetData(type);
+    var positionType = ParsePositionType(id);
+    var data = datasSO.GetData(id);
     if(TryGetPresenter(positionType, out var existPresenter))
     {
       existPresenter.SetData(data);
@@ -124,15 +124,15 @@ public class ChatCardService : IChatCardService
     return presenter != null;
   }
 
-  private CharacterPositionType ParsePositionType(ChatCardType type)
+  private CharacterPositionType ParsePositionType(ChatCardEnum.ID type)
     => type switch
     {
-      ChatCardType.LeftTest => CharacterPositionType.Left,
-      ChatCardType.CenterTest => CharacterPositionType.Center,
-      ChatCardType.RightTest => CharacterPositionType.Right,
-      ChatCardType.LeftTest2 => CharacterPositionType.Left,
-      ChatCardType.CenterTest2 => CharacterPositionType.Center,
-      ChatCardType.RightTest2 => CharacterPositionType.Right,
+      ChatCardEnum.ID.LeftTest => CharacterPositionType.Left,
+      ChatCardEnum.ID.CenterTest => CharacterPositionType.Center,
+      ChatCardEnum.ID.RightTest => CharacterPositionType.Right,
+      ChatCardEnum.ID.LeftTest2 => CharacterPositionType.Left,
+      ChatCardEnum.ID.CenterTest2 => CharacterPositionType.Center,
+      ChatCardEnum.ID.RightTest2 => CharacterPositionType.Right,
       _ => throw new System.NotImplementedException(),
     };
 }

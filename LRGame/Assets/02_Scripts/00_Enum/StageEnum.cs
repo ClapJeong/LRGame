@@ -1,4 +1,4 @@
-﻿public class StageEnum
+﻿public static class StageEnum
 {
   public enum State
   {

@@ -5,10 +5,10 @@ using UnityEngine;
 public interface IInputProgressUIService
 {
   public UniTask<IUIInputProgressPresenter> GetPresenterAsync(
-    InputProgressEnum.InputProgressUIType type,
+    InputProgressEnum.UIType type,
     Transform followTarget);
 
   public UniTask<IUIInputProgressPresenter> GetPresenterAsync(
-    InputProgressEnum.InputProgressUIType type,
+    InputProgressEnum.UIType type,
     Vector2 canvasPosition);
 }

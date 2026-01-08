@@ -31,7 +31,7 @@ namespace LR.UI.Debugging
       root.SetActive(false);
 
       chatCardEnumDropdown.ClearOptions();
-      var names = Enum.GetNames(typeof(ChatCardType));
+      var names = Enum.GetNames(typeof(ChatCardEnum.ID));
       chatCardEnumDropdown.AddOptions(names.ToList());
     }
 

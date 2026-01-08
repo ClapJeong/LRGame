@@ -17,26 +17,26 @@ public class InputProgressUIService : IInputProgressUIService
     this.addressableSO = addressableSO;
   }
 
-  public async UniTask<IUIInputProgressPresenter> GetPresenterAsync(InputProgressEnum.InputProgressUIType type, Transform followTarget)
+  public async UniTask<IUIInputProgressPresenter> GetPresenterAsync(InputProgressEnum.UIType type, Transform followTarget)
   {
     var presenter = await CreateAsync(type);
     presenter.SetFollowTransform(followTarget);
     return presenter;
   }
 
-  public async UniTask<IUIInputProgressPresenter> GetPresenterAsync(InputProgressEnum.InputProgressUIType type, Vector2 canvasPosition)
+  public async UniTask<IUIInputProgressPresenter> GetPresenterAsync(InputProgressEnum.UIType type, Vector2 canvasPosition)
   {
     var presenter = await CreateAsync(type);
     presenter.SetPosition(canvasPosition);
     return presenter;
   }
 
-  private async UniTask<IUIInputProgressPresenter> CreateAsync(InputProgressEnum.InputProgressUIType type)
+  private async UniTask<IUIInputProgressPresenter> CreateAsync(InputProgressEnum.UIType type)
   {
     var viewKey = addressableSO.Path.UI + type.ToString();
     switch (type)
     {
-      case InputProgressEnum.InputProgressUIType.ProgressDefault:
+      case InputProgressEnum.UIType.ProgressDefault:
         {
           var model = new UIRightEnergyItemPresenter.Model();
           var view = await resourceManager.CreateAssetAsync<UIRightEnergyItemView>(viewKey, canvasProvider.GetCanvas(UIRootType.Overlay).transform);

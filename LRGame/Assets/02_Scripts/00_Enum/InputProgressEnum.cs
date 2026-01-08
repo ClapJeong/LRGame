@@ -1,6 +1,6 @@
-﻿public class InputProgressEnum
+﻿public static class InputProgressEnum
 {
-  public enum InputProgressUIType
+  public enum UIType
   {
     ProgressDefault,
   }

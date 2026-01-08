@@ -1,12 +1,12 @@
 ﻿[System.Serializable]
 public class ChatCardData
 {
-  public ChatCardType type;
-  public ChatCardPortraitType portraitType;
+  public ChatCardEnum.ID id;
+  public ChatCardEnum.PortraitType portraitType;
   public string key;
 
-  public ChatCardData(ChatCardType type)
+  public ChatCardData(ChatCardEnum.ID id)
   {
-    this.type = type;
+    this.id = id;
   }
 }

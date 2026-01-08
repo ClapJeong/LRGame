@@ -1,5 +1,4 @@
-﻿using System;
-public class InputQTEEnum
+﻿public static class InputQTEEnum
 {
   public enum UIType
   {

@@ -8,15 +8,21 @@ public interface IStageEventSubscriber
     Pause,
     Resume,
     Complete,
+
     LeftExhausted,
     RightExhausted,
+
     LeftRevived,
     RightRevived,
+
     AllExhausted,
+
     LeftClearEnter,
     LeftClearExit,
+
     RightClearEnter,
     RightClearExit,
+
     Restart,
   }
 

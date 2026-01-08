@@ -5,18 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ChatCardDatasSO", menuName = "SO/ChatCardDatas")]
 public class ChatCardDatasSO : ScriptableObject
 {
-  private readonly Dictionary<ChatCardType, ChatCardData> dataMap = new();
+  private readonly Dictionary<ChatCardEnum.ID, ChatCardData> dataMap = new();
 
   public float Duration;
   [SerializeField] public List<ChatCardData> datas = new();
   
-  public ChatCardData GetData(ChatCardType type)
+  public ChatCardData GetData(ChatCardEnum.ID type)
   {
     if(dataMap.TryGetValue(type, out var existData))
       return existData;
     else
     {
-      var data = datas.FirstOrDefault(data => data.type == type);
+      var data = datas.FirstOrDefault(data => data.id == type);
       dataMap[type] = data;
       return data;
     }

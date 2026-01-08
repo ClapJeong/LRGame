@@ -87,7 +87,7 @@ public partial class LocalManager
 
   public void Debugging_PlayChatCard(int index)
   {
-    var type = (ChatCardType)index;
-    ChatCardService.PlayChatCardAsync(type).Forget();
+    var id = (ChatCardEnum.ID)index;
+    ChatCardService.PlayChatCardAsync(id).Forget();
   }
 }

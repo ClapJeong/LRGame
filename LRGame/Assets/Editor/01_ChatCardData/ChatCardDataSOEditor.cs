@@ -77,9 +77,9 @@ namespace LR.EditorP
 
       var so = (ChatCardDatasSO)target;
 
-      foreach (ChatCardType type in Enum.GetValues(typeof(ChatCardType)))
+      foreach (ChatCardEnum.ID type in Enum.GetValues(typeof(ChatCardEnum.ID)))
       {
-        bool exists = so.datas.Any(d => d.type == type);
+        bool exists = so.datas.Any(d => d.id == type);
         if (exists)
           continue;
 

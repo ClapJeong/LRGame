@@ -2,5 +2,5 @@
 
 public interface IChatCardService
 {
-  public UniTask PlayChatCardAsync(ChatCardType type);
+  public UniTask PlayChatCardAsync(ChatCardEnum.ID id);
 }
