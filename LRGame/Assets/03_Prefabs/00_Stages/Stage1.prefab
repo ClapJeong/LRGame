@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8307301541372237008}
   - component: {fileID: 6470970636405888644}
   - component: {fileID: 5593779312715651021}
+  - component: {fileID: 5066456822110263142}
   m_Layer: 8
   m_Name: AutoMover (1)
   m_TagString: Untagged
@@ -130,7 +131,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startOnAwake: 1
+  startOnAwake: 0
   duration: 3
   waypoints:
   - {x: 3.00006, y: 0, z: 0}
@@ -211,6 +212,38 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &5066456822110263142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216661107957741721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e9097ca54b0ad46965263b6e9e9815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.SignalListener
+  <RequireKey>k__BackingField: 0
+  onActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8307301541372237008}
+        m_TargetAssemblyTypeName: LR.Stage.InteractiveObject.AutoMover.AutoMover,
+          Assembly-CSharp
+        m_MethodName: ActivateMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8793835268701494247
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,6 +257,7 @@ GameObject:
   - component: {fileID: 3176895301956465624}
   - component: {fileID: 7146118687238170370}
   - component: {fileID: 6214371431330820817}
+  - component: {fileID: 5927804943246583025}
   m_Layer: 8
   m_Name: AutoMover (2)
   m_TagString: Untagged
@@ -346,7 +380,7 @@ MonoBehaviour:
   waypoints:
   - {x: 3.00006, y: 0, z: 0}
   radius: 2
-  angle: -152.91
+  angle: 225
 --- !u!61 &7146118687238170370
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -420,6 +454,51 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &5927804943246583025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8793835268701494247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e9097ca54b0ad46965263b6e9e9815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.SignalListener
+  <RequireKey>k__BackingField: 2
+  onActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3176895301956465624}
+        m_TargetAssemblyTypeName: LR.Stage.InteractiveObject.AutoMover.AutoMover,
+          Assembly-CSharp
+        m_MethodName: DeactivateMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDeactivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3176895301956465624}
+        m_TargetAssemblyTypeName: LR.Stage.InteractiveObject.AutoMover.AutoMover,
+          Assembly-CSharp
+        m_MethodName: ActivateMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9113543397392737778
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +512,7 @@ GameObject:
   - component: {fileID: 423582525658800376}
   - component: {fileID: 5905228826234901189}
   - component: {fileID: 6258212330698568808}
+  - component: {fileID: 5034764497874795613}
   m_Layer: 8
   m_Name: AutoMover
   m_TagString: Untagged
@@ -550,7 +630,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startOnAwake: 1
+  startOnAwake: 0
   duration: 5
   waypoints:
   - {x: 3.00006, y: 0, z: 0}
@@ -629,6 +709,38 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &5034764497874795613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9113543397392737778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e9097ca54b0ad46965263b6e9e9815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.SignalListener
+  <RequireKey>k__BackingField: 0
+  onActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 423582525658800376}
+        m_TargetAssemblyTypeName: LR.Stage.InteractiveObject.AutoMover.AutoMover,
+          Assembly-CSharp
+        m_MethodName: ActivateMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &891910069376867234
 PrefabInstance:
   m_ObjectHideFlags: 0

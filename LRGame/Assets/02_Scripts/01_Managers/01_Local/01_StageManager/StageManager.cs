@@ -187,7 +187,10 @@ public class StageManager :
     isLeftExhausted = true;
 
     if (isLeftExhausted && isRightExhausted)
+    {
       stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllExhausted);
+      SetState(StageEnum.State.Fail);
+    }      
   }
 
   public void LeftRevived()
@@ -204,7 +207,10 @@ public class StageManager :
     isRightExhausted = true;
 
     if (isLeftExhausted && isRightExhausted)
+    {
       stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllExhausted);
+      SetState(StageEnum.State.Fail);
+    }      
   }
 
   public void RightRevived()

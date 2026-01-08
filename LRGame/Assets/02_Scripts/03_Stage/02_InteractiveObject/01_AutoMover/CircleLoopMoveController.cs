@@ -1,7 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using UnityEngine;
 
@@ -15,11 +13,13 @@ namespace LR.Stage.InteractiveObject.AutoMover
     private readonly float radius;
     private readonly Vector3 circleCenter;
     private float duration;
-    
-    private float circleTime;
-    private float circleAngleRad = 0f;
 
-    public CircleLoopMoveController(IStageStateProvider stageStateProvider, Transform transform, AnimationCurve animationCurve, float radius, float duration, Vector3 circleCenter)
+    private readonly float beginRad;
+
+    private float normalizedTime;
+    private float circleAngleRad;
+
+    public CircleLoopMoveController(IStageStateProvider stageStateProvider, Transform transform, AnimationCurve animationCurve, float radius, float duration, Vector3 circleCenter, float beginAngle)
     {
       this.stageStateProvider = stageStateProvider;
       this.transform = transform;
@@ -27,6 +27,10 @@ namespace LR.Stage.InteractiveObject.AutoMover
       this.radius = radius;
       this.duration = duration;
       this.circleCenter = circleCenter;
+
+      beginRad = beginAngle * Mathf.Deg2Rad;
+      normalizedTime = 0f;
+      circleAngleRad = 0.0f;
     }
 
     public void UpdateDuration(float duration)
@@ -48,24 +52,25 @@ namespace LR.Stage.InteractiveObject.AutoMover
             continue;
           }
 
-          float prevT = Mathf.Repeat(circleTime / duration, 1f);
+          float prevT = normalizedTime;
           float prevCurve = animationCurve.Evaluate(prevT);
 
-          circleTime += Time.deltaTime;
+          normalizedTime += Time.deltaTime / duration;
+          normalizedTime = Mathf.Repeat(normalizedTime, 1f);
 
-          float currT = Mathf.Repeat(circleTime / duration, 1f);
-          float currCurve = animationCurve.Evaluate(currT);
-
+          float currCurve = animationCurve.Evaluate(normalizedTime);
           float deltaCurve = currCurve - prevCurve;
 
-          // 한 바퀴(2π)에 대한 위치 변화량
           float angleDelta = deltaCurve * Mathf.PI * 2f;
 
-          circleAngleRad -= angleDelta; // 시계 방향
+          // 시작 각도 + curve 위치
+          circleAngleRad -= angleDelta;
+
+          float finalAngle = beginRad + circleAngleRad;
 
           Vector3 offset = new Vector3(
-            Mathf.Cos(circleAngleRad),
-            Mathf.Sin(circleAngleRad),
+            Mathf.Cos(finalAngle),
+            Mathf.Sin(finalAngle),
             0f
           ) * radius;
 
@@ -79,8 +84,8 @@ namespace LR.Stage.InteractiveObject.AutoMover
 
     public void Reset()
     {
-      circleTime = 0.0f;
-      circleAngleRad = 0.0f;
+      normalizedTime = 0f;
+      circleAngleRad = 0f;
     }
   }
 }
