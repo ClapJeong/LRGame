@@ -45,14 +45,14 @@ namespace LR.EditorP
       {
         var element = datasProp.GetArrayElementAtIndex(i);
 
-        var typeProp = element.FindPropertyRelative("type");
+        var id = element.FindPropertyRelative("id");
         var portraitProp = element.FindPropertyRelative("portraitType");
-        var keyProp = element.FindPropertyRelative("key");
+        var localizeKey = element.FindPropertyRelative("localizeKey");
 
         using (new GUILayout.HorizontalScope(GUI.skin.box))
         {
           EditorGUILayout.LabelField(
-              typeProp.enumDisplayNames[typeProp.enumValueIndex],
+              id.enumDisplayNames[id.enumValueIndex],
               GUILayout.Width(TypeLabelWidth)
           );
 
@@ -66,7 +66,7 @@ namespace LR.EditorP
 
           GUILayout.FlexibleSpace();
 
-          EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+          EditorGUILayout.PropertyField(localizeKey, GUIContent.none);
         }
       }
     }

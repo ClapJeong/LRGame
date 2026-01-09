@@ -94,7 +94,7 @@ namespace LR.UI.GameScene.ChatCard
         ".png");
 
       view.PortraitImage.sprite = portrait;
-      view.LocalizeStringEvent.SetEntry(data.key);
+      view.LocalizeStringEvent.SetEntry(data.localizeKey);
       await UniTask.WaitForEndOfFrame();
       LayoutRebuilder.ForceRebuildLayoutImmediate(view.RectTransform);
     }

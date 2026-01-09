@@ -749,6 +749,42 @@
         <mxCell id="IbDrcZkHquFZkqTQo-0I-12" edge="1" parent="1" source="IbDrcZkHquFZkqTQo-0I-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.18;entryDx=0;entryDy=0;entryPerimeter=0;" target="IbDrcZkHquFZkqTQo-0I-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-3" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;StageDataContainer -&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;ChatCardEvent&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="261" width="230" x="540" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-4" parent="TfHECk1xnCxzxaz1VOcc-3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="AfterBeginTime&lt;div&gt;&lt;br&gt;&lt;div&gt;&lt;div&gt;LeftEnergy(normalizedValue)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp;RightEnergy(normalizedValue)&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;LeftClear(bool)&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;RightClear(bool)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;Clear&lt;/div&gt;&lt;div&gt;Fail&lt;/div&gt;&lt;div&gt;Restart&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="221" width="230" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-6" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="Stage" vertex="1">
+          <mxGeometry height="100" width="140" x="510" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-7" parent="TfHECk1xnCxzxaz1VOcc-6" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="AfterBeginTime&lt;div&gt;Complete&lt;/div&gt;&lt;div&gt;Fail&lt;/div&gt;&lt;div&gt;Restart&lt;/div&gt;" vertex="1">
+          <mxGeometry height="71" width="140" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-9" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="Player" vertex="1">
+          <mxGeometry height="100" width="200" x="670" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-10" parent="TfHECk1xnCxzxaz1VOcc-9" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="EnergyChanged(normalized)" vertex="1">
+          <mxGeometry height="71" width="200" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-11" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="Trigger" vertex="1">
+          <mxGeometry height="80" width="160" x="510" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-12" parent="TfHECk1xnCxzxaz1VOcc-11" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&amp;lt;ITriggerTileView, Enter/Exit&amp;gt;" vertex="1">
+          <mxGeometry height="51" width="160" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-13" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="Signal" vertex="1">
+          <mxGeometry height="80" width="190" x="700" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-14" parent="TfHECk1xnCxzxaz1VOcc-13" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="Enter(key)&lt;div&gt;Exit(key)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="190" y="29" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-15" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="ChatCardEventType" vertex="1">
+          <mxGeometry height="54" width="140" x="590" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="TfHECk1xnCxzxaz1VOcc-16" parent="TfHECk1xnCxzxaz1VOcc-15" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&amp;lt;&amp;lt;stereotype1&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="25" width="140" y="29" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

@@ -3,7 +3,7 @@ public class ChatCardData
 {
   public ChatCardEnum.ID id;
   public ChatCardEnum.PortraitType portraitType;
-  public string key;
+  public string localizeKey;
 
   public ChatCardData(ChatCardEnum.ID id)
   {

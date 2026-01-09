@@ -282,14 +282,14 @@ public class StageManager :
 
   private void SetupCamera(StageDataContainer stageData)
   {
-    model.cameraService.SetSize(stageData.CameraSize);
+    model.cameraService.SetSize(stageData.cameraSize);
   }
 
   private void SetupPlayers(StageDataContainer stageData, bool isEnableImmediately = false)
   {
     IStageObjectSetupService<IPlayerPresenter> stageObjectSetupService = playerSetupService;
-    var leftPosition = stageData.LeftPlayerBeginTransform.position;
-    var rightPosition = stageData.RightPlayerBeginTransform.position;
+    var leftPosition = stageData.leftPlayerBeginTransform.position;
+    var rightPosition = stageData.rightPlayerBeginTransform.position;
     stageObjectSetupService.SetupAsync(new PlayerService.SetupData(leftPosition,rightPosition),isEnableImmediately).Forget();
   }
 
@@ -310,7 +310,7 @@ public class StageManager :
   private void SetupBaseInteractiveObjects(StageDataContainer stageData)
   {
     var model = new InteractiveObjectService.Model(
-      stageData.interactiveObject,
+      stageData.InteractiveObject,
       this);
     interactiveObjectService.SetupAsync(model).Forget();
   }
@@ -333,9 +333,9 @@ public class StageManager :
     {
       var data = handle.Result as TextAsset;
       var index = int.Parse(data.name.Split('_')[0]);
-      if (index == stageDataContainer.BeforeDialogueIndex)
+      if (index == stageDataContainer.beforeDialogueIndex)
         beforeDialogueData = JsonUtility.FromJson<DialogueData>(data.text);
-      else if (index == stageDataContainer.AfterDialogueIndex)
+      else if (index == stageDataContainer.afterDialogueIndex)
         afterDialogueData = JsonUtility.FromJson<DialogueData>(data.text);
     }
   }

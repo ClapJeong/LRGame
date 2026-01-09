@@ -8,34 +8,27 @@ namespace LR.Stage
 {
   public class StageDataContainer : MonoBehaviour
   {
-    [field: SerializeField] public int BeforeDialogueIndex { get; private set; } = -1;
-    [field: SerializeField] public int AfterDialogueIndex { get; private set; } = -1;
+    public int beforeDialogueIndex = -1;
+    public int afterDialogueIndex = -1;
+    public float cameraSize;
+    public Transform leftPlayerBeginTransform;
+    public Transform rightPlayerBeginTransform;
+    public GameObject staticObstacle;
+    public Transform otherObjectsRoot;
 
-    [Space(5)]
-    public float CameraSize;
-
-    [Space(5)]
-    public Transform LeftPlayerBeginTransform;
-    public Transform RightPlayerBeginTransform;
-
-    [Space(5)]
-    public GameObject StaticObstacle;
-
-    [Space(5)]
-    [SerializeField] private Transform otherObjectsRoot;
     public List<ITriggerTileView> TriggerTiles => otherObjectsRoot.GetComponentsInChildren<ITriggerTileView>().ToList();
     public List<SignalListener> SignalListeners => otherObjectsRoot.GetComponentsInChildren<SignalListener>().ToList();
-    public List<IInteractiveObject> interactiveObject => otherObjectsRoot.GetComponentsInChildren<IInteractiveObject>().ToList();
+    public List<IInteractiveObject> InteractiveObject => otherObjectsRoot.GetComponentsInChildren<IInteractiveObject>().ToList();
 
     private void OnDrawGizmos()
     {
-      if (CameraSize <= 0.0f)
+      if (cameraSize <= 0.0f)
         return;
 
       Gizmos.color = Color.aquamarine;
       var widthRatio = 16.0f / 9.0f;
-      var widthHalf = CameraSize * widthRatio;
-      var heightHalf = CameraSize;
+      var widthHalf = cameraSize * widthRatio;
+      var heightHalf = cameraSize;
 
       var leftTop = new Vector2(-widthHalf, heightHalf);
       var rightTop = new Vector2(widthHalf, heightHalf);

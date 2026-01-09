@@ -836,12 +836,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d415c2e6cb9a9248be27ce5c6fd25b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageDataContainer
-  <BeforeDialogueIndex>k__BackingField: -1
-  <AfterDialogueIndex>k__BackingField: -1
-  CameraSize: 5
-  LeftPlayerBeginTransform: {fileID: 1333734844811127813}
-  RightPlayerBeginTransform: {fileID: 4710254609666413151}
-  StaticObstacle: {fileID: 694102038830734641}
+  beforeDialogueIndex: -1
+  afterDialogueIndex: -1
+  cameraSize: 8
+  leftPlayerBeginTransform: {fileID: 1333734844811127813}
+  rightPlayerBeginTransform: {fileID: 4710254609666413151}
+  staticObstacle: {fileID: 5415827078261685298}
   otherObjectsRoot: {fileID: 2296857024260036511}
 --- !u!1 &8555581908954857518
 GameObject:
