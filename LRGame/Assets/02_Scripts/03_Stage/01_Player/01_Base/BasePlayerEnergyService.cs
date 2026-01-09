@@ -4,17 +4,26 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
+using static LR.Stage.Player.IPlayerEnergySubscriber;
 
 namespace LR.Stage.Player
 {
-  public class BasePlayerEnergyService : IPlayerEnergyController, IPlayerEnergyUpdater, IPlayerEnergySubscriber, IPlayerEnergyProvider, IDisposable
+  public class BasePlayerEnergyService : 
+    IPlayerEnergyController, 
+    IPlayerEnergyUpdater,
+    IPlayerEnergySubscriber,
+    IPlayerEnergyProvider, 
+    IDisposable
   {
     private readonly PlayerEnergyData playerEnergyData;
     private readonly Dictionary<IPlayerEnergySubscriber.EventType, UnityEvent> energyEvents = new();
     private readonly SpriteRenderer spriteRenderer;
     private readonly CancellationTokenSource cts = new();
+    private readonly Dictionary<float, UnityEvent> aboveEvents = new();
+    private readonly Dictionary<float, UnityEvent> belowEvents = new();
 
     private float energy;
+    private float prevEnergy;
     private bool isUpdateEnergy = false;
     private bool isInvincible = false;
 
@@ -52,6 +61,7 @@ namespace LR.Stage.Player
 
     public void Restart()
     {
+      prevEnergy= playerEnergyData.MaxEnergy;
       energy = playerEnergyData.MaxEnergy;
       isUpdateEnergy = true;
     }
@@ -100,7 +110,24 @@ namespace LR.Stage.Player
          isUpdateEnergy == false)
         return;
 
-      energy = Mathf.Max(0.0f, energy - playerEnergyData.DecreasingValue * deltaTime);
+      prevEnergy = energy;
+      var currentEnergy = Mathf.Max(0.0f, energy - playerEnergyData.DecreasingValue * deltaTime);
+
+      var prevNormalized = prevEnergy / playerEnergyData.MaxEnergy;
+      var currentNormalized = currentEnergy / playerEnergyData.MaxEnergy;
+      if (currentNormalized < prevNormalized)
+      {
+        foreach (var pair in belowEvents)
+          if (IsCrossedDown(prevNormalized, currentNormalized, pair.Key))
+            pair.Value?.Invoke();        
+      }
+      else if (currentNormalized > prevNormalized)
+      {
+        foreach (var pair in aboveEvents)
+          if(IsCrossedUp(prevNormalized, currentNormalized, pair.Key))
+            pair.Value?.Invoke();        
+      }
+      energy = currentEnergy;
 
       if (IsDead)
         energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnExhausted);
@@ -115,6 +142,43 @@ namespace LR.Stage.Player
     {
       isUpdateEnergy = true;
     }
+    #endregion
+
+    #region IPlayerEnergySubscriber
+    public void SubscribeOnChanged(OnChangedType type, float normalizedValue, UnityAction action)
+    {
+      switch (type)
+      {
+        case OnChangedType.Above:
+          aboveEvents.AddEvent(normalizedValue, action);
+          break;
+
+        case OnChangedType.Below:
+          belowEvents.AddEvent(normalizedValue, action);
+          break;
+      }
+    }
+
+    public void UnsubscribeOnChanged(OnChangedType type, float normalizedValue, UnityAction action)
+    {
+      switch (type)
+      {
+        case OnChangedType.Above:
+          aboveEvents.RemoveEvent(normalizedValue, action);
+          break;
+
+        case OnChangedType.Below:
+          belowEvents.RemoveEvent(normalizedValue, action);
+          break;
+      }
+    }
+
+    private static bool IsCrossedDown(float prev, float curr, float normalized)
+       => prev > normalized && curr <= normalized;
+
+    private static bool IsCrossedUp(float prev, float curr, float normalized)
+      => prev < normalized && curr >= normalized;
+
     #endregion
 
     public void Dispose()

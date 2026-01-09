@@ -16,19 +16,19 @@ MonoBehaviour:
   datas:
   - id: 0
     portraitType: 1
-    localizeKey: 
+    localizeKey: cc_leftTest
   - id: 1
     portraitType: 2
-    localizeKey: 
+    localizeKey: cc_centerTest
   - id: 2
     portraitType: 3
-    localizeKey: 
+    localizeKey: cc_rightTest
   - id: 3
     portraitType: 4
-    localizeKey: 
+    localizeKey: cc_leftTest2
   - id: 4
     portraitType: 5
-    localizeKey: 
+    localizeKey: cc_centerTest2
   - id: 5
     portraitType: 6
-    localizeKey: 
+    localizeKey: cc_rightTest2

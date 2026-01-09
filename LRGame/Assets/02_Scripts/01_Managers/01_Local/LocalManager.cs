@@ -78,7 +78,17 @@ public partial class LocalManager : MonoBehaviour
       InputProgressUIService,
       CameraService);
 
+    ChatCardService = new(
+  gameObject,
+  GlobalManager.instance.UIManager,
+  GlobalManager.instance.ResourceManager,
+  GlobalManager.instance.UIManager,
+  GlobalManager.instance.Table.AddressableKeySO,
+  GlobalManager.instance.Table.ChatCardDatasSO,
+  GlobalManager.instance.Table.UISO);
+
     var stageManagerModel = new StageManager.Model(
+      gameObject,
       table: GlobalManager.instance.Table,
       gameDataService: GlobalManager.instance.GameDataService,
       resourceManager: GlobalManager.instance.ResourceManager,
@@ -87,19 +97,11 @@ public partial class LocalManager : MonoBehaviour
       defaultEffectRoot: defaultEffectRoot,
       GlobalManager.instance.FactoryManager.InputActionFactory,
       InputProgressService,
-      InputQTEService);
+      InputQTEService,
+      ChatCardService);
     StageManager = new StageManager(stageManagerModel);
 
     DialogueService = new DialogueService(StageManager);
-
-    ChatCardService = new(
-      gameObject,
-      GlobalManager.instance.UIManager,
-      GlobalManager.instance.ResourceManager,
-      GlobalManager.instance.UIManager,
-      GlobalManager.instance.Table.AddressableKeySO,
-      GlobalManager.instance.Table.ChatCardDatasSO,
-      GlobalManager.instance.Table.UISO);
   }
 
   private async UniTask InitializeSceneAsync()

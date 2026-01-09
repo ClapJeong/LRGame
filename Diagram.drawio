@@ -762,7 +762,7 @@
           <mxGeometry height="71" width="140" y="29" as="geometry" />
         </mxCell>
         <mxCell id="TfHECk1xnCxzxaz1VOcc-9" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="Player" vertex="1">
-          <mxGeometry height="100" width="200" x="670" y="350" as="geometry" />
+          <mxGeometry height="100" width="200" x="700" y="350" as="geometry" />
         </mxCell>
         <mxCell id="TfHECk1xnCxzxaz1VOcc-10" parent="TfHECk1xnCxzxaz1VOcc-9" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="EnergyChanged(normalized)" vertex="1">
           <mxGeometry height="71" width="200" y="29" as="geometry" />
@@ -779,11 +779,11 @@
         <mxCell id="TfHECk1xnCxzxaz1VOcc-14" parent="TfHECk1xnCxzxaz1VOcc-13" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="Enter(key)&lt;div&gt;Exit(key)&lt;/div&gt;" vertex="1">
           <mxGeometry height="51" width="190" y="29" as="geometry" />
         </mxCell>
-        <mxCell id="TfHECk1xnCxzxaz1VOcc-15" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="ChatCardEventType" vertex="1">
-          <mxGeometry height="54" width="140" x="590" y="640" as="geometry" />
+        <mxCell id="WfAWvTuXSQQerW9ID5---4" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=29;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;" value="ChatCardEventService" vertex="1">
+          <mxGeometry height="190" width="290" x="940" y="271" as="geometry" />
         </mxCell>
-        <mxCell id="TfHECk1xnCxzxaz1VOcc-16" parent="TfHECk1xnCxzxaz1VOcc-15" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="&amp;lt;&amp;lt;stereotype1&amp;gt;&amp;gt;" vertex="1">
-          <mxGeometry height="25" width="140" y="29" as="geometry" />
+        <mxCell id="WfAWvTuXSQQerW9ID5---5" parent="WfAWvTuXSQQerW9ID5---4" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;" value="Stage-&amp;gt;IStageSubscriber + 자체 Observable&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Player -&amp;gt; 자체 Observable&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Trigger -&amp;gt; TriggerService 연동&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Signal -&amp;gt; 등록&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Reset 필요&lt;/div&gt;" vertex="1">
+          <mxGeometry height="161" width="290" y="29" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

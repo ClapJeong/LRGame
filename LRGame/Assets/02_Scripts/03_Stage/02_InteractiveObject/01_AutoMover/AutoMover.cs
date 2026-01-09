@@ -74,6 +74,10 @@ namespace LR.Stage.InteractiveObject.AutoMover
       cts.Cancel();
     }
 
+    private void OnDestroy()
+    {
+      cts.Cancel();
+    }
 
     private void OnDrawGizmos()
     {

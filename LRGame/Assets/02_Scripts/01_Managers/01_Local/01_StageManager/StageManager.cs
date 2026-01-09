@@ -19,6 +19,7 @@ public class StageManager :
 {
   public class Model
   {
+    public GameObject localManager;
     public TableContainer table;
     public IGameDataService gameDataService;
     public IResourceManager resourceManager;
@@ -28,9 +29,11 @@ public class StageManager :
     public InputActionFactory inputActionFactory;
     public IInputProgressService inputProgressService;
     public IInputQTEService inputQTEService;
+    public IChatCardService chatCardService;
 
-    public Model(TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory, InputProgressService inputProgressService, IInputQTEService inputQTEService)
+    public Model(GameObject localManager, TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory, IInputProgressService inputProgressService, IInputQTEService inputQTEService, IChatCardService chatCardService)
     {
+      this.localManager = localManager;
       this.table = table;
       this.gameDataService = gameDataService;
       this.resourceManager = resourceManager;
@@ -40,6 +43,7 @@ public class StageManager :
       this.inputActionFactory = inputActionFactory;
       this.inputProgressService = inputProgressService;
       this.inputQTEService = inputQTEService;
+      this.chatCardService = chatCardService;
     }
   }
 
@@ -48,8 +52,9 @@ public class StageManager :
   private readonly SignalService signalService;
   private readonly EffectService effectService;
   private readonly PlayerService playerSetupService;
-  private readonly TriggerTileService triggerTileSetupService;
+  private readonly TriggerTileService triggerTileService;
   private readonly InteractiveObjectService interactiveObjectService;
+  private readonly ChatCardEventService chatCardEventService;
 
   private readonly Dictionary<IStageEventSubscriber.StageEventType, UnityEvent> stageEvents = new();  
 
@@ -78,8 +83,15 @@ public class StageManager :
       model.inputActionFactory,
       model.inputQTEService,
       model.inputProgressService);
-    triggerTileSetupService = new TriggerTileService();
+    triggerTileService = new TriggerTileService();
     interactiveObjectService = new();
+    chatCardEventService = new(
+      model.localManager,
+      model.chatCardService,
+      this,
+      this,
+      triggerTileService,
+      signalService);
 
     SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, () =>
     {
@@ -98,12 +110,13 @@ public class StageManager :
 
       var handles = await model.resourceManager.LoadAssetsAsync(model.table.AddressableKeySO.Label.Dialogue);
       CacheDialogueDatas(handles, stageDataContainer);
-
       SetupCamera(stageDataContainer);
-      SetupPlayers(stageDataContainer);
-      SetupTriggers(stageDataContainer);
-      SetupBaseInteractiveObjects(stageDataContainer);
+      var playerSetupTask = SetupPlayersAsync(stageDataContainer);
+      var triggerSetupTask = SetupTriggersAsync(stageDataContainer);
+      var baseInteractiveObjectSetupTask = SetupBaseInteractiveObjectsAsync(stageDataContainer);
+      await UniTask.WhenAll(playerSetupTask, triggerSetupTask, baseInteractiveObjectSetupTask);
       SetupSignalListeners(stageDataContainer);
+      SetupChatCardEventService(stageDataContainer);
     }
     catch
     {
@@ -117,9 +130,10 @@ public class StageManager :
   public UniTask RestartAsync()
   {
     playerSetupService.RestartAll();
-    triggerTileSetupService.RestartAll();
+    triggerTileService.RestartAll();
     interactiveObjectService.RestartAll();
     signalService.ResetAllSignal();
+    chatCardEventService.Reset();
 
     isLeftExhausted = false;
     isRightExhausted = false;
@@ -135,7 +149,7 @@ public class StageManager :
     stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Complete);
 
     IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
-    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileSetupService;
+    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileService;
     playerController.EnableAll(false);
     triggerTileController.EnableAll(false);
     interactiveObjectService.EnableAll(false);
@@ -148,7 +162,7 @@ public class StageManager :
     stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Begin);
 
     playerSetupService.EnableAll(true);
-    triggerTileSetupService.EnableAll(true);
+    triggerTileService.EnableAll(true);
     interactiveObjectService.EnableAll(true);
     SetState(StageEnum.State.Playing);
   }
@@ -285,15 +299,14 @@ public class StageManager :
     model.cameraService.SetSize(stageData.cameraSize);
   }
 
-  private void SetupPlayers(StageDataContainer stageData, bool isEnableImmediately = false)
+  private async UniTask SetupPlayersAsync(StageDataContainer stageData, bool isEnableImmediately = false)
   {
-    IStageObjectSetupService<IPlayerPresenter> stageObjectSetupService = playerSetupService;
     var leftPosition = stageData.leftPlayerBeginTransform.position;
     var rightPosition = stageData.rightPlayerBeginTransform.position;
-    stageObjectSetupService.SetupAsync(new PlayerService.SetupData(leftPosition,rightPosition),isEnableImmediately).Forget();
+    await playerSetupService.SetupAsync(new PlayerService.SetupData(leftPosition,rightPosition),isEnableImmediately);
   }
 
-  private void SetupTriggers(StageDataContainer stageData, bool isEnableImmediately = false)
+  private async UniTask SetupTriggersAsync(StageDataContainer stageData, bool isEnableImmediately = false)
   {
     var model = new TriggerTileService.Model(
       effectService,
@@ -304,15 +317,15 @@ public class StageManager :
       this.model.inputProgressService,
       this.model.inputQTEService,
       signalService);
-    triggerTileSetupService.SetupAsync(model,isEnableImmediately).Forget();
+    await triggerTileService.SetupAsync(model,isEnableImmediately);
   }
 
-  private void SetupBaseInteractiveObjects(StageDataContainer stageData)
+  private async UniTask SetupBaseInteractiveObjectsAsync(StageDataContainer stageData)
   {
     var model = new InteractiveObjectService.Model(
       stageData.InteractiveObject,
       this);
-    interactiveObjectService.SetupAsync(model).Forget();
+    await interactiveObjectService.SetupAsync(model);
   }
 
   private void SetupSignalListeners(StageDataContainer stageData)
@@ -322,6 +335,14 @@ public class StageManager :
       signalService.SubscribeActivate(signalListener.RequireKey, signalListener.OnActivate);
       signalService.SubscribeDeactivate(signalListener.RequireKey, signalListener.OnDeactivate);
     }
+  }
+
+  private void SetupChatCardEventService(StageDataContainer stageDataContainer)
+  {
+    chatCardEventService.SetupChatCardEvents(
+        playerSetupService.GetPlayer(PlayerType.Left),
+        playerSetupService.GetPlayer(PlayerType.Right),
+        stageDataContainer.chatCardEvents);
   }
 
   #region IDialogueDataProvider

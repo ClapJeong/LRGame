@@ -11,36 +11,29 @@ namespace LR.Editor.StageDataContainer
     {
       float height = 0f;
 
-      height += EditorGUIUtility.singleLineHeight; // playOnce
-      height += EditorGUIUtility.singleLineHeight; // delay
       height += EditorGUIUtility.singleLineHeight; // targetPlayerType
       height += EditorGUIUtility.singleLineHeight; // playerEventType
 
-      var eventType = property.FindPropertyRelative("playerEventType");
+      var playerEventType = property.FindPropertyRelative("playerEventType");
 
-      switch ((ChatCardEnum.PlayerEventType)eventType.enumValueIndex)
+      switch ((ChatCardEnum.PlayerEventType)playerEventType.enumValueIndex)
       {
         case ChatCardEnum.PlayerEventType.OnEnergyChanged:
           height += EditorGUIUtility.singleLineHeight;
+          height += EditorGUIUtility.singleLineHeight; 
           break;
 
         case ChatCardEnum.PlayerEventType.OnStateChanged:
           height += EditorGUIUtility.singleLineHeight;
+          height += EditorGUIUtility.singleLineHeight;
           break;
       }
-
       return height + 8;
     }
 
     public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label)
     {
       rect.height = EditorGUIUtility.singleLineHeight;
-
-      EditorGUI.PropertyField(rect, property.FindPropertyRelative("playOnce"));
-      rect.y += rect.height + 2;
-
-      EditorGUI.PropertyField(rect, property.FindPropertyRelative("delay"));
-      rect.y += rect.height + 2;
 
       EditorGUI.PropertyField(rect, property.FindPropertyRelative("targetPlayerType"));
       rect.y += rect.height + 2;
@@ -56,13 +49,25 @@ namespace LR.Editor.StageDataContainer
               rect,
               property.FindPropertyRelative("targetNormalizedValue")
           );
+
+          rect.y += rect.height + 2;
+
+          EditorGUI.PropertyField(
+              rect,
+              property.FindPropertyRelative("valueType")
+          );
           break;
 
         case ChatCardEnum.PlayerEventType.OnStateChanged:
           EditorGUI.PropertyField(
               rect,
-              property.FindPropertyRelative("targetPlayerState")
-          );
+              property.FindPropertyRelative("targetPlayerState"));
+
+          rect.y += rect.height + 2;
+
+          EditorGUI.PropertyField(
+              rect,
+              property.FindPropertyRelative("enter"));
           break;
       }
     }

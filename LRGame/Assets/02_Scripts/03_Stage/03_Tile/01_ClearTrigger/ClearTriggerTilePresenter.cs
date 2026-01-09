@@ -40,7 +40,7 @@ namespace LR.Stage.TriggerTile
 
     private void OnEnter(Collider2D collider2D)
     {
-      if (collider2D.CompareTag("Player") == false)
+      if (collider2D.CompareTag(Tag.Player) == false)
         return;
       if (!isEnable)
         return;
@@ -63,7 +63,7 @@ namespace LR.Stage.TriggerTile
 
     private void OnExit(Collider2D collider2D)
     {
-      if (collider2D.CompareTag("Player") == false)
+      if (collider2D.CompareTag(Tag.Player) == false)
         return;
       if (!isEnable)
         return;

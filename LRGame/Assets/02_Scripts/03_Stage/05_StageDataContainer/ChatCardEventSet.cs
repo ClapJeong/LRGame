@@ -1,13 +1,15 @@
 ﻿namespace LR.Stage.StageDataContainer
 {
   [System.Serializable]
-  public class ChatCardEventSet : StageEventData
+  public class ChatCardEventSet
   {
     public ChatCardEnum.ID id;
     public ChatCardEnum.EventType eventType;
+    public bool playOnce = true;
+    public float delay = 0.0f;
 
-    public PlayerEventData playerEventData = new();
-    public StageEventData stageEventData = new();
+    public StageEventData stageEventData = new(); 
+    public PlayerEventData playerEventData = new();    
     public SignalEventData signalEventData = new();
     public TriggerTileEventData triggerTileEventData = new();
   }

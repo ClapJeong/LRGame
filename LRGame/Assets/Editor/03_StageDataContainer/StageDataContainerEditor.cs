@@ -52,12 +52,110 @@ namespace LR.Editor.StageDataContainer
           GUI.Label(rect, "Chat Card Events");
         },
 
+        drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
+        {
+          var element = chatCardEventList.GetArrayElementAtIndex(index);
+
+          float line = EditorGUIUtility.singleLineHeight;
+          float space = 6f;
+
+          float y = rect.y + 2;
+
+          var idProp = element.FindPropertyRelative("id");
+          var eventTypeProp = element.FindPropertyRelative("eventType");
+          var playOnceProp = element.FindPropertyRelative("playOnce");
+          var delayProp = element.FindPropertyRelative("delay");
+
+          float half = rect.width * 0.5f;
+
+          // ───── 1줄: id / eventType ─────
+          EditorGUI.PropertyField(
+              new Rect(rect.x, y, half - 4, line),
+              idProp,
+              GUIContent.none
+          );
+
+          EditorGUI.PropertyField(
+              new Rect(rect.x + half, y, half, line),
+              eventTypeProp,
+              GUIContent.none
+          );
+
+          y += line + space;
+
+          // ───── 2줄: playOnce / delay (라벨 + 필드) ─────
+          float labelHeight = EditorGUIUtility.singleLineHeight;
+          float fieldHeight = EditorGUIUtility.singleLineHeight;
+          float spacing = 2f;
+
+          float playOnceWidth = rect.width * 0.3f;
+          float delayWidth = rect.width - playOnceWidth - 4;
+
+          // 라벨 줄
+          EditorGUI.LabelField(
+              new Rect(rect.x, y, playOnceWidth, labelHeight),
+              "Play Once"
+          );
+
+          EditorGUI.LabelField(
+              new Rect(rect.x + playOnceWidth + 4, y, delayWidth, labelHeight),
+              "Delay"
+          );
+
+          y += labelHeight + spacing;
+
+          // 필드 줄
+          EditorGUI.PropertyField(
+              new Rect(rect.x, y, playOnceWidth, fieldHeight),
+              playOnceProp,
+              GUIContent.none
+          );
+
+          EditorGUI.PropertyField(
+              new Rect(rect.x + playOnceWidth + 4, y, delayWidth, fieldHeight),
+              delayProp,
+              GUIContent.none
+          );
+
+          y += fieldHeight + 6;
+
+          // ───── EventData ─────
+          SerializedProperty dataProp = eventTypeProp.enumValueIndex switch
+          {
+            (int)ChatCardEnum.EventType.Stage => element.FindPropertyRelative("stageEventData"),
+            (int)ChatCardEnum.EventType.Player => element.FindPropertyRelative("playerEventData"),
+            (int)ChatCardEnum.EventType.Trigger => element.FindPropertyRelative("triggerTileEventData"),
+            (int)ChatCardEnum.EventType.Signal => element.FindPropertyRelative("signalEventData"),
+            _ => null
+          };
+
+          if (dataProp != null)
+          {
+            float dataHeight = EditorGUI.GetPropertyHeight(dataProp, true);
+
+            EditorGUI.PropertyField(
+                new Rect(rect.x, y, rect.width, dataHeight),
+                dataProp,
+                includeChildren: true
+            );
+          }
+        },
+
         elementHeightCallback = index =>
         {
           var element = chatCardEventList.GetArrayElementAtIndex(index);
           var eventTypeProp = element.FindPropertyRelative("eventType");
 
-          float height = EditorGUIUtility.singleLineHeight + 6;
+          float height = 0f;
+          float line = EditorGUIUtility.singleLineHeight;
+          float space = 6f;
+
+          // id / eventType
+          height += line + space;
+
+          // playOnce / delay (라벨 + 필드)
+          height += (EditorGUIUtility.singleLineHeight * 2) + 6;
+
 
           SerializedProperty dataProp = eventTypeProp.enumValueIndex switch
           {
@@ -71,181 +169,10 @@ namespace LR.Editor.StageDataContainer
           if (dataProp != null)
             height += EditorGUI.GetPropertyHeight(dataProp, true);
 
-          return height + 6;
+          return height + 8;
         },
-
-        drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
-        {
-          var element = chatCardEventList.GetArrayElementAtIndex(index);
-
-          rect.y += 2;
-          rect.height = EditorGUIUtility.singleLineHeight;
-
-          var idProp = element.FindPropertyRelative("id");
-          var eventTypeProp = element.FindPropertyRelative("eventType");
-
-          float half = rect.width * 0.5f;
-
-          EditorGUI.PropertyField(
-              new Rect(rect.x, rect.y, half - 4, rect.height),
-              idProp,
-              GUIContent.none
-          );
-
-          EditorGUI.PropertyField(
-              new Rect(rect.x + half, rect.y, half, rect.height),
-              eventTypeProp,
-              GUIContent.none
-          );
-
-          rect.y += rect.height + 6;
-
-          SerializedProperty dataProp = eventTypeProp.enumValueIndex switch
-          {
-            (int)ChatCardEnum.EventType.Stage => element.FindPropertyRelative("stageEventData"),
-            (int)ChatCardEnum.EventType.Player => element.FindPropertyRelative("playerEventData"),
-            (int)ChatCardEnum.EventType.Trigger => element.FindPropertyRelative("triggerTileEventData"),
-            (int)ChatCardEnum.EventType.Signal => element.FindPropertyRelative("signalEventData"),
-            _ => null
-          };
-
-          if (dataProp != null)
-          {
-            EditorGUI.PropertyField(
-                rect,
-                dataProp,
-                includeChildren: true   // 🔥 핵심
-            );
-          }
-        }
       };
       LoadAllDatas();
-    }
-
-
-    private void DrawStageEventData(
-        Rect rect,
-        SerializedProperty stageData,
-        ref float height)
-    {
-      DrawBaseEventData(rect, stageData, ref height);
-
-      rect.y += height;
-      rect.height = EditorGUIUtility.singleLineHeight;
-
-      EditorGUI.PropertyField(
-          rect,
-          stageData.FindPropertyRelative("stageEventType")
-      );
-
-      height += rect.height + 2;
-    }
-
-    private void DrawPlayerEventData(
-        Rect rect,
-        SerializedProperty playerData,
-        ref float height)
-    {
-      DrawBaseEventData(rect, playerData, ref height);
-
-      rect.y += height;
-      rect.height = EditorGUIUtility.singleLineHeight;
-
-      EditorGUI.PropertyField(
-          rect,
-          playerData.FindPropertyRelative("targetPlayerType")
-      );
-      height += rect.height + 2;
-
-      rect.y += rect.height + 2;
-      var playerEventType = playerData.FindPropertyRelative("playerEventType");
-      EditorGUI.PropertyField(rect, playerEventType);
-      height += rect.height + 2;
-
-      rect.y += rect.height + 2;
-
-      switch ((ChatCardEnum.PlayerEventType)playerEventType.enumValueIndex)
-      {
-        case ChatCardEnum.PlayerEventType.OnEnergyChanged:
-          EditorGUI.PropertyField(
-              rect,
-              playerData.FindPropertyRelative("targetNormalizedValue")
-          );
-          height += rect.height + 2;
-          break;
-
-        case ChatCardEnum.PlayerEventType.OnStateChanged:
-          EditorGUI.PropertyField(
-              rect,
-              playerData.FindPropertyRelative("targetPlayerState")
-          );
-          height += rect.height + 2;
-          break;
-      }
-    }
-
-    private void DrawTriggerEventData(
-        Rect rect,
-        SerializedProperty triggerData,
-        ref float height)
-    {
-      DrawBaseEventData(rect, triggerData, ref height);
-
-      rect.y += height;
-      rect.height = EditorGUIUtility.singleLineHeight;
-
-      EditorGUI.PropertyField(
-          rect,
-          triggerData.FindPropertyRelative("targetTriggerTileType")
-      );
-      height += rect.height + 2;
-
-      rect.y += rect.height + 2;
-      EditorGUI.PropertyField(
-          rect,
-          triggerData.FindPropertyRelative("triggerEventType")
-      );
-      height += rect.height + 2;
-    }
-
-    private void DrawSignalEventData(
-        Rect rect,
-        SerializedProperty signalData,
-        ref float height)
-    {
-      DrawBaseEventData(rect, signalData, ref height);
-
-      rect.y += height;
-      rect.height = EditorGUIUtility.singleLineHeight;
-
-      EditorGUI.PropertyField(
-          rect,
-          signalData.FindPropertyRelative("targetKey")
-      );
-      height += rect.height + 2;
-
-      rect.y += rect.height + 2;
-      EditorGUI.PropertyField(
-          rect,
-          signalData.FindPropertyRelative("signalEventType")
-      );
-      height += rect.height + 2;
-    }
-
-    private void DrawBaseEventData(
-        Rect rect,
-        SerializedProperty baseData,
-        ref float height)
-    {
-      rect.y += height;
-      rect.height = EditorGUIUtility.singleLineHeight;
-
-      EditorGUI.PropertyField(rect, baseData.FindPropertyRelative("playOnce"));
-      height += rect.height + 2;
-
-      rect.y += rect.height + 2;
-      EditorGUI.PropertyField(rect, baseData.FindPropertyRelative("delay"));
-      height += rect.height + 4;
     }
 
     public override void OnInspectorGUI()

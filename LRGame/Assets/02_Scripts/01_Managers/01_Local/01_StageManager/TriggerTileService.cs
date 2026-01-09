@@ -1,8 +1,15 @@
 using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
+using LR.Stage.Player;
 using LR.Stage.TriggerTile;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using static PortraitEnum;
 
-public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter>, IStageObjectControlService<ITriggerTilePresenter>
+public class TriggerTileService : 
+  IStageObjectSetupService<ITriggerTilePresenter>, 
+  IStageObjectControlService<ITriggerTilePresenter>,
+  ITriggerTileEventSubscriber
 {
   public class Model
   {
@@ -30,6 +37,9 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
 
   private readonly List<ITriggerTilePresenter> cachedTriggers = new();
 
+  private readonly Dictionary<PlayerType, Dictionary<TriggerTileType, UnityEvent>> onEnterEvents = new();
+  private readonly Dictionary<PlayerType, Dictionary<TriggerTileType, UnityEvent>> onExitEvents = new();
+
   private Model model;
 
   private bool isSetupComplete = false;
@@ -39,11 +49,18 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
     var presenters = new List<ITriggerTilePresenter>();
     this.model = data as Model;
     var triggerDataSO = GlobalManager.instance.Table.TriggerTileModelSO;
+
+    onEnterEvents[PlayerType.Left] = new();
+    onEnterEvents[PlayerType.Right] = new();
+    onExitEvents[PlayerType.Left] = new();
+    onExitEvents[PlayerType.Right] = new();
+
     ITriggerTilePresenter presenter = null;
 
     foreach (var view in model.existViews)
     {
-      switch (view.GetTriggerType())
+      var tileType = view.GetTriggerType();
+      switch (tileType)
       {
         case TriggerTileType.LeftClearTrigger:
           {
@@ -116,6 +133,28 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
         presenter.Enable(isEnableImmediately);
         presenters.Add(presenter);
         cachedTriggers.Add(presenter);
+
+        view.SubscribeOnEnter(OnTriggerEnter);
+        view.SubscribeOnEnter(OnTriggerExit);
+
+
+        void OnTriggerEnter(Collider2D collider2D)
+        {
+          if (collider2D.CompareTag(Tag.Player) == false)
+            return;
+
+          if (collider2D.TryGetComponent<IPlayerView>(out var playerView))
+            onEnterEvents[playerView.GetPlayerType()].TryInvoke(tileType);
+        }
+
+        void OnTriggerExit(Collider2D collider2D)
+        {
+          if (collider2D.CompareTag(Tag.Player) == false)
+            return;
+
+          if (collider2D.TryGetComponent<IPlayerView>(out var playerView))
+            onExitEvents[playerView.GetPlayerType()].TryInvoke(tileType);
+        }
       }      
     }
 
@@ -145,4 +184,18 @@ public class TriggerTileService : IStageObjectSetupService<ITriggerTilePresenter
   {
     await UniTask.WaitUntil(()=>isSetupComplete);
   }
+
+  #region ITriggerTileEventHandler
+  public void SubscribeOnEnter(PlayerType playerType, TriggerTileType type, UnityAction onEnter)
+    => onEnterEvents[playerType].AddEvent(type, onEnter);
+
+  public void SubscribeOnExit(PlayerType playerType, TriggerTileType type, UnityAction onExit)
+    => onExitEvents[playerType].AddEvent(type, onExit);
+
+  public void UnsubscribeOnEnter(PlayerType playerType, TriggerTileType type, UnityAction onEnter)
+    => onEnterEvents[playerType].RemoveEvent(type, onEnter);
+
+  public void UnsubscribeOnExit(PlayerType playerType, TriggerTileType type, UnityAction onExit)
+    => onEnterEvents[playerType].RemoveEvent(type, onExit);
+  #endregion
 }

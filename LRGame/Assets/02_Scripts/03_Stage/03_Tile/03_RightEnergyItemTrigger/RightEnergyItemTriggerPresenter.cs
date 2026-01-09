@@ -53,7 +53,7 @@ namespace LR.Stage.TriggerTile
     {
       if (isEnable == false)
         return;
-      if (collider2D.CompareTag("Player") == false)
+      if (collider2D.CompareTag(Tag.Player) == false)
         return;
 
       Enable(false);

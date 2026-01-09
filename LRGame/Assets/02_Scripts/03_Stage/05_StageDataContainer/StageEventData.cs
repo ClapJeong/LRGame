@@ -1,8 +1,9 @@
 ﻿namespace LR.Stage.StageDataContainer
 {
   [System.Serializable]
-  public class StageEventData: EventDataBase
+  public class StageEventData
   {
     public ChatCardEnum.StageEventType stageEventType;
+    public float time;
   }
 }

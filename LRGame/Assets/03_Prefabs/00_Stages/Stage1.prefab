@@ -192,7 +192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.size
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: 'triggerTiles.Array.data[0]'
@@ -212,11 +212,31 @@ PrefabInstance:
       objectReference: {fileID: 8734229957748750245}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[0].id
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[1].id
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].id
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].id
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].id
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].id
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].delay
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: <AfterDialogueIndex>k__BackingField
@@ -227,12 +247,180 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[0].eventType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[1].eventType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].eventType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].eventType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].eventType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].eventType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].stageEventData.time
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].stageEventData.time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].stageEventData.time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].stageEventData.time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].stageEventData.time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].stageEventData.time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].stageEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].stageEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].stageEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].stageEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].stageEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].stageEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].playerEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].playerEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].playerEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].signalEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].playerEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].signalEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].playerEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].signalEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].playerEventData.valueType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].playerEventData.valueType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].playerEventData.valueType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].signalEventData.targetKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].playerEventData.valueType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].signalEventData.targetKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].playerEventData.valueType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].signalEventData.targetKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].triggerTileEventData.delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].triggerTileEventData.delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].stageEventData.stageEventType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].triggerTileEventData.playOnce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].triggerTileEventData.playOnce
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[0].playerEventData.playerEventType
@@ -243,11 +431,43 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].playerEventData.targetPlayerType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].playerEventData.targetNormalizedValue
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[2].playerEventData.targetNormalizedValue
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[3].playerEventData.targetNormalizedValue
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].playerEventData.targetNormalizedValue
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].playerEventData.targetNormalizedValue
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[0].triggerTileEventData.targetTriggerTileType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[1].triggerTileEventData.targetTriggerTileType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[4].triggerTileEventData.targetTriggerTileType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[5].triggerTileEventData.targetTriggerTileType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 694102038830734641, guid: a35ea90458ce55648aec757755174e1a, type: 3}
