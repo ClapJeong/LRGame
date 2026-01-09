@@ -8,8 +8,9 @@ namespace LR.EditorP
   [CustomEditor(typeof(ChatCardDatasSO))]
   public class ChatCardDatasSOEditor : UnityEditor.Editor
   {
+    private const string PortraitPath = "Assets/01_Art/00_Sprites/01_ChatPortrait/";
     private const float TypeLabelWidth = 90f;
-    private const float PortraitPopupWidth = 100f;
+    private const float PortraitSize = 100f;
 
     private SerializedProperty durationProp;
     private SerializedProperty datasProp;
@@ -46,7 +47,7 @@ namespace LR.EditorP
         var element = datasProp.GetArrayElementAtIndex(i);
 
         var id = element.FindPropertyRelative("id");
-        var portraitProp = element.FindPropertyRelative("portraitType");
+        var portraitType = element.FindPropertyRelative("portraitType");
         var localizeKey = element.FindPropertyRelative("localizeKey");
 
         using (new GUILayout.HorizontalScope(GUI.skin.box))
@@ -58,11 +59,20 @@ namespace LR.EditorP
 
           GUILayout.FlexibleSpace();
 
-          EditorGUILayout.PropertyField(
-              portraitProp,
+          using (new GUILayout.VerticalScope())
+          {
+            var portraitAssetName = ((ChatCardEnum.PortraitType)portraitType.enumValueIndex).ToString();
+            var portraitAssetPath = PortraitPath + portraitAssetName + ".png";
+            var texture = AssetDatabase.AssetPathExists(portraitAssetPath) ? AssetDatabase.LoadAssetAtPath<Texture2D>(portraitAssetPath)
+                                                                           : null;
+            var rect = GUILayoutUtility.GetRect(PortraitSize, PortraitSize);
+            GUI.DrawTexture(rect, texture, ScaleMode.ScaleToFit);
+
+            EditorGUILayout.PropertyField(
+              portraitType,
               GUIContent.none,
-              GUILayout.Width(PortraitPopupWidth)
-          );
+              GUILayout.Width(PortraitSize));
+          }
 
           GUILayout.FlexibleSpace();
 

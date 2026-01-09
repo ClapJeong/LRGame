@@ -765,6 +765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GlobalManager
   <Table>k__BackingField: {fileID: 436146255533738933}
   <UIManager>k__BackingField: {fileID: 3920139911844893437}
+  PlayVeryFirstCutscene: 0
 --- !u!1 &8757322142351381424
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f359101d4ba3d949a4c3b438117b058, type: 3}
   m_Name: ChatCardDatasSO
   m_EditorClassIdentifier: Assembly-CSharp::ChatCardDatasSO
-  Duration: 2
+  Duration: 0
   datas:
-  - type: 0
-    portraitType: 1
-    key: cc_leftTest
-  - type: 1
-    portraitType: 2
-    key: cc_centerTest
-  - type: 2
-    portraitType: 3
-    key: cc_rightTest
-  - type: 3
-    portraitType: 4
-    key: cc_leftTest2
-  - type: 4
-    portraitType: 5
-    key: cc_centerTest2
-  - type: 5
-    portraitType: 6
-    key: cc_rightTest2
+  - id: 0
+    portraitType: 0
+    localizeKey: 
+  - id: 1
+    portraitType: 0
+    localizeKey: 
+  - id: 2
+    portraitType: 0
+    localizeKey: 
+  - id: 3
+    portraitType: 0
+    localizeKey: 
+  - id: 4
+    portraitType: 0
+    localizeKey: 
+  - id: 5
+    portraitType: 0
+    localizeKey: 

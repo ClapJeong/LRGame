@@ -11,6 +11,7 @@
     private const string CenterPortraitPath = "Assets/01_Art/00_Sprites/00_Portrait/02_Center/";
     private const float PortraitWidth = 100.0f;
     private const float PortraitHeight = 100.0f;
+
     private string GetPortraitPath(CharacterPositionType positionType)
       => positionType switch
       {
