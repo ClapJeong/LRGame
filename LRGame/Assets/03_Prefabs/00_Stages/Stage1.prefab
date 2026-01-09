@@ -191,6 +191,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: 'triggerTiles.Array.data[0]'
       value: 
       objectReference: {fileID: 1834553305678318087}
@@ -207,12 +211,44 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8734229957748750245}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: <AfterDialogueIndex>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: <BeforeDialogueIndex>k__BackingField
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].eventType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].eventType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].playerEventData.playerEventType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].playerEventData.playerEventType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].triggerTileEventData.targetTriggerTileType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].triggerTileEventData.targetTriggerTileType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 694102038830734641, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: m_StaticEditorFlags

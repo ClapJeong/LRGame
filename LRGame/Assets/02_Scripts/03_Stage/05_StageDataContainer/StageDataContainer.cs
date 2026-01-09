@@ -4,7 +4,7 @@ using UnityEngine;
 using LR.Stage.TriggerTile;
 using LR.Stage.InteractiveObject;
 
-namespace LR.Stage
+namespace LR.Stage.StageDataContainer
 {
   public class StageDataContainer : MonoBehaviour
   {
@@ -15,6 +15,7 @@ namespace LR.Stage
     public Transform rightPlayerBeginTransform;
     public GameObject staticObstacle;
     public Transform otherObjectsRoot;
+    public List<ChatCardEventSet> chatCardEvents = new(); 
 
     public List<ITriggerTileView> TriggerTiles => otherObjectsRoot.GetComponentsInChildren<ITriggerTileView>().ToList();
     public List<SignalListener> SignalListeners => otherObjectsRoot.GetComponentsInChildren<SignalListener>().ToList();

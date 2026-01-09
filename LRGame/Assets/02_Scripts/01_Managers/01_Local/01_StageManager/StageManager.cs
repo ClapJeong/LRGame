@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
-using LR.Stage;
 using LR.Stage.Player;
+using LR.Stage.StageDataContainer;
 using LR.Stage.TriggerTile;
 using LR.Table.Dialogue;
 using System.Collections.Generic;
