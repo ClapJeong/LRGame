@@ -106,23 +106,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2002
-    m_Localized: "\uC67C\uCABD \uCC57\uCE74\uB4DC"
+    m_Localized: "\uC67C\uCABD\uC774 \uC5D0\uB108\uC9C0 50% \uBBF8\uB9CC"
     m_Metadata:
       m_Items: []
   - m_Id: 2003
-    m_Localized: "\uAC00\uC6B4\uB370 \uCC57\uCE74\uB4DC"
+    m_Localized: "\uC2A4\uD14C\uC774\uC9C0 \uC2DC\uC791 5\uCD08 \uD6C4"
     m_Metadata:
       m_Items: []
   - m_Id: 2004
-    m_Localized: "\uC624\uB978\uCABD \uCC57\uCE74\uB4DC"
+    m_Localized: "\uC624\uB978\uCABD\uC774 \uC5D0\uB108\uC9C0 30% \uBBF8\uB9CC"
     m_Metadata:
       m_Items: []
   - m_Id: 2005
-    m_Localized: "\uC67C\uCABD \uCC57\uCE74\uB4DC\uC73C\uC73C\uC73C\uC73C\uC73C\uC73C\uC73C\uC73C\uC73C"
+    m_Localized: "\uC67C\uCABD\uC774 \uAC00\uC2DC \uD0C0\uC77C\uC5D0 \uB2FF\uC74C"
     m_Metadata:
       m_Items: []
   - m_Id: 2006
-    m_Localized: "\uAC00\uC6B4\uB370 \uCC57\uCE74\uB4DC\\n\uC77C\uC218\uB3C4\uC788\uB3C4\uAC15\uB2D0\uC218\uACE0\uC788\uACE0\uC637"
+    m_Localized: "0\uBC88 Signal \uC218\uC2E0"
     m_Metadata:
       m_Items: []
   - m_Id: 2007

@@ -133,8 +133,16 @@ if(gameDataService.IsVeryFirst())
               {
                 gameDataService.SetSelectedStage(0, 1);
                 var sceneProvider = GlobalManager.instance.SceneProvider;
-                await sceneProvider.LoadSceneAsync(SceneType.Game, false);
-                veryFirstService.DestroyCutscene();
+                sceneProvider.LoadSceneAsync(
+                  SceneType.Game, 
+                  false,
+                  default,
+                  null,
+                  onComplete: async () =>
+                  {
+                    await UniTask.Delay(10);
+                    veryFirstService.DestroyCutscene();
+                  }).Forget();
               });
           }
           else

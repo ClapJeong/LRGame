@@ -66,10 +66,10 @@ namespace LR.UI.GameScene.InputQTE
       view.FillImages[count].fillAmount = 0.0f;
       view.TMPs[count].text = direction switch
       {
-        Direction.Up => "▲",
-        Direction.Right => "▶",
-        Direction.Down => "▼",
-        Direction.Left => "◀",
+        Direction.Up => "↑",
+        Direction.Right => "→",
+        Direction.Down => "↓",
+        Direction.Left => "←",
         _ => throw new NotImplementedException(),
       };
     }

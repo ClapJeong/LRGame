@@ -264,7 +264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[4].playOnce
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[0].eventType
