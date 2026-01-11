@@ -61,9 +61,15 @@ namespace LR.UI.Indicator
         }
         else
         {
-          view.RectTransform.position = currentTarget.GetCenterPosition();
-          view.RectTransform.SetSize(currentTarget.rect.size);
-          view.RectTransform.localScale = currentTarget.localScale;
+          var targetPos = currentTarget.GetCenterPosition();
+          if(view.RectTransform.position != targetPos)
+            view.RectTransform.position = targetPos;
+          var targetSize = currentTarget.rect.size;
+          if (view.RectTransform.rect.size != targetSize)
+            view.RectTransform.SetSize(targetSize);
+          var targetScale = currentTarget.localScale;
+          if (view.RectTransform.localScale != targetScale)
+            view.RectTransform.localScale = targetScale;
         }
       });
       view.OnDestroyAsObservable().Subscribe(_ => updateDisposable.Dispose());
