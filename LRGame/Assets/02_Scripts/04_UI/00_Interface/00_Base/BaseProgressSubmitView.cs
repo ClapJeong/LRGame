@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -237,6 +238,9 @@ namespace LR.UI
       }  
     }
     #endregion
+
+    public List<Direction> GetEnableDirections()
+      => eventSets.Keys.ToList();
 
     public void ResetProgress(Direction direction)
     {

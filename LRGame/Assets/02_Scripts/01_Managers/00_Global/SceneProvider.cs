@@ -13,7 +13,6 @@ public class SceneProvider : ISceneProvider
 {
   private readonly IResourceManager resourceManager;
   private readonly ICanvasProvider canvasProvider;
-  private readonly AddressableKeySO addressableSO;
   private readonly string loadingUIViewPath;
 
   private SceneType currentScene = SceneType.Initialize;
@@ -23,7 +22,6 @@ public class SceneProvider : ISceneProvider
   {
     this.resourceManager = resourceManager;
     this.canvasProvider = canvasProvider;
-    this.addressableSO = addressableSO;
 
     loadingUIViewPath = addressableSO.Path.UI + addressableSO.UIName.Loading;
   }

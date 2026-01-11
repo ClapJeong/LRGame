@@ -38,7 +38,7 @@ public class UIInputManager : IUIInputActionManager
 
   private readonly TableContainer table;
   private readonly InputActionFactory inputActionFactory;
-  private Dictionary<UIInputDirectionType, InputActionSet> inputSets = new();  
+  private Dictionary<UIInputDirection, InputActionSet> inputSets = new();  
 
   public UIInputManager(TableContainer table, InputActionFactory inputActionFactory)
   {
@@ -53,43 +53,43 @@ public class UIInputManager : IUIInputActionManager
   }
 
 
-  public void SubscribeCanceledEvent(UIInputDirectionType type, UnityAction onCanceled)
+  public void SubscribeCanceledEvent(UIInputDirection type, UnityAction onCanceled)
     => inputSets[type].onCanceled.AddListener(onCanceled);
 
-  public void SubscribePerformedEvent(UIInputDirectionType type, UnityAction onPerformed)
+  public void SubscribePerformedEvent(UIInputDirection type, UnityAction onPerformed)
     => inputSets[type].onPerformed.AddListener(onPerformed);
 
-  public void UnsubscribeCanceledEvent(UIInputDirectionType type, UnityAction onCanceled)
+  public void UnsubscribeCanceledEvent(UIInputDirection type, UnityAction onCanceled)
     => inputSets[type].onCanceled.RemoveListener(onCanceled);
 
-  public void UnsubscribePerformedEvent(UIInputDirectionType type, UnityAction onPerformed)
+  public void UnsubscribePerformedEvent(UIInputDirection type, UnityAction onPerformed)
     => inputSets[type].onPerformed.RemoveListener(onPerformed);
 
-  public void SubscribePerformedEvent(List<UIInputDirectionType> types, UnityAction onPerformed)
+  public void SubscribePerformedEvent(List<UIInputDirection> types, UnityAction onPerformed)
   {
     foreach (var inputDirectionType in types)
       SubscribePerformedEvent(inputDirectionType, onPerformed);
   }
 
-  public void UnsubscribePerformedEvent(List<UIInputDirectionType> types, UnityAction onPerformed)
+  public void UnsubscribePerformedEvent(List<UIInputDirection> types, UnityAction onPerformed)
   {
     foreach (var inputDirectionType in types)
       UnsubscribePerformedEvent(inputDirectionType, onPerformed);
   }
 
-  public void SubscribeCanceledEvent(List<UIInputDirectionType> types, UnityAction onCanceled)
+  public void SubscribeCanceledEvent(List<UIInputDirection> types, UnityAction onCanceled)
   {
     foreach (var inputDirectionType in types)
       SubscribeCanceledEvent(inputDirectionType, onCanceled);
   }
 
-  public void UnsubscribeCanceledEvent(List<UIInputDirectionType> types, UnityAction onCanceled)
+  public void UnsubscribeCanceledEvent(List<UIInputDirection> types, UnityAction onCanceled)
   {
     foreach (var inputDirectionType in types)
       UnsubscribeCanceledEvent(inputDirectionType, onCanceled);
   }
 
-  public bool IsPerforming(UIInputDirectionType type)
+  public bool IsPerforming(UIInputDirection type)
   {
     if (inputSets.TryGetValue(type, out var inputActionSet))
       return inputActionSet.inputAction.IsPressed();
@@ -97,7 +97,7 @@ public class UIInputManager : IUIInputActionManager
       return false;
   }
 
-  public bool IsAnyPerforming(List<UIInputDirectionType> types)
+  public bool IsAnyPerforming(List<UIInputDirection> types)
   {
     foreach(var inputDirectionType in types)
       if(IsPerforming(inputDirectionType)) return true;
@@ -115,17 +115,17 @@ public class UIInputManager : IUIInputActionManager
   {
     var paths = table.UISO.InputPaths;
 
-    inputSets[UIInputDirectionType.LeftLeft] = new InputActionSet(paths.LeftLeftPath, inputActionFactory);
-    inputSets[UIInputDirectionType.LeftRight] = new InputActionSet(paths.LeftRightPath, inputActionFactory);
-    inputSets[UIInputDirectionType.LeftDown] = new InputActionSet(paths.LeftDownPath, inputActionFactory);
-    inputSets[UIInputDirectionType.LeftUp] = new InputActionSet(paths.LeftUpPath, inputActionFactory);
+    inputSets[UIInputDirection.LeftLeft] = new InputActionSet(paths.LeftLeftPath, inputActionFactory);
+    inputSets[UIInputDirection.LeftRight] = new InputActionSet(paths.LeftRightPath, inputActionFactory);
+    inputSets[UIInputDirection.LeftDown] = new InputActionSet(paths.LeftDownPath, inputActionFactory);
+    inputSets[UIInputDirection.LeftUp] = new InputActionSet(paths.LeftUpPath, inputActionFactory);
 
-    inputSets[UIInputDirectionType.RightLeft] = new InputActionSet(paths.RightLeftPath, inputActionFactory);
-    inputSets[UIInputDirectionType.RightRight] = new InputActionSet(paths.RightRightPath, inputActionFactory);
-    inputSets[UIInputDirectionType.RightDown] = new InputActionSet(paths.RightDownPath, inputActionFactory);
-    inputSets[UIInputDirectionType.RightUp] = new InputActionSet(paths.RightUPPath, inputActionFactory);
+    inputSets[UIInputDirection.RightLeft] = new InputActionSet(paths.RightLeftPath, inputActionFactory);
+    inputSets[UIInputDirection.RightRight] = new InputActionSet(paths.RightRightPath, inputActionFactory);
+    inputSets[UIInputDirection.RightDown] = new InputActionSet(paths.RightDownPath, inputActionFactory);
+    inputSets[UIInputDirection.RightUp] = new InputActionSet(paths.RightUPPath, inputActionFactory);
 
-    inputSets[UIInputDirectionType.Space] = new InputActionSet(paths.Space, inputActionFactory);
+    inputSets[UIInputDirection.Space] = new InputActionSet(paths.Space, inputActionFactory);
   }
 
   public void Dispose()

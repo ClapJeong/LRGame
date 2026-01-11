@@ -2,22 +2,22 @@
 
 public static class UIInputDirectionTypeUtil
 {
-  public static List<UIInputDirectionType> GetLefts()
+  public static List<UIInputDirection> GetLefts()
     => new()
     {
-      UIInputDirectionType.LeftUp,
-      UIInputDirectionType.LeftRight,
-      UIInputDirectionType.LeftDown,
-      UIInputDirectionType.LeftLeft,
+      UIInputDirection.LeftUp,
+      UIInputDirection.LeftRight,
+      UIInputDirection.LeftDown,
+      UIInputDirection.LeftLeft,
     };
 
-  public static List<UIInputDirectionType> GetRights()
+  public static List<UIInputDirection> GetRights()
     => new()
     {
-      UIInputDirectionType.RightUp,
-      UIInputDirectionType.RightRight,
-      UIInputDirectionType.RightDown,
-      UIInputDirectionType.RightLeft,
+      UIInputDirection.RightUp,
+      UIInputDirection.RightRight,
+      UIInputDirection.RightDown,
+      UIInputDirection.RightLeft,
     };
 
 }

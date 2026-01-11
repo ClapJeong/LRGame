@@ -39,8 +39,11 @@ public class EffectService : IEffectService
         if(disables.Count < poolingCount)
         {
           enables.Remove(baseEffectObject);
-          baseEffectObject.gameObject.SetActive(false);
-          disables.Enqueue(baseEffectObject);
+          if(baseEffectObject != null)
+          {
+            baseEffectObject.gameObject.SetActive(false);
+            disables.Enqueue(baseEffectObject);
+          }          
         }
         else
         {

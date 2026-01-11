@@ -16,7 +16,7 @@ public class UISO : ScriptableObject
   [field: SerializeField] public float ChatCardShowDuration { get; private set; }
   [field: SerializeField] public float ChatCardHideDuration { get; private set; }
 
-  [field: Space(5)]
+  [field: Header("[ Lobby ]")]
   [field: SerializeField] public float LobbyPanelMoveDuration { get; private set; }
   [field: SerializeField] public Vector3 StageButtonShowScale { get; private set; }
   [field: SerializeField] public Vector3 StageButtonHideScale { get; private set; }
@@ -24,4 +24,9 @@ public class UISO : ScriptableObject
 
   [field: Space(5)]
   [field: SerializeField] public float SliderAmount {  get; private set; }
+
+  [field: Header("[ Stage ]")]
+  [field: SerializeField] public float StageUIMoveDefaultDuration {  get; private set; }
+  [field: SerializeField] public float BeginShowDuration { get; private set; }
+  [field: SerializeField] public float BeginHideDuration { get; private set; }
 }

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Threading;
 using UnityEngine;
 
@@ -6,39 +7,40 @@ namespace LR.UI.GameScene.Stage
 {
   public class UIStageFailView : BaseUIView
   {
-    public RectTransform noneRectTransform;
-    public Transform indicatorRoot;
+    [SerializeField] private Vector2 hidePosition;
+    [SerializeField] private Vector2 showPosition;
+    [SerializeField] private CanvasGroup canvasGroup;
 
-    [Header("[ Quit ]")]
-    public RectTransform quitRectRectTransform;
-    public BaseProgressSubmitView quitProgressSubmitView;
-    public BaseImageView quitBackgroundImageView;
-    public BaseImageView quitFillImageView;
-
-    [Header("[ Restart ]")]
-    public RectTransform restartRectTransform;
-    public BaseProgressSubmitView restartProgressSubmitView;
-    public BaseImageView restartBackgroundImageView;
-    public BaseImageView restartFillImageView;
+    [field: SerializeField] public Transform IndicatorRoot { get; private set; }
+    [field: SerializeField] public UIProgressSubmitViewFillSet RestartProgressSubmitSet { get; private set; }
+    [field: SerializeField] public UIProgressSubmitViewFillSet QuitProgressSubmitSet { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      quitProgressSubmitView.Enable(false);
-      restartProgressSubmitView.Enable(false);
-      gameObject.SetActive(false);
+      visibleState = UIVisibleState.Hiding;
+
+      var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
+      await DOTween.Sequence()
+        .Join(RectTransform.DOAnchorPos(hidePosition, duration))
+        .Join(canvasGroup.DOFade(0.0f, duration))
+        .ToUniTask(TweenCancelBehaviour.Kill, token);
+      
       visibleState = UIVisibleState.Hidden;
-      await UniTask.CompletedTask;
+      gameObject.SetActive(false);
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      quitProgressSubmitView.Enable(true);
-      restartProgressSubmitView.Enable(true);
-      quitBackgroundImageView.SetAlpha(0.4f);
-      restartBackgroundImageView.SetAlpha(0.4f);
       gameObject.SetActive(true);
+      visibleState = UIVisibleState.Showing;
+
+      var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
+      await DOTween.Sequence()
+        .Join(RectTransform.DOAnchorPos(showPosition, duration))
+        .Join(canvasGroup.DOFade(1.0f, duration))
+        .ToUniTask(TweenCancelBehaviour.Kill, token);
+
       visibleState = UIVisibleState.Showen;
-      await UniTask.CompletedTask;
     }
   }
 }

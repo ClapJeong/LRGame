@@ -4,23 +4,23 @@ using UnityEngine.Events;
 
 public interface IUIInputActionManager: IDisposable
 {
-  public void SubscribePerformedEvent(UIInputDirectionType type, UnityAction onPerformed);
+  public void SubscribePerformedEvent(UIInputDirection type, UnityAction onPerformed);
 
-  public void UnsubscribePerformedEvent(UIInputDirectionType type, UnityAction onPerformed);
+  public void UnsubscribePerformedEvent(UIInputDirection type, UnityAction onPerformed);
 
-  public void SubscribeCanceledEvent(UIInputDirectionType type, UnityAction onCanceled);
+  public void SubscribeCanceledEvent(UIInputDirection type, UnityAction onCanceled);
 
-  public void UnsubscribeCanceledEvent(UIInputDirectionType type, UnityAction onCanceled);
+  public void UnsubscribeCanceledEvent(UIInputDirection type, UnityAction onCanceled);
 
-  public void SubscribePerformedEvent(List<UIInputDirectionType> types, UnityAction onPerformed);
+  public void SubscribePerformedEvent(List<UIInputDirection> types, UnityAction onPerformed);
 
-  public void UnsubscribePerformedEvent(List<UIInputDirectionType> types, UnityAction onPerformed);
+  public void UnsubscribePerformedEvent(List<UIInputDirection> types, UnityAction onPerformed);
 
-  public void SubscribeCanceledEvent(List<UIInputDirectionType> types, UnityAction onCanceled);
+  public void SubscribeCanceledEvent(List<UIInputDirection> types, UnityAction onCanceled);
 
-  public void UnsubscribeCanceledEvent(List<UIInputDirectionType> types, UnityAction onCanceled);
+  public void UnsubscribeCanceledEvent(List<UIInputDirection> types, UnityAction onCanceled);
 
-  public bool IsPerforming(UIInputDirectionType type);
+  public bool IsPerforming(UIInputDirection type);
 
-  public bool IsAnyPerforming(List<UIInputDirectionType> types);
+  public bool IsAnyPerforming(List<UIInputDirection> types);
 }

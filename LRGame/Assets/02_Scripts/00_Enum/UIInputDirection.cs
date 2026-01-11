@@ -1,4 +1,4 @@
-public enum UIInputDirectionType
+public enum UIInputDirection
 {
   LeftUp,
   LeftRight,

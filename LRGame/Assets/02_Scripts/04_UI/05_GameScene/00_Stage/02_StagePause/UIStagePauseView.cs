@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using LR.UI.GameScene.Stage.PausePanel;
+using DG.Tweening;
 using System.Threading;
 using UnityEngine;
 
@@ -7,30 +7,40 @@ namespace LR.UI.GameScene.Stage
 {
   public class UIStagePauseView : BaseUIView
   {
-    [Header("[ Base ]")]
-    public Transform IndicatorRoot;
-
-    [Header("[ ResumeButton ]")]
-    public ResumeButtonView resumeButtonViewContainer;
-
-    [Header("[ RestartButton ]")]
-    public BaseButtonView restartButtonViewContainer;
-
-    [Header("[ QuitButton ]")]
-    public BaseButtonView quitButtonViewContainer;
+    [SerializeField] private Vector2 hidePosition;
+    [SerializeField] private Vector2 showPosition;
+    [SerializeField] private CanvasGroup canvasGroup;
+    [field: SerializeField] public RectTransform IndicatorRoot { get; private set; }
+    [field: SerializeField] public UIProgressSubmitViewFillSet ResumeProgressFillSubmit {  get; private set; }
+    [field: SerializeField] public UIProgressSubmitViewFillSet RestartProgressFillSubmit { get; private set; }
+    [field: SerializeField] public UIProgressSubmitViewFillSet QuitProgressFillSubmit { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
-    {
-      gameObject.SetActive(false);
+    {      
+      visibleState = UIVisibleState.Hiding;
+
+      var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
+      await DOTween.Sequence()
+        .Join(RectTransform.DOAnchorPos(hidePosition, duration))
+        .Join(canvasGroup.DOFade(0.0f, duration))
+        .ToUniTask(TweenCancelBehaviour.Kill, token);
+
       visibleState = UIVisibleState.Hidden;
-      await UniTask.CompletedTask;
+      gameObject.SetActive(false);
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       gameObject.SetActive(true);
-      visibleState = UIVisibleState.Showen;
-      await UniTask.CompletedTask;
+      visibleState = UIVisibleState.Showing;
+
+      var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
+      await DOTween.Sequence()
+        .Join(RectTransform.DOAnchorPos(showPosition, duration))
+        .Join(canvasGroup.DOFade(1.0f, duration))
+        .ToUniTask(TweenCancelBehaviour.Kill, token);
+
+      visibleState = UIVisibleState.Showing;
     }
   }
 }

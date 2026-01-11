@@ -41,6 +41,21 @@ namespace LR.UI.GameScene.Stage
       CreateSubscribeHandle();
     }
 
+    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
+    {
+      subscribeHandle.Unsubscribe();
+      await view.HideAsync(isImmediately, token);
+    }
+
+    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
+    {
+      view.LeftReadyImage.SetAlpha(0.4f);
+      view.RightReadyImage.SetAlpha(0.4f);
+
+      subscribeHandle.Subscribe();
+      await view.ShowAsync(isImmediately, token);
+    }
+
     public IDisposable AttachOnDestroy(GameObject target)
       => target.OnDestroyAsObservable().Subscribe(_ => Dispose());
 
@@ -52,34 +67,22 @@ namespace LR.UI.GameScene.Stage
     public UIVisibleState GetVisibleState()
       => view.GetVisibleState();
 
-    public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
-    {
-      subscribeHandle.Unsubscribe();
-      await view.HideAsync(isImmediately, token);
-    }
-
-    public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
-    {
-      subscribeHandle.Subscribe();
-      await view.ShowAsync(isImmediately, token);
-    }
-
     private void CreateSubscribeHandle()
     {
-      var leftInputs = new List<UIInputDirectionType>()
+      var leftInputs = new List<UIInputDirection>()
             {
-              UIInputDirectionType.LeftUp,
-              UIInputDirectionType.LeftRight,
-              UIInputDirectionType.LeftDown,
-              UIInputDirectionType.LeftLeft,
+              UIInputDirection.LeftUp,
+              UIInputDirection.LeftRight,
+              UIInputDirection.LeftDown,
+              UIInputDirection.LeftLeft,
             };
 
-      var rightInputs = new List<UIInputDirectionType>()
+      var rightInputs = new List<UIInputDirection>()
             {
-              UIInputDirectionType.RightUp,
-              UIInputDirectionType.RightRight,
-              UIInputDirectionType.RightDown,
-              UIInputDirectionType.RightLeft,
+              UIInputDirection.RightUp,
+              UIInputDirection.RightRight,
+              UIInputDirection.RightDown,
+              UIInputDirection.RightLeft,
             };
 
       subscribeHandle = new SubscribeHandle(
@@ -117,7 +120,7 @@ namespace LR.UI.GameScene.Stage
     private void OnLeftPerformed()
     {
       leftPerfomedCount++;
-      view.leftImageView.SetAlpha(1.0f);
+      view.LeftReadyImage.SetAlpha(1.0f);
 
       if (IsPlayble())
         BeginStage();
@@ -127,13 +130,13 @@ namespace LR.UI.GameScene.Stage
     {
       leftPerfomedCount--;
       if (leftPerfomedCount == 0)
-        view.leftImageView.SetAlpha(0.4f);
+        view.LeftReadyImage.SetAlpha(0.4f);
     }
 
     private void OnRightPerformed()
     {
       rightPerfomedCount++;
-      view.rightImageView.SetAlpha(1.0f);
+      view.RightReadyImage.SetAlpha(1.0f);
 
       if (IsPlayble())
         BeginStage();
@@ -143,7 +146,7 @@ namespace LR.UI.GameScene.Stage
     {
       rightPerfomedCount--;
       if (rightPerfomedCount == 0)
-        view.rightImageView.SetAlpha(0.4f);
+        view.RightReadyImage.SetAlpha(0.4f);
     }
 
     private bool IsPlayble()

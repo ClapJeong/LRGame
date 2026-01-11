@@ -32,3 +32,6 @@ MonoBehaviour:
   <StageButtonHideScale>k__BackingField: {x: 0.7, y: 0.7, z: 0.7}
   <StageButtonMoveDuration>k__BackingField: 0.15
   <SliderAmount>k__BackingField: 0.15
+  <StageUIMoveDefaultDuration>k__BackingField: 0.3
+  <BeginShowDuration>k__BackingField: 0.3
+  <BeginHideDuration>k__BackingField: 0.2

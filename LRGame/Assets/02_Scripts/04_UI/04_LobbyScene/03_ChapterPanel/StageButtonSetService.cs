@@ -75,7 +75,7 @@ namespace LR.UI.Lobby.ChapterPanel
         exitView.Selectable.AddNavigation(Direction.Up, stageButtonSetView.Selectable);
 
         indicator.SetLeftInputGuide(stageButtonSetView.Selectable.navigation);
-        indicator.SetRightInputGuide(default);
+        indicator.SetRightInputGuide(new Direction[0]);
 
         stageButtonSetMoveCTS.Cancel();
         stageButtonSetMoveCTS.Create();

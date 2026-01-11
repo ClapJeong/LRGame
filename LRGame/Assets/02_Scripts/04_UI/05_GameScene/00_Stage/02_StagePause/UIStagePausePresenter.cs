@@ -1,65 +1,35 @@
 using Cysharp.Threading.Tasks;
-using LR.UI.GameScene.Stage.PausePanel;
 using LR.UI.Indicator;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 namespace LR.UI.GameScene.Stage
 {
   public class UIStagePausePresenter : IUIPresenter
   {
-    private enum SelectingState
-    {
-      None,
-      Resume,
-      Restart,
-      Quit,
-    }
-
     public class Model
     {
-      public IUIInputActionManager uiInputActionManager;
       public IUIIndicatorService indicatorService;
       public ISceneProvider sceneProvider;
       public IStageStateHandler stageService;
+      public IUISelectedGameObjectService selectedGameObjectService;
+      public IUIDepthService depthService;
 
-      public Model(IUIInputActionManager uiInputActionManager, IUIIndicatorService indicatorService, ISceneProvider sceneProvider, IStageStateHandler stageService)
+      public Model(IUIIndicatorService indicatorService, ISceneProvider sceneProvider, IStageStateHandler stageService, IUISelectedGameObjectService selectedGameObjectService, IUIDepthService depthService)
       {
-        this.uiInputActionManager = uiInputActionManager;
         this.indicatorService = indicatorService;
         this.sceneProvider = sceneProvider;
         this.stageService = stageService;
+        this.selectedGameObjectService = selectedGameObjectService;
+        this.depthService = depthService;
       }
     }
-
-    private static readonly List<UIInputDirectionType> QuitButtonEnterDirectionTypes = new()
-    {
-      UIInputDirectionType.LeftUp,
-      UIInputDirectionType.LeftDown,
-    };
-
-    private static readonly List<UIInputDirectionType> RestartButtonEnterDirectionTypes = new()
-    {
-      UIInputDirectionType.LeftRight,
-      UIInputDirectionType.LeftLeft,
-    };
-
-    private static readonly UIInputDirectionType RestartMinDirection = UIInputDirectionType.RightRight;
-    private static readonly UIInputDirectionType RestartMaxDirection = UIInputDirectionType.RightLeft;
-
-    private static readonly UIInputDirectionType QuitMinDirection = UIInputDirectionType.RightUp;
-    private static readonly UIInputDirectionType QuitMaxDirection = UIInputDirectionType.RightDown;
 
     private readonly Model model;
     private readonly UIStagePauseView view;    
 
-    private ResumeButtonPresenter resumePresenter;
-    private BaseButtonPresenter restartPresenter;
-    private BaseButtonPresenter quitPresenter;
-
-    private SelectingState currentState;
-    private SubscribeHandle subscribeHandle;
+    private readonly SubscribeHandle subscribeHandle;
     private IUIIndicatorPresenter currentIndicator;
 
     public UIStagePausePresenter(Model model, UIStagePauseView view)
@@ -67,15 +37,40 @@ namespace LR.UI.GameScene.Stage
       this.view = view;
       this.model = model;
 
-      CreateSubscribeHandle();
+      view.ResumeProgressFillSubmit.Subscribe(
+        view.ResumeProgressFillSubmit.InputDirection,
+        onPerformed: null,
+        onCanceled: null,
+        onProgress: view.ResumeProgressFillSubmit.FillImage.SetFillAmount,
+        onComplete: OnResume);
 
-      CreateResumePresenter();
-      CreateQuitPresenter();
-      CreateRestartPresenter();
+      view.RestartProgressFillSubmit.Subscribe(
+        view.RestartProgressFillSubmit.InputDirection,
+        onPerformed: null,
+        onCanceled: null,
+        onProgress: view.RestartProgressFillSubmit.FillImage.SetFillAmount,
+        onComplete: OnRestart);
 
-      resumePresenter.DeactivateAsync().Forget();
-      restartPresenter.DeactivateAsync().Forget();
-      quitPresenter.DeactivateAsync().Forget();
+      view.QuitProgressFillSubmit.Subscribe(
+        view.QuitProgressFillSubmit.InputDirection,
+        onPerformed: null,
+        onCanceled: null,
+        onProgress: view.QuitProgressFillSubmit.FillImage.SetFillAmount,
+        onComplete: OnQuit);
+
+      subscribeHandle = new SubscribeHandle(
+        () =>
+        {
+          model.selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
+          model.depthService.RaiseDepth(view.RestartProgressFillSubmit.gameObject);
+        },
+        () =>
+        {
+          model.selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
+          model.depthService.LowerDepth();
+          if (currentIndicator != null)
+            ReleaseIndicator();
+        });
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -83,9 +78,6 @@ namespace LR.UI.GameScene.Stage
 
     public void Dispose()
     {
-      if (currentIndicator != null)
-        ReleaseIndicator();
-
       subscribeHandle.Dispose();
       if (view)
         view.DestroySelf();
@@ -96,15 +88,12 @@ namespace LR.UI.GameScene.Stage
       await GetNewIndicatorAsync();
       model.stageService.Pause();      
       subscribeHandle.Subscribe();
-      SetState(SelectingState.Resume);
+      model.depthService.SelectTopObject();
       await view.ShowAsync(isImmediately, token);
     }
 
     public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
-    {
-      if(currentIndicator != null)
-        ReleaseIndicator();
-      SetState(SelectingState.None);
+    {      
       subscribeHandle.Unsubscribe();      
       await view.HideAsync(isImmediately, token);
     }
@@ -112,149 +101,27 @@ namespace LR.UI.GameScene.Stage
     public UIVisibleState GetVisibleState()
       => view.GetVisibleState();
 
-    private void CreateSubscribeHandle()
+    private void OnResume()
     {
-      subscribeHandle = new SubscribeHandle(SubscribeInputActions, UnsubscribeInputActions);
+      DeactivateAsync().Forget();
+      model.stageService.Resume();      
     }
 
-    private void SetState(SelectingState selectingType)
+    private void OnRestart()
     {
-      var prevState = currentState;
-      switch (prevState)
-      {
-        case SelectingState.None:break;
-
-        case SelectingState.Resume:
-          resumePresenter.DeactivateAsync().Forget();
-          break;
-
-        case SelectingState.Restart:
-          restartPresenter.DeactivateAsync().Forget();
-          break;
-
-        case SelectingState.Quit:
-          quitPresenter.DeactivateAsync().Forget();
-          break;
-      }
-
-      if (model.indicatorService.TryGetTopIndicator(out var topIndicator) == false)
-        return;
-      
-      currentState = selectingType;
-      switch (currentState)
-      {
-        case SelectingState.None:
-          {
-            topIndicator.SetLeftInputGuide(null);
-            topIndicator.SetRightInputGuide();
-          }
-          break;
-
-        case SelectingState.Resume:
-          {
-            resumePresenter.ActivateAsync().Forget();
-            
-            var leftGuide = new Dictionary<Direction, IUIIndicatorPresenter.LeftInputGuideType>();
-            foreach (var directionType in QuitButtonEnterDirectionTypes)
-              leftGuide.Add(directionType.ParseToDirection(), IUIIndicatorPresenter.LeftInputGuideType.Movable);
-            foreach (var directionType in RestartButtonEnterDirectionTypes)
-              leftGuide.Add(directionType.ParseToDirection(), IUIIndicatorPresenter.LeftInputGuideType.Movable);
-
-            topIndicator.MoveAsync(view.resumeButtonViewContainer.RectTransform)
-              .ContinueWith(() =>
-              {
-                topIndicator.SetLeftInputGuide(leftGuide);
-                topIndicator.SetRightInputGuide(Direction.Space);
-              }).Forget();
-          }          
-          break;
-
-        case SelectingState.Restart:
-          {
-            restartPresenter.ActivateAsync().Forget();
-            var leftGuide = new Dictionary<Direction, IUIIndicatorPresenter.LeftInputGuideType>();
-            foreach (var directionType in RestartButtonEnterDirectionTypes)
-              leftGuide.Add(directionType.ParseToDirection().ParseOpposite(), IUIIndicatorPresenter.LeftInputGuideType.Clamped);
-
-            topIndicator.MoveAsync(view.restartButtonViewContainer.RectTransform)
-              .ContinueWith(() =>
-              {
-                topIndicator.SetLeftInputGuide(leftGuide);
-                topIndicator.SetRightInputGuide(RestartMinDirection.ParseToDirection(), RestartMaxDirection.ParseToDirection());
-              })
-              .Forget();            
-          }
-          break;
-
-        case SelectingState.Quit:
-          {
-            quitPresenter.ActivateAsync().Forget();
-            var leftGuide = new Dictionary<Direction, IUIIndicatorPresenter.LeftInputGuideType>();
-            foreach (var directionType in QuitButtonEnterDirectionTypes)
-              leftGuide.Add(directionType.ParseToDirection().ParseOpposite(), IUIIndicatorPresenter.LeftInputGuideType.Clamped);
-
-            topIndicator.MoveAsync(view.quitButtonViewContainer.RectTransform)
-              .ContinueWith(() =>
-              {
-                topIndicator.SetLeftInputGuide(leftGuide);
-                topIndicator.SetRightInputGuide(QuitMinDirection.ParseToDirection(), QuitMaxDirection.ParseToDirection());
-              })
-              .Forget();            
-          }          
-          break;
-      }
+      DeactivateAsync().Forget();
+      model.stageService.RestartAsync().Forget();      
     }
 
-    private void CreateResumePresenter()
+    private void OnQuit()
     {
-      var model = new ResumeButtonPresenter.Model(
-        inputDirectionType: UIInputDirectionType.Space,
-        onSubmit: () =>
-        {
-          this.model.stageService.Resume();
-          DeactivateAsync().Forget();          
-        },
-        uiInputActionManager: this.model.uiInputActionManager);
-      var view = this.view.resumeButtonViewContainer;
-      resumePresenter = new ResumeButtonPresenter(model, view);
-      resumePresenter.AttachOnDestroy(this.view.gameObject);
-    }
-
-    private void CreateRestartPresenter()
-    {
-      var model = new BaseButtonPresenter.Model(
-        mininputDirectionType: RestartMinDirection,
-        maxinputDirectionType: RestartMaxDirection,
-        onSubmit: () =>
-        {
-          this.model.stageService.RestartAsync().Forget();
-          DeactivateAsync().Forget();
-        },
-        uiInputActionManager: this.model.uiInputActionManager);
-      var view = this.view.restartButtonViewContainer;
-      restartPresenter = new BaseButtonPresenter(model, view);
-      restartPresenter.AttachOnDestroy(this.view.gameObject);
-    }
-
-    private void CreateQuitPresenter() 
-    {
-      var model = new BaseButtonPresenter.Model(
-        mininputDirectionType: QuitMinDirection,
-        maxinputDirectionType: QuitMaxDirection,
-        onSubmit: () =>
-        {
-          Dispose();
-          this.model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
-        },
-        uiInputActionManager: this.model.uiInputActionManager);
-      var view = this.view.quitButtonViewContainer;
-      quitPresenter = new BaseButtonPresenter(model, view);
-      quitPresenter.AttachOnDestroy(this.view.gameObject);
+      Dispose();
+      model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
     }
 
     private async UniTask GetNewIndicatorAsync()
     {
-      currentIndicator = await model.indicatorService.GetNewAsync(view.IndicatorRoot, view.resumeButtonViewContainer.RectTransform);
+      currentIndicator = await model.indicatorService.GetNewAsync(view.IndicatorRoot, view.ResumeProgressFillSubmit.RectTransform);
     }
 
     private void ReleaseIndicator()
@@ -263,56 +130,15 @@ namespace LR.UI.GameScene.Stage
       currentIndicator = null;
     }
 
-    #region Subscribes
-    private void SubscribeInputActions()
+    private void OnSelectedGameObjectEnter(GameObject gameObject)
     {
-      model.uiInputActionManager.SubscribePerformedEvent(QuitButtonEnterDirectionTypes, OnQuitButtonEnter);
-      model.uiInputActionManager.SubscribeCanceledEvent(QuitButtonEnterDirectionTypes, OnQuitButtonExit);
+      if (gameObject.TryGetComponent<Selectable>(out var selectable))
+        currentIndicator.SetLeftInputGuide(selectable.navigation);
 
-      model.uiInputActionManager.SubscribePerformedEvent(RestartButtonEnterDirectionTypes, OnRestartEnter);
-      model.uiInputActionManager.SubscribeCanceledEvent(RestartButtonEnterDirectionTypes, OnRestartExit);
+      if(gameObject.TryGetComponent<IUIProgressSubmitView>(out var progressSubmitView))
+        currentIndicator.SetRightInputGuide(progressSubmitView);
+      else
+        currentIndicator.SetRightInputGuide(new Direction[0]);
     }
-
-    private void UnsubscribeInputActions()
-    {
-      model.uiInputActionManager.UnsubscribePerformedEvent(QuitButtonEnterDirectionTypes, OnQuitButtonEnter);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(QuitButtonEnterDirectionTypes, OnQuitButtonExit);    
-
-      model.uiInputActionManager.UnsubscribePerformedEvent(RestartButtonEnterDirectionTypes, OnRestartEnter);
-      model.uiInputActionManager.UnsubscribeCanceledEvent(RestartButtonEnterDirectionTypes, OnRestartExit);
-    }
-
-    private void OnQuitButtonEnter()
-    {
-      if (currentState != SelectingState.Resume)
-        return;
-
-      SetState(SelectingState.Quit);
-    }
-
-    private void OnQuitButtonExit()
-    {
-      if (currentState != SelectingState.Quit)
-        return;
-
-      SetState(SelectingState.Resume);
-    }
-
-    private void OnRestartEnter()
-    {
-      if (currentState != SelectingState.Resume)
-        return;
-
-      SetState(SelectingState.Restart);
-    }
-
-    private void OnRestartExit()
-    {
-      if (currentState != SelectingState.Restart)
-        return;
-
-      SetState(SelectingState.Resume);
-    }
-    #endregion
   }
 }

@@ -65,7 +65,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       uiInputActionManager.SubscribePerformedEvent(rightDirections, OnRightPerformed);
       uiInputActionManager.SubscribeCanceledEvent(rightDirections, OnRightCanceled);
 
-      var space = UIInputDirectionType.Space;
+      var space = UIInputDirection.Space;
       uiInputActionManager.SubscribePerformedEvent(space, OnSkipPerformed);
       uiInputActionManager.SubscribeCanceledEvent(space, OnSkipCanceled);
 
@@ -85,7 +85,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       uiInputActionManager.UnsubscribePerformedEvent(rightDirections, OnRightPerformed);
       uiInputActionManager.UnsubscribeCanceledEvent(rightDirections, OnRightCanceled);
 
-      var space = UIInputDirectionType.Space;
+      var space = UIInputDirection.Space;
       uiInputActionManager.UnsubscribePerformedEvent(space, OnSkipPerformed);
       uiInputActionManager.UnsubscribeCanceledEvent(space, OnSkipCanceled);
 

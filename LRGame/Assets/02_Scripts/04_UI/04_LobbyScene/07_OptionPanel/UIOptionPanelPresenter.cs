@@ -52,16 +52,16 @@ namespace LR.UI.Lobby
         () =>
         {
           model.selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObject);
-          model.uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightLeft, OnLeftPerformed);
-          model.uiInputActionManager.SubscribePerformedEvent(UIInputDirectionType.RightRight, OnRightPerformed);
+          model.uiInputActionManager.SubscribePerformedEvent(UIInputDirection.RightLeft, OnLeftPerformed);
+          model.uiInputActionManager.SubscribePerformedEvent(UIInputDirection.RightRight, OnRightPerformed);
 
           model.depthService.RaiseDepth(view.MasterSlider.gameObject);
         },
         () =>
         {
           model.selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObject);
-          model.uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightLeft, OnLeftPerformed);
-          model.uiInputActionManager.UnsubscribePerformedEvent(UIInputDirectionType.RightRight, OnRightPerformed);
+          model.uiInputActionManager.UnsubscribePerformedEvent(UIInputDirection.RightLeft, OnLeftPerformed);
+          model.uiInputActionManager.UnsubscribePerformedEvent(UIInputDirection.RightRight, OnRightPerformed);
 
           model.depthService.LowerDepth();
         });

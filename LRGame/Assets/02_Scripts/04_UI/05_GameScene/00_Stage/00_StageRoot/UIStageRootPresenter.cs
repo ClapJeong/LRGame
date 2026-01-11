@@ -42,7 +42,7 @@ namespace LR.UI.GameScene.Stage
       }
     }
 
-    private static readonly UIInputDirectionType PauseEnterDirection = UIInputDirectionType.Space;
+    private static readonly UIInputDirection PauseEnterDirection = UIInputDirection.Space;
 
     private readonly Model model;
     private readonly UIStageRootView view;
@@ -62,10 +62,10 @@ namespace LR.UI.GameScene.Stage
       CreateSuccessPresenter();
       CreatePausePresenter();
 
-      beginPresenter.DeactivateAsync().Forget();
-      failPresenter.DeactivateAsync().Forget();
-      successPresenter.DeactivateAsync().Forget();
-      pausePresenter.DeactivateAsync().Forget();
+      beginPresenter.DeactivateAsync(true).Forget();
+      failPresenter.DeactivateAsync(true).Forget();
+      successPresenter.DeactivateAsync(true).Forget();
+      pausePresenter.DeactivateAsync(true).Forget();
 
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, OnStageFailed);
 
@@ -128,11 +128,12 @@ namespace LR.UI.GameScene.Stage
 
     private void CreateFailPresenter()
     {
-      var model = new UIStageFailPresenter.Model(
-        uiInputActionManager: this.model.uiInputActionManager,
+      var model = new UIStageFailPresenter.Model(        
         indicatorService: this.model.uiManager.GetIUIIndicatorService(),
         stageService: this.model.stageStateHandler,
-        sceneProvider: this.model.sceneProvider);
+        sceneProvider: this.model.sceneProvider,
+        selectedGameObjectService: this.model.uiManager.GetIUISelectedGameObjectService(),
+        depthService: this.model.uiManager.GetIUIDepthService());
       var failView = view.failViewContainer;
       failPresenter = new UIStageFailPresenter(model, failView);
       failPresenter.AttachOnDestroy(view.gameObject);
@@ -142,10 +143,11 @@ namespace LR.UI.GameScene.Stage
     {
       var model = new UIStageSuccessPresenter.Model(
         gameDataService: this.model.gameDataService,
-        uiInputActionManager: this.model.uiInputActionManager,
         indicatorService: this.model.uiManager.GetIUIIndicatorService(),
+        sceneProvider: this.model.sceneProvider, 
         stageService: this.model.stageStateHandler,
-        sceneProvider: this.model.sceneProvider);
+        selectedGameObjectService: this.model.uiManager.GetIUISelectedGameObjectService(),
+        depthService: this.model.uiManager.GetIUIDepthService());
       var view = this.view.successViewContainer;
       successPresenter = new UIStageSuccessPresenter(model, view);
       successPresenter.AttachOnDestroy(this.view.gameObject);
@@ -154,10 +156,11 @@ namespace LR.UI.GameScene.Stage
     private void CreatePausePresenter()
     {
       var model = new UIStagePausePresenter.Model(
-        uiInputActionManager: this.model.uiInputActionManager,
         indicatorService: this.model.uiManager.GetIUIIndicatorService(),
         sceneProvider: this.model.sceneProvider,
-        stageService: this.model.stageStateHandler);
+        stageService: this.model.stageStateHandler,
+        selectedGameObjectService: this.model.uiManager.GetIUISelectedGameObjectService(),
+        depthService: this.model.uiManager.GetIUIDepthService());
       var view = this.view.pauseViewContainer;
       pausePresenter = new UIStagePausePresenter(model, view);
       pausePresenter.AttachOnDestroy(this.view.gameObject);

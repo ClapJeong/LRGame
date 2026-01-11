@@ -219,6 +219,9 @@ namespace LR.UI.Indicator
       foreach (var elseView in elseViews)
         elseView.SetAlpha(DisableAlpha);
     }
+
+    public void SetRightInputGuide(IUIProgressSubmitView progressSubmitView)
+      => SetRightInputGuide(progressSubmitView.GetEnableDirections().ToArray());
     #endregion
 
     private async UniTask ChangeFollowTargetAsync(RectTransform newTarget, CancellationToken token)

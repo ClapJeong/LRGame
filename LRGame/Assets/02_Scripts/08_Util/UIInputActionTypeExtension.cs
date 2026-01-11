@@ -2,20 +2,20 @@ using System.Collections.Generic;
 
 public static class UIinputDirectionTypeExtension
 {
-  public static Direction ParseToDirection(this UIInputDirectionType inputActionDirection)
+  public static Direction ParseToDirection(this UIInputDirection inputActionDirection)
     => inputActionDirection switch
     {
-      UIInputDirectionType.LeftUp => Direction.Up,
-      UIInputDirectionType.LeftRight => Direction.Right,
-      UIInputDirectionType.LeftDown => Direction.Down,
-      UIInputDirectionType.LeftLeft => Direction.Left,
+      UIInputDirection.LeftUp => Direction.Up,
+      UIInputDirection.LeftRight => Direction.Right,
+      UIInputDirection.LeftDown => Direction.Down,
+      UIInputDirection.LeftLeft => Direction.Left,
 
-      UIInputDirectionType.RightUp => Direction.Up,
-      UIInputDirectionType.RightRight => Direction.Right,
-      UIInputDirectionType.RightDown => Direction.Down,
-      UIInputDirectionType.RightLeft => Direction.Left,
+      UIInputDirection.RightUp => Direction.Up,
+      UIInputDirection.RightRight => Direction.Right,
+      UIInputDirection.RightDown => Direction.Down,
+      UIInputDirection.RightLeft => Direction.Left,
 
-      UIInputDirectionType.Space => Direction.Space,
+      UIInputDirection.Space => Direction.Space,
 
       _ => throw new System.NotImplementedException(),
     };

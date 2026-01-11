@@ -58,5 +58,7 @@ namespace LR.UI
     public void ResetProgress(Direction direction);
 
     public void ResetAllProgress();
+
+    public List<Direction> GetEnableDirections();
   }
 }

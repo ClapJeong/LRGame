@@ -44,7 +44,7 @@ namespace LR.UI.Lobby
       var upModel = new UIStageButtonPresenter.Model(
         model.chapter,
         1,
-        UIInputDirectionType.RightUp,
+        UIInputDirection.RightUp,
         Dispose,
         model.uiInputActionManager,
         model.gameDataService,
@@ -54,7 +54,7 @@ namespace LR.UI.Lobby
       var rightModel = new UIStageButtonPresenter.Model(
         model.chapter,
         2,
-        UIInputDirectionType.RightRight,
+        UIInputDirection.RightRight,
         Dispose,
         model.uiInputActionManager,
         model.gameDataService,
@@ -64,7 +64,7 @@ namespace LR.UI.Lobby
       var downModel = new UIStageButtonPresenter.Model(
         model.chapter,
         3,
-        UIInputDirectionType.RightDown,
+        UIInputDirection.RightDown,
         Dispose,
         model.uiInputActionManager,
         model.gameDataService,
@@ -74,7 +74,7 @@ namespace LR.UI.Lobby
       var leftModel = new UIStageButtonPresenter.Model(
         model.chapter,
         4,
-        UIInputDirectionType.RightLeft,
+        UIInputDirection.RightLeft,
         Dispose,
         model.uiInputActionManager,
         model.gameDataService,
