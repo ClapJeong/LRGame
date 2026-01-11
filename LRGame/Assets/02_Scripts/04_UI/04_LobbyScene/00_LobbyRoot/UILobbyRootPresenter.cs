@@ -76,7 +76,7 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
-      UnregisterContainer();
+      UnregisterContainer();      
 
       if (view)
         view.DestroySelf();
@@ -96,7 +96,9 @@ namespace LR.UI.Lobby
 
     private async UniTask CreateIndicatorPresenterAsync()
     {
-      currentIndicator = await model.uiManager.GetIUIIndicatorService().GetNewAsync(view.IndicatorRoot, view.MainPanelView.StageButtonSet.RectTransform);
+      var indicatorService = model.uiManager.GetIUIIndicatorService();
+      currentIndicator = await indicatorService.GetNewAsync(view.IndicatorRoot, view.MainPanelView.StageButtonSet.RectTransform);
+      indicatorService.ReleaseTopIndicatorOnDestroy(view.gameObject);
     }
 
     private void CreateMainPanelPresenter()
