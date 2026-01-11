@@ -37,8 +37,7 @@ MonoBehaviour:
     <PreloadingRoot>k__BackingField: PreloadingRoot
     <VeryFirstCutscene>k__BackingField: VeryFirstCutscene
     <LobbyRoot>k__BackingField: LobbyRoot
-    <LobbyChapterButton>k__BackingField: LobbyChapterButton
-    <LobbyChapterPanel>k__BackingField: LobbyChapterPanel
+    <StageButtonSet>k__BackingField: StageButtonSet
     <StageRoot>k__BackingField: StageRoot
     <PlayerRoot>k__BackingField: PlayerRoot
     <DialogueRoot>k__BackingField: DialogueRoot

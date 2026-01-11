@@ -10,7 +10,7 @@ public class GameDataService : IGameDataService
   private readonly string GameDataPath;
   private GameData gameData;
 
-  private int stageCount;
+  public int StageDataCount { get; protected set; }
 
   private int selectedChapter;
   private int selectedStage;
@@ -105,7 +105,7 @@ public class GameDataService : IGameDataService
   }
 
   public bool IsStageExist(int chapter, int stage)
-    => (chapter * 4 + (stage + 1)) <= stageCount;
+    => (chapter * 4 + (stage + 1)) <= StageDataCount;
 
   private async UniTask CacheStageCount(IResourceManager resourceManager)
   {
@@ -113,7 +113,7 @@ public class GameDataService : IGameDataService
     var stageLabel = table.Label.Stage;
 
     var stages = await resourceManager.LoadAssetsAsync(stageLabel);
-    stageCount = stages.Count;
+    StageDataCount = stages.Count;
   }
 
   public void SetDialogueCondition(string key, int left, int right)

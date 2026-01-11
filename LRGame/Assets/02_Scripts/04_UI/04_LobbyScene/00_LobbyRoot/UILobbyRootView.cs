@@ -1,16 +1,16 @@
 using Cysharp.Threading.Tasks;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LR.UI.Lobby
 {
   public class UILobbyRootView : BaseUIView
   {
-    [Header("[ Roots ]")]
-    public Transform stageButtonRoot;
-    public Transform chapterPanelRoot;
-    public Transform indicatorRoot;
+    [field: SerializeField] public UIMainPanelView MainPanelView { get; private set; }
+    [field: SerializeField] public UIChapterPanelView ChapterPanelView {  get; private set; }
+    [field: SerializeField] public Transform IndicatorRoot { get; private set; }
+
 
     public override UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

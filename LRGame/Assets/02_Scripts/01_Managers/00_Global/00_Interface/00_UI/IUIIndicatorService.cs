@@ -1,12 +1,11 @@
 using Cysharp.Threading.Tasks;
-using LR.UI;
 using LR.UI.Indicator;
 using System;
 using UnityEngine;
 
 public interface IUIIndicatorService
 {
-  public UniTask<IUIIndicatorPresenter> GetNewAsync(Transform root, IRectView beginTarget);
+  public UniTask<IUIIndicatorPresenter> GetNewAsync(Transform root, RectTransform beginTarget);
 
   public IUIIndicatorPresenter GetTopIndicator();
 

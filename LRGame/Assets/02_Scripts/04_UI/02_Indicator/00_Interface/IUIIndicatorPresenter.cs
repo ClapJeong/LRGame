@@ -5,8 +5,8 @@ namespace LR.UI.Indicator
 {
   public partial interface IUIIndicatorPresenter: IUIPresenter
   {
-    public void ReInitialize(Transform root, IRectView targetRectView);
+    public void ReInitialize(Transform root, RectTransform rectTransform);
 
-    public UniTask MoveAsync(IRectView targetRect, bool isImmediately = false);
+    public UniTask MoveAsync(RectTransform rectTransform, bool isImmediately = false);
   }
 }

@@ -66,13 +66,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: afaae4bb13f3afa429587c154c6a0e0a
-    m_Address: UI/LobbyChapterButton
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ca6136d292cbb1f4b90e4e5473f45598
-    m_Address: UI/LobbyChapterPanel
+    m_Address: UI/StageButtonSet
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

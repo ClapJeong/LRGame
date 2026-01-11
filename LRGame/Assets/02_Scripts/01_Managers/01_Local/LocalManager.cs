@@ -226,6 +226,7 @@ if(gameDataService.IsVeryFirst())
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var model = new UILobbyRootPresenter.Model(
       uiManager: GlobalManager.instance.UIManager,
+      GlobalManager.instance.Table,
       uiInputManager: GlobalManager.instance.UIInputManager,
       resourceManager: GlobalManager.instance.ResourceManager,
       gameDataService: GlobalManager.instance.GameDataService,

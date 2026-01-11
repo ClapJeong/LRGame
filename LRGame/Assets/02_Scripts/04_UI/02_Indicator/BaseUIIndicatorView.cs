@@ -1,28 +1,26 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LR.UI.Indicator
 {
   public class BaseUIIndicatorView : BaseUIView
   {
-    [Header("[ Base ]")]
-    public BaseRectView rectView;
-
     [Header("[ LeftInput ]")]
-    public BaseImageView leftUpImageView;
-    public BaseImageView leftRightImageView;
-    public BaseImageView leftDownImageView;
-    public BaseImageView leftLeftImageView;
+    public Image leftUpImage;
+    public Image leftRightImage;
+    public Image leftDownImage;
+    public Image leftLeftImage;
 
     [Header("[ RightInput ]")]
-    public BaseImageView rightUpImageView;
-    public BaseImageView rightRightImageView;
-    public BaseImageView rightDownImageView;
-    public BaseImageView rightLeftImageView;
+    public Image rightUpImage;
+    public Image rightRightImage;
+    public Image rightDownImage;
+    public Image rightLeftImage;
 
     [Header("[ Space ]")]
-    public BaseImageView spaceImageView;
+    public Image spaceImage;
 
     public override UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

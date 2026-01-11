@@ -6,17 +6,17 @@ namespace LR.UI.GameScene.Stage
 {
   public class UIStageFailView : BaseUIView
   {
-    public BaseRectView noneRectView;
+    public RectTransform noneRectTransform;
     public Transform indicatorRoot;
 
     [Header("[ Quit ]")]
-    public BaseRectView quitRectView;
+    public RectTransform quitRectRectTransform;
     public BaseProgressSubmitView quitProgressSubmitView;
     public BaseImageView quitBackgroundImageView;
     public BaseImageView quitFillImageView;
 
     [Header("[ Restart ]")]
-    public BaseRectView restartRectView;
+    public RectTransform restartRectTransform;
     public BaseProgressSubmitView restartProgressSubmitView;
     public BaseImageView restartBackgroundImageView;
     public BaseImageView restartFillImageView;

@@ -41,7 +41,7 @@ public class UIIndicatorService : IUIIndicatorService
     => enableIndicators.TryPeek(out current) && current != null;
 
 
-  public async UniTask<IUIIndicatorPresenter> GetNewAsync(Transform root, IRectView beginTarget)
+  public async UniTask<IUIIndicatorPresenter> GetNewAsync(Transform root, RectTransform beginTarget)
   {
     if(disabledIndicators.TryPop(out var topIndicator))
     {
@@ -68,7 +68,7 @@ public class UIIndicatorService : IUIIndicatorService
   public bool IsTopIndicatorIsThis(IUIIndicatorPresenter target)
     => TryGetTopIndicator(out var topIndicator) && topIndicator == target;
 
-  private async UniTask<IUIIndicatorPresenter> CreateAsync(Transform root, IRectView beginTarget)
+  private async UniTask<IUIIndicatorPresenter> CreateAsync(Transform root, RectTransform beginTarget)
   {
     var baseView = await resourceManager.CreateAssetAsync<BaseUIIndicatorView>(indicatorKey, root);
     var basePresenter = new BaseUIIndicatorPresenter(root, beginTarget, baseView, disableRoot);

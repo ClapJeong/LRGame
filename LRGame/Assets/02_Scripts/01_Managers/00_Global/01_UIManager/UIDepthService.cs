@@ -25,8 +25,8 @@ public class UIDepthService : IUIDepthService
   public void LowerDepth()
   {
     newDepthFirstSelectedGameObjects.Pop();
-    var previousSelectedGameObject = previousDepthSelectedGameObjects.Pop();
-    EventSystem.current.SetSelectedGameObject(previousSelectedGameObject);
+    if(previousDepthSelectedGameObjects.TryPop(out var previousSelectedGameObject))
+      EventSystem.current.SetSelectedGameObject(previousSelectedGameObject);
   }
 
   public void RaiseDepth(GameObject newDepthFirstSelectingGameObject)

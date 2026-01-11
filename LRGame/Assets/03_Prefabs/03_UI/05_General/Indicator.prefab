@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7570556464299021475}
   - component: {fileID: 7218878638343593836}
   - component: {fileID: 4251052814338194546}
-  - component: {fileID: 7560964122278709697}
   m_Layer: 5
   m_Name: Up
   m_TagString: Untagged
@@ -76,18 +75,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7560964122278709697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 153143369318598919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &194159948187157271
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +86,6 @@ GameObject:
   - component: {fileID: 5534376579296158736}
   - component: {fileID: 2510414728067080914}
   - component: {fileID: 4997628562327918829}
-  - component: {fileID: 8999244276346097601}
   - component: {fileID: 1680487599101484654}
   m_Layer: 5
   m_Name: Space
@@ -165,18 +151,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8999244276346097601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194159948187157271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!225 &1680487599101484654
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -240,7 +214,6 @@ GameObject:
   - component: {fileID: 1636321333418418505}
   - component: {fileID: 3559500957501827497}
   - component: {fileID: 4074448438952370485}
-  - component: {fileID: 974809285755770265}
   m_Layer: 5
   m_Name: Right
   m_TagString: Untagged
@@ -305,18 +278,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &974809285755770265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 976889455993201220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &1412621217064802252
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +289,6 @@ GameObject:
   - component: {fileID: 99033805749689943}
   - component: {fileID: 8842594535712321996}
   - component: {fileID: 3378974452500246897}
-  - component: {fileID: 7581397519244196635}
   m_Layer: 5
   m_Name: Down
   m_TagString: Untagged
@@ -393,18 +353,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7581397519244196635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1412621217064802252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &3859377145744324256
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +403,6 @@ GameObject:
   - component: {fileID: 7170428383525150423}
   - component: {fileID: 5477281757303022731}
   - component: {fileID: 8566110711499246563}
-  - component: {fileID: 4933607298957457355}
   m_Layer: 5
   m_Name: Left
   m_TagString: Untagged
@@ -520,18 +467,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4933607298957457355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4163371500556944418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &4531965669312467084
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +478,6 @@ GameObject:
   - component: {fileID: 1375643539942964783}
   - component: {fileID: 5734886390524131143}
   - component: {fileID: 4608240544322875019}
-  - component: {fileID: 8630619954658303279}
   m_Layer: 5
   m_Name: Up
   m_TagString: Untagged
@@ -608,18 +542,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8630619954658303279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4531965669312467084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &4739201154466006131
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,8 +554,6 @@ GameObject:
   - component: {fileID: 7583059575439856393}
   - component: {fileID: 3814984828479716038}
   - component: {fileID: 3403453163757936555}
-  - component: {fileID: 8922319008248970219}
-  - component: {fileID: 7484534632249832960}
   m_Layer: 5
   m_Name: Indicator
   m_TagString: Untagged
@@ -712,41 +632,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7812260f95acd54699ce7f4f7d60390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Indicator.BaseUIIndicatorView
-  gameObjectView: {fileID: 8922319008248970219}
-  rectView: {fileID: 7484534632249832960}
-  leftUpImageView: {fileID: 7560964122278709697}
-  leftRightImageView: {fileID: 6348037362809933582}
-  leftDownImageView: {fileID: 6112819307132922955}
-  leftLeftImageView: {fileID: 647852229055188338}
-  rightUpImageView: {fileID: 8630619954658303279}
-  rightRightImageView: {fileID: 974809285755770265}
-  rightDownImageView: {fileID: 7581397519244196635}
-  rightLeftImageView: {fileID: 4933607298957457355}
-  spaceImageView: {fileID: 8999244276346097601}
---- !u!114 &8922319008248970219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4739201154466006131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a1b429dbbc2cef4898c214480f9153c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseGameObjectView
---- !u!114 &7484534632249832960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4739201154466006131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25af1216a08dd614590833c547b3c0b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseRectView
+  leftUpImage: {fileID: 4251052814338194546}
+  leftRightImage: {fileID: 6856673581529717061}
+  leftDownImage: {fileID: 4903856591654984320}
+  leftLeftImage: {fileID: 1021876727031150217}
+  rightUpImage: {fileID: 4608240544322875019}
+  rightRightImage: {fileID: 4074448438952370485}
+  rightDownImage: {fileID: 3378974452500246897}
+  rightLeftImage: {fileID: 8566110711499246563}
+  spaceImage: {fileID: 4997628562327918829}
 --- !u!1 &8639969420792973835
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,7 +652,6 @@ GameObject:
   - component: {fileID: 7167098238276490033}
   - component: {fileID: 4563561629436467436}
   - component: {fileID: 6856673581529717061}
-  - component: {fileID: 6348037362809933582}
   m_Layer: 5
   m_Name: Right
   m_TagString: Untagged
@@ -823,18 +716,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6348037362809933582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8639969420792973835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &8832694302023763171
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +727,6 @@ GameObject:
   - component: {fileID: 8489696658049282084}
   - component: {fileID: 851949871483088673}
   - component: {fileID: 1021876727031150217}
-  - component: {fileID: 647852229055188338}
   m_Layer: 5
   m_Name: Left
   m_TagString: Untagged
@@ -911,18 +791,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &647852229055188338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8832694302023763171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &9121299113862765521
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +802,6 @@ GameObject:
   - component: {fileID: 4464210715001925297}
   - component: {fileID: 8792771014684283044}
   - component: {fileID: 4903856591654984320}
-  - component: {fileID: 6112819307132922955}
   m_Layer: 5
   m_Name: Down
   m_TagString: Untagged
@@ -999,15 +866,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6112819307132922955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9121299113862765521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView

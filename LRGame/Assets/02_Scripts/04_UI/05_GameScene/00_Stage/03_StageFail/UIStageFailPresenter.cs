@@ -111,37 +111,37 @@ namespace LR.UI.GameScene.Stage
       {
         case ButtonState.None:
           {
-            topIndicator.MoveAsync(view.noneRectView).Forget();
-            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            topIndicator.MoveAsync(view.noneRectTransform).Forget();
+            topIndicator.SetLeftInputGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftInputGuideType>
             {
-              { QuitEnterInputType.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftGuideType.Movable },
-              { RestartEnterInputType.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftGuideType.Movable }
+              { QuitEnterInputType.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftInputGuideType.Movable },
+              { RestartEnterInputType.ParseToDirection(), Indicator.IUIIndicatorPresenter.LeftInputGuideType.Movable }
             });
-            topIndicator.SetRightGuide();
+            topIndicator.SetRightInputGuide();
           }          
           break;
 
         case ButtonState.Quit:
           {
             view.quitBackgroundImageView.SetAlpha(1.0f);
-            topIndicator.MoveAsync(view.quitRectView).Forget();
-            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            topIndicator.MoveAsync(view.quitRectRectTransform).Forget();
+            topIndicator.SetLeftInputGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftInputGuideType>
             {
-              { QuitEnterInputType.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftGuideType.Clamped },
+              { QuitEnterInputType.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftInputGuideType.Clamped },
             });
-            topIndicator.SetRightGuide(QuitEnterInputType.ParseToDirection());
+            topIndicator.SetRightInputGuide(QuitEnterInputType.ParseToDirection());
           }          
           break;
 
         case ButtonState.Restart:
           {
             view.restartBackgroundImageView.SetAlpha(1.0f);
-            topIndicator.MoveAsync(view.restartRectView).Forget();
-            topIndicator.SetLeftGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftGuideType>
+            topIndicator.MoveAsync(view.restartRectTransform).Forget();
+            topIndicator.SetLeftInputGuide(new Dictionary<Direction, IUIIndicatorPresenter.LeftInputGuideType>
             {
-              { RestartEnterInputType.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftGuideType.Clamped },
+              { RestartEnterInputType.ParseToDirection().ParseOpposite(), Indicator.IUIIndicatorPresenter.LeftInputGuideType.Clamped },
             });
-            topIndicator.SetRightGuide(RestartPressInputType.ParseToDirection());
+            topIndicator.SetRightInputGuide(RestartPressInputType.ParseToDirection());
           }          
           break;
       }
@@ -153,7 +153,7 @@ namespace LR.UI.GameScene.Stage
 
     private async UniTask GetNewIndicatorAsync()
     {
-      currentIndicator = await model.indicatorService.GetNewAsync(view.indicatorRoot, view.noneRectView);
+      currentIndicator = await model.indicatorService.GetNewAsync(view.indicatorRoot, view.noneRectTransform);
     }
 
     private void ReleaseIndicator()

@@ -8,4 +8,9 @@ public static class ImageExtension
     color.a = alpha;
     image.color = color;
   }
+
+  public static void SetFillAmount(this Image image, float value)
+  {
+    image.fillAmount = value;
+  }
 }

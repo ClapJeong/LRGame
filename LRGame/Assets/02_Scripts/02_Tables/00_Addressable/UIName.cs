@@ -10,8 +10,7 @@ public class UIName
   [field: Space(10)]
   [field: Header("[ Lobby ]")]
   [field: SerializeField] public string LobbyRoot {  get; private set; }
-  [field: SerializeField] public string LobbyChapterButton {  get; private set; }
-  [field: SerializeField] public string LobbyChapterPanel {  get; private set; }
+  [field: SerializeField] public string StageButtonSet {  get; private set; }
 
   [field: Space(10)]
   [field: Header("[ Stage ]")]

@@ -21,6 +21,8 @@ namespace LR.UI
 
     public void SubscribeOnComplete(Direction direction, UnityAction onComplete);
 
+    public void Subscribe(Direction direction, UnityAction onPerformed, UnityAction onCanceled, UnityAction<float> onProgress, UnityAction onComplete);
+
     public void UnsubscribeOnPerformed(Direction direction, UnityAction onPerformed);
 
     public void UnsubscribeOnCanceled(Direction direction, UnityAction onCanceled);
@@ -28,6 +30,8 @@ namespace LR.UI
     public void UnsubscribeOnProgress(Direction direction, UnityAction<float> onProgress);
 
     public void UnsubscribeOnComplete(Direction direction, UnityAction onComplete);
+
+    public void Unsubscribe(Direction direction, UnityAction onPerformed, UnityAction onCanceled, UnityAction<float> onProgress, UnityAction onComplete);
 
     public void SubscribeOnPerformed(List<Direction> directions, UnityAction onPerformed);
 
@@ -37,6 +41,8 @@ namespace LR.UI
 
     public void SubscribeOnComplete(List<Direction> directions, UnityAction onComplete);
 
+    public void Subscribe(List<Direction> directions, UnityAction onPerformed, UnityAction onCanceled, UnityAction<float> onProgress, UnityAction onComplete);
+
     public void UnsubscribeOnPerformed(List<Direction> directions, UnityAction onPerformed);
 
     public void UnsubscribeOnCanceled(List<Direction> directions, UnityAction onCanceled);
@@ -44,6 +50,8 @@ namespace LR.UI
     public void UnsubscribeOnProgress(List<Direction> directions, UnityAction<float> onProgress);
 
     public void UnsubscribeOnComplete(List<Direction> directions, UnityAction onComplete);
+
+    public void Unsubscribe(List<Direction> directions, UnityAction onPerformed, UnityAction onCanceled, UnityAction<float> onProgress, UnityAction onComplete);
 
     public void UnsubscribeAll();
 

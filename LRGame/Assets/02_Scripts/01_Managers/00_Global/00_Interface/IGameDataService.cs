@@ -3,6 +3,8 @@ using System.Threading;
 
 public interface IGameDataService
 {
+  public int StageDataCount { get; }
+
   public UniTask SaveDataAsync(CancellationToken token = default);
 
   public UniTask LoadDataAsync(CancellationToken token = default);

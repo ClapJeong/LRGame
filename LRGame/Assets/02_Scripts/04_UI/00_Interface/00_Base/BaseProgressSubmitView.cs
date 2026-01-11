@@ -46,7 +46,7 @@ namespace LR.UI
     }
 
     public void Enable(bool isEnable)
-      => isEnable = true;
+      => this.isEnable = true;
 
     public bool IsEnable()
       => isEnable;
@@ -126,6 +126,14 @@ namespace LR.UI
       eventSets[direction].onProgress += onProgress;
     }
 
+    public void Subscribe(Direction direction, UnityAction onPerformed, UnityAction onCanceled, UnityAction<float> onProgress, UnityAction onComplete)
+    {
+      SubscribeOnPerformed(direction, onPerformed);
+      SubscribeOnCanceled(direction, onCanceled);
+      SubscribeOnProgress(direction, onProgress);
+      SubscribeOnComplete(direction, onComplete);
+    }
+
     public void UnsubscribeOnCanceled(Direction direction, UnityAction onCanceled)
     {
       if (eventSets.TryGetValue(direction, out var eventSet))
@@ -148,6 +156,14 @@ namespace LR.UI
     {
       if (eventSets.TryGetValue(direction, out var eventSet))
         eventSet.onProgress -= onProgress;
+    }
+
+    public void Unsubscribe(Direction direction, UnityAction onPerformed, UnityAction onCanceled, UnityAction<float> onProgress, UnityAction onComplete)
+    {
+      UnsubscribeOnPerformed(direction, onPerformed);
+      UnsubscribeOnCanceled(direction, onCanceled);
+      UnsubscribeOnProgress(direction, onProgress);
+      UnsubscribeOnComplete(direction, onComplete);
     }
 
     public void SubscribeOnCanceled(List<Direction> directions, UnityAction onCanceled)
@@ -174,6 +190,12 @@ namespace LR.UI
         SubscribeOnProgress(direction, onProgress);
     }
 
+    public void Subscribe(List<Direction> directions, UnityAction onPerformed, UnityAction onCanceled, UnityAction<float> onProgress, UnityAction onComplete)
+    {
+      foreach(var direction in directions)
+        Subscribe(direction, onPerformed, onCanceled, onProgress, onComplete);
+    }
+
     public void UnsubscribeOnCanceled(List<Direction> directions, UnityAction onCanceled)
     {
       foreach(var direction in directions)
@@ -198,6 +220,11 @@ namespace LR.UI
         UnsubscribeOnProgress(direction, onProgress);
     }
 
+    public void Unsubscribe(List<Direction> directions, UnityAction onPerformed, UnityAction onCanceled, UnityAction<float> onProgress, UnityAction onComplete)
+    {
+      foreach (var direction in directions)
+        Unsubscribe(direction, onPerformed, onCanceled, onProgress, onComplete);
+    }
 
     public void UnsubscribeAll()
     {

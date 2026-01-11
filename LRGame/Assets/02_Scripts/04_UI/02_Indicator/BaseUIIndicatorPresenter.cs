@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 using static LR.UI.Indicator.IUIIndicatorPresenter;
@@ -20,28 +21,64 @@ namespace LR.UI.Indicator
 
     private const float BlinkInterval = 0.3f;
 
+    private readonly UISO uiSO;
     private readonly Transform disableRoot;
     private readonly BaseUIIndicatorView view;
+
     private readonly CTSContainer moveCTS = new();
     private readonly CTSContainer blinkCTS = new();
 
+    private RectTransform prevTarget;
+    private RectTransform currentTarget;
+    private float followT = 1.0f;
     private UniTask blinkTask;
 
-    public BaseUIIndicatorPresenter(Transform root, IRectView targetRect, BaseUIIndicatorView view, Transform disableRoot)
+    public BaseUIIndicatorPresenter(Transform root, RectTransform targetRect, BaseUIIndicatorView view, Transform disableRoot)
     {
+      this.uiSO = GlobalManager.instance.Table.UISO;
       this.view = view;
       this.disableRoot = disableRoot;
 
+      currentTarget = targetRect;
       view.transform.SetParent(root);
-      view.rectView.SetPosition(targetRect.GetPosition());
-      view.rectView.SetRect(targetRect.GetCurrentRectSize());
+      view.RectTransform.position = currentTarget.GetCenterPosition();
+      view.RectTransform.SetSize(currentTarget.rect.size);
+      view.RectTransform.localScale = currentTarget.localScale;
+
+      var updateDisposable = view.UpdateAsObservable().Subscribe(_ =>
+      {
+        if (currentTarget == null)
+          return;
+
+        if (followT < 1.0f)
+        {
+          var position = Vector3.Lerp(prevTarget.GetCenterPosition(), currentTarget.GetCenterPosition(), followT);
+          view.RectTransform.position = position;
+          var rectSize = Vector2.Lerp(prevTarget.rect.size, currentTarget.rect.size, followT);
+          view.RectTransform.SetSize(rectSize);
+          var scale = Vector3.Lerp(prevTarget.localScale, currentTarget.localScale, followT);
+          view.RectTransform.localScale = scale;
+        }
+        else
+        {
+          view.RectTransform.position = currentTarget.GetCenterPosition();
+          view.RectTransform.SetSize(currentTarget.rect.size);
+          view.RectTransform.localScale = currentTarget.localScale;
+        }
+      });
+      view.OnDestroyAsObservable().Subscribe(_ => updateDisposable.Dispose());
     }
 
-    public void ReInitialize(Transform root, IRectView targetRectView)
+    public void ReInitialize(Transform root, RectTransform targetRect)
     {
-      view.transform.SetParent(root);
-      view.rectView.SetPosition(targetRectView.GetPosition());
-      view.rectView.SetRect(targetRectView.GetCurrentRectSize());
+      moveCTS.Cancel();
+      followT = 1.0f;
+      currentTarget = targetRect;
+
+      view.transform.SetParent(root);      
+      view.RectTransform.position = currentTarget.GetCenterPosition();
+      view.RectTransform.SetSize(currentTarget.rect.size);
+      view.RectTransform.localScale = currentTarget.localScale;
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -56,48 +93,27 @@ namespace LR.UI.Indicator
       blinkCTS.Dispose();
     }
 
-    public async UniTask MoveAsync(IRectView targetRect, bool isImmediately = false)
+    public async UniTask MoveAsync(RectTransform targetRect, bool isImmediately = false)
     {
       moveCTS.Cancel();
 
-      var targetPosition = targetRect.GetCenterPosition();
-      var targetRectSize = targetRect.GetCurrentRectSize();
-
       if (isImmediately)
       {
-        view.rectView.SetPosition(targetPosition);
-        view.rectView.SetRect(targetRectSize);
-        await UniTask.CompletedTask;
+        currentTarget = targetRect;
+        followT = 1.0f;
+
+        view.RectTransform.position = currentTarget.GetCenterPosition();
+        view.RectTransform.SetSize(currentTarget.rect.size);
+        view.RectTransform.localScale = currentTarget.localScale;
       }
       else
       {
         moveCTS.Create();
-
-        var targetDuration = GlobalManager.instance.Table.UISO.IndicatorDuration;
-        var time = 0.0f;
-
-        var currentPosition = view.transform.position;
-        var currentRectsize = view.rectView.GetCurrentRectSize();
-
         var token = moveCTS.token;
-        try
-        {
-          while (time < targetDuration)
-          {
-            token.ThrowIfCancellationRequested();
-            var t = time / targetDuration;
-            view.rectView.SetPosition(Vector2.Lerp(currentPosition, targetPosition, t));
-            view.rectView.SetRect(Vector2.Lerp(currentRectsize, targetRectSize, t));
-
-            time += Time.deltaTime;
-            await UniTask.Yield(PlayerLoopTiming.Update);
-          }
-          view.rectView.SetPosition(targetPosition);
-          view.rectView.SetRect(targetRectSize);
-        }
-        catch (OperationCanceledException) { }
+        await ChangeFollowTargetAsync(targetRect, token);
       }
     }
+
 
     public UIVisibleState GetVisibleState()
       => view.GetVisibleState();
@@ -115,38 +131,39 @@ namespace LR.UI.Indicator
       view.transform.SetParent(disableRoot);
     }
 
-    public void SetLeftGuide(Direction direction, LeftGuideType guideType)
+    #region LeftInputGuide
+    public void SetLeftInputGuide(Direction direction, LeftInputGuideType guideType)
     {
-      SetLeftGuide(new Dictionary<Direction, LeftGuideType>() 
+      SetLeftInputGuide(new Dictionary<Direction, LeftInputGuideType>() 
       { 
         { direction, guideType} 
       });
     }
 
-    public void SetLeftGuide(Navigation navigation)
+    public void SetLeftInputGuide(Navigation navigation)
     {
-      var set = new Dictionary<Direction, LeftGuideType>();
+      var set = new Dictionary<Direction, LeftInputGuideType>();
 
       if (navigation.selectOnUp != null)
-        set[Direction.Up] = LeftGuideType.Movable;
+        set[Direction.Up] = LeftInputGuideType.Movable;
       if (navigation.selectOnRight != null)
-        set[Direction.Right] = LeftGuideType.Movable;
+        set[Direction.Right] = LeftInputGuideType.Movable;
       if (navigation.selectOnDown != null)
-        set[Direction.Down] = LeftGuideType.Movable;
+        set[Direction.Down] = LeftInputGuideType.Movable;
       if (navigation.selectOnLeft != null)
-        set[Direction.Left] = LeftGuideType.Movable;
+        set[Direction.Left] = LeftInputGuideType.Movable;
 
-      SetLeftGuide(set);
+      SetLeftInputGuide(set);
     }
 
-    public async void SetLeftGuide(Dictionary<Direction, LeftGuideType> guideSets)
+    public async void SetLeftInputGuide(Dictionary<Direction, LeftInputGuideType> guideSets)
     {
       var allImageViews = GetLeftGuideViewList();
 
-      var movableImageViews = new List<BaseImageView>();
-      var blinkImageViews = new List<BaseImageView>();
+      var movableImageViews = new List<Image>();
+      var blinkImageViews = new List<Image>();
 
-      guideSets ??= new Dictionary<Direction, LeftGuideType>();
+      guideSets ??= new Dictionary<Direction, LeftInputGuideType>();
       foreach (var pair in guideSets)
       {
         var directionImageView = GetLeftGuideView(pair.Key);
@@ -154,8 +171,8 @@ namespace LR.UI.Indicator
 
         var targetList = pair.Value switch
         {
-          LeftGuideType.Movable => movableImageViews,
-          LeftGuideType.Clamped => blinkImageViews,
+          LeftInputGuideType.Movable => movableImageViews,
+          LeftInputGuideType.Clamped => blinkImageViews,
           _ => throw new NotImplementedException(),
         };
         targetList.Add(directionImageView);
@@ -182,9 +199,12 @@ namespace LR.UI.Indicator
         blinkTask.Forget();
       }        
     }
+    #endregion
 
-    public void SetRightGuide(params Direction[] directions)
+    #region RightInputGuide
+    public void SetRightInputGuide(params Direction[] directions)
     {
+      directions ??= new Direction[0];
       GetRightGuideViews(directions.ToList(), out var targetViews, out var elseViews);
 
       foreach (var targetView in targetViews)
@@ -193,22 +213,44 @@ namespace LR.UI.Indicator
       foreach (var elseView in elseViews)
         elseView.SetAlpha(DisableAlpha);
     }
+    #endregion
 
-    private List<BaseImageView> GetLeftGuideViewList()
-      => new() { view.leftUpImageView, view.leftDownImageView, view.leftRightImageView, view.leftLeftImageView };
+    private async UniTask ChangeFollowTargetAsync(RectTransform newTarget, CancellationToken token)
+    {
+      try
+      {
+        prevTarget = currentTarget;
+        currentTarget = newTarget;
+        var duration = 0.0f;
+        while (duration < uiSO.IndicatorDuration)
+        {
+          duration += Time.deltaTime;
+          followT = duration / uiSO.IndicatorDuration;
+          await UniTask.Yield();
+        }
+        followT = 1.0f;
+      }
+      catch (OperationCanceledException)
+      {
 
-    private BaseImageView GetLeftGuideView(Direction direction)
+      }
+    }
+
+    private List<Image> GetLeftGuideViewList()
+      => new() { view.leftUpImage, view.leftDownImage, view.leftRightImage, view.leftLeftImage };
+
+    private Image GetLeftGuideView(Direction direction)
       => direction switch
       {
-        Direction.Up => view.leftUpImageView,
-        Direction.Down => view.leftDownImageView,
-        Direction.Left => view.leftLeftImageView,
-        Direction.Right => view.leftRightImageView,
+        Direction.Up => view.leftUpImage,
+        Direction.Down => view.leftDownImage,
+        Direction.Left => view.leftLeftImage,
+        Direction.Right => view.leftRightImage,
         Direction.Space => throw new NotImplementedException("LeftSpace Image is not Exit!"),
         _ => throw new NotImplementedException()
       };
 
-    private async UniTask BlinkImageViews(List<BaseImageView> imageViews)
+    private async UniTask BlinkImageViews(List<Image> imageViews)
     {
       try
       {
@@ -237,19 +279,19 @@ namespace LR.UI.Indicator
 
     private void GetRightGuideViews(
         List<Direction> directions,
-        out List<BaseImageView> targetViews,
-        out List<BaseImageView> elseViews)
+        out List<Image> targetViews,
+        out List<Image> elseViews)
     {
       targetViews = new();
       elseViews = new();
 
-      var map = new Dictionary<Direction, BaseImageView>
+      var map = new Dictionary<Direction, Image>
     {
-        { Direction.Up,    view.rightUpImageView },
-        { Direction.Right, view.rightRightImageView },
-        { Direction.Down,  view.rightDownImageView },
-        { Direction.Left,  view.rightLeftImageView },
-        { Direction.Space, view.spaceImageView }
+        { Direction.Up,    view.rightUpImage },
+        { Direction.Right, view.rightRightImage },
+        { Direction.Down,  view.rightDownImage },
+        { Direction.Left,  view.rightLeftImage },
+        { Direction.Space, view.spaceImage }
     };
 
       foreach (var (dir, img) in map)
