@@ -109,7 +109,7 @@ namespace LR.UI.Lobby
       if (gameObject.TryGetComponent<Selectable>(out var selectable))
         model.indicator.SetLeftInputGuide(selectable.navigation);
 
-      if (gameObject == view.ExitRectTransform)
+      if (gameObject == view.ExitRectTransform.gameObject)
         model.indicator.SetRightInputGuide(Direction.Down);
       else
         model.indicator.SetRightInputGuide(Direction.Up);

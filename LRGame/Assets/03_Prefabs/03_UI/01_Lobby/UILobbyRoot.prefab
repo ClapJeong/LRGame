@@ -795,6 +795,14 @@ PrefabInstance:
       propertyPath: <OptionPosition>k__BackingField.y
       value: -500
       objectReference: {fileID: 0}
+    - target: {fileID: 4447994319058950256, guid: 795dd9ce9fddb7140a28276d724e51af, type: 3}
+      propertyPath: <LocalizePosition>k__BackingField.x
+      value: -300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4447994319058950256, guid: 795dd9ce9fddb7140a28276d724e51af, type: 3}
+      propertyPath: <LocalizePosition>k__BackingField.y
+      value: -500
+      objectReference: {fileID: 0}
     - target: {fileID: 4715313916887514531, guid: 795dd9ce9fddb7140a28276d724e51af, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -71,7 +71,7 @@ namespace LR.UI.Lobby
         null,
         null,
         view.QuitRectFillImage.SetScale,
-        OnOptionButtonSubmit);
+        OnOptionQuitSubmit);
 
       subscribeHandle = new(
         () =>
