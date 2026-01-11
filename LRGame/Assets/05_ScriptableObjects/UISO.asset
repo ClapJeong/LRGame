@@ -22,7 +22,7 @@ MonoBehaviour:
     rightDown: 274
     rightLeft: 276
     space: 32
-  <IndicatorDuration>k__BackingField: 0.15
+  <IndicatorDuration>k__BackingField: 0.1
   <ProgressSubmitDuration>k__BackingField: 1.2
   <LoadingFaceDuraton>k__BackingField: 0.8
   <ChatCardShowDuration>k__BackingField: 0.3
@@ -31,3 +31,4 @@ MonoBehaviour:
   <StageButtonShowScale>k__BackingField: {x: 1, y: 1, z: 1}
   <StageButtonHideScale>k__BackingField: {x: 0.7, y: 0.7, z: 0.7}
   <StageButtonMoveDuration>k__BackingField: 0.15
+  <SliderAmount>k__BackingField: 0.15

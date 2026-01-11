@@ -9,6 +9,8 @@ namespace LR.UI.Lobby
   {
     [field: SerializeField] public UIMainPanelView MainPanelView { get; private set; }
     [field: SerializeField] public UIChapterPanelView ChapterPanelView {  get; private set; }
+    [field: SerializeField] public UIOptionPanelView OptionPanelView { get; private set; }
+    [field: SerializeField] public UILocalizePanelView LocalizePanelView { get; private set; }
     [field: SerializeField] public Transform IndicatorRoot { get; private set; }
 
 

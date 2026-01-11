@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using LR.UI.Indicator;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -8,6 +9,14 @@ namespace LR.UI.Lobby
 {
   public class UILobbyRootPresenter : IUIPresenter
   {
+    private enum PanelState
+    {
+      None,
+      Option, Localize,
+      Main,
+      Stage,
+    }
+
     public class Model
     {
       public UIManager uiManager;
@@ -31,8 +40,9 @@ namespace LR.UI.Lobby
     private readonly Model model;
     private readonly UILobbyRootView view;
 
-    private UIMainPanelPresenter mainPanelPresenter;
-    private UIChapterPanelPresenter chapterPanelPresenter;
+    private readonly Dictionary<PanelState, IUIPresenter> panelPresenters = new();
+
+    private PanelState currentPanelState = PanelState.None;
     private IUIIndicatorPresenter currentIndicator;   
 
     public UILobbyRootPresenter(Model model, UILobbyRootView view)
@@ -51,10 +61,14 @@ namespace LR.UI.Lobby
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       await CreateIndicatorPresenterAsync();
+
       CreateMainPanelPresenter();
       CreateChapterPanelPresenter();
+      CreateOptionPanelPresenter();
+      CreateLocalizePanelPresenter();
+
       await view.ShowAsync(isImmediately, token);
-      await mainPanelPresenter.ActivateAsync(isImmediately, token);
+      SetState(PanelState.Main);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -71,6 +85,15 @@ namespace LR.UI.Lobby
     public UIVisibleState GetVisibleState()
       => view.GetVisibleState();
 
+    private void SetState(PanelState panelState)
+    {
+      if (currentPanelState != PanelState.None)
+        panelPresenters[currentPanelState].DeactivateAsync().Forget();
+
+      currentPanelState = panelState;
+      panelPresenters[currentPanelState].ActivateAsync().Forget();
+    }
+
     private async UniTask CreateIndicatorPresenterAsync()
     {
       currentIndicator = await model.uiManager.GetIUIIndicatorService().GetNewAsync(view.IndicatorRoot, view.MainPanelView.StageButtonSet.RectTransform);
@@ -79,36 +102,17 @@ namespace LR.UI.Lobby
     private void CreateMainPanelPresenter()
     {
       var model = new UIMainPanelPresenter.Model(
+        this.model.table.UISO,
         this.model.uiManager.GetIUISelectedGameObjectService(),
         this.model.uiManager.GetIUIDepthService(),
         currentIndicator,
-        OnOptionButtonSubmit,
-        OnLocalizeButtonSubmit,
-        OnStageButtonSubmit,
-        OnQuitButtonSubmit);
-      mainPanelPresenter = new(model, view.MainPanelView);
+        onOptionButton: ()=> SetState(PanelState.Option),
+        onLocalizeButton: ()=>SetState(PanelState.Localize),
+        onStageButton: ()=>SetState(PanelState.Stage),
+        onQuitButton: null);
+      var mainPanelPresenter = new UIMainPanelPresenter(model, view.MainPanelView);
       mainPanelPresenter.AttachOnDestroy(view.gameObject);
-    }
-
-    private void OnOptionButtonSubmit()
-    {
-
-    }
-
-    private void OnLocalizeButtonSubmit()
-    {
-
-    }
-
-    private void OnStageButtonSubmit()
-    {
-      mainPanelPresenter.DeactivateAsync().Forget();
-      chapterPanelPresenter.ActivateAsync().Forget();
-    }
-
-    private void OnQuitButtonSubmit()
-    {
-
+      panelPresenters[PanelState.Main] = mainPanelPresenter;
     }
 
     private void CreateChapterPanelPresenter()
@@ -123,13 +127,39 @@ namespace LR.UI.Lobby
         currentIndicator,
         this.model.resourceManager,
         this.model.uiManager.GetIUISelectedGameObjectService(),
-        () =>
-        {
-          chapterPanelPresenter.DeactivateAsync().Forget();
-          mainPanelPresenter.ActivateAsync().Forget();
-        });
-      chapterPanelPresenter = new(model, view.ChapterPanelView);
+        onPanelExit: () => SetState(PanelState.Main));
+      var chapterPanelPresenter = new UIChapterPanelPresenter(model, view.ChapterPanelView);
       chapterPanelPresenter.AttachOnDestroy(view.gameObject);
+      chapterPanelPresenter.DeactivateAsync(true).Forget();
+      panelPresenters[PanelState.Stage] = chapterPanelPresenter;
+    }
+
+    private void CreateOptionPanelPresenter()
+    {
+      var model = new UIOptionPanelPresenter.Model(
+        this.model.table.UISO,
+        currentIndicator,
+        this.model.uiManager.GetIUIDepthService(),
+        this.model.uiManager.GetIUISelectedGameObjectService(),
+        this.model.uiInputManager,
+        onExit: () => SetState(PanelState.Main));
+      var optionPanelPresenter = new UIOptionPanelPresenter(model, view.OptionPanelView);
+      optionPanelPresenter.AttachOnDestroy(view.gameObject);
+      optionPanelPresenter.DeactivateAsync(true).Forget();
+      panelPresenters[PanelState.Option] = optionPanelPresenter;
+    }
+
+    private void CreateLocalizePanelPresenter()
+    {
+      var model = new UILocalizePanelPresenter.Model(
+        currentIndicator,
+        this.model.uiManager.GetIUISelectedGameObjectService(),
+        this.model.uiManager.GetIUIDepthService(),
+        onExit: () => SetState(PanelState.Main));
+      var localizePresenter = new UILocalizePanelPresenter(model, view.LocalizePanelView);
+      localizePresenter.AttachOnDestroy(view.gameObject);
+      localizePresenter.DeactivateAsync(true).Forget();
+      panelPresenters[PanelState.Localize] = localizePresenter;
     }
 
     private void RegisterContainer()

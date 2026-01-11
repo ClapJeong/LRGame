@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using LR.UI.Indicator;
 using System;
 using System.Threading;
@@ -12,6 +13,7 @@ namespace LR.UI.Lobby
   {
     public class Model
     {
+      public UISO uiSO;
       public IUISelectedGameObjectService selectedGameObjectService;
       public IUIDepthService depthService;
       public IUIIndicatorPresenter indicator;
@@ -20,8 +22,9 @@ namespace LR.UI.Lobby
       public UnityAction onStageButton;
       public UnityAction onQuitButton;
 
-      public Model(IUISelectedGameObjectService selectedGameObjectService, IUIDepthService depthService, IUIIndicatorPresenter indicator, UnityAction onOptionButton, UnityAction onLocalizeButton, UnityAction onStageButton, UnityAction onQuitButton)
+      public Model(UISO uiSO, IUISelectedGameObjectService selectedGameObjectService, IUIDepthService depthService, IUIIndicatorPresenter indicator, UnityAction onOptionButton, UnityAction onLocalizeButton, UnityAction onStageButton, UnityAction onQuitButton)
       {
+        this.uiSO = uiSO;
         this.selectedGameObjectService = selectedGameObjectService;
         this.depthService = depthService;
         this.indicator = indicator;
@@ -90,6 +93,7 @@ namespace LR.UI.Lobby
       subscribeHandle.Subscribe();
       model.depthService.SelectTopObject();
       model.selectedGameObjectService.SetSelectedObject(view.StageButtonSet.RectTransform.gameObject);
+      MoveViewAsync(view.IdlePosition).Forget();
       await view.ShowAsync(isImmedieately, token);
     }
 
@@ -115,16 +119,19 @@ namespace LR.UI.Lobby
     private void OnOptionButtonSubmit()
     {
       model.onOptionButton?.Invoke();
+      MoveViewAsync(view.OptionPosition).Forget();
     }
 
     private void OnLocalizeButtonSubmit()
     {
       model.onLocalizeButton?.Invoke();
+      MoveViewAsync(view.LocalizePosition).Forget();
     }
 
     private void OnStageSubmit()
     {
       model.onStageButton?.Invoke();
+      MoveViewAsync(view.StagePosition).Forget();
     }
 
     private void OnOptionQuitSubmit()
@@ -134,6 +141,11 @@ namespace LR.UI.Lobby
       UnityEditor.EditorApplication.isPlaying = false;
 #endif
       Application.Quit();
+    }
+
+    private async UniTask MoveViewAsync(Vector2 targetPosition)
+    {
+      await view.RectTransform.DOAnchorPos(targetPosition, model.uiSO.LobbyPanelMoveDuration);
     }
 
     private void SubscribeSelectedGameObjectService()
