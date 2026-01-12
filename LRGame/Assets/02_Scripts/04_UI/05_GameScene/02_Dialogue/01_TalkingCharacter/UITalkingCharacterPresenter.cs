@@ -97,6 +97,9 @@ namespace LR.UI.GameScene.Dialogue
     public void CompleteDialogueImmedieately()
       => dialogueController.CompleteDialogueImmediately();
 
+    public void ClearText()
+      => dialogueController.ClearText();
+
     private async UniTask<Sprite> GetPortraitSpriteAsync(int index)
     {
       var assetName = model.type switch

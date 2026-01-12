@@ -141,6 +141,13 @@ namespace LR.UI.GameScene.Dialogue.Root
       dialogueInputActionController.UnsubscribeInputActions();
     }
 
+    public void ClearTexts()
+    {
+      leftCharacterPresenter.ClearText();
+      centerCharacterPresenter.ClearText();
+      rightCharacterPresenter.ClearText();
+    }
+
     private void OnLeftRightPerfomed()
     {
       if (isTalkling)

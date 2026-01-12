@@ -224,6 +224,7 @@ namespace LR.UI.GameScene.Dialogue.Root
             if(sequenceType == IDialogueSequence.Type.Selection)
             {
               talkingController.DisalbeTalkingInputs();
+              talkingController.ClearTexts();
               await selectionController.ActivateAsync(false, default);
             }
           }          
@@ -260,19 +261,21 @@ namespace LR.UI.GameScene.Dialogue.Root
     {
       selectionController.SetString(selectionData);      
 
-      var duration = new FloatReactiveProperty(selectionTableData.Duration);
-      var timerDisposable = selectionController.SubscribeTimer(duration);
+      var normalized = new FloatReactiveProperty(1.0f);
+      var timerDisposable = selectionController.SubscribeTimer(normalized);
       try
       {
         await SetSequenceTypeAsync(IDialogueSequence.Type.Selection);
 
         selectionController.BeginSelecting();
-        while (duration.Value > 0.0f)
+        var duration = selectionTableData.Duration;
+        while (duration > 0.0f)
         {
-          duration.Value -= Time.deltaTime;
+          duration -= Time.deltaTime;
+          normalized.Value = duration / selectionTableData.Duration;
           await UniTask.Yield(PlayerLoopTiming.Update);
         }
-        duration.Value = 0.0f;
+        normalized.Value = 0.0f;
         selectionController.StopSelecting();
 
         selectionController.GetSelectionResults(out var leftResult, out var rightResult);

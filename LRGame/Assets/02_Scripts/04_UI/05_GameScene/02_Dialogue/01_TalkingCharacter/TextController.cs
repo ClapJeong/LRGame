@@ -78,5 +78,8 @@ namespace LR.UI.GameScene.Dialogue.Character
 
     public void CompleteDialogueImmediately()
       => dialogueCTS.Cancel();
+
+    public void ClearText()
+      => dialogueTMP.text = "";
   }
 }
