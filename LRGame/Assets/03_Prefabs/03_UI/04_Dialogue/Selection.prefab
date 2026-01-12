@@ -1324,6 +1324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4549635565133201805}
   - component: {fileID: 9085483594287653434}
+  - component: {fileID: 3973741155191697589}
   m_Layer: 5
   m_Name: Left
   m_TagString: Untagged
@@ -1369,12 +1370,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4450cf62bdf2c468d5d52098e12367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Dialogue.UISelectionCharacterView
+  beforeShowPosition: {x: -550, y: -150}
+  idlePosition: {x: -450, y: -150}
+  afterHidePosition: {x: -450, y: -50}
+  canvasGroup: {fileID: 3973741155191697589}
   upLocalize: {fileID: 8830727573655959741}
   rightLocalize: {fileID: 7179808158569222489}
   downLocalize: {fileID: 3957218437652359060}
   leftLocalize: {fileID: 327022512312588294}
   idleRect: {fileID: 1793474076111022690}
   outlineRect: {fileID: 4486472845679531559}
+--- !u!225 &3973741155191697589
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5706617812309531113}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6517265028114157279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1585,6 +1602,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1594621041539364920}
   - component: {fileID: 5623032215908221655}
+  - component: {fileID: 6440270797695537415}
   m_Layer: 5
   m_Name: right
   m_TagString: Untagged
@@ -1630,12 +1648,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4450cf62bdf2c468d5d52098e12367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Dialogue.UISelectionCharacterView
+  beforeShowPosition: {x: 550, y: -150}
+  idlePosition: {x: 450, y: -150}
+  afterHidePosition: {x: 450, y: -50}
+  canvasGroup: {fileID: 6440270797695537415}
   upLocalize: {fileID: 2948028288806238229}
   rightLocalize: {fileID: 992016685832279660}
   downLocalize: {fileID: 8867488818051424472}
   leftLocalize: {fileID: 4369186305566385629}
   idleRect: {fileID: 4545125569939243915}
   outlineRect: {fileID: 6099816665639783627}
+--- !u!225 &6440270797695537415
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953597488121950681}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &7102073073257426915
 GameObject:
   m_ObjectHideFlags: 0

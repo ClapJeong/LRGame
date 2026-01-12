@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace LR.UI.GameScene.Dialogue.Root
 {
-  public class SelectionSequenceController
+  public class SelectionController
   {
     private readonly UISelectionTimerPresenter selectionTimerPresenter;
     private readonly UISelectionCharacterPresenter leftSelectionPresenter;
@@ -20,7 +20,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private readonly List<Direction> rightSelections = new();
     private bool isSelecting = false;   
 
-    public SelectionSequenceController(
+    public SelectionController(
       GameObject attachTarget,
       TableContainer table,
       IUIInputActionManager uiInputManager,
@@ -53,16 +53,18 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     public async UniTask ActivateAsync(bool isImmediately, CancellationToken token)
     {
-      selectionTimerPresenter.ActivateAsync().Forget();
-      leftSelectionPresenter.ActivateAsync().Forget();
-      rightSelectionPresenter.ActivateAsync().Forget();
+      await UniTask.WhenAll(
+      selectionTimerPresenter.ActivateAsync(isImmediately, token),
+      leftSelectionPresenter.ActivateAsync(isImmediately, token),
+      rightSelectionPresenter.ActivateAsync(isImmediately, token));
     }
 
     public async UniTask DeactivateAsync(bool isImmediately, CancellationToken token)
     {
-      selectionTimerPresenter.DeactivateAsync().Forget();
-      leftSelectionPresenter.DeactivateAsync().Forget();
-      rightSelectionPresenter.DeactivateAsync().Forget();
+      await UniTask.WhenAll(
+      selectionTimerPresenter.DeactivateAsync(isImmediately, token),
+      leftSelectionPresenter.DeactivateAsync(isImmediately, token),
+      rightSelectionPresenter.DeactivateAsync(isImmediately, token));
     }
 
     public void SetString(DialogueSelectionData selectionData)

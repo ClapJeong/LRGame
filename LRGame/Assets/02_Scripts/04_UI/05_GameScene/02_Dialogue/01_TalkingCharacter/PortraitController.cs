@@ -11,7 +11,8 @@ namespace LR.UI.GameScene.Dialogue.Character
   public class PortraitController
   {
     private readonly UIPortraitData portraitData;
-    private readonly UITalkingCharacterView view;
+    private readonly Image portraitImageA;
+    private readonly Image portraitImageB;
 
     private readonly CTSContainer portriatImageCTS = new();
     private readonly CTSContainer animationCTS = new();
@@ -19,14 +20,16 @@ namespace LR.UI.GameScene.Dialogue.Character
 
     private Sprite transparent;
 
+    private bool useImageA;
     private bool isImageChanging = false;
     private Image forwardImage;
     private float forwardImageAlpha = 1.0f;
 
-    public PortraitController(UIPortraitData portraitData, UITalkingCharacterView view)
+    public PortraitController(UIPortraitData portraitData, Image portraitImageA, Image portraitImageB)
     {
       this.portraitData = portraitData;
-      this.view = view;
+      this.portraitImageA = portraitImageA;
+      this.portraitImageB = portraitImageB;
     }
 
     public void SetTransparent(Sprite transparent)
@@ -51,9 +54,19 @@ namespace LR.UI.GameScene.Dialogue.Character
         forwardImage.SetAlpha(forwardImageAlpha);
     }
 
+    private void SwapImageOrder(out Image forwardImage, out Image backwardImage)
+    {
+      useImageA = !useImageA;
+
+      forwardImage = useImageA ? portraitImageA : portraitImageB;
+      backwardImage = useImageA ? portraitImageB : portraitImageA;
+
+      backwardImage.transform.SetAsFirstSibling();
+    }
+
     private async UniTask SetImageAsync(Sprite sprite, PortraitEnum.ChangeType changeType, CancellationToken token)
     {
-      view.SwapImageOrders(out var forwardImage, out var backwardImage);
+      SwapImageOrder(out var forwardImage, out var backwardImage);
       this.forwardImage = forwardImage;
       switch (changeType)
       {

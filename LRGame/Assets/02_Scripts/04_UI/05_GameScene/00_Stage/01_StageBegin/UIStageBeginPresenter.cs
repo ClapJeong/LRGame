@@ -49,9 +49,6 @@ namespace LR.UI.GameScene.Stage
 
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      view.LeftReadyImage.SetAlpha(0.4f);
-      view.RightReadyImage.SetAlpha(0.4f);
-
       subscribeHandle.Subscribe();
       await view.ShowAsync(isImmediately, token);
     }

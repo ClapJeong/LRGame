@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System;
 using System.Threading;
 using UnityEngine;
@@ -8,6 +9,11 @@ namespace LR.UI.GameScene.Dialogue
 {
   public class UISelectionCharacterView : BaseUIView
   {
+    [SerializeField] private Vector2 beforeShowPosition;
+    [SerializeField] private Vector2 idlePosition;
+    [SerializeField] private Vector2 afterHidePosition;
+    [SerializeField] private CanvasGroup canvasGroup;
+
     public LocalizeStringEvent upLocalize;
     public LocalizeStringEvent rightLocalize;
     public LocalizeStringEvent downLocalize;
@@ -17,28 +23,39 @@ namespace LR.UI.GameScene.Dialogue
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hidden;
-      gameObject.SetActive(false);
-      await UniTask.CompletedTask;
+      visibleState = UIVisibleState.Hiding;
+
+      var duration = isImmediately ? 0.0f : UISO.SelectionHideDuration;
+      try
+      {
+        RectTransform.anchoredPosition = idlePosition;
+        await DOTween.Sequence()
+                .Join(RectTransform.DOAnchorPos(afterHidePosition, duration))
+                .Join(canvasGroup.DOFade(0.0f, duration))
+                .ToUniTask(TweenCancelBehaviour.Kill, token);
+        gameObject.SetActive(false);
+        visibleState = UIVisibleState.Hidden; 
+      }
+      catch (OperationCanceledException) { }
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Showen;
-      outlineRect.position = GetDirectionPosition(Direction.Space);;
       gameObject.SetActive(true);
-      await UniTask.CompletedTask;
-    }
+      visibleState = UIVisibleState.Showing;
 
-    public Vector3 GetDirectionPosition(Direction direction)
-      => direction switch
+      var duration = isImmediately ? 0.0f : UISO.SelectionShowDuration;
+      try
       {
-        Direction.Up => upLocalize.GetComponent<RectTransform>().GetCenterPosition(),
-        Direction.Down => downLocalize.GetComponent<RectTransform>().GetCenterPosition(),
-        Direction.Left => leftLocalize.GetComponent<RectTransform>().GetCenterPosition(),
-        Direction.Right => rightLocalize.GetComponent<RectTransform>().GetCenterPosition(),
-        Direction.Space => idleRect.GetCenterPosition(),
-        _ => throw new NotImplementedException()
-      };
+        RectTransform.anchoredPosition = beforeShowPosition;
+        await DOTween.Sequence()
+                .Join(RectTransform.DOAnchorPos(idlePosition, duration))
+                .Join(canvasGroup.DOFade(1.0f, duration))
+                .ToUniTask(TweenCancelBehaviour.Kill, token);
+        
+        visibleState = UIVisibleState.Showen;
+      }
+      catch (OperationCanceledException) { }
+    }
   }
 }

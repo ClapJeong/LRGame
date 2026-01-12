@@ -9,7 +9,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 {
   public class DialogueInputActionController : IDisposable
   {
-    private readonly IDialogueController dialogueController;
+    private readonly IDialogueStateController dialogueController;
     private readonly IUIInputActionManager uiInputActionManager;
     private readonly UITextPresentationData textPresentationData; 
 
@@ -27,7 +27,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private bool isLeftPerformed;
     private bool isRightPerformed;
 
-    public DialogueInputActionController(IDialogueController dialogueController, IUIInputActionManager uiInputActionManager, UITextPresentationData textPresentationData, UnityAction onLeftPerformed, UnityAction onLeftCanceled, UnityAction onRightPerformed, UnityAction onRightCanceled, UnityAction onLeftRightPerformed, UnityAction<float> onSkipProgress)
+    public DialogueInputActionController(IDialogueStateController dialogueController, IUIInputActionManager uiInputActionManager, UITextPresentationData textPresentationData, UnityAction onLeftPerformed, UnityAction onLeftCanceled, UnityAction onRightPerformed, UnityAction onRightCanceled, UnityAction onLeftRightPerformed, UnityAction<float> onSkipProgress)
     {
       this.dialogueController = dialogueController;
       this.uiInputActionManager = uiInputActionManager;

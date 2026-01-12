@@ -1,67 +1,62 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Events;
 
-public class DialogueService : IDialogueController, IDialogueSubscriber
+public class DialogueService : IDialogueStateController, IDialogueStateSubscriber
 {
-  private readonly Dictionary<IDialogueSubscriber.EventType, UnityEvent> events = new();
+  private readonly Dictionary<IDialogueStateSubscriber.EventType, UnityEvent> events = new();
 
-  private DialogueState state;
+  private SequenceState state;
 
   public DialogueService(IStageEventSubscriber stageEventSubscriber)
   {
-    state = DialogueState.None;
+    state = SequenceState.WaitingForPlay;
 
-    stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, ()=>
-    {
-      state = DialogueState.None;
-      Play();
-    });
+    stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, Play);
   }
 
   #region IDialogueController
   public void Play()
   {
-    if (state != DialogueState.None)
-      return;
-
-    events.TryInvoke(IDialogueSubscriber.EventType.OnPlay);
+    events.TryInvoke(IDialogueStateSubscriber.EventType.OnPlay);
   }
 
   public void Complete()
   {
-    if (state == DialogueState.Complete)
+    if (state == SequenceState.Complete)
       return;
 
-    events.TryInvoke(IDialogueSubscriber.EventType.OnComplete);
+    events.TryInvoke(IDialogueStateSubscriber.EventType.OnComplete);
+
+    state = SequenceState.WaitingForPlay;
   }
 
   public void Skip()
   {
-    if (state == DialogueState.None)
+    if (state == SequenceState.WaitingForPlay)
       return;
 
-    events.TryInvoke(IDialogueSubscriber.EventType.OnSkip);
+    events.TryInvoke(IDialogueStateSubscriber.EventType.OnSkip);
   }
 
   public void NextSequence()
   {
-    if (state == DialogueState.None)
+    if (state == SequenceState.WaitingForPlay)
       return;
 
-    events.TryInvoke(IDialogueSubscriber.EventType.OnNextSequence);
+    events.TryInvoke(IDialogueStateSubscriber.EventType.OnNextSequence);
   }
 
-  public void SetState(DialogueState state)
+  public void SetSequenceState(SequenceState state)
     => this.state = state;
   #endregion
 
   #region IDialogueSubscriber
-  public void SubscribeEvent(IDialogueSubscriber.EventType eventType, UnityAction action)
+  public void SubscribeEvent(IDialogueStateSubscriber.EventType eventType, UnityAction action)
   {
     events.AddEvent(eventType, action);
   }
 
-  public void UnsubscribeEvent(IDialogueSubscriber.EventType eventType, UnityAction action)
+  public void UnsubscribeEvent(IDialogueStateSubscriber.EventType eventType, UnityAction action)
   {
     events.RemoveEvent(eventType, action);
   }

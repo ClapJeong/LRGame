@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: DialogueDataSO
   m_EditorClassIdentifier: Assembly-CSharp::DialogueUIDataSO
   <PortraitData>k__BackingField:
-    <ChangeFadeDuration>k__BackingField: 0.6
+    <ChangeFadeDuration>k__BackingField: 0.4
     <AlphaMax>k__BackingField: 1
     <AlphaHalfHidden>k__BackingField: 0.6
     <AlphaMin>k__BackingField: 0
   <TextPresentationData>k__BackingField:
-    <CharacterInterval>k__BackingField: 0.06
+    <CharacterInterval>k__BackingField: 0.04
     <SkipInputDuration>k__BackingField: 1
     <InputPerformedAlpha>k__BackingField: 1
     <InputCanceledAlpha>k__BackingField: 0.3

@@ -20,8 +20,6 @@ namespace LR.UI.GameScene.Dialogue
     public TextMeshProUGUI dialogueTMP;
     public LocalizeStringEvent dialogueLocalize;
 
-    private bool useImageA = false;
-
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
       gameObject.SetActive(false);
@@ -34,16 +32,6 @@ namespace LR.UI.GameScene.Dialogue
       gameObject.SetActive(true);
       visibleState = UIVisibleState.Showen;
       await UniTask.CompletedTask;
-    }
-
-    public void SwapImageOrders(out Image forwardImage, out Image backwardImage)
-    {
-      useImageA = !useImageA;
-
-      forwardImage = useImageA ? portraitImageA : portraitImageB;
-      backwardImage = useImageA ? portraitImageB : portraitImageA;
-
-      backwardImage.transform.SetAsFirstSibling();
     }
   }
 }

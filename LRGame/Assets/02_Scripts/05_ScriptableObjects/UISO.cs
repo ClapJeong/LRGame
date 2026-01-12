@@ -29,4 +29,10 @@ public class UISO : ScriptableObject
   [field: SerializeField] public float StageUIMoveDefaultDuration {  get; private set; }
   [field: SerializeField] public float BeginShowDuration { get; private set; }
   [field: SerializeField] public float BeginHideDuration { get; private set; }
+
+  [field: Header("[ Stage ]")]
+  [field: SerializeField] public float DialogueRootShowDuratoin {  get; private set; }
+  [field: SerializeField] public float DialogueRootHideDuratoin { get; private set; }
+  [field: SerializeField] public float SelectionShowDuration {  get; private set; }
+  [field: SerializeField] public float SelectionHideDuration { get; private set; }
 }

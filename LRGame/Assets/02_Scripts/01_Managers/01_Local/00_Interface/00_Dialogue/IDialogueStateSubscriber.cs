@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Events;
 
-public interface IDialogueSubscriber
+public interface IDialogueStateSubscriber
 {
   public enum EventType
   {

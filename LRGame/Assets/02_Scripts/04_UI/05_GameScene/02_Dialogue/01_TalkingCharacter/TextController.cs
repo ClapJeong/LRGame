@@ -3,33 +3,40 @@ using LR.Table.Dialogue;
 using System;
 using System.Threading;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine;
+using UnityEngine.Localization.Components;
 
 namespace LR.UI.GameScene.Dialogue.Character
 {
-  public class TalkingController
+  public class TextController
   {
-    private readonly UITalkingCharacterView view;
     private readonly UITextPresentationData tableData;
+    private readonly GameObject nameRoot;
+    private readonly LocalizeStringEvent nameLocalize;
+    private readonly LocalizeStringEvent dialogueLocalize;
+    private readonly TextMeshProUGUI dialogueTMP;    
 
     private readonly CTSContainer dialogueCTS = new();
 
-    public TalkingController(UITalkingCharacterView view, UITextPresentationData tableData)
+    public TextController(UITextPresentationData tableData, GameObject nameRoot, LocalizeStringEvent nameLocalize, LocalizeStringEvent dialogueLocalize, TextMeshProUGUI dialogueTMP)
     {
-      this.view = view;
       this.tableData = tableData;
+      this.nameRoot = nameRoot;
+      this.nameLocalize = nameLocalize;
+      this.dialogueLocalize = dialogueLocalize;
+      this.dialogueTMP = dialogueTMP;      
     }
 
     public void SetName(string key)
     {
       if (string.IsNullOrEmpty(key))
       {
-        view.nameRoot.SetActive(false);
+        nameRoot.SetActive(false);
       }
       else
       {
-        view.nameLocalize.SetEntry(key);
-        view.nameRoot.SetActive(true);
+        nameLocalize.SetEntry(key);
+        nameRoot.SetActive(true);
       }
     }
 
@@ -39,12 +46,12 @@ namespace LR.UI.GameScene.Dialogue.Character
       dialogueCTS.Create();
       if (string.IsNullOrEmpty(key))
       {
-        view.dialogueTMP.text = "";
+        dialogueTMP.text = "";
       }
       else
       {
         await SetLocalizeKeyAsync(key, dialogueCTS.token);
-        await view.dialogueTMP.TypeRichTextAsync(tableData.CharacterInterval, dialogueCTS.token);
+        await dialogueTMP.TypeRichTextAsync(tableData.CharacterInterval, dialogueCTS.token);
       }
     }
 
@@ -55,9 +62,8 @@ namespace LR.UI.GameScene.Dialogue.Character
       void OnUpdate(string value) => resolvedText = value;
       try
       {
-
-        view.dialogueLocalize.OnUpdateString.AddListener(OnUpdate);
-        view.dialogueLocalize.SetEntry(key);
+        dialogueLocalize.OnUpdateString.AddListener(OnUpdate);
+        dialogueLocalize.SetEntry(key);
 
         await UniTask.WaitUntil(
             () => resolvedText != null,
@@ -66,7 +72,7 @@ namespace LR.UI.GameScene.Dialogue.Character
       catch (OperationCanceledException) { }
       finally
       {
-        view.dialogueLocalize.OnUpdateString.RemoveListener(OnUpdate);
+        dialogueLocalize.OnUpdateString.RemoveListener(OnUpdate);
       }
     }
 

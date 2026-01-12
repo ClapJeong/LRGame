@@ -42,7 +42,7 @@ namespace LR.UI.GameScene.Dialogue
     private readonly UITalkingCharacterView view;
 
     private readonly PortraitController portraitController;
-    private readonly TalkingController dialogueController;
+    private readonly TextController dialogueController;
 
     public UITalkingCharacterPresenter(Model model, UITalkingCharacterView view)
     {
@@ -51,8 +51,8 @@ namespace LR.UI.GameScene.Dialogue
 
       LoadAllPortraitsAsync().Forget();
 
-      portraitController = new(model.portraitData, view);
-      dialogueController = new(view, model.textPresentationData);
+      portraitController = new(model.portraitData, view.portraitImageA, view.portraitImageB);
+      dialogueController = new(model.textPresentationData, view.nameRoot, view.nameLocalize, view.dialogueLocalize, view.dialogueTMP);
 
       CacheTransparentAsync().Forget();
     }

@@ -102,7 +102,16 @@ namespace LR.UI.GameScene.Dialogue
 
     public void SetOutlinePosition(Direction direction)
     {
-      view.outlineRect.position = view.GetDirectionPosition(direction);
+      view.outlineRect.position = direction switch
+      {
+        Direction.Up => view.upLocalize.GetComponent<RectTransform>().GetCenterPosition(),
+        Direction.Down => view.downLocalize.GetComponent<RectTransform>().GetCenterPosition(),
+        Direction.Left => view.leftLocalize.GetComponent<RectTransform>().GetCenterPosition(),
+        Direction.Right => view.rightLocalize.GetComponent<RectTransform>().GetCenterPosition(),
+        Direction.Space => view.idleRect.GetCenterPosition(),
+        _ => throw new NotImplementedException()
+      };
+
     }
 
     private void OnInputPerformed(Direction direction)

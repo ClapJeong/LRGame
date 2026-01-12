@@ -6,24 +6,24 @@ using UnityEngine;
 
 namespace LR.UI.GameScene.Dialogue.Root
 {
-  public class TalkingSequenceController
+  public class TalkingController
   {
     private readonly UITalkingCharacterPresenter leftCharacterPresenter;
     private readonly UITalkingCharacterPresenter centerCharacterPresenter;
     private readonly UITalkingCharacterPresenter rightCharacterPresenter;
     private readonly UITalkingInputsPresenter inputPresenter;
     private readonly DialogueInputActionController dialogueInputActionController;
-    private readonly IDialogueController dialogueController;
+    private readonly IDialogueStateController dialogueController;
 
     private readonly CTSContainer cts = new();
     private bool isTalkling = false;
 
-    public TalkingSequenceController(
+    public TalkingController(
       GameObject attachTarget,
       TableContainer table,
       IResourceManager resourceManager,
       IUIInputActionManager uiInputActionManager,
-      IDialogueController dialogueController,
+      IDialogueStateController dialogueController,
       UITalkingCharacterView leftView,
       UITalkingCharacterView centerView,
       UITalkingCharacterView rightView,
@@ -80,18 +80,20 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     public async UniTask ActivateAsync(bool isImmediately, CancellationToken token)
     {
-      leftCharacterPresenter.ActivateAsync().Forget();
-      centerCharacterPresenter.ActivateAsync().Forget();
-      rightCharacterPresenter.ActivateAsync().Forget();
-      inputPresenter.ActivateAsync().Forget();
+      await UniTask.WhenAll(
+        leftCharacterPresenter.ActivateAsync(isImmediately, token),
+      centerCharacterPresenter.ActivateAsync(isImmediately, token),
+      rightCharacterPresenter.ActivateAsync(isImmediately, token),
+      inputPresenter.ActivateAsync(isImmediately, token));     
     }
 
     public async UniTask DeactivateAsync(bool isImmediately, CancellationToken token)
     {
-      leftCharacterPresenter.DeactivateAsync().Forget();
-      centerCharacterPresenter.DeactivateAsync().Forget();
-      rightCharacterPresenter.DeactivateAsync().Forget();
-      inputPresenter.DeactivateAsync().Forget();
+      await UniTask.WhenAll(
+        leftCharacterPresenter.DeactivateAsync(isImmediately, token),
+      centerCharacterPresenter.DeactivateAsync(isImmediately, token),
+      rightCharacterPresenter.DeactivateAsync(isImmediately, token),
+      inputPresenter.DeactivateAsync(isImmediately, token));
     }
 
     public void ResetInputs()

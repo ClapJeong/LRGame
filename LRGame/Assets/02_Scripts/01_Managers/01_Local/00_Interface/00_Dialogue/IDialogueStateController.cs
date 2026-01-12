@@ -1,4 +1,4 @@
-﻿public interface IDialogueController
+﻿public interface IDialogueStateController
 {
   public void Play();
 
@@ -8,5 +8,5 @@
 
   public void NextSequence();
 
-  public void SetState(DialogueState state);
+  public void SetSequenceState(SequenceState state);
 }

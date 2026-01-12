@@ -44,6 +44,9 @@ namespace LR.UI.GameScene.Stage
       gameObject.SetActive(true);
       visibleState = UIVisibleState.Showing;
 
+      LeftReadyImage.SetAlpha(0.4f);
+      RightReadyImage.SetAlpha(0.4f);
+
       var duration = isImmediately ? 0.0f : UISO.BeginHideDuration;
       await DOTween.Sequence()
         .Join(leftContainer.DOAnchorPos(Vector2.zero, duration))

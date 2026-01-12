@@ -9,7 +9,7 @@ namespace LR.UI.GameScene.Stage
   {
     public class Model
     {
-      public IDialogueSubscriber dialogueSubscriber;
+      public IDialogueStateSubscriber dialogueSubscriber;
       public IStageStateHandler stageStateHandler;
       public IStageStateProvider stageStateProvider;
       public IStageEventSubscriber stageEventSubscriber;
@@ -20,7 +20,7 @@ namespace LR.UI.GameScene.Stage
       public IUIInputActionManager uiInputActionManager;
 
       public Model(
-        IDialogueSubscriber dialogueSubscriber,
+        IDialogueStateSubscriber dialogueSubscriber,
         IStageStateHandler stageStateHandler,
         IStageStateProvider stageStateProvider,
         IStageEventSubscriber stageEventSubscriber,
@@ -69,7 +69,7 @@ namespace LR.UI.GameScene.Stage
 
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, OnStageFailed);
 
-      model.dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);      
+      model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);      
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -101,14 +101,14 @@ namespace LR.UI.GameScene.Stage
       beginPresenter.ActivateAsync().Forget();
       SubscribePauseInput();
 
-      model.dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
-      model.dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
+      model.dialogueSubscriber.UnsubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
+      model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
     }
 
     private void OnAfterDialogueBegin()
     {
-      model.dialogueSubscriber.UnsubscribeEvent(IDialogueSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
-      model.dialogueSubscriber.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
+      model.dialogueSubscriber.UnsubscribeEvent(IDialogueStateSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
+      model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
     }
 
     private void OnAfterDialogueComplete()

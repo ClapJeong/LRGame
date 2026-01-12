@@ -268,7 +268,7 @@ if(gameDataService.IsVeryFirst())
     rightPresenter.AttachOnDestroy(gameObject);
     rightPresenter.DeactivateAsync().Forget();
 
-    DialogueService.SubscribeEvent(IDialogueSubscriber.EventType.OnComplete, () =>
+    DialogueService.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, () =>
     {
       if (leftPresenter.GetVisibleState() == UIVisibleState.Hidden)
         leftPresenter.ActivateAsync().Forget();

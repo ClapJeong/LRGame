@@ -15,11 +15,11 @@ namespace LR.UI.GameScene.Dialogue
       public IGameDataService gameDataService;
       public IUIInputActionManager uiInputActionManager;
       public IDialogueDataProvider dialogueDataProvider;
-      public IDialogueSubscriber subscriber;
-      public IDialogueController controller;
+      public IDialogueStateSubscriber subscriber;
+      public IDialogueStateController controller;
       public IStageStateHandler stageStateHandler;
 
-      public Model(TableContainer table, IResourceManager resourceManager, IGameDataService gameDataService, IUIInputActionManager uiInputActionManager, IDialogueDataProvider dialogueDataProvider, IDialogueSubscriber subscriber, IDialogueController controller, IStageStateHandler stageStateHandler)
+      public Model(TableContainer table, IResourceManager resourceManager, IGameDataService gameDataService, IUIInputActionManager uiInputActionManager, IDialogueDataProvider dialogueDataProvider, IDialogueStateSubscriber subscriber, IDialogueStateController controller, IStageStateHandler stageStateHandler)
       {
         this.table = table;
         this.resourceManager = resourceManager;
