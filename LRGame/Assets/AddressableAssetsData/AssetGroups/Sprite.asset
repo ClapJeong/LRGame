@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77b1018b835eb50499b77a641f5c0dff
+    m_Address: DialogueBackground
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cb718db1893765a4fbdcd5640243467c
     m_Address: Portrait
     m_ReadOnly: 0

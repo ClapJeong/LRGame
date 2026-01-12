@@ -2,6 +2,7 @@
 using DG.Tweening;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -9,6 +10,8 @@ namespace LR.UI.GameScene.Dialogue
   {
     [field: SerializeField] private CanvasGroup backgroundCanvasGroup;
     [field: SerializeField] private RectTransform dialogueContainer;
+    [field: SerializeField] public Image BackgroundA { get; private set; }
+    [field: SerializeField] public Image BackgroundB { get; private set; }
 
     [Header("[ Talking ]")]
     public UITalkingCharacterView leftTalkingCharacterView;

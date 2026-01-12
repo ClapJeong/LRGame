@@ -53,6 +53,8 @@ namespace LR.UI.GameScene.Dialogue
         this.model.controller,
         this.model.stageStateHandler,
         this,
+        view.BackgroundA,
+        view.BackgroundB,
         view.leftTalkingCharacterView,
         view.centerTalkingCharacterView,
         view.rightTalkingCharacterView,

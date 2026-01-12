@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
+using static LR.Table.Dialogue.DialogueData;
 
 namespace LR.UI.GameScene.Dialogue.Root
 {
@@ -30,6 +32,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private readonly UISelectionData selectionTableData;
     private readonly CTSContainer selectionCTS = new();
+    private readonly CTSContainer backgroundCTS = new();
     private IDialogueSequence.Type prevSequenceType;
     private DialogueData currentDialogueData;
     private TargetDialogueType dialogueState = TargetDialogueType.BeforeStage;
@@ -46,6 +49,8 @@ namespace LR.UI.GameScene.Dialogue.Root
       IDialogueStateController dialogueController,
       IStageStateHandler stageStateHandler,
       UIDialogueRootPresenter rootPresenter,
+      Image backgroundA,
+      Image backgroundB,
       UITalkingCharacterView leftTalkingView,
       UITalkingCharacterView centerTalkingView,
       UITalkingCharacterView rightTalkingView,
@@ -71,8 +76,17 @@ namespace LR.UI.GameScene.Dialogue.Root
         leftTalkingView,
         centerTalkingView,
         rightTalkingView,
-        talkingInputView);
+        talkingInputView,
+        backgroundA,
+        backgroundB);
       talkingController.DeactivateAsync(true, default).Forget();
+
+      if (dialogueDataProvider.TryGetBeforeDialogueData(out var beforeDialogueData))
+      {
+        var firstData = GetEnableSequence(beforeDialogueData.SequenceSets.First());
+        if (firstData.SequenceType == IDialogueSequence.Type.Talking)
+          talkingController.ChangeBackgroundAsync(((DialogueTalkingData)firstData).Background, true, default).Forget();
+      }
 
       selectionController = new(
         attachTarget,
@@ -121,7 +135,14 @@ namespace LR.UI.GameScene.Dialogue.Root
         case TargetDialogueType.AfterStage:
           {
             if(dialogueDataProvider.TryGetAfterDialogueData(out var afterDialogueData))
+            {
+              var firstData = GetEnableSequence(afterDialogueData.SequenceSets.First());
+              if (firstData.SequenceType == IDialogueSequence.Type.Talking)
+                talkingController.ChangeBackgroundAsync(((DialogueTalkingData)firstData).Background, true, default).Forget();
+
+              rootPresenter.ActivateAsync().Forget();
               PlayFirstSequenceAsync(afterDialogueData).Forget();
+            }              
             else
               dialogueStateController.Complete();
           }
@@ -144,7 +165,8 @@ namespace LR.UI.GameScene.Dialogue.Root
     private void OnSkipDialogue()
     {
       selectionCTS.Cancel();
-      
+      backgroundCTS.Cancel();
+
       dialogueStateController.Complete();
     }
 
@@ -168,7 +190,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private async UniTask PlayFirstSequenceAsync(DialogueData dialogueData)
     {
       currentDialogueData = dialogueData;
-      await rootPresenter.ActivateAsync();
+      
       await talkingController.ActivateAsync(false, default);
 
       prevSequenceType = IDialogueSequence.Type.Talking;
@@ -178,20 +200,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     private void PlaySequence(DialogueData.SequenceSet sequenceSet)
     {
-      DialogueSequenceBase targetSequence = null;
-      if(sequenceSet.Sequences.Count == 1)
-      {
-        targetSequence = sequenceSet.Sequences[0];
-      }
-      else
-      {
-        targetSequence = sequenceSet.Sequences.FirstOrDefault(sequence =>
-        {
-          var targetCondition = sequence.GetCondition();
-          return gameDataService.IsContainsCondition(targetCondition.TargetSubName, targetCondition.LeftKey, targetCondition.RightKey);
-        });
-        targetSequence ??= sequenceSet.Sequences[0];        
-      }
+      var targetSequence = GetEnableSequence(sequenceSet);
 
       switch (sequenceSet.SequenceType)
       {
@@ -213,6 +222,25 @@ namespace LR.UI.GameScene.Dialogue.Root
       }
 
       sequenceIndex++;
+    }
+
+    private DialogueSequenceBase GetEnableSequence(DialogueData.SequenceSet sequenceSet)
+    {
+      DialogueSequenceBase targetSequence = null;
+      if (sequenceSet.Sequences.Count == 1)
+      {
+        targetSequence = sequenceSet.Sequences[0];
+      }
+      else
+      {
+        targetSequence = sequenceSet.Sequences.FirstOrDefault(sequence =>
+        {
+          var targetCondition = sequence.GetCondition();
+          return gameDataService.IsContainsCondition(targetCondition.TargetSubName, targetCondition.LeftKey, targetCondition.RightKey);
+        });
+        targetSequence ??= sequenceSet.Sequences[0];
+      }
+      return targetSequence;
     }
 
     private async UniTask SetSequenceTypeAsync(IDialogueSequence.Type sequenceType)
@@ -252,7 +280,10 @@ namespace LR.UI.GameScene.Dialogue.Root
     private void PlayTalkingSequence(DialogueTalkingData talkingData)
     {
       SetSequenceTypeAsync(IDialogueSequence.Type.Talking).Forget();
-      
+
+      backgroundCTS.Cancel();
+      backgroundCTS.Create();
+      talkingController.ChangeBackgroundAsync(talkingData.Background, false, backgroundCTS.token).Forget();
       talkingController.PlayCharacterDataAsync(talkingData).Forget();
       talkingController.EnableTalkingInputs();
     }

@@ -367,9 +367,8 @@ if(gameDataService.IsVeryFirst())
     var view = await resourceManager.CreateAssetAsync<UIDialogueRootView>(key, root);
     var presenter = new UIDialogueRootPresenter(model, view);
 
-    firstPresenters.Add(presenter);
     presenter.AttachOnDestroy(gameObject);
-    await presenter.DeactivateAsync(true);
+    await presenter.ActivateAsync(true);
   }
 
   private async UniTask LoadPreloadAsync()
