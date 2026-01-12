@@ -6,7 +6,8 @@ using System.Text;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using static PortraitEnum;
+using static Codice.CM.Common.CmCallContext;
+using static DialogueDataEnum;
 
 namespace LR.Editor 
 {
@@ -64,6 +65,7 @@ namespace LR.Editor
 
     private bool wasFocused;
     private Vector2 scrollPos;
+    private bool previewBackground = false;
 
     [MenuItem("Editor Window/Dialogue Editor")]
     public static void OpenWindow()
@@ -529,6 +531,7 @@ namespace LR.Editor
       if (selectedSequence == sequence)
         return;
 
+      previewBackground = false;
       SaveData(selectedRootData);
       selectedSequence = sequence;
 
@@ -693,6 +696,32 @@ namespace LR.Editor
 
         using (new EditorGUILayout.HorizontalScope())
         {
+          GUILayout.FlexibleSpace();
+          talkingData.Background = (int)(BackgroundType)EditorGUILayout.EnumPopup((BackgroundType)talkingData.Background, GUILayout.Width(100.0f));
+          previewBackground = EditorGUILayout.Foldout(previewBackground, " background preview");
+          GUILayout.FlexibleSpace();
+        }
+
+        EditorGUILayout.Space(15.0f);
+
+        if (previewBackground)
+        {
+          var backgroundName = ((BackgroundType)talkingData.Background).ToString();
+          var backgroundAssetPath = BackgroundPath + backgroundName + ".png";
+          if (AssetDatabase.AssetPathExists(backgroundAssetPath))
+          {
+            using (new GUILayout.HorizontalScope())
+            {
+              var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(backgroundAssetPath);
+              var rect = GUILayoutUtility.GetRect(BackgroundWidth, BackgroundHeight);
+              GUI.DrawTexture(rect, texture, ScaleMode.ScaleToFit);
+            }
+            EditorGUILayout.Space(10.0f);
+          }
+        }
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
           EditorGUILayout.Space(50.0f);
           DrawCharacterDataArea(talkingData, prevTalkingData, CharacterPositionType.Left);
           GUILayout.FlexibleSpace();
@@ -714,9 +743,9 @@ namespace LR.Editor
         {
           var portraitName = positionType switch
           {
-            CharacterPositionType.Left => ((PortraitEnum.Left)current.Portrait).ToString(),
-            CharacterPositionType.Center => ((PortraitEnum.Center)current.Portrait).ToString(),
-            CharacterPositionType.Right => ((PortraitEnum.Right)current.Portrait).ToString(),
+            CharacterPositionType.Left => ((Portrait.Left)current.Portrait).ToString(),
+            CharacterPositionType.Center => ((Portrait.Center)current.Portrait).ToString(),
+            CharacterPositionType.Right => ((Portrait.Right)current.Portrait).ToString(),
             _ => throw new System.NotImplementedException(),
           };
           var portraitAssetPath = GetPortraitPath(positionType) + portraitName + ".png";
@@ -739,15 +768,15 @@ namespace LR.Editor
           switch (positionType)
           {
             case CharacterPositionType.Left:
-              current.Portrait = (int)(PortraitEnum.Left)EditorGUILayout.EnumPopup((PortraitEnum.Left)current.Portrait);
+              current.Portrait = (int)(Portrait.Left)EditorGUILayout.EnumPopup((Portrait.Left)current.Portrait);
               break;
 
             case CharacterPositionType.Center:
-              current.Portrait = (int)(PortraitEnum.Center)EditorGUILayout.EnumPopup((PortraitEnum.Center)current.Portrait);
+              current.Portrait = (int)(Portrait.Center)EditorGUILayout.EnumPopup((Portrait.Center)current.Portrait);
               break;
 
             case CharacterPositionType.Right:
-              current.Portrait = (int)(PortraitEnum.Right)EditorGUILayout.EnumPopup((PortraitEnum.Right)current.Portrait);
+              current.Portrait = (int)(Portrait.Right)EditorGUILayout.EnumPopup((Portrait.Right)current.Portrait);
               break;
           }
         }
@@ -756,7 +785,7 @@ namespace LR.Editor
         {
           EditorGUILayout.LabelField("ChangeType");
           EditorGUI.BeginDisabledGroup(previousData == null || previousData.GetCharacterData(positionType).Portrait == current.Portrait);
-          current.PortraitChangeType = (int)(PortraitEnum.ChangeType)EditorGUILayout.EnumPopup((PortraitEnum.ChangeType)current.PortraitChangeType);
+          current.PortraitChangeType = (int)(Portrait.ChangeType)EditorGUILayout.EnumPopup((Portrait.ChangeType)current.PortraitChangeType);
           EditorGUI.EndDisabledGroup();
         }
 
@@ -764,7 +793,7 @@ namespace LR.Editor
         {
           EditorGUILayout.LabelField("AnimationType");
           EditorGUI.BeginDisabledGroup(current.Portrait == 0);
-          current.PortraitAnimationType = (int)(PortraitEnum.AnimationType)EditorGUILayout.EnumPopup((PortraitEnum.AnimationType)current.PortraitAnimationType);
+          current.PortraitAnimationType = (int)(Portrait.AnimationType)EditorGUILayout.EnumPopup((Portrait.AnimationType)current.PortraitAnimationType);
           EditorGUI.EndDisabledGroup();
         }
 
@@ -772,7 +801,7 @@ namespace LR.Editor
         {
           EditorGUILayout.LabelField("AlphaType");
           EditorGUI.BeginDisabledGroup(current.Portrait == 0);
-          current.PortraitAlphaType = (int)(PortraitEnum.AlphaType)EditorGUILayout.EnumPopup((PortraitEnum.AlphaType)current.PortraitAlphaType);
+          current.PortraitAlphaType = (int)(Portrait.AlphaType)EditorGUILayout.EnumPopup((Portrait.AlphaType)current.PortraitAlphaType);
           EditorGUI.EndDisabledGroup();
         }
 

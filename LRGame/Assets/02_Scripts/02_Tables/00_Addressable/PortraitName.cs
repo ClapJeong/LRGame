@@ -4,20 +4,20 @@
 public class PortraitName
 {
   public string GetLeftName(int index)
-    => GetLeftName((PortraitEnum.Left)index);
+    => GetLeftName((DialogueDataEnum.Portrait.Left)index);
 
-  public string GetLeftName(PortraitEnum.Left left)
+  public string GetLeftName(DialogueDataEnum.Portrait.Left left)
     => left.ToString() + ".png";
 
   public string GetRightName(int index)
-    => GetRightName((PortraitEnum.Right)index);
+    => GetRightName((DialogueDataEnum.Portrait.Right)index);
 
-  public string GetRightName(PortraitEnum.Right right)
+  public string GetRightName(DialogueDataEnum.Portrait.Right right)
     => right.ToString() + ".png";
 
   public string GetCenterName(int index)
-    => GetCenterName((PortraitEnum.Center)index);
+    => GetCenterName((DialogueDataEnum.Portrait.Center)index);
 
-  public string GetCenterName(PortraitEnum.Center center)
+  public string GetCenterName(DialogueDataEnum.Portrait.Center center)
     => center.ToString() + ".png";
 }

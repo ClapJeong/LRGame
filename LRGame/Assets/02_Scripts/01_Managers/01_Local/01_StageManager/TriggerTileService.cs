@@ -4,7 +4,6 @@ using LR.Stage.TriggerTile;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using static PortraitEnum;
 
 public class TriggerTileService : 
   IStageObjectSetupService<ITriggerTilePresenter>, 

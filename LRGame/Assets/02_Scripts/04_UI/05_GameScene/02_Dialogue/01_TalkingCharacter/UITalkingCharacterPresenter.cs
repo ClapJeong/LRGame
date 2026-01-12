@@ -86,9 +86,9 @@ namespace LR.UI.GameScene.Dialogue
     public async UniTask PlayCharacterDataAsync(DialogueCharacterData data)
     {
       var portrait = await GetPortraitSpriteAsync(data.Portrait);
-      portraitController.SetImage(portrait, (PortraitEnum.ChangeType)data.PortraitChangeType);      
-      portraitController.PlayAnimation((PortraitEnum.AnimationType)data.PortraitAnimationType);
-      portraitController.SetAlpha((PortraitEnum.AlphaType)data.PortraitAlphaType);
+      portraitController.SetImage(portrait, (DialogueDataEnum.Portrait.ChangeType)data.PortraitChangeType);      
+      portraitController.PlayAnimation((DialogueDataEnum.Portrait.AnimationType)data.PortraitAnimationType);
+      portraitController.SetAlpha((DialogueDataEnum.Portrait.AlphaType)data.PortraitAlphaType);
 
       dialogueController.SetName(data.NameKey);
       await dialogueController.SetDialogueAsync(data.DialogueKey);
@@ -119,22 +119,22 @@ namespace LR.UI.GameScene.Dialogue
       {
         case CharacterType.Left:
           {
-            foreach (var value in Enum.GetValues(typeof(PortraitEnum.Left)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetLeftName((PortraitEnum.Left)value)));
+            foreach (var value in Enum.GetValues(typeof(DialogueDataEnum.Portrait.Left)))
+              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetLeftName((DialogueDataEnum.Portrait.Left)value)));
           }
           break;
 
         case CharacterType.Center:
           {
-            foreach (var value in Enum.GetValues(typeof(PortraitEnum.Center)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetCenterName((PortraitEnum.Center)value)));
+            foreach (var value in Enum.GetValues(typeof(DialogueDataEnum.Portrait.Center)))
+              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetCenterName((DialogueDataEnum.Portrait.Center)value)));
           }
           break;
 
         case CharacterType.Right:
           {
-            foreach (var value in Enum.GetValues(typeof(PortraitEnum.Right)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetRightName((PortraitEnum.Right)value)));
+            foreach (var value in Enum.GetValues(typeof(DialogueDataEnum.Portrait.Right)))
+              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetRightName((DialogueDataEnum.Portrait.Right)value)));
           }
           break;
       }

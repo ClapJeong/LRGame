@@ -17,12 +17,12 @@ namespace LR.Table.Dialogue
     [field: SerializeField] public float AlphaHalfHidden { get; private set; }
     [field: SerializeField] public float AlphaMin { get; private set; }
 
-    public float GetAlphaValue(PortraitEnum.AlphaType type)
+    public float GetAlphaValue(DialogueDataEnum.Portrait.AlphaType type)
       => type switch
       {
-        PortraitEnum.AlphaType.Max => AlphaMax,
-        PortraitEnum.AlphaType.HalfHidden => AlphaHalfHidden,
-        PortraitEnum.AlphaType.Min => AlphaMin,
+        DialogueDataEnum.Portrait.AlphaType.Max => AlphaMax,
+        DialogueDataEnum.Portrait.AlphaType.HalfHidden => AlphaHalfHidden,
+        DialogueDataEnum.Portrait.AlphaType.Min => AlphaMin,
         _ => throw new System.NotImplementedException()
       };
   }

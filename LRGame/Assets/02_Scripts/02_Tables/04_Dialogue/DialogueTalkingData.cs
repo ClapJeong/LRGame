@@ -15,8 +15,8 @@ namespace LR.Table.Dialogue
         if (subName == value)
           return;
 
-        onDirty?.Invoke();
         subName = value;
+        onDirty?.Invoke();
       }
     }
     public int Background
@@ -27,8 +27,8 @@ namespace LR.Table.Dialogue
         if (background == value)
           return;
 
-        onDirty?.Invoke();
         background = value;
+        onDirty?.Invoke();        
       }
     }
 

@@ -18,8 +18,8 @@ namespace LR.Table.Dialogue
         if (subName == value)
           return;
 
-        onDirty?.Invoke();
         subName = value;
+        onDirty?.Invoke();        
       }
     }
 
@@ -31,8 +31,8 @@ namespace LR.Table.Dialogue
         if (descriptionKey == value)
           return;
 
-        onDirty?.Invoke();
         descriptionKey = value;
+        onDirty?.Invoke();        
       }
     }
 
@@ -44,8 +44,8 @@ namespace LR.Table.Dialogue
         if (leftUpKey == value)
           return;
 
-        onDirty?.Invoke();
         leftUpKey = value;
+        onDirty?.Invoke();        
       }
     }
     public string LeftRightKey
@@ -56,8 +56,8 @@ namespace LR.Table.Dialogue
         if (leftRightKey == value)
           return;
 
-        onDirty?.Invoke();
         leftRightKey = value;
+        onDirty?.Invoke();        
       }
     }
     public string LeftDownKey
@@ -68,8 +68,8 @@ namespace LR.Table.Dialogue
         if (leftDownKey == value)
           return;
 
-        onDirty?.Invoke();
         leftDownKey = value;
+        onDirty?.Invoke();        
       }
     }
     public string LeftLeftKey
@@ -80,8 +80,8 @@ namespace LR.Table.Dialogue
         if (leftLeftKey == value)
           return;
 
-        onDirty?.Invoke();
         leftLeftKey = value;
+        onDirty?.Invoke();        
       }
     }
 
@@ -93,8 +93,8 @@ namespace LR.Table.Dialogue
         if (rightUpKey == value)
           return;
 
-        onDirty?.Invoke();
         rightUpKey = value;
+        onDirty?.Invoke();        
       }
     }
     public string RightRightKey
@@ -105,8 +105,8 @@ namespace LR.Table.Dialogue
         if (rightRightKey == value)
           return;
 
-        onDirty?.Invoke();
         rightRightKey = value;
+        onDirty?.Invoke();        
       }
     }
     public string RightDownKey
@@ -117,8 +117,8 @@ namespace LR.Table.Dialogue
         if (rightDownKey == value)
           return;
 
-        onDirty?.Invoke();
         rightDownKey = value;
+        onDirty?.Invoke();        
       }
     }
     public string RightLeftKey
@@ -129,8 +129,8 @@ namespace LR.Table.Dialogue
         if (rightLeftKey == value)
           return;
 
-        onDirty?.Invoke();
         rightLeftKey = value;
+        onDirty?.Invoke();        
       }
     }
 

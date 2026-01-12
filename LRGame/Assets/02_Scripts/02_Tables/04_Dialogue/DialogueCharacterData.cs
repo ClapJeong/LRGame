@@ -24,8 +24,8 @@ namespace LR.Table.Dialogue
         if (portrait == value)
           return;
 
-        onDirty?.Invoke();
         portrait = value;
+        onDirty?.Invoke();        
       }}
     public int PortraitChangeType
     {
@@ -47,8 +47,8 @@ namespace LR.Table.Dialogue
         if (portraitAnimationType == value)
           return;
 
-        onDirty?.Invoke();
         portraitAnimationType = value;
+        onDirty?.Invoke();        
       }
     }
     public int PortraitAlphaType
@@ -59,8 +59,8 @@ namespace LR.Table.Dialogue
         if (portraitAlphaType == value)
           return;
 
-        onDirty?.Invoke();
         portraitAlphaType = value;
+        onDirty?.Invoke();        
       }
     }
     public string NameKey
@@ -71,8 +71,8 @@ namespace LR.Table.Dialogue
         if (nameKey == value)
           return;
 
-        onDirty?.Invoke();
         nameKey = value;
+        onDirty?.Invoke();        
       }
     }
     public string DialogueKey
@@ -83,8 +83,8 @@ namespace LR.Table.Dialogue
         if (dialogueKey == value)
           return;
 
-        onDirty?.Invoke();
         dialogueKey = value;
+        onDirty?.Invoke();        
       }
     }
 

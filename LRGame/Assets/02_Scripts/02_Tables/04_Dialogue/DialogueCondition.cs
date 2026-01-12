@@ -16,8 +16,8 @@ namespace LR.Table.Dialogue
         if (targetSubName == value)
           return;
 
-        onDirty?.Invoke();
         targetSubName = value;
+        onDirty?.Invoke();        
       }
     }
     public int LeftKey
@@ -28,8 +28,8 @@ namespace LR.Table.Dialogue
         if (leftKey == value)
           return;
 
-        onDirty?.Invoke();
         leftKey = value;
+        onDirty?.Invoke();        
       }
     }
     public int RightKey
@@ -40,8 +40,8 @@ namespace LR.Table.Dialogue
         if (rightKey == value)
           return;
 
-        onDirty?.Invoke();
         rightKey = value;
+        onDirty?.Invoke();        
       }
     }
 
