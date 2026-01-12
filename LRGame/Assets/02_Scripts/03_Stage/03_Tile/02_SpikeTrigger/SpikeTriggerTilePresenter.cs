@@ -57,7 +57,7 @@ namespace LR.Stage.TriggerTile
 
       if (playerPresenter.GetEnergyProvider().IsInvincible == false)
         playerPresenter.GetEnergyController().Damage(model.data.DamageValue);
-
+      //TODO: 에너지는안깎이는데피격바운스랑이펙트이런건계속중첩ㄷ이됨
       var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;
       var reactionController = playerPresenter.GetReactionController();
       reactionController.Bounce(model.data.BounceData, bounceDirection);

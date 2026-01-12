@@ -9,6 +9,8 @@ namespace LR.UI.GameScene.Stage
   public class UIStageBeginView : BaseUIView
   {
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private RectTransform readyLabel;
+    [SerializeField] private Vector2 labelHidePosition;
 
     [field: SerializeField] private RectTransform leftContainer;
     [field: SerializeField] public Image LeftReadyImage { get; private set; }
@@ -30,6 +32,7 @@ namespace LR.UI.GameScene.Stage
         .Join(leftContainer.DOAnchorPos(-hideLength * Vector2.right, duration))
         .Join(rightContainer.DOAnchorPos(hideLength * Vector2.right, duration))
         .Join(canvasGroup.DOFade(0.0f, duration))
+        .Join(readyLabel.DOAnchorPos(labelHidePosition, duration))
         .ToUniTask(TweenCancelBehaviour.Kill, token);
       gameObject.SetActive(false);
 

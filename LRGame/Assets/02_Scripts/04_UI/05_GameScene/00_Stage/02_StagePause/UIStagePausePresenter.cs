@@ -62,7 +62,7 @@ namespace LR.UI.GameScene.Stage
         () =>
         {
           model.selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
-          model.depthService.RaiseDepth(view.RestartProgressFillSubmit.gameObject);
+          model.depthService.RaiseDepth(view.ResumeProgressFillSubmit.gameObject);
         },
         () =>
         {

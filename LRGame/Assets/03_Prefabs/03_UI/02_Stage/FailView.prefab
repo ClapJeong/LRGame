@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c1443e452a91e4aace552d9f309957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStageFailView
-  hidePosition: {x: 0, y: 500}
+  hidePosition: {x: 0, y: 300}
   showPosition: {x: 0, y: 0}
   canvasGroup: {fileID: 6992117166003017576}
   <IndicatorRoot>k__BackingField: {fileID: 3507033128758951713}

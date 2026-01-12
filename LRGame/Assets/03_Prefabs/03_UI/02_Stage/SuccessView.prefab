@@ -1209,7 +1209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10eceeaca6d3a2c469d7501fde4f9d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStageSuccessView
-  hidePosition: {x: 0, y: -500}
+  hidePosition: {x: 0, y: -300}
   showPosition: {x: 0, y: 0}
   canvasGroup: {fileID: 7087345429071686996}
   <IndicatorRoot>k__BackingField: {fileID: 5470125263936760088}

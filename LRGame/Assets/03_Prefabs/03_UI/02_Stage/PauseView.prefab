@@ -668,7 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f5ccce6dc56894fb4ac1d9fba88ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStagePauseViewContainer
-  hidePosition: {x: 800, y: 0}
+  hidePosition: {x: 400, y: 0}
   showPosition: {x: 0, y: 0}
   canvasGroup: {fileID: 4552686304641017438}
   <IndicatorRoot>k__BackingField: {fileID: 1161226429907374786}

@@ -19,11 +19,8 @@ namespace LR.UI.GameScene.Stage
     {      
       visibleState = UIVisibleState.Hiding;
 
-      var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
-      await DOTween.Sequence()
-        .Join(RectTransform.DOAnchorPos(hidePosition, duration))
-        .Join(canvasGroup.DOFade(0.0f, duration))
-        .ToUniTask(TweenCancelBehaviour.Kill, token);
+      RectTransform.anchoredPosition = hidePosition;
+      canvasGroup.alpha = 0.0f;
 
       visibleState = UIVisibleState.Hidden;
       gameObject.SetActive(false);
