@@ -6,10 +6,10 @@ namespace LR.UI.GameScene.Player
 {
   public class UIPlayerInputView : BaseUIView
   {
-    public BaseAnimatorView upAnimator;
-    public BaseAnimatorView downAnimator;
-    public BaseAnimatorView leftAnimator;
-    public BaseAnimatorView rightAnimator;
+    [field: SerializeField] public Animator UpAnimator { get; private set; }
+    [field: SerializeField] public Animator RightAnimator { get; private set; }
+    [field: SerializeField] public Animator DownAnimator { get; private set; }
+    [field: SerializeField] public Animator LeftAnimator { get; private set; }    
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

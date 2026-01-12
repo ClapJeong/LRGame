@@ -70,10 +70,10 @@ namespace LR.UI.GameScene.Player
     {
       var animatorView = direction switch
       {
-        Direction.Up => view.upAnimator,
-        Direction.Down => view.downAnimator,
-        Direction.Left => view.leftAnimator,
-        Direction.Right => view.rightAnimator,
+        Direction.Up => view.UpAnimator,
+        Direction.Down => view.DownAnimator,
+        Direction.Left => view.LeftAnimator,
+        Direction.Right => view.RightAnimator,
         _ => throw new System.NotImplementedException(),
       };
       animatorView.SetBool(activeHash, true);
@@ -83,10 +83,10 @@ namespace LR.UI.GameScene.Player
     {
       var animatorView = direction switch
       {
-        Direction.Up => view.upAnimator,
-        Direction.Down => view.downAnimator,
-        Direction.Left => view.leftAnimator,
-        Direction.Right => view.rightAnimator,
+        Direction.Up => view.UpAnimator,
+        Direction.Down => view.DownAnimator,
+        Direction.Left => view.LeftAnimator,
+        Direction.Right => view.RightAnimator,
         _ => throw new System.NotImplementedException(),
       };
       animatorView.SetBool(activeHash, false);

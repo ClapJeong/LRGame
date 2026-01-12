@@ -4,8 +4,9 @@ namespace LR.Stage.Player
 {
   public class BasePlayerView : MonoBehaviour, IPlayerView
   {
-    [SerializeField] private new Rigidbody2D rigidbody;
     [SerializeField] private PlayerType playerType;
+
+    [field: SerializeField] public Rigidbody2D Rigidbody2D { get; private set; }    
     [field: SerializeField] public SpriteRenderer SpriteRenderer { get; private set; }
 
     public GameObject GameObject
@@ -21,13 +22,13 @@ namespace LR.Stage.Player
 
     #region IRigidbodyController
     public void SetLinearVelocity(Vector3 velocity)
-      => rigidbody.linearVelocity = velocity;
+      => Rigidbody2D.linearVelocity = velocity;
 
     public void AddForce(Vector3 force, ForceMode2D forceMode = ForceMode2D.Force)
-      => rigidbody.AddForce(force, forceMode);
+      => Rigidbody2D.AddForce(force, forceMode);
 
     public Vector3 GetLinearVelocity()
-      => rigidbody.linearVelocity;
+      => Rigidbody2D.linearVelocity;
     #endregion
   }
 }

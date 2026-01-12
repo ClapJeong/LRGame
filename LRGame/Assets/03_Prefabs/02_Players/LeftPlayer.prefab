@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0439212ef94a124e8b625ec2b95ef61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasePlayerView
-  rigidbody: {fileID: 6632608147133349101}
   playerType: 0
+  <Rigidbody2D>k__BackingField: {fileID: 6632608147133349101}
   <SpriteRenderer>k__BackingField: {fileID: 5094681356297094815}
 --- !u!50 &6632608147133349101
 Rigidbody2D:

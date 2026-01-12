@@ -1,22 +1,24 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace LR.UI.GameScene.Player
 {
   public class UIPlayerChargingView : BaseUIView
   {
-    public BaseImageView imageView;
+    [SerializeField] private Image chargeImage;
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      imageView.SetEnable(false);
+      chargeImage.enabled = false;
       visibleState = UIVisibleState.Hidden;
       await UniTask.CompletedTask;
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      imageView.SetEnable(true);
+      chargeImage.enabled = true;
       visibleState = UIVisibleState.Showen;
       await UniTask.CompletedTask;
     }

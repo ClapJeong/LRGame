@@ -65,8 +65,8 @@ namespace LR.UI.GameScene.Player
         .UpdateAsObservable()
         .Subscribe(_ =>
         {
-          var value = model.energyProvider.CurrentEnergy / model.playerEnergyData.MaxEnergy;
-          view.fillImageView.SetFillAmount(value);
+          var normalized = model.energyProvider.CurrentEnergy / model.playerEnergyData.MaxEnergy;
+          view.FillImage.SetFillAmount(normalized);
         });
     }
   }

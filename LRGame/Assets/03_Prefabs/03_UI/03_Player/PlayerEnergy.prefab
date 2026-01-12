@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd524cc5722e774eb55510967b37b00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerEnergyView
-  fillImageView: {fileID: 2666916524406150257}
+  <FillImage>k__BackingField: {fileID: 0}
 --- !u!1 &6161715366333496784
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,8 +107,6 @@ GameObject:
   - component: {fileID: 4039369840764875047}
   - component: {fileID: 4096388651032183378}
   - component: {fileID: 7572807081056394881}
-  - component: {fileID: 7079642644589051352}
-  - component: {fileID: 4277638977276898471}
   m_Layer: 0
   m_Name: HPSlider
   m_TagString: Untagged
@@ -173,30 +171,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7079642644589051352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109064090110699776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a1b429dbbc2cef4898c214480f9153c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseGameObjectView
---- !u!114 &4277638977276898471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7109064090110699776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &7388022564512615785
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,8 +182,6 @@ GameObject:
   - component: {fileID: 3944498464992865025}
   - component: {fileID: 2602824608342615519}
   - component: {fileID: 4318366804179906277}
-  - component: {fileID: 5801004510183055311}
-  - component: {fileID: 2666916524406150257}
   m_Layer: 0
   m_Name: HPSlider
   m_TagString: Untagged
@@ -274,30 +246,6 @@ MonoBehaviour:
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5801004510183055311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7388022564512615785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a1b429dbbc2cef4898c214480f9153c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseGameObjectView
---- !u!114 &2666916524406150257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7388022564512615785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5847afe005c338b40b6712b8a6ea32c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.UI.BaseImageView
 --- !u!1 &9113973434940777097
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,4 +295,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd524cc5722e774eb55510967b37b00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerEnergyView
-  fillImageView: {fileID: 4277638977276898471}
+  <FillImage>k__BackingField: {fileID: 0}

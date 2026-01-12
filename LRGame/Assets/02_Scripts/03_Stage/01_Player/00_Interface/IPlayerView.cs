@@ -2,8 +2,7 @@ using UnityEngine;
 
 namespace LR.Stage.Player
 {
-  public interface IPlayerView :
-  IRigidbodyController
+  public interface IPlayerView
   {
     public PlayerType GetPlayerType();
     public GameObject GameObject { get; }

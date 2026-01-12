@@ -1,11 +1,13 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace LR.UI.GameScene.Player
 {
   public class UIPlayerEnergyView : BaseUIView
   {
-    public BaseImageView fillImageView;
+    [field: SerializeField] public Image FillImage { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
