@@ -47,25 +47,35 @@ namespace LR.UI.GameScene.Stage
         onProgress: view.RestartFillImage.SetFillAmount,
         onComplete: OnRestart);
 
-      view.NextProgressFillSubmit.Subscribe(
-        view.NextProgressFillSubmit.InputDirection,
-        onPerformed: null,
-        onCanceled: null,
-        onProgress: view.NextProgressFillSubmit.FillImage.SetFillAmount,
-        onComplete: OnNext);
 
-      view.QuitProgressSubmit.Subscribe(
-        Direction.Down,
-        onPerformed: null,
-        onCanceled: null,
-        onProgress: view.QuitFillImage.SetFillAmount,
-        onComplete: OnQuit);
+      if (IsNextStageExist())
+      {
+        view.NextProgressFillSubmit.Subscribe(
+                view.NextProgressFillSubmit.InputDirection,
+                onPerformed: null,
+                onCanceled: null,
+                onProgress: view.NextProgressFillSubmit.FillImage.SetFillAmount,
+                onComplete: OnNext);
+      }
+      else
+      {
+        view.NextProgressFillSubmit.gameObject.SetActive(false);
+        view.RestartSelectable.AddNavigation(Direction.Right, null);
+        view.QuitSelectable.AddNavigation(Direction.Right, null);
+      }
+
+        view.QuitProgressSubmit.Subscribe(
+          Direction.Down,
+          onPerformed: null,
+          onCanceled: null,
+          onProgress: view.QuitFillImage.SetFillAmount,
+          onComplete: OnQuit);
 
       subscribeHandle = new SubscribeHandle(
         () =>
         {
           model.selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
-          model.depthService.RaiseDepth(view.RestartSelectable.gameObject);
+          model.depthService.RaiseDepth(IsNextStageExist() ? view.NextProgressFillSubmit.gameObject : view.RestartSelectable.gameObject);
         },
         () =>
         {
@@ -103,12 +113,6 @@ namespace LR.UI.GameScene.Stage
 
     public UIVisibleState GetVisibleState()
       => view.GetVisibleState();
-
-    private void OnResume()
-    {
-      DeactivateAsync().Forget();
-      model.stageService.Resume();
-    }
 
     private void OnRestart()
     {
@@ -166,6 +170,5 @@ namespace LR.UI.GameScene.Stage
 
       return model.gameDataService.IsStageExist(chapter, stage);
     }
-
   }
 }

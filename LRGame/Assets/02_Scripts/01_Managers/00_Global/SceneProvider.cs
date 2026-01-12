@@ -83,9 +83,7 @@ public class SceneProvider : ISceneProvider
       }
 
       if (useUI)
-      {
         await loadingPresenter.DeactivateAsync();
-      }        
       localManager?.Play();
     }
     catch (OperationCanceledException e) { Debug.Log(e); }

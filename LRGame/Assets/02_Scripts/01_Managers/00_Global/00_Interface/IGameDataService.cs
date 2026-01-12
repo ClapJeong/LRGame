@@ -11,10 +11,6 @@ public interface IGameDataService
 
   public void SetClearData(int chapter, int stage);
 
-  public bool IsEnableStage(int chapter, int stage);
-
-  public bool IsEnableChapter(int chapter);
-
   public GameData.ChapterStageData GetTopClearData();
 
   public void SetSelectedStage(int chapter, int stage);
@@ -26,4 +22,6 @@ public interface IGameDataService
   public void SetDialogueCondition(string key, int left, int right);
 
   public bool IsContainsCondition(string key, int left, int right);
+
+  public bool IsClearStage(int chapter, int stage);
 }

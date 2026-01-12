@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
+using LR.UI;
 using LR.UI.GameScene.Dialogue;
 using LR.UI.GameScene.Player;
 using LR.UI.GameScene.Stage;
 using LR.UI.Lobby;
 using LR.UI.Preloading;
+using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -26,6 +28,8 @@ public partial class LocalManager : MonoBehaviour
   public InputQTEService InputQTEService { get; private set; }
   public InputQTEUIService InputQTEUIService { get; private set; }
 
+  private readonly List<IUIPresenter> firstPresenters = new();
+
   public async UniTask InitializeAsync()
   {
     instance = this;
@@ -41,14 +45,33 @@ public partial class LocalManager : MonoBehaviour
         break;
 
       case SceneType.Preloading:
+        {
+          foreach(var firstPresenter in firstPresenters)
+            firstPresenter?.ActivateAsync().Forget();
+        }
         break;
 
       case SceneType.Lobby:
+        {
+          foreach (var firstPresenter in firstPresenters)
+            firstPresenter?.ActivateAsync().Forget();
+        }
         break;
 
       case SceneType.Game:
         {
-          DialogueService.Play();
+          GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
+          var isClearStage = GlobalManager.instance.GameDataService.IsClearStage(chapter, stage);
+          if (isClearStage == false)
+          {
+            StageManager.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, DialogueService.Play);
+            DialogueService.Play();
+          }
+          else
+          {
+            foreach (var firstPresenter in firstPresenters)
+              firstPresenter?.ActivateAsync().Forget();
+          }
         }        
         break;
     }
@@ -101,7 +124,7 @@ public partial class LocalManager : MonoBehaviour
       ChatCardService);
     StageManager = new StageManager(stageManagerModel);
 
-    DialogueService = new DialogueService(StageManager);
+    DialogueService = new DialogueService();
   }
 
   private async UniTask InitializeSceneAsync()
@@ -196,9 +219,13 @@ if(gameDataService.IsVeryFirst())
 
       case SceneType.Game:
         {
-          await CreatePlayerUIsAsync();
-          await CreateStageUIAsync();
-          await CreateDialogueUIAsync();
+          GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
+          var isPlayDialogue = GlobalManager.instance.GameDataService.IsClearStage(chapter, stage) == false;
+
+          await CreatePlayerUIsAsync(isPlayDialogue);
+          await CreateStageUIAsync(isPlayDialogue);
+          if(isPlayDialogue)
+            await CreateDialogueUIAsync();
         }
         break;
     }
@@ -213,10 +240,11 @@ if(gameDataService.IsVeryFirst())
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(table.Path.UI + table.UIName.PreloadingRoot, root);
-
     var presenter = new UIPreloadingPresenter(model, view);
-    presenter.AttachOnDestroy(gameObject);
-    presenter.ActivateAsync().Forget();
+
+    firstPresenters.Add(presenter);
+    presenter.AttachOnDestroy(gameObject);    
+    await presenter.DeactivateAsync(true);
   }
 
   private async UniTask CreateLobbyUIAsync()
@@ -234,13 +262,13 @@ if(gameDataService.IsVeryFirst())
 
     var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UILobbyRootView>(table.Path.UI + table.UIName.LobbyRoot, root);
-
     var presenter = new UILobbyRootPresenter(model, view);
+
     presenter.AttachOnDestroy(gameObject);
     await presenter.ActivateAsync();
   }
 
-  private async UniTask CreatePlayerUIsAsync()
+  private async UniTask CreatePlayerUIsAsync(bool isPlayDialogue)
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
@@ -253,28 +281,36 @@ if(gameDataService.IsVeryFirst())
       playerType: PlayerType.Left,
       playerGetter: StageManager);
     var leftView = viewRoot.leftView;
-
     var leftPresenter = new UIPlayerRootPresenter(Leftmodel, leftView);
     leftPresenter.AttachOnDestroy(gameObject);
-    leftPresenter.DeactivateAsync().Forget();
 
     var rightmodel = new UIPlayerRootPresenter.Model(
       stageManager: StageManager,
       playerType: PlayerType.Right,
       playerGetter: StageManager);
     var rightView = viewRoot.rightView;
-
     var rightPresenter = new UIPlayerRootPresenter(rightmodel, rightView);
     rightPresenter.AttachOnDestroy(gameObject);
-    rightPresenter.DeactivateAsync().Forget();
 
-    DialogueService.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, () =>
+    if (isPlayDialogue)
     {
-      if (leftPresenter.GetVisibleState() == UIVisibleState.Hidden)
+      DialogueService.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, () =>
+      {
         leftPresenter.ActivateAsync().Forget();
-      if (rightPresenter.GetVisibleState() == UIVisibleState.Hidden)
         rightPresenter.ActivateAsync().Forget();
-    });
+      });
+    }
+    else
+    {
+      firstPresenters.Add(leftPresenter);
+      firstPresenters.Add(rightPresenter);
+      leftPresenter.AttachOnDestroy(gameObject); 
+      rightPresenter.AttachOnDestroy(gameObject);
+
+      await UniTask.WhenAll(
+        leftPresenter.DeactivateAsync(),
+        rightPresenter.DeactivateAsync());
+    }
 
     this.OnDestroyAsObservable().Subscribe(_ =>
     {
@@ -283,11 +319,16 @@ if(gameDataService.IsVeryFirst())
     });
   }
 
-  private async UniTask CreateStageUIAsync()
+  private async UniTask CreateStageUIAsync(bool isPlayDialogue)
   {
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var key = table.Path.UI + table.UIName.StageRoot;
+    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+
     var model = new UIStageRootPresenter.Model(
+      isPlayDialogue : isPlayDialogue,
       dialogueSubscriber: DialogueService,
       stageStateHandler: StageManager,
       stageStateProvider: StageManager,
@@ -296,21 +337,23 @@ if(gameDataService.IsVeryFirst())
       gameDataService: GlobalManager.instance.GameDataService,
       uiManager: GlobalManager.instance.UIManager,
       sceneProvider: GlobalManager.instance.SceneProvider,
-      uiInputActionManager: GlobalManager.instance.UIInputManager);
-
-    var table = GlobalManager.instance.Table.AddressableKeySO;
-    var key = table.Path.UI + table.UIName.StageRoot;
-    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+      uiInputActionManager: GlobalManager.instance.UIInputManager);    
     var view = await resourceManager.CreateAssetAsync<UIStageRootView>(key, root);
-
     var presenter = new UIStageRootPresenter(model, view);
+
+    if (isPlayDialogue == false)
+      firstPresenters.Add(presenter);
     presenter.AttachOnDestroy(gameObject);
+    await presenter.DeactivateAsync(true);
   }
 
   private async UniTask CreateDialogueUIAsync()
   {
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    var table = GlobalManager.instance.Table.AddressableKeySO;
+    var key = table.Path.UI + table.UIName.DialogueRoot;
+    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
 
     var model = new UIDialogueRootPresenter.Model(
       table: GlobalManager.instance.Table,
@@ -320,15 +363,13 @@ if(gameDataService.IsVeryFirst())
       dialogueDataProvider: StageManager,
       subscriber: DialogueService,
       controller: DialogueService,
-      stageStateHandler: StageManager);
-    var table = GlobalManager.instance.Table.AddressableKeySO;
-    var key = table.Path.UI + table.UIName.DialogueRoot;
-    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+      stageStateHandler: StageManager);    
     var view = await resourceManager.CreateAssetAsync<UIDialogueRootView>(key, root);
-
     var presenter = new UIDialogueRootPresenter(model, view);
+
+    firstPresenters.Add(presenter);
     presenter.AttachOnDestroy(gameObject);
-    await presenter.DeactivateAsync();
+    await presenter.DeactivateAsync(true);
   }
 
   private async UniTask LoadPreloadAsync()

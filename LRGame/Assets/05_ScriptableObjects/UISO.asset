@@ -37,5 +37,5 @@ MonoBehaviour:
   <BeginHideDuration>k__BackingField: 0.3
   <DialogueRootShowDuratoin>k__BackingField: 0.6
   <DialogueRootHideDuratoin>k__BackingField: 0.3
-  <SelectionShowDuration>k__BackingField: 0.1
-  <SelectionHideDuration>k__BackingField: 0.3
+  <SelectionShowDuration>k__BackingField: 0.3
+  <SelectionHideDuration>k__BackingField: 0.5

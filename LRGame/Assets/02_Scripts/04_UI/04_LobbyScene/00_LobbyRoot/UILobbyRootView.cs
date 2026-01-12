@@ -17,12 +17,14 @@ namespace LR.UI.Lobby
     public override UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
       visibleState = UIVisibleState.Hidden;
+      gameObject.SetActive(false);
       return UniTask.CompletedTask;
     }
 
     public override UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       visibleState = UIVisibleState.Showen;
+      gameObject.SetActive(true);
       return UniTask.CompletedTask;
     }
   }

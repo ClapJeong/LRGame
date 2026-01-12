@@ -9,6 +9,7 @@ namespace LR.UI.GameScene.Stage
   {
     public class Model
     {
+      public bool isPlayDialogue;
       public IDialogueStateSubscriber dialogueSubscriber;
       public IStageStateHandler stageStateHandler;
       public IStageStateProvider stageStateProvider;
@@ -20,6 +21,7 @@ namespace LR.UI.GameScene.Stage
       public IUIInputActionManager uiInputActionManager;
 
       public Model(
+        bool isPlayDialogue,
         IDialogueStateSubscriber dialogueSubscriber,
         IStageStateHandler stageStateHandler,
         IStageStateProvider stageStateProvider,
@@ -30,6 +32,7 @@ namespace LR.UI.GameScene.Stage
         ISceneProvider sceneProvider, 
         IUIInputActionManager uiInputActionManager)
       {
+        this.isPlayDialogue = isPlayDialogue;
         this.dialogueSubscriber = dialogueSubscriber;
         this.stageStateHandler = stageStateHandler;
         this.stageStateProvider = stageStateProvider;
@@ -69,7 +72,10 @@ namespace LR.UI.GameScene.Stage
 
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, OnStageFailed);
 
-      model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);      
+      if (model.isPlayDialogue)
+        model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
+      else
+        model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, () => successPresenter.ActivateAsync().Forget());
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -94,12 +100,13 @@ namespace LR.UI.GameScene.Stage
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
       await view.ShowAsync(isImmediately, token);
+      await beginPresenter.ActivateAsync(isImmediately, token);
+      SubscribePauseInput();
     }
 
     private void OnBeforeDialgoueComplete()
     {
-      beginPresenter.ActivateAsync().Forget();
-      SubscribePauseInput();
+      ActivateAsync().Forget();
 
       model.dialogueSubscriber.UnsubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
       model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnPlay, OnAfterDialogueBegin);

@@ -60,20 +60,6 @@ public class GameDataService : IGameDataService
     chapterData.stage = stage;
   }
 
-  public bool IsEnableStage(int chapter, int stage)
-  {
-    var chapterData = GetChapterData(chapter);
-
-    return chapterData.stage >= stage;
-  }
-
-  public bool IsEnableChapter(int chapter)
-  {
-    var chapterData = GetChapterData(chapter);
-    
-    return chapterData != null;
-  }
-
   public GameData.ChapterStageData GetTopClearData()
   {
     if (gameData != null)
@@ -106,6 +92,9 @@ public class GameDataService : IGameDataService
 
   public bool IsStageExist(int chapter, int stage)
     => (chapter * 4 + (stage + 1)) <= StageDataCount;
+
+  public bool IsClearStage(int chapter, int stage)
+    => gameData.chaterStageDatas.FirstOrDefault(data => data.chapter == chapter && data.stage == stage) != null;
 
   private async UniTask CacheStageCount(IResourceManager resourceManager)
   {

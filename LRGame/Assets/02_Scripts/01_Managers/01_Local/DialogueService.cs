@@ -7,11 +7,9 @@ public class DialogueService : IDialogueStateController, IDialogueStateSubscribe
 
   private SequenceState state;
 
-  public DialogueService(IStageEventSubscriber stageEventSubscriber)
+  public DialogueService()
   {
     state = SequenceState.WaitingForPlay;
-
-    stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, Play);
   }
 
   #region IDialogueController
