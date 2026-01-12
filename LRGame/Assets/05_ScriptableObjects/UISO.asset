@@ -35,6 +35,8 @@ MonoBehaviour:
   <StageUIMoveDefaultDuration>k__BackingField: 0.2
   <BeginShowDuration>k__BackingField: 0.3
   <BeginHideDuration>k__BackingField: 0.3
+  <RestartDelay>k__BackingField: 1.5
+  <RestartUIFadeDuration>k__BackingField: 0.5
   <DialogueRootShowDuratoin>k__BackingField: 0.6
   <DialogueRootHideDuratoin>k__BackingField: 0.3
   <SelectionShowDuration>k__BackingField: 0.3

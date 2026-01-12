@@ -3,6 +3,7 @@ using LR.Stage.Player;
 using LR.Stage.StageDataContainer;
 using LR.Stage.TriggerTile;
 using LR.Table.Dialogue;
+using LR.UI.GameScene.Stage;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,8 +31,9 @@ public class StageManager :
     public IInputProgressService inputProgressService;
     public IInputQTEService inputQTEService;
     public IChatCardService chatCardService;
+    public IUIPresenterContainer uiPresenterContainer;
 
-    public Model(GameObject localManager, TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory, IInputProgressService inputProgressService, IInputQTEService inputQTEService, IChatCardService chatCardService)
+    public Model(GameObject localManager, TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory, IInputProgressService inputProgressService, IInputQTEService inputQTEService, IChatCardService chatCardService, IUIPresenterContainer uiPresenterContainer)
     {
       this.localManager = localManager;
       this.table = table;
@@ -44,6 +46,7 @@ public class StageManager :
       this.inputProgressService = inputProgressService;
       this.inputQTEService = inputQTEService;
       this.chatCardService = chatCardService;
+      this.uiPresenterContainer = uiPresenterContainer;
     }
   }
 
@@ -127,8 +130,11 @@ public class StageManager :
   #endregion
 
   #region IStageService
-  public UniTask RestartAsync()
+  public async UniTask RestartAsync()
   {
+    var restartPresenter = model.uiPresenterContainer.GetFirst<UIRestartPresenter>();
+    await restartPresenter.ActivateAsync();
+
     playerSetupService.RestartAll();
     triggerTileService.RestartAll();
     interactiveObjectService.RestartAll();
@@ -140,8 +146,9 @@ public class StageManager :
     isLeftClear = false;
     isRightClear = false;
 
+    await restartPresenter.DeactivateAsync();
+
     SetState(StageEnum.State.Playing);
-    return UniTask.CompletedTask;
   }
 
   public void Complete()

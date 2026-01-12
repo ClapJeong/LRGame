@@ -121,7 +121,8 @@ public partial class LocalManager : MonoBehaviour
       GlobalManager.instance.FactoryManager.InputActionFactory,
       InputProgressService,
       InputQTEService,
-      ChatCardService);
+      ChatCardService,
+      GlobalManager.instance.UIManager.GetIUIPresenterContainer());
     StageManager = new StageManager(stageManagerModel);
 
     DialogueService = new DialogueService();
@@ -337,7 +338,8 @@ if(gameDataService.IsVeryFirst())
       gameDataService: GlobalManager.instance.GameDataService,
       uiManager: GlobalManager.instance.UIManager,
       sceneProvider: GlobalManager.instance.SceneProvider,
-      uiInputActionManager: GlobalManager.instance.UIInputManager);    
+      uiInputActionManager: GlobalManager.instance.UIInputManager,
+      tableContainer: GlobalManager.instance.Table);
     var view = await resourceManager.CreateAssetAsync<UIStageRootView>(key, root);
     var presenter = new UIStageRootPresenter(model, view);
 

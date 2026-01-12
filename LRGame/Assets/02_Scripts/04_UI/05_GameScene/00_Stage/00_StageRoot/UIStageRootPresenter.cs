@@ -19,6 +19,7 @@ namespace LR.UI.GameScene.Stage
       public UIManager uiManager;
       public ISceneProvider sceneProvider;
       public IUIInputActionManager uiInputActionManager;
+      public TableContainer tableContainer;
 
       public Model(
         bool isPlayDialogue,
@@ -30,7 +31,8 @@ namespace LR.UI.GameScene.Stage
         IGameDataService gameDataService, 
         UIManager uiManager, 
         ISceneProvider sceneProvider, 
-        IUIInputActionManager uiInputActionManager)
+        IUIInputActionManager uiInputActionManager,
+        TableContainer tableContainer)
       {
         this.isPlayDialogue = isPlayDialogue;
         this.dialogueSubscriber = dialogueSubscriber;
@@ -42,6 +44,7 @@ namespace LR.UI.GameScene.Stage
         this.uiManager = uiManager;
         this.sceneProvider = sceneProvider;
         this.uiInputActionManager = uiInputActionManager;
+        this.tableContainer = tableContainer;
       }
     }
 
@@ -54,6 +57,7 @@ namespace LR.UI.GameScene.Stage
     private UIStageFailPresenter failPresenter;
     private UIStageSuccessPresenter successPresenter;
     private UIStagePausePresenter pausePresenter;
+    private UIRestartPresenter restartPresenter;
 
     public UIStageRootPresenter(Model model, UIStageRootView view)
     {
@@ -64,6 +68,7 @@ namespace LR.UI.GameScene.Stage
       CreateFailPresenter();
       CreateSuccessPresenter();
       CreatePausePresenter();
+      CreateRestartPresenter();
 
       beginPresenter.DeactivateAsync(true).Forget();
       failPresenter.DeactivateAsync(true).Forget();
@@ -87,6 +92,11 @@ namespace LR.UI.GameScene.Stage
         view.DestroySelf();
 
       UnsubscribePauseInput();
+
+      model
+        .uiManager
+        .GetIUIPresenterContainer()
+        .Remove(restartPresenter);
     }
 
     public UIVisibleState GetVisibleState()
@@ -128,7 +138,7 @@ namespace LR.UI.GameScene.Stage
       var model = new UIStageBeginPresenter.Model(        
         uiInputActionManager: this.model.uiInputActionManager,
         stageService: this.model.stageStateHandler);
-      var beginView = view.beginViewContainer;
+      var beginView = view.BeginView;
       beginPresenter = new UIStageBeginPresenter(model, beginView);
       beginPresenter.AttachOnDestroy(view.gameObject);
     }
@@ -141,7 +151,7 @@ namespace LR.UI.GameScene.Stage
         sceneProvider: this.model.sceneProvider,
         selectedGameObjectService: this.model.uiManager.GetIUISelectedGameObjectService(),
         depthService: this.model.uiManager.GetIUIDepthService());
-      var failView = view.failViewContainer;
+      var failView = view.FailView;
       failPresenter = new UIStageFailPresenter(model, failView);
       failPresenter.AttachOnDestroy(view.gameObject);
     }
@@ -155,7 +165,7 @@ namespace LR.UI.GameScene.Stage
         stageService: this.model.stageStateHandler,
         selectedGameObjectService: this.model.uiManager.GetIUISelectedGameObjectService(),
         depthService: this.model.uiManager.GetIUIDepthService());
-      var view = this.view.successViewContainer;
+      var view = this.view.SuccessView;
       successPresenter = new UIStageSuccessPresenter(model, view);
       successPresenter.AttachOnDestroy(this.view.gameObject);
     }
@@ -168,9 +178,24 @@ namespace LR.UI.GameScene.Stage
         stageService: this.model.stageStateHandler,
         selectedGameObjectService: this.model.uiManager.GetIUISelectedGameObjectService(),
         depthService: this.model.uiManager.GetIUIDepthService());
-      var view = this.view.pauseViewContainer;
+      var view = this.view.PauseView;
       pausePresenter = new UIStagePausePresenter(model, view);
       pausePresenter.AttachOnDestroy(this.view.gameObject);
+    }
+
+    private void CreateRestartPresenter()
+    {
+      var model = new UIRestartPresenter.Model(this.model.tableContainer.UISO);
+      var view = this.view.RestartView;
+      restartPresenter = new UIRestartPresenter(model, view);
+      restartPresenter.AttachOnDestroy(this.view.gameObject);
+      restartPresenter.DeactivateAsync(true).Forget();
+
+      this
+        .model
+        .uiManager
+        .GetIUIPresenterContainer()
+        .Add(restartPresenter);
     }
 
     private void SubscribePauseInput()
