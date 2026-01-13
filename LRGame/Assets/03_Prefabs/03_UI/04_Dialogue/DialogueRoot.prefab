@@ -462,6 +462,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+--- !u!114 &1245641847061576126 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5816218064883235285, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 4755294514965659755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Febucci.TextAnimatorForUnity.TMP.Runtime::Febucci.TextAnimatorForUnity.TextMeshPro.TextAnimator_TMP
 --- !u!114 &1476887825341188251 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6161142596256909552, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
@@ -484,6 +495,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &1611386226386007596 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6314882404881643079, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 4755294514965659755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6b0a2b8ddbab342ad54b5409ccffec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Febucci.TextAnimatorForUnity.Runtime::Febucci.TextAnimatorForUnity.TypewriterComponent
 --- !u!224 &2254943634723374650 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6824387625153152593, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
@@ -500,6 +522,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &3192829016615825965 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7904105665798763078, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 4755294514965659755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6b0a2b8ddbab342ad54b5409ccffec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Febucci.TextAnimatorForUnity.Runtime::Febucci.TextAnimatorForUnity.TypewriterComponent
+--- !u!114 &6132517768512563466 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1505652814512269665, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 4755294514965659755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Febucci.TextAnimatorForUnity.TMP.Runtime::Febucci.TextAnimatorForUnity.TextMeshPro.TextAnimator_TMP
 --- !u!114 &6476411043700418763 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1738080138824411296, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
@@ -511,6 +555,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &6573218021206571988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1929495419446033343, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 4755294514965659755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Febucci.TextAnimatorForUnity.TMP.Runtime::Febucci.TextAnimatorForUnity.TextMeshPro.TextAnimator_TMP
+--- !u!114 &7515491932817336775 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3004559776773335468, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 4755294514965659755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6b0a2b8ddbab342ad54b5409ccffec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Febucci.TextAnimatorForUnity.Runtime::Febucci.TextAnimatorForUnity.TypewriterComponent
 --- !u!114 &7916936932888042866 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3179733869420223769, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
@@ -560,6 +626,14 @@ PrefabInstance:
       propertyPath: dialogueLocalize
       value: 
       objectReference: {fileID: 1476887825341188251}
+    - target: {fileID: 537703120689792866, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <Typewriter>k__BackingField
+      value: 
+      objectReference: {fileID: 7515491932817336775}
+    - target: {fileID: 537703120689792866, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <AnimatorTMP>k__BackingField
+      value: 
+      objectReference: {fileID: 6573218021206571988}
     - target: {fileID: 537703120689792866, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
       propertyPath: <DialogueTMP>k__BackingField
       value: 
@@ -661,6 +735,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7916936932888042866}
     - target: {fileID: 5078154635487407205, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <Typewriter>k__BackingField
+      value: 
+      objectReference: {fileID: 3192829016615825965}
+    - target: {fileID: 5078154635487407205, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <AnimatorTMP>k__BackingField
+      value: 
+      objectReference: {fileID: 1245641847061576126}
+    - target: {fileID: 5078154635487407205, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
       propertyPath: <DialogueTMP>k__BackingField
       value: 
       objectReference: {fileID: 1593114390721588774}
@@ -680,6 +762,14 @@ PrefabInstance:
       propertyPath: dialogueLocalize
       value: 
       objectReference: {fileID: 8814833276567490728}
+    - target: {fileID: 6728115660854796966, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <Typewriter>k__BackingField
+      value: 
+      objectReference: {fileID: 1611386226386007596}
+    - target: {fileID: 6728115660854796966, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <AnimatorTMP>k__BackingField
+      value: 
+      objectReference: {fileID: 6132517768512563466}
     - target: {fileID: 6728115660854796966, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
       propertyPath: <DialogueTMP>k__BackingField
       value: 

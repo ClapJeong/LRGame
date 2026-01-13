@@ -53,7 +53,14 @@ namespace LR.UI.GameScene.Dialogue
       LoadAllPortraitsAsync().Forget();
 
       portraitController = new(model.portraitData, view.PortraitAnimator, view.PortraitImageA, view.PortraitImageB);
-      textController = new(model.textPresentationData, view.nameCanvasgGroup, view.NameLocalize, view.DialogueLocalize, view.DialogueTMP);
+      textController = new(
+        model.textPresentationData, 
+        view.nameCanvasgGroup, 
+        view.NameLocalize, 
+        view.DialogueLocalize, 
+        view.DialogueTMP,
+        view.AnimatorTMP,
+        view.Typewriter);
 
       CacheTransparentAsync().Forget();
     }

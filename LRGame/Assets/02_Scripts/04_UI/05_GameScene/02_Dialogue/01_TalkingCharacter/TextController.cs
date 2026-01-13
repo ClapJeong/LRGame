@@ -1,4 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
+using Febucci.TextAnimatorCore.Typing;
+using Febucci.TextAnimatorForUnity;
+using Febucci.TextAnimatorForUnity.TextMeshPro;
 using LR.Table.Dialogue;
 using System;
 using System.Threading;
@@ -14,17 +17,32 @@ namespace LR.UI.GameScene.Dialogue.Character
     private readonly CanvasGroup nameCanvasGroup;
     private readonly LocalizeStringEvent nameLocalize;
     private readonly LocalizeStringEvent dialogueLocalize;
-    private readonly TextMeshProUGUI dialogueTMP;    
+    private readonly TextMeshProUGUI dialogueTMP;
+    private readonly TextAnimator_TMP animatorTMP;
+    private readonly TypewriterComponent typewriter;
 
     private readonly CTSContainer dialogueCTS = new();
 
-    public TextController(UITextPresentationData tableData, CanvasGroup nameCanvasGroup, LocalizeStringEvent nameLocalize, LocalizeStringEvent dialogueLocalize, TextMeshProUGUI dialogueTMP)
+    private bool isTyping = false;
+
+    public TextController(
+      UITextPresentationData tableData, 
+      CanvasGroup nameCanvasGroup, 
+      LocalizeStringEvent nameLocalize, 
+      LocalizeStringEvent dialogueLocalize, 
+      TextMeshProUGUI dialogueTMP,
+      TextAnimator_TMP animatorTMP,
+      TypewriterComponent typewriter)
     {
       this.tableData = tableData;
       this.nameCanvasGroup = nameCanvasGroup;
       this.nameLocalize = nameLocalize;
       this.dialogueLocalize = dialogueLocalize;
       this.dialogueTMP = dialogueTMP;      
+      this.animatorTMP = animatorTMP;
+      this.typewriter = typewriter;
+
+      typewriter.onMessage.AddListener(OnTypeComplete);
     }
 
     public void SetName(string key)
@@ -50,9 +68,26 @@ namespace LR.UI.GameScene.Dialogue.Character
       }
       else
       {
+        isTyping = true;
         await SetLocalizeKeyAsync(key, dialogueCTS.token);
-        await dialogueTMP.TypeRichTextAsync(tableData.CharacterInterval, dialogueCTS.token);
+        var originText = dialogueTMP.text;
+        var typingText = dialogueTMP.text + "<?OnTypeComplete>";        
+        try
+        {
+          typewriter.ShowText(typingText);
+          await UniTask.WaitUntil(() => isTyping == false, PlayerLoopTiming.Update, dialogueCTS.token);
+        }
+        catch (OperationCanceledException)
+        {
+          animatorTMP.SetText(dialogueTMP.text);
+          isTyping = false;
+        }       
       }
+    }
+
+    private void OnTypeComplete(EventMarker marker)
+    {
+      isTyping = false;
     }
 
     private async UniTask SetLocalizeKeyAsync(string key, CancellationToken token)

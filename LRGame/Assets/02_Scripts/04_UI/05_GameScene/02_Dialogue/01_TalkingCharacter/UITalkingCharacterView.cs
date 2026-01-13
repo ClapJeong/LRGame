@@ -1,4 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
+using Febucci.TextAnimatorForUnity;
+using Febucci.TextAnimatorForUnity.TextMeshPro;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -20,6 +22,8 @@ namespace LR.UI.GameScene.Dialogue
     [field: SerializeField] public LocalizeStringEvent NameLocalize { get; private set; }
     [field: SerializeField] public TextMeshProUGUI DialogueTMP { get; private set; }
     [field: SerializeField] public LocalizeStringEvent DialogueLocalize { get; private set; }
+    [field: SerializeField] public TextAnimator_TMP AnimatorTMP { get; private set;  }
+    [field: SerializeField] public TypewriterComponent Typewriter { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
