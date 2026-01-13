@@ -194,6 +194,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       await talkingController.ActivateAsync(false, default);
 
       prevSequenceType = IDialogueSequence.Type.Talking;
+      talkingController.EnableTalkingInputs(); 
       var targetSequenceSet = currentDialogueData.SequenceSets[sequenceIndex];      
       PlaySequence(targetSequenceSet);
     }
@@ -262,6 +263,7 @@ namespace LR.UI.GameScene.Dialogue.Root
           {
             if(sequenceType == IDialogueSequence.Type.Talking)
             {
+              talkingController.EnableTalkingInputs();
               selectionController.DeactivateAsync(false, default).Forget();
             }
           }          
@@ -285,7 +287,6 @@ namespace LR.UI.GameScene.Dialogue.Root
       backgroundCTS.Create();
       talkingController.ChangeBackgroundAsync(talkingData.Background, false, backgroundCTS.token).Forget();
       talkingController.PlayCharacterDataAsync(talkingData).Forget();
-      talkingController.EnableTalkingInputs();
     }
 
     private async UniTask PlaySelectionSeqeuenceAsync(DialogueSelectionData selectionData, CancellationToken token)

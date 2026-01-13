@@ -19,8 +19,8 @@ namespace LR.UI.GameScene.Dialogue.Root
     private readonly UITalkingInputsPresenter inputPresenter;
     private readonly DialogueInputActionController dialogueInputActionController;
     private readonly IDialogueStateController dialogueController;
-    private readonly Image imageA;
-    private readonly Image imageB;
+    private readonly Image backgroundImageA;
+    private readonly Image backgroundImageB;
 
     private readonly CTSContainer cts = new();
     private bool isTalkling = false;
@@ -36,15 +36,15 @@ namespace LR.UI.GameScene.Dialogue.Root
       UITalkingCharacterView centerView,
       UITalkingCharacterView rightView,
       UITalkingInputsView inputView,
-      Image imageA,
-      Image imageB)
+      Image backgroundImageA,
+      Image backgroudnImageB)
     {
       this.dialogueUIDataSO = table.DialogueUIDataSO;
       this.dialogueController = dialogueController;
       this.addressableKeySO = table.AddressableKeySO;
       this.resourceManager = resourceManager;
-      this.imageA = imageA;
-      this.imageB = imageB;
+      this.backgroundImageA = backgroundImageA;
+      this.backgroundImageB = backgroudnImageB;
 
       var leftModel = new UITalkingCharacterPresenter.Model(
         table.AddressableKeySO.PortraitName,
@@ -149,11 +149,13 @@ namespace LR.UI.GameScene.Dialogue.Root
     public void EnableTalkingInputs()
     {
       dialogueInputActionController.SubscribeInputActions();
+      inputPresenter.ActivateAsync(true).Forget();
     }
 
     public void DisalbeTalkingInputs()
     {
       dialogueInputActionController.UnsubscribeInputActions();
+      inputPresenter.DeactivateAsync(true).Forget();
     }
 
     public void ClearTexts()
@@ -167,8 +169,8 @@ namespace LR.UI.GameScene.Dialogue.Root
     {
       useImageA = !useImageA;
 
-      forwardImage = useImageA ? imageA : imageB;
-      backwardImage = useImageA ? imageB : imageA;
+      forwardImage = useImageA ? backgroundImageA : backgroundImageB;
+      backwardImage = useImageA ? backgroundImageB : backgroundImageA;
 
       backwardImage.transform.SetAsFirstSibling();
     }
