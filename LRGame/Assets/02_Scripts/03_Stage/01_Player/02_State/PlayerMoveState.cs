@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace LR.Stage.Player
 {
   public class PlayerMoveState : IPlayerState

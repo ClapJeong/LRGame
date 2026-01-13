@@ -10,7 +10,7 @@ namespace LR.Stage.Player
     private readonly Dictionary<PlayerStateType, UnityEvent> onExitEvents = new();
 
     private PlayerStateType currentKey = PlayerStateType.None;
-    private PlayerStateType previousKey = PlayerStateType.None;
+
     public void AddState(PlayerStateType type, IPlayerState state)
       => states[type] = state;
 
@@ -23,11 +23,13 @@ namespace LR.Stage.Player
     #region IPlayerStateController
     public void ChangeState(PlayerStateType type)
     {
-      if(states.TryGetValue(previousKey, out var previousState)) 
-        previousState.OnExit();
-      onExitEvents.TryInvoke(previousKey);
+      if (type == currentKey)
+        return;
 
-      previousKey = currentKey;
+      if(states.TryGetValue(currentKey, out var previousState)) 
+        previousState.OnExit();
+      onExitEvents.TryInvoke(currentKey);
+
       currentKey = type;
 
       if(states.TryGetValue(currentKey, out var currentState))
@@ -38,7 +40,9 @@ namespace LR.Stage.Player
     public void FixedUpdate()
     {
       if(states.TryGetValue(currentKey, out var currentState))
+      {
         currentState.FixedUpdate();
+      }        
     }
     #endregion
 

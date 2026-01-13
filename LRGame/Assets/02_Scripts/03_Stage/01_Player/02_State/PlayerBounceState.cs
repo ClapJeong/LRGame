@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using LR.Table.TriggerTile;
 using System;
+using UnityEngine;
 
 namespace LR.Stage.Player
 {

@@ -25,11 +25,13 @@ namespace LR.Stage.Player
       energyUpdater.UpdateEnergy(Time.fixedDeltaTime);
 
       if (reactionController.IsInputting == false)
+      {
         stateController.ChangeState(PlayerStateType.Idle);
+      }        
     }
 
     public void OnEnter()
-    {     
+    {
     }
 
     public void OnExit()

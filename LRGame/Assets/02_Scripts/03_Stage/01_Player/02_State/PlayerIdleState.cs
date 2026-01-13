@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace LR.Stage.Player
 {
   public class PlayerIdleState : IPlayerState
@@ -32,7 +34,7 @@ namespace LR.Stage.Player
     }
 
     public void OnEnter()
-    {      
+    {
       inputActionController.SubscribeOnPerformed(OnMovePerformed);
     }
 

@@ -18,23 +18,32 @@ public class InputQTEService : IInputQTEService
 
   private class DurationData
   {
-    public readonly float sequenceMaxDuration;
-    public readonly float qteMaxDuration;
-    public float sequenceDuration;
-    public float qteDuration;    
+    public class Duration
+    {
+      public float max;
+      public float current;
+
+      public Duration(float max)
+      {
+        this.max = max;
+        this.current = max;
+      }
+
+      public void Reset()
+        => current = max;
+    }
+
+    public Duration sequence;
+    public Duration qte;
 
     public DurationData(float sequenceMaxDuration, float qteMaxDuration)
     {
-      this.sequenceMaxDuration = sequenceMaxDuration;
-      this.sequenceDuration = sequenceMaxDuration;
-      this.qteMaxDuration = qteMaxDuration;
-      this.qteDuration = qteMaxDuration;
+      sequence = new(sequenceMaxDuration);
+      qte = new(qteMaxDuration);      
     }
 
     public void ResetQTEDuration()
-    {
-      qteDuration = qteMaxDuration;
-    }
+      => qte.Reset();
   }
 
   private readonly InputActionFactory InputActionFactory;
@@ -200,6 +209,7 @@ public class InputQTEService : IInputQTEService
             }
             break;
         }
+
         UnregisterInputAction();
       }
     }
@@ -227,8 +237,8 @@ public class InputQTEService : IInputQTEService
   {
     isPerformed = false;
 
-    var hasSequence = durationData.sequenceMaxDuration > 0f;
-    var hasQTE = durationData.qteMaxDuration > 0f;
+    var hasSequence = durationData.sequence.max > 0f;
+    var hasQTE = durationData.qte.max > 0f;
     var sequenceTimeout = false;
     var qteTimeout = false;
     try
@@ -244,19 +254,16 @@ public class InputQTEService : IInputQTEService
           continue;
         }
 
-
         float delta = Time.deltaTime;
 
         if (hasSequence)
         {
-          durationData.sequenceDuration -= delta;
-          durationData.sequenceDuration = Mathf.Max(durationData.sequenceDuration, 0f);
+          durationData.sequence.current -= delta;
+          durationData.sequence.current = Mathf.Max(durationData.sequence.current, 0f);
 
-          presenter.OnSequenceProgress(
-            durationData.sequenceDuration / durationData.sequenceMaxDuration
-          );
+          presenter.OnSequenceProgress(durationData.sequence.current / durationData.sequence.max);
 
-          if (durationData.sequenceDuration <= 0f)
+          if (durationData.sequence.current <= 0f)
           {
             sequenceTimeout = true;
             isPerformed = false;
@@ -266,14 +273,12 @@ public class InputQTEService : IInputQTEService
 
         if (hasQTE)
         {
-          durationData.qteDuration -= delta;
-          durationData.qteDuration = Mathf.Max(durationData.qteDuration, 0f);          
+          durationData.qte.current -= delta;
+          durationData.qte.current = Mathf.Max(durationData.qte.current, 0f);          
 
-          presenter.OnQTEProgress(
-            durationData.qteDuration / durationData.qteMaxDuration
-          );
+          presenter.OnQTEProgress(durationData.qte.current / durationData.qte.max);
 
-          qteTimeout = durationData.qteDuration <= 0f;
+          qteTimeout = durationData.qte.current <= 0f;
         }
 
         await UniTask.Yield(PlayerLoopTiming.Update);

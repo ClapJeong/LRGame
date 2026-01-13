@@ -29,6 +29,7 @@ namespace LR.Stage.Player
       moveController = new BasePlayerMoveController(view.Rigidbody2D, inputActionController: this.inputActionController, model).AddTo(disposables);
 
       stateService = new PlayerStateService().AddTo(disposables);
+
       reactionController = new BasePlayerReactionController(
         moveController,
         stateService).AddTo(disposables);
