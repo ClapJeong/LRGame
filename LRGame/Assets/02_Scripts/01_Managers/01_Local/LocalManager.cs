@@ -1,10 +1,12 @@
 using Cysharp.Threading.Tasks;
+using LR.Stage.StageDataContainer;
 using LR.UI;
 using LR.UI.GameScene.Dialogue;
 using LR.UI.GameScene.Player;
 using LR.UI.GameScene.Stage;
 using LR.UI.Lobby;
 using LR.UI.Preloading;
+using System;
 using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
@@ -29,6 +31,8 @@ public partial class LocalManager : MonoBehaviour
   public InputQTEUIService InputQTEUIService { get; private set; }
 
   private readonly List<IUIPresenter> firstPresenters = new();
+
+  private bool isPlayBeforeDialogue;
 
   public async UniTask InitializeAsync()
   {
@@ -60,9 +64,7 @@ public partial class LocalManager : MonoBehaviour
 
       case SceneType.Game:
         {
-          GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
-          var isClearStage = GlobalManager.instance.GameDataService.IsClearStage(chapter, stage);
-          if (isClearStage == false)
+          if (isPlayBeforeDialogue)
           {
             StageManager.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, DialogueService.Play);
             DialogueService.Play();
@@ -188,6 +190,9 @@ if(gameDataService.IsVeryFirst())
           GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
           var index = chapter * 4 + stage;
           await CreateStageAsync(index);
+
+          isPlayBeforeDialogue = GlobalManager.instance.GameDataService.IsClearStage(chapter, stage) == false &&
+                                 StageManager.TryGetBeforeDialogueData(out var beforeDialogueData);
           await CreateFirstUIAsync();
         }
         break;
@@ -220,12 +225,9 @@ if(gameDataService.IsVeryFirst())
 
       case SceneType.Game:
         {
-          GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
-          var isPlayDialogue = GlobalManager.instance.GameDataService.IsClearStage(chapter, stage) == false;
-
-          await CreatePlayerUIsAsync(isPlayDialogue);
-          await CreateStageUIAsync(isPlayDialogue);
-          if(isPlayDialogue)
+          await CreatePlayerUIsAsync(isPlayBeforeDialogue);
+          await CreateStageUIAsync(isPlayBeforeDialogue);
+          if(isPlayBeforeDialogue)
             await CreateDialogueUIAsync();
         }
         break;

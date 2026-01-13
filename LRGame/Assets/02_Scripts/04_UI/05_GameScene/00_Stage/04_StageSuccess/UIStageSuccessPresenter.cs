@@ -162,10 +162,10 @@ namespace LR.UI.GameScene.Stage
       model.gameDataService.GetSelectedStage(out var chapter, out var stage);
 
       stage++;
-      if (stage == 4)
+      if (stage > 4)
       {
         chapter++;
-        stage = 0;
+        stage = 1;
       }
 
       return model.gameDataService.IsStageExist(chapter, stage);
