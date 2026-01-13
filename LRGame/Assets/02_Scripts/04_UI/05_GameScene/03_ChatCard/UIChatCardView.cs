@@ -17,9 +17,13 @@ namespace LR.UI.GameScene.ChatCard
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {      
       visibleState = UIVisibleState.Hiding;
-      await CanvasGroup.DOFade(0.0f, isImmediately ? 0.0f : UISO.ChatCardHideDuration).ToUniTask(TweenCancelBehaviour.Kill, token);
-      visibleState = UIVisibleState.Hidden;
-      gameObject.SetActive(false);
+      try
+      {
+        await CanvasGroup.DOFade(0.0f, isImmediately ? 0.0f : UISO.ChatCardHideDuration).ToUniTask(TweenCancelBehaviour.Kill, token);
+        visibleState = UIVisibleState.Hidden;
+        gameObject.SetActive(false);
+      }
+      catch (OperationCanceledException) { }
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)

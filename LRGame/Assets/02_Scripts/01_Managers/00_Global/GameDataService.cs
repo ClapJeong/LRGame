@@ -91,7 +91,7 @@ public class GameDataService : IGameDataService
   }
 
   public bool IsStageExist(int chapter, int stage)
-    => (chapter * 4 + (stage + 1)) <= StageDataCount;
+    => (chapter * 4 + stage) <= StageDataCount;
 
   public bool IsClearStage(int chapter, int stage)
     => gameData.chaterStageDatas.FirstOrDefault(data => data.chapter == chapter && data.stage == stage) != null;

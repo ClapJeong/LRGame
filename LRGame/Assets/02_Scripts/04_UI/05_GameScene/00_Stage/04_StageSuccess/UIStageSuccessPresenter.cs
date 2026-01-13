@@ -161,13 +161,12 @@ namespace LR.UI.GameScene.Stage
     {
       model.gameDataService.GetSelectedStage(out var chapter, out var stage);
 
-      stage++;
+      stage += 1;
       if (stage > 4)
       {
         chapter++;
         stage = 1;
       }
-
       return model.gameDataService.IsStageExist(chapter, stage);
     }
   }
