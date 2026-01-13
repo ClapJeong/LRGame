@@ -10,7 +10,8 @@ namespace LR.UI.GameScene.Dialogue
   public class UITalkingCharacterView : BaseUIView
   {
     [field: Header("[ Portrait ]")]
-    [field: SerializeField] public Image PortraitImageA { get; private set; }
+    [field: SerializeField] public Animator PortraitAnimator { get; private set; }
+    [field: SerializeField] public Image PortraitImageA { get; private set; }    
     [field: SerializeField] public Image PortraitImageB { get; private set; }
 
     [field: Header("[ Dialogue ]")]

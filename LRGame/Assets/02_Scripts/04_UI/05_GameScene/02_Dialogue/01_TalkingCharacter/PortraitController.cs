@@ -11,7 +11,8 @@ namespace LR.UI.GameScene.Dialogue.Character
   public class PortraitController
   {
     private readonly UIPortraitData portraitData;
-    private readonly Image portraitImageA;
+    private readonly Animator animator;
+    private readonly Image portraitImageA;    
     private readonly Image portraitImageB;
 
     private readonly CTSContainer portriatImageCTS = new();
@@ -25,10 +26,11 @@ namespace LR.UI.GameScene.Dialogue.Character
     private Image forwardImage;
     private float forwardImageAlpha = 1.0f;
 
-    public PortraitController(UIPortraitData portraitData, Image portraitImageA, Image portraitImageB)
+    public PortraitController(UIPortraitData portraitData, Animator animator, Image portraitImageA, Image portraitImageB)
     {
       this.portraitData = portraitData;
-      this.portraitImageA = portraitImageA;
+      this.animator = animator;
+      this.portraitImageA = portraitImageA;      
       this.portraitImageB = portraitImageB;
     }
 
@@ -37,6 +39,7 @@ namespace LR.UI.GameScene.Dialogue.Character
 
     public void Clear()
     {
+      PlayAnimation(0);
       portraitImageA.sprite = transparent;
       portraitImageB.sprite = transparent;
     }
@@ -50,7 +53,21 @@ namespace LR.UI.GameScene.Dialogue.Character
 
     public void PlayAnimation(DialogueDataEnum.Portrait.AnimationType animType)
     {
+      animationCTS.Cancel();
+      animationCTS.Create();
 
+      var hash = animType switch
+      {
+        DialogueDataEnum.Portrait.AnimationType.None => portraitData.IdleHash,
+        DialogueDataEnum.Portrait.AnimationType.Surprised => portraitData.SurprisedHash,
+        DialogueDataEnum.Portrait.AnimationType.Jump => portraitData.JumpOnceHash,
+        DialogueDataEnum.Portrait.AnimationType.Jumping => portraitData.JumpLoopHash,
+        DialogueDataEnum.Portrait.AnimationType.Shake => portraitData.ShakeOnceHash,
+        DialogueDataEnum.Portrait.AnimationType.Shaking => portraitData.ShakeLoopLoopHash,
+        _ => throw new System.NotImplementedException()
+      };
+
+      animator.Play(hash);
     }
 
     public void SetAlpha(DialogueDataEnum.Portrait.AlphaType alphaType)

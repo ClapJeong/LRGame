@@ -10,6 +10,12 @@ namespace LR.Table.Dialogue
 
     [field: Space(10)]
     [field: Header("AnimationType")]
+    public int IdleHash => Animator.StringToHash("Idle");
+    public int SurprisedHash => Animator.StringToHash("Surprised");
+    public int JumpOnceHash => Animator.StringToHash("JumpOnce");
+    public int JumpLoopHash => Animator.StringToHash("JumpLoop");
+    public int ShakeOnceHash => Animator.StringToHash("ShakeOnce");
+    public int ShakeLoopLoopHash => Animator.StringToHash("ShakeLoop");
 
     [field: Space(10)]
     [field: Header("AlphaType")]

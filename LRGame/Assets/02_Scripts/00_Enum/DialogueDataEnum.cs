@@ -36,6 +36,11 @@ public static class DialogueDataEnum
     public enum AnimationType
     {
       None,
+      Surprised,
+      Jump,
+      Jumping,
+      Shake,
+      Shaking
     }
 
     public enum AlphaType

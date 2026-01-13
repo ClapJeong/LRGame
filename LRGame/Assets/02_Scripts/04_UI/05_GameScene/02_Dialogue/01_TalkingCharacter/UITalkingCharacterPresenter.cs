@@ -4,7 +4,6 @@ using LR.UI.GameScene.Dialogue.Character;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using static DialogueDataEnum;
@@ -53,7 +52,7 @@ namespace LR.UI.GameScene.Dialogue
 
       LoadAllPortraitsAsync().Forget();
 
-      portraitController = new(model.portraitData, view.PortraitImageA, view.PortraitImageB);
+      portraitController = new(model.portraitData, view.PortraitAnimator, view.PortraitImageA, view.PortraitImageB);
       textController = new(model.textPresentationData, view.nameCanvasgGroup, view.NameLocalize, view.DialogueLocalize, view.DialogueTMP);
 
       CacheTransparentAsync().Forget();
