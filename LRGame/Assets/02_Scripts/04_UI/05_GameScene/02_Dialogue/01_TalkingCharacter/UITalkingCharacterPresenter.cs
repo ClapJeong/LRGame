@@ -4,8 +4,10 @@ using LR.UI.GameScene.Dialogue.Character;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static DialogueDataEnum;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -42,7 +44,7 @@ namespace LR.UI.GameScene.Dialogue
     private readonly UITalkingCharacterView view;
 
     private readonly PortraitController portraitController;
-    private readonly TextController dialogueController;
+    private readonly TextController textController;
 
     public UITalkingCharacterPresenter(Model model, UITalkingCharacterView view)
     {
@@ -51,8 +53,8 @@ namespace LR.UI.GameScene.Dialogue
 
       LoadAllPortraitsAsync().Forget();
 
-      portraitController = new(model.portraitData, view.portraitImageA, view.portraitImageB);
-      dialogueController = new(model.textPresentationData, view.nameRoot, view.nameLocalize, view.dialogueLocalize, view.dialogueTMP);
+      portraitController = new(model.portraitData, view.PortraitImageA, view.PortraitImageB);
+      textController = new(model.textPresentationData, view.nameCanvasgGroup, view.NameLocalize, view.DialogueLocalize, view.DialogueTMP);
 
       CacheTransparentAsync().Forget();
     }
@@ -64,8 +66,8 @@ namespace LR.UI.GameScene.Dialogue
 
     public async UniTask DeactivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      view.dialogueTMP.text = "";
-      view.nameTMP.text = "";
+      view.DialogueTMP.text = "";
+      view.NameTMP.text = "";
       await view.HideAsync(isImmedieately, token);
       await UniTask.CompletedTask;
     }
@@ -82,6 +84,13 @@ namespace LR.UI.GameScene.Dialogue
     public UIVisibleState GetVisibleState()
       => view.GetVisibleState();
     
+    public void ClearView()
+    {
+      portraitController.Clear();
+
+      textController.ClearName();
+      textController.ClearText();      
+    }
 
     public async UniTask PlayCharacterDataAsync(DialogueCharacterData data)
     {
@@ -90,15 +99,15 @@ namespace LR.UI.GameScene.Dialogue
       portraitController.PlayAnimation((DialogueDataEnum.Portrait.AnimationType)data.PortraitAnimationType);
       portraitController.SetAlpha((DialogueDataEnum.Portrait.AlphaType)data.PortraitAlphaType);
 
-      dialogueController.SetName(data.NameKey);
-      await dialogueController.SetDialogueAsync(data.DialogueKey);
+      textController.SetName(data.NameKey);
+      await textController.SetDialogueAsync(data.DialogueKey);
     }
 
     public void CompleteDialogueImmedieately()
-      => dialogueController.CompleteDialogueImmediately();
+      => textController.CompleteDialogueImmediately();
 
     public void ClearText()
-      => dialogueController.ClearText();
+      => textController.ClearText();
 
     private async UniTask<Sprite> GetPortraitSpriteAsync(int index)
     {

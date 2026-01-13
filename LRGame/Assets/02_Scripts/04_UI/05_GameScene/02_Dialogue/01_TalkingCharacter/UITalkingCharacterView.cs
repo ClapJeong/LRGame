@@ -9,16 +9,16 @@ namespace LR.UI.GameScene.Dialogue
 {
   public class UITalkingCharacterView : BaseUIView
   {
-    [Header("[ Portrait ]")]
-    public Image portraitImageA;
-    public Image portraitImageB;
+    [field: Header("[ Portrait ]")]
+    [field: SerializeField] public Image PortraitImageA { get; private set; }
+    [field: SerializeField] public Image PortraitImageB { get; private set; }
 
-    [Header("[ Dialogue ]")]
-    public GameObject nameRoot;
-    public TextMeshProUGUI nameTMP;
-    public LocalizeStringEvent nameLocalize;
-    public TextMeshProUGUI dialogueTMP;
-    public LocalizeStringEvent dialogueLocalize;
+    [field: Header("[ Dialogue ]")]
+    [field: SerializeField] public CanvasGroup nameCanvasgGroup { get; private set; }
+    [field: SerializeField] public TextMeshProUGUI NameTMP { get; private set; }
+    [field: SerializeField] public LocalizeStringEvent NameLocalize { get; private set; }
+    [field: SerializeField] public TextMeshProUGUI DialogueTMP { get; private set; }
+    [field: SerializeField] public LocalizeStringEvent DialogueLocalize { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

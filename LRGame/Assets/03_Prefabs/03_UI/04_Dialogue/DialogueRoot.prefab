@@ -560,6 +560,14 @@ PrefabInstance:
       propertyPath: dialogueLocalize
       value: 
       objectReference: {fileID: 1476887825341188251}
+    - target: {fileID: 537703120689792866, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueTMP>k__BackingField
+      value: 
+      objectReference: {fileID: 2688112655498350497}
+    - target: {fileID: 537703120689792866, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueLocalize>k__BackingField
+      value: 
+      objectReference: {fileID: 1476887825341188251}
     - target: {fileID: 2300775086355436598, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -652,6 +660,14 @@ PrefabInstance:
       propertyPath: dialogueLocalize
       value: 
       objectReference: {fileID: 7916936932888042866}
+    - target: {fileID: 5078154635487407205, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueTMP>k__BackingField
+      value: 
+      objectReference: {fileID: 1593114390721588774}
+    - target: {fileID: 5078154635487407205, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueLocalize>k__BackingField
+      value: 
+      objectReference: {fileID: 7916936932888042866}
     - target: {fileID: 6290488039073188262, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
       propertyPath: m_Name
       value: Portrait
@@ -662,6 +678,14 @@ PrefabInstance:
       objectReference: {fileID: 6476411043700418763}
     - target: {fileID: 6728115660854796966, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
       propertyPath: dialogueLocalize
+      value: 
+      objectReference: {fileID: 8814833276567490728}
+    - target: {fileID: 6728115660854796966, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueTMP>k__BackingField
+      value: 
+      objectReference: {fileID: 6476411043700418763}
+    - target: {fileID: 6728115660854796966, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueLocalize>k__BackingField
       value: 
       objectReference: {fileID: 8814833276567490728}
     m_RemovedComponents: []

@@ -80,6 +80,7 @@ namespace LR.UI.GameScene.Dialogue.Root
         backgroundA,
         backgroundB);
       talkingController.DeactivateAsync(true, default).Forget();
+      talkingController.ClearTexts();
 
       if (dialogueDataProvider.TryGetBeforeDialogueData(out var beforeDialogueData))
       {
@@ -190,11 +191,11 @@ namespace LR.UI.GameScene.Dialogue.Root
     private async UniTask PlayFirstSequenceAsync(DialogueData dialogueData)
     {
       currentDialogueData = dialogueData;
-      
+
+      talkingController.EnableTalkingInputs();
       await talkingController.ActivateAsync(false, default);
 
-      prevSequenceType = IDialogueSequence.Type.Talking;
-      talkingController.EnableTalkingInputs(); 
+      prevSequenceType = IDialogueSequence.Type.Talking;      
       var targetSequenceSet = currentDialogueData.SequenceSets[sequenceIndex];      
       PlaySequence(targetSequenceSet);
     }

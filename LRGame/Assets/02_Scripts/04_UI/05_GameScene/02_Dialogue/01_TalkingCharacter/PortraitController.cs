@@ -35,6 +35,12 @@ namespace LR.UI.GameScene.Dialogue.Character
     public void SetTransparent(Sprite transparent)
       => this.transparent = transparent;
 
+    public void Clear()
+    {
+      portraitImageA.sprite = transparent;
+      portraitImageB.sprite = transparent;
+    }
+
     public void SetImage(Sprite sprite, DialogueDataEnum.Portrait.ChangeType changeType)
     {
       portriatImageCTS.Cancel();

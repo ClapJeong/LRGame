@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7568838632495141816}
   - component: {fileID: 3254936416942173137}
   - component: {fileID: 2641517050691041149}
+  - component: {fileID: 3003541249426693156}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -77,6 +78,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3003541249426693156
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447513240508785450}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1557384204042163345
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,13 +366,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcb4fc97019463478e73503f4a65671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Dialogue.UIDialogueCharacterView
-  portraitImageA: {fileID: 4822925843108271369}
-  portraitImageB: {fileID: 2346389662922467851}
-  nameRoot: {fileID: 4202283547336883744}
-  nameTMP: {fileID: 8565027769372948883}
-  nameLocalize: {fileID: 0}
-  dialogueTMP: {fileID: 0}
-  dialogueLocalize: {fileID: 1616217993296691619}
+  <PortraitImageA>k__BackingField: {fileID: 4822925843108271369}
+  <PortraitImageB>k__BackingField: {fileID: 2346389662922467851}
+  <nameCanvasgGroup>k__BackingField: {fileID: 5325591267187833146}
+  <NameTMP>k__BackingField: {fileID: 8565027769372948883}
+  <NameLocalize>k__BackingField: {fileID: 1616217993296691619}
+  <DialogueTMP>k__BackingField: {fileID: 0}
+  <DialogueLocalize>k__BackingField: {fileID: 0}
 --- !u!1 &3893727017190261861
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,13 +424,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcb4fc97019463478e73503f4a65671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Dialogue.UIDialogueCharacterView
-  portraitImageA: {fileID: 2521294677966551015}
-  portraitImageB: {fileID: 8716893522415991003}
-  nameRoot: {fileID: 447513240508785450}
-  nameTMP: {fileID: 7040943667552336217}
-  nameLocalize: {fileID: 3841751457730283991}
-  dialogueTMP: {fileID: 0}
-  dialogueLocalize: {fileID: 0}
+  <PortraitImageA>k__BackingField: {fileID: 2521294677966551015}
+  <PortraitImageB>k__BackingField: {fileID: 8716893522415991003}
+  <nameCanvasgGroup>k__BackingField: {fileID: 3003541249426693156}
+  <NameTMP>k__BackingField: {fileID: 7040943667552336217}
+  <NameLocalize>k__BackingField: {fileID: 3841751457730283991}
+  <DialogueTMP>k__BackingField: {fileID: 0}
+  <DialogueLocalize>k__BackingField: {fileID: 0}
 --- !u!1 &4202283547336883744
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +442,7 @@ GameObject:
   - component: {fileID: 336918865705484096}
   - component: {fileID: 7706656449585263349}
   - component: {fileID: 8106579318951608607}
+  - component: {fileID: 5325591267187833146}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -495,6 +509,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5325591267187833146
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4202283547336883744}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4384706716577268724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,13 +1122,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcb4fc97019463478e73503f4a65671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Dialogue.UIDialogueCharacterView
-  portraitImageA: {fileID: 5221577597236462192}
-  portraitImageB: {fileID: 6062952608430698850}
-  nameRoot: {fileID: 8861275214667990569}
-  nameTMP: {fileID: 4638266116959293531}
-  nameLocalize: {fileID: 752864964940581162}
-  dialogueTMP: {fileID: 0}
-  dialogueLocalize: {fileID: 0}
+  <PortraitImageA>k__BackingField: {fileID: 5221577597236462192}
+  <PortraitImageB>k__BackingField: {fileID: 6062952608430698850}
+  <nameCanvasgGroup>k__BackingField: {fileID: 3464451511366631653}
+  <NameTMP>k__BackingField: {fileID: 4638266116959293531}
+  <NameLocalize>k__BackingField: {fileID: 752864964940581162}
+  <DialogueTMP>k__BackingField: {fileID: 0}
+  <DialogueLocalize>k__BackingField: {fileID: 0}
 --- !u!1 &5877462432704578993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,6 +1603,7 @@ GameObject:
   - component: {fileID: 1752140878614620561}
   - component: {fileID: 4367046094243801084}
   - component: {fileID: 7183281655776957981}
+  - component: {fileID: 3464451511366631653}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -1643,6 +1670,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3464451511366631653
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8861275214667990569}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &9015229809678626018
 GameObject:
   m_ObjectHideFlags: 0

@@ -95,6 +95,8 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     public async UniTask ActivateAsync(bool isImmediately, CancellationToken token)
     {
+      ClearViews();
+
       await UniTask.WhenAll(
         leftCharacterPresenter.ActivateAsync(isImmediately, token),
       centerCharacterPresenter.ActivateAsync(isImmediately, token),
@@ -116,6 +118,13 @@ namespace LR.UI.GameScene.Dialogue.Root
       dialogueInputActionController.ResetLeftRightPeformed();
       inputPresenter.DeactivateLeftInput();
       inputPresenter.DeactivateRightInput();
+    }
+
+    public void ClearViews()
+    {
+      leftCharacterPresenter.ClearView();
+      centerCharacterPresenter.ClearView();
+      rightCharacterPresenter.ClearView();
     }
 
     public async UniTask PlayCharacterDataAsync(DialogueTalkingData talkingData)
