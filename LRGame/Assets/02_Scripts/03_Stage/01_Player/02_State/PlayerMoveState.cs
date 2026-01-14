@@ -9,24 +9,31 @@ namespace LR.Stage.Player
     private readonly IPlayerMoveController moveController;
     private readonly IPlayerEnergyUpdater energyUpdater;
     private readonly IPlayerReactionController reactionController;
+    private readonly IPlayerAnimatorController animatorController;
 
     public PlayerMoveState(
       IPlayerMoveController moveController,
       IPlayerInputActionController inputActionController,
       IPlayerStateController stateController,
       IPlayerEnergyUpdater energyUpdater,
-      IPlayerReactionController reactionController)
+      IPlayerReactionController reactionController,
+      IPlayerAnimatorController animatorController)
     {
       this.stateController = stateController;
       this.inputActionController = inputActionController;
       this.moveController = moveController;
       this.energyUpdater = energyUpdater;
       this.reactionController = reactionController;
+      this.animatorController = animatorController;
     }
 
     public void FixedUpdate()
     {
       moveController.ApplyMoveAcceleration();
+
+      var currentDirection = moveController.GetCurrentDirection();
+      UpdateParameter(currentDirection);
+
       energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
 
       if (reactionController.IsInputting)
@@ -35,11 +42,15 @@ namespace LR.Stage.Player
 
     public void OnEnter()
     {
+      var currentDirection = moveController.GetCurrentDirection();
+      UpdateParameter(currentDirection);
+      animatorController.Play(AnimatorHash.Player.Clip.MoveBlend);
       inputActionController.SubscribeOnCanceled(OnMoveCanceled);
     }
 
     public void OnExit()
     {
+      UpdateParameter(Vector2.zero);
       inputActionController.UnsubscribeCanceled(OnMoveCanceled);
     }
 
@@ -47,6 +58,15 @@ namespace LR.Stage.Player
     {
       if (inputActionController.IsAnyInput() == false)
         stateController.ChangeState(PlayerStateType.Idle);
+    }
+
+    private void UpdateParameter(Vector2 direction)
+    {
+      var horizontal = direction.x == 0.0f ? 0.0f : Mathf.Sign(direction.x);
+      animatorController.SetFloat(AnimatorHash.Player.Parameter.Horizontal, horizontal);
+
+      var vertical = direction.y == 0.0f ? 0.0f : Mathf.Sign(direction.y);
+      animatorController.SetFloat(AnimatorHash.Player.Parameter.Vertical, vertical);
     }
   }
 }

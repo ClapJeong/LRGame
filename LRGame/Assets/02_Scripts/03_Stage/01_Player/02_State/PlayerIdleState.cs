@@ -9,19 +9,22 @@ namespace LR.Stage.Player
     private readonly IPlayerStateController stateController;
     private readonly IPlayerEnergyUpdater energyUpdater;
     private readonly IPlayerReactionController reactionController;
+    private readonly IPlayerAnimatorController animatorController;
 
     public PlayerIdleState(
       IPlayerMoveController moveController, 
       IPlayerInputActionController inputActionController, 
       IPlayerStateController stateController,
       IPlayerEnergyUpdater energyUpdater,
-      IPlayerReactionController reactionController)
+      IPlayerReactionController reactionController,
+      IPlayerAnimatorController animatorController)
     {
       this.moveController = moveController;
       this.inputActionController = inputActionController;
       this.stateController = stateController;
       this.energyUpdater = energyUpdater;
       this.reactionController = reactionController;
+      this.animatorController = animatorController;
     }
 
     public void FixedUpdate()
@@ -35,6 +38,7 @@ namespace LR.Stage.Player
 
     public void OnEnter()
     {
+      animatorController.Play(AnimatorHash.Player.Clip.Idle);
       inputActionController.SubscribeOnPerformed(OnMovePerformed);
     }
 

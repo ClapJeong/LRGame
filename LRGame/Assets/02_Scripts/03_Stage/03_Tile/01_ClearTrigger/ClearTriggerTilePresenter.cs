@@ -6,10 +6,6 @@ namespace LR.Stage.TriggerTile
   {
     public class Model
     {
-      public readonly int LeftEnterHash = Animator.StringToHash("LeftEnter");
-      public readonly int RightEnterHash = Animator.StringToHash("RightEnter");
-      public readonly int IdleHash = Animator.StringToHash("Idle");
-
       public IStageResultHandler stageResultHandler;
       public Model(IStageResultHandler stageResultHandler)
       {
@@ -54,14 +50,14 @@ namespace LR.Stage.TriggerTile
         case TriggerTileType.LeftClearTrigger:
           {
             model.stageResultHandler.LeftClearEnter();
-            view.Animator.Play(model.LeftEnterHash);
+            view.Animator.Play(AnimatorHash.ClearTriggerTile.Clip.LeftEnter);
           }          
           break;
 
         case TriggerTileType.RightClearTrigger:
           {
             model.stageResultHandler.RightClearEnter();
-            view.Animator.Play(model.RightEnterHash);
+            view.Animator.Play(AnimatorHash.ClearTriggerTile.Clip.RightEnter);
           }          
           break;
 
@@ -76,7 +72,7 @@ namespace LR.Stage.TriggerTile
       if (!isEnable)
         return;
 
-      view.Animator.Play(model.IdleHash);
+      view.Animator.Play(AnimatorHash.ClearTriggerTile.Clip.Idle);
 
       switch (view.GetTriggerType())
       {

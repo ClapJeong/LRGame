@@ -47,6 +47,8 @@ namespace LR.Stage.Player
 
       SetLinearVelocity(currentVel);
     }
+    public Vector2 GetCurrentDirection()
+      => inputDirection;
 
     public void Dispose()
     {
@@ -64,6 +66,6 @@ namespace LR.Stage.Player
     {
       var velocity = model.ParseDirection(direction);
       inputDirection -= velocity;
-    }
+    }    
   }
 }

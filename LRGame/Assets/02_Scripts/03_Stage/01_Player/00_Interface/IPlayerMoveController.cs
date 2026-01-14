@@ -10,5 +10,7 @@ namespace LR.Stage.Player
     public void ApplyMoveAcceleration();
 
     public void ApplyMoveDeceleration();
+
+    public Vector2 GetCurrentDirection();
   }
 }

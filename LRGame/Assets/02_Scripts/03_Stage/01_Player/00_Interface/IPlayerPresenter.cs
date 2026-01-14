@@ -19,5 +19,7 @@ namespace LR.Stage.Player
     public IPlayerStateProvider GetStateProvider();
 
     public IPlayerStateSubscriber GetStateSubscriber();
+
+    public IPlayerAnimatorController GetAnimatorController();
   }
 }

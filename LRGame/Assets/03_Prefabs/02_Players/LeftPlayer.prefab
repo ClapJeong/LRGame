@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasePlayerView
   playerType: 0
+  <Animator>k__BackingField: {fileID: 28383399891498760}
   <Rigidbody2D>k__BackingField: {fileID: 6632608147133349101}
   <SpriteRenderer>k__BackingField: {fileID: 5094681356297094815}
 --- !u!50 &6632608147133349101

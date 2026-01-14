@@ -9,13 +9,21 @@ namespace LR.Stage.Player
     private readonly IPlayerReactionController reactionController;
     private readonly IPlayerEnergyUpdater energyUpdater;
     private readonly IInputSequenceStopController inputSequenceStopController;
+    private readonly IPlayerAnimatorController animatorController;
 
-    public PlayerInputState(IPlayerMoveController moveController, IPlayerStateController stateController, IPlayerReactionController reactionController, IPlayerEnergyUpdater energyUpdater, IInputSequenceStopController inputSequenceStopController)
+    public PlayerInputState(
+      IPlayerMoveController moveController, 
+      IPlayerStateController stateController, 
+      IPlayerReactionController reactionController, 
+      IPlayerEnergyUpdater energyUpdater, 
+      IPlayerAnimatorController animatorController,
+      IInputSequenceStopController inputSequenceStopController)
     {
       this.moveController = moveController;
       this.stateController = stateController;
       this.reactionController = reactionController;
       this.energyUpdater = energyUpdater;
+      this.animatorController = animatorController;
       this.inputSequenceStopController = inputSequenceStopController;
     }
 
@@ -32,6 +40,7 @@ namespace LR.Stage.Player
 
     public void OnEnter()
     {
+      animatorController.Play(AnimatorHash.Player.Clip.Inputing);
     }
 
     public void OnExit()

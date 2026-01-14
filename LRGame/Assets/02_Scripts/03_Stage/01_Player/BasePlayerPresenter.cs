@@ -7,13 +7,14 @@ namespace LR.Stage.Player
   public class BasePlayerPresenter : IPlayerPresenter
   {
     private readonly PlayerModel model;
-    private readonly BasePlayerView view;    
+    private readonly BasePlayerView view;
 
+    private readonly BasePlayerAnimatorController animatorController;
     private readonly BasePlayerMoveController moveController;
     private readonly BasePlayerReactionController reactionController;
     private readonly BasePlayerInputActionController inputActionController;
     private readonly PlayerStateService stateService;
-    private readonly BasePlayerEnergyService energyService;
+    private readonly BasePlayerEnergyService energyService;    
 
     private CompositeDisposable disposables = new();
 
@@ -24,6 +25,7 @@ namespace LR.Stage.Player
 
       view.transform.position = model.beginPosition;
 
+      animatorController = new(view.Animator);
       energyService = new BasePlayerEnergyService(model.so.Energy, view.SpriteRenderer).AddTo(disposables);
       inputActionController = new BasePlayerInputActionController(model.inputActionFactory).AddTo(disposables);
       moveController = new BasePlayerMoveController(view.Rigidbody2D, inputActionController: this.inputActionController, model).AddTo(disposables);
@@ -39,13 +41,15 @@ namespace LR.Stage.Player
         inputActionController, 
         stateService,
         energyService,
-        reactionController));
+        reactionController,
+        animatorController));
       stateService.AddState(PlayerStateType.Move, new PlayerMoveState(
         moveController, 
         inputActionController, 
         stateService,
         energyService,
-        reactionController));
+        reactionController,
+        animatorController));
       var bounceData = GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger.BounceData;
       stateService.AddState(PlayerStateType.Bounce, new PlayerBounceState(
         moveController, 
@@ -53,12 +57,14 @@ namespace LR.Stage.Player
         stateService,
         energyService,
         reactionController,
+        animatorController,
         bounceData));
       stateService.AddState(PlayerStateType.Inputting, new PlayerInputState(
         moveController,
         stateService,
         reactionController,
         energyService ,
+        animatorController,
         inputSequenceStopController: model.inputSequenceStopController));
 
       stateService.ChangeState(PlayerStateType.Idle);
@@ -129,6 +135,9 @@ namespace LR.Stage.Player
       stateService.ChangeState(PlayerStateType.Idle);
     }
     #endregion
+
+    public IPlayerAnimatorController GetAnimatorController()
+      => animatorController;
 
     public IPlayerMoveController GetMoveController()
       => moveController;
