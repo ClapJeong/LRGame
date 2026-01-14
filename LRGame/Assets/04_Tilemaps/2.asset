@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: OrdinaryWalls_1
+  m_Name: 2
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.Tilemaps.Tile
-  m_Sprite: {fileID: 1407618960, guid: 018c2bffad41f4a45b938e7ef65b6a02, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ac7a91da1fa8538499920dd216bb6626, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

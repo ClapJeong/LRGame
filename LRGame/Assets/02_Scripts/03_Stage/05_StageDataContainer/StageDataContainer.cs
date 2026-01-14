@@ -40,6 +40,9 @@ namespace LR.Stage.StageDataContainer
       Gizmos.DrawLine(leftTop, leftBottom);
       Gizmos.DrawLine(rightBottom, rightTop);
       Gizmos.DrawLine(rightBottom, leftBottom);
+
+      Gizmos.color = Color.yellow;
+      Gizmos.DrawLine(Vector2.up * (heightHalf + 2.0f), Vector2.down * (heightHalf + 2.0f));
     }
   }
 }
