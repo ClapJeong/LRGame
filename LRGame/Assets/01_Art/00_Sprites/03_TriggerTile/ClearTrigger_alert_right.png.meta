@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 44339b8ceb8290f4a93b32201ac84af5
+guid: 07175f8120d57fd4a9467485c2bd3b1e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7298804802570560477
-    second: ClearTrigger_0
+      213: -6462412648428010203
+    second: ClearTrigger_alert_right_0
+  - first:
+      213: -6282658377303890594
+    second: ClearTrigger_alert_right_1
+  - first:
+      213: -8113250679681102478
+    second: ClearTrigger_alert_right_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +52,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,45 +119,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ClearTrigger_0
+      name: ClearTrigger_alert_right_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 128
-        height: 128
+        y: 0
+        width: 64
+        height: 46
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dd322261c409a4560800000000000000
-      internalID: 7298804802570560477
+      spriteID: 52505728fe5e056a0800000000000000
+      internalID: -6462412648428010203
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClearTrigger_1
+      name: ClearTrigger_alert_right_1
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
-        width: 128
-        height: 128
+        x: 13
+        y: 27
+        width: 9
+        height: 10
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: a9b3c0c9a0266524790ac7d2f63ff1a0
-      internalID: 212425292
+      spriteID: e556ba72e738fc8a0800000000000000
+      internalID: -6282658377303890594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClearTrigger_alert_right_2
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 29
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27d49ef1e71f76f80800000000000000
+      internalID: -8113250679681102478
       vertices: []
       indices: 
       edges: []
@@ -160,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 80be169c8dc991041b76ed6dde3c40c9
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -168,12 +196,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":2.0},"gridSpriteSize":{"x":128.0,"y":128.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      ClearTrigger_0: 7298804802570560477
-      ClearTrigger_1: 212425292
+      ClearTrigger_alert_right_0: -6462412648428010203
+      ClearTrigger_alert_right_1: -6282658377303890594
+      ClearTrigger_alert_right_2: -8113250679681102478
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

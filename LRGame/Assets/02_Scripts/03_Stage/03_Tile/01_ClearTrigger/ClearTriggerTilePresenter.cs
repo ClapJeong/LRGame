@@ -6,6 +6,10 @@ namespace LR.Stage.TriggerTile
   {
     public class Model
     {
+      public readonly int LeftEnterHash = Animator.StringToHash("LeftEnter");
+      public readonly int RightEnterHash = Animator.StringToHash("RightEnter");
+      public readonly int IdleHash = Animator.StringToHash("Idle");
+
       public IStageResultHandler stageResultHandler;
       public Model(IStageResultHandler stageResultHandler)
       {
@@ -14,8 +18,7 @@ namespace LR.Stage.TriggerTile
     }
 
     private readonly Model model;
-    private readonly ClearTriggerTileView view;
-    private readonly int enterHash = Animator.StringToHash("Enter");
+    private readonly ClearTriggerTileView view;    
 
     private bool isEnable = true;
 
@@ -44,17 +47,22 @@ namespace LR.Stage.TriggerTile
         return;
       if (!isEnable)
         return;
-
-      view.Animator.SetBool(enterHash, true);      
+      
 
       switch (view.GetTriggerType())
       {
         case TriggerTileType.LeftClearTrigger:
-          model.stageResultHandler.LeftClearEnter();
+          {
+            model.stageResultHandler.LeftClearEnter();
+            view.Animator.Play(model.LeftEnterHash);
+          }          
           break;
 
         case TriggerTileType.RightClearTrigger:
-          model.stageResultHandler.RightClearEnter();
+          {
+            model.stageResultHandler.RightClearEnter();
+            view.Animator.Play(model.RightEnterHash);
+          }          
           break;
 
         default: throw new System.NotImplementedException();
@@ -68,7 +76,7 @@ namespace LR.Stage.TriggerTile
       if (!isEnable)
         return;
 
-      view.Animator.SetBool(enterHash, false);
+      view.Animator.Play(model.IdleHash);
 
       switch (view.GetTriggerType())
       {
