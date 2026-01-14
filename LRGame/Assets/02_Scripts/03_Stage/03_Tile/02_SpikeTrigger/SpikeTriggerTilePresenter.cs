@@ -62,12 +62,14 @@ namespace LR.Stage.TriggerTile
       var reactionController = playerPresenter.GetReactionController();
       reactionController.Bounce(model.data.BounceData, bounceDirection);
 
+      if (model.data.BounceData.IsStun)
+        reactionController.Stun();
+
       var playerPosition = playerView.Transform.position;
       model.effectService.Create(
         model.data.EffectType,
         playerPosition,
         Quaternion.identity);
-
     }
   }
 }

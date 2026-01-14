@@ -49,16 +49,14 @@ namespace LR.Stage.Player
         stateService,
         energyService,
         reactionController,
-        animatorController));
-      var bounceData = GlobalManager.instance.Table.TriggerTileModelSO.SpikeTrigger.BounceData;
-      stateService.AddState(PlayerStateType.Bounce, new PlayerBounceState(
-        moveController, 
-        inputActionController, 
+        animatorController));      
+      stateService.AddState(PlayerStateType.Stun, new PlayerStunState(
+        moveController,
         stateService,
         energyService,
-        reactionController,
         animatorController,
-        bounceData));
+        inputActionController,
+        model.so.Stun));
       stateService.AddState(PlayerStateType.Inputting, new PlayerInputState(
         moveController,
         stateService,

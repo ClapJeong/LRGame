@@ -11,5 +11,7 @@ namespace LR.Stage.Player
     public void Bounce(BounceData data, Vector3 direction);
 
     public void SetInputting(bool isInputting);
+
+    public void Stun();
   }
 }

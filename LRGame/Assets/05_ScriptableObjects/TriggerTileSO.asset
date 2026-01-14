@@ -15,8 +15,8 @@ MonoBehaviour:
   <SpikeTrigger>k__BackingField:
     <DamageValue>k__BackingField: 30
     <BounceData>k__BackingField:
-      force: 5
-      stunDuration: 0.8
+      <IsStun>k__BackingField: 1
+      <Force>k__BackingField: 4
     <EffectType>k__BackingField: 1
   <RightEnergyItemTrigger>k__BackingField:
     <RestoreValue>k__BackingField: 50
@@ -50,5 +50,5 @@ MonoBehaviour:
       <DecreaseValuePerSecond>k__BackingField: 0.66
       <IncreaseValueOnInput>k__BackingField: 0.1
     <FailBounceData>k__BackingField:
-      force: 5
-      stunDuration: 0.8
+      <IsStun>k__BackingField: 0
+      <Force>k__BackingField: 0

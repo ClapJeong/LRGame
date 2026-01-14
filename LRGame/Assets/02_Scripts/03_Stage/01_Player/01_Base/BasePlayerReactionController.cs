@@ -20,11 +20,15 @@ namespace LR.Stage.Player
     public void Bounce(BounceData data, Vector3 direction)
     {
       moveController.SetLinearVelocity(direction * data.Force);
-      stateController.ChangeState(PlayerStateType.Bounce);
     }
 
     public void SetInputting(bool isCharging)
       => this.isCharging = isCharging;
+
+    public void Stun()
+    {
+      stateController.ChangeState(PlayerStateType.Stun);
+    }
 
     public void Dispose()
     {

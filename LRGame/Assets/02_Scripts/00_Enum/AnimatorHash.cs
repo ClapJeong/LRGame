@@ -26,6 +26,7 @@ public static class AnimatorHash
       public static readonly int MoveBlend = Animator.StringToHash(nameof(MoveBlend));
       public static readonly int Bounced = Animator.StringToHash(nameof(Bounced));
       public static readonly int Inputing = Animator.StringToHash(nameof(Inputing));
+      public static readonly int Stun = Animator.StringToHash(nameof(Stun));
     }
   }
 }

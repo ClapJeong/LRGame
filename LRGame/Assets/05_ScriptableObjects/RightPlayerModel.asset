@@ -31,3 +31,5 @@ MonoBehaviour:
     <InvincibleDuration>k__BackingField: 1.5
     <InvincibleBlinkAlphaMax>k__BackingField: 0.8
     <InvincibleBlinkAlphaMin>k__BackingField: 0.2
+  <Stun>k__BackingField:
+    <StunDuration>k__BackingField: 1.5

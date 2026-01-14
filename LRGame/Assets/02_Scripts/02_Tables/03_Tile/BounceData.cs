@@ -5,10 +5,7 @@ namespace LR.Table.TriggerTile
   [System.Serializable]
   public class BounceData
   {
-    [SerializeField] private float force;
-    public float Force => force;
-
-    [SerializeField] private float stunDuration;
-    public float StunDuration => stunDuration;
+    [field: SerializeField] public bool IsStun { get; private set; }
+    [field: SerializeField] public float Force { get; private set; }
   }
 }
