@@ -81,8 +81,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 639e1823e41a14f429c1d206c5d1f528, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.2784314}
+  m_Sprite: {fileID: 21300000, guid: 342b0639422cef1439ff54c97679f625, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -152,4 +152,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.TriggerTile.SignalTriggerView
   <EnterType>k__BackingField: 0
   <EnterKey>k__BackingField: 0
+  <AfterSignal>k__BackingField: 0
+  <InputFail>k__BackingField: 0
   triggerTileType: 5
