@@ -2,6 +2,12 @@
 
 public static class AnimatorHash
 {
+  public static class Effect
+  {
+    public static readonly int Idle = Animator.StringToHash(nameof(Idle));
+    public static readonly int Play = Animator.StringToHash(nameof(Play));
+  }
+
   public static class ClearTriggerTile
   {
     public static class Clip

@@ -47,7 +47,8 @@ public class EffectService : IEffectService
         }
         else
         {
-          baseEffectObject.DestoryImmediately();
+          baseEffectObject.StopImmediately();
+          GameObject.Destroy(baseEffectObject.gameObject);
         }
       }).Forget();
     }

@@ -19,9 +19,8 @@ namespace LR.Stage.Effect
       var token = cts.token;
       await UniTask.WaitForSeconds(beforeDelay, false, PlayerLoopTiming.Update, token);
 
-      var playHash = EffectTable.AnimEffectTable.PlayHash;
       foreach (var animator in animators)
-        animator.Play(playHash);
+        animator.Play(AnimatorHash.Effect.Play);
 
       await UniTask.NextFrame(token);
 
@@ -34,7 +33,7 @@ namespace LR.Stage.Effect
 
           var state = animator.GetCurrentAnimatorStateInfo(0);
 
-          if (!state.shortNameHash.Equals(playHash) ||
+          if (!state.shortNameHash.Equals(AnimatorHash.Effect.Idle) ||
               state.normalizedTime < 1.0f)
           {
             return false;
@@ -47,7 +46,7 @@ namespace LR.Stage.Effect
       onComplete?.Invoke();
     }
 
-    public override void DestoryImmediately()
+    public override void StopImmediately()
     {
       cts.Cancel();
     }

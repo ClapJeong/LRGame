@@ -36,7 +36,7 @@ namespace LR.Stage.Effect
       onComplete?.Invoke();
     }
 
-    public override void DestoryImmediately()
+    public override void StopImmediately()
     {
       cts.Cancel();
     }

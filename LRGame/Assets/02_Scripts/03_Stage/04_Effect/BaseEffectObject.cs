@@ -20,6 +20,6 @@ namespace LR.Stage.Effect
 
     public abstract UniTask PlayAsync(UnityAction onComplete = null);
 
-    public abstract void DestoryImmediately();
+    public abstract void StopImmediately();
   }
 }
