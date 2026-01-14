@@ -8,7 +8,6 @@ namespace LR.UI.GameScene.Player
   {
     public UIPlayerInputView inputView;
     public UIPlayerEnergyView energyView;
-    public UIPlayerChargingView chargingView;
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

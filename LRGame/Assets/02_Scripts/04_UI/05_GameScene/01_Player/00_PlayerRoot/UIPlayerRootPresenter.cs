@@ -33,7 +33,6 @@ namespace LR.UI.GameScene.Player
 
     private UIPlayerInputPresenter inputActionPresenter;
     private UIPlayerEnergyPresenter energyPresenter;
-    private UIPlayerChargingPresenter chargingPresenter;
 
     public UIPlayerRootPresenter(Model model, UIPlayerRootView view)
     {
@@ -42,8 +41,7 @@ namespace LR.UI.GameScene.Player
 
       UniTask.WhenAll(
         CreateLeftInputPresenterAsync(),
-        CreateRightEnergyPresenterAsync(),
-        CreateChargingPresenterAsync())
+        CreateRightEnergyPresenterAsync())
         .ContinueWith(() => isAllPresentersCreated = true)
         .Forget();
     }
@@ -67,7 +65,6 @@ namespace LR.UI.GameScene.Player
 
       await inputActionPresenter.DeactivateAsync(isImmediately, token);
       await energyPresenter.DeactivateAsync(isImmediately, token);
-      await chargingPresenter.DeactivateAsync(isImmediately, token);
     }
 
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
@@ -77,7 +74,6 @@ namespace LR.UI.GameScene.Player
 
       await inputActionPresenter.ActivateAsync(isImmediately, token);
       await energyPresenter.ActivateAsync(isImmediately, token);
-      await chargingPresenter.ActivateAsync(isImmediately, token);
     }
 
     private async UniTask CreateLeftInputPresenterAsync()
@@ -107,22 +103,6 @@ namespace LR.UI.GameScene.Player
 
       energyPresenter = new UIPlayerEnergyPresenter(model, view);
       energyPresenter.AttachOnDestroy(view.gameObject);
-    }
-
-    private async UniTask CreateChargingPresenterAsync()
-    {
-      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
-
-      var stateProvider = this.model.GetPlayer().GetStateProvider();
-      var stateSubscriber = this.model.GetPlayer().GetStateSubscriber();
-
-      var model = new UIPlayerChargingPresenter.Model(
-        stateProvider,
-        stateSubscriber);
-      var view = this.view.chargingView;
-     
-      chargingPresenter = new UIPlayerChargingPresenter(model, view);
-      chargingPresenter.AttachOnDestroy(view.gameObject);
     }
   }
 }
