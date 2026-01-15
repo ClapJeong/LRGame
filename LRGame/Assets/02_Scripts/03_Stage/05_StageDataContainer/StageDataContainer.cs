@@ -15,7 +15,8 @@ namespace LR.Stage.StageDataContainer
     public Transform rightPlayerBeginTransform;
     public GameObject staticObstacle;
     public Transform otherObjectsRoot;
-    public List<ChatCardEventSet> chatCardEvents = new(); 
+    public List<ChatCardEventSet> chatCardEvents = new();
+    public ScoreData scoreData;
 
     public List<ITriggerTileView> TriggerTiles => otherObjectsRoot.GetComponentsInChildren<ITriggerTileView>().ToList();
     public List<SignalListener> SignalListeners => otherObjectsRoot.GetComponentsInChildren<SignalListener>().ToList();

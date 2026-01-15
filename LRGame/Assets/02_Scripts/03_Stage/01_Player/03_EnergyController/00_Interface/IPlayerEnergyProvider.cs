@@ -9,5 +9,7 @@ namespace LR.Stage.Player
     public bool IsFull { get; }
 
     public float CurrentEnergy { get; }
+
+    public float CurrentNormalized { get; }
   }
 }

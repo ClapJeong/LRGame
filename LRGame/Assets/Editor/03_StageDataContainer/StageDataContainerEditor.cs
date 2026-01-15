@@ -26,6 +26,8 @@ namespace LR.Editor.StageDataContainer
 
     private SerializedProperty otherObjectsRoot;
 
+    private SerializedProperty scoreData;
+
     private ReorderableList chatCardEvents;
 
     private void OnEnable()
@@ -41,7 +43,7 @@ namespace LR.Editor.StageDataContainer
       staticObstacle = serializedObject.FindProperty(nameof(staticObstacle));
 
       otherObjectsRoot = serializedObject.FindProperty(nameof(otherObjectsRoot));
-
+      scoreData = serializedObject.FindProperty(nameof(scoreData));
       var chatCardEventList = serializedObject.FindProperty(nameof(chatCardEvents));
       chatCardEvents = new(
         serializedObject,
@@ -195,6 +197,8 @@ namespace LR.Editor.StageDataContainer
       EditorGUILayout.Space(5);
       EditorGUILayout.PropertyField(staticObstacle);
       EditorGUILayout.PropertyField(otherObjectsRoot);
+      EditorGUILayout.Space(5);
+      EditorGUILayout.PropertyField(scoreData);
       EditorGUILayout.Space(10);
       DrawChatCardEvents();
       serializedObject.ApplyModifiedProperties();

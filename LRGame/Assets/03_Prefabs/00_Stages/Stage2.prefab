@@ -17,6 +17,14 @@ PrefabInstance:
       value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: scoreData.Left
+      value: 0.515
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: scoreData.Right
+      value: 0.539
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: triggerTileRoot
       value: 
       objectReference: {fileID: 364725282606148205}

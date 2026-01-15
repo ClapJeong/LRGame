@@ -40,9 +40,13 @@ namespace LR.UI.Lobby
       this.model = model;
       this.view = view;
 
+      var upStage = 1;
+      model.gameDataService.GetScoreData(this.model.chapter, upStage, out var upLeft, out var upRight);
       var upModel = new UIStageButtonPresenter.Model(
         model.chapter,
-        1,
+        upStage,
+        upLeft,
+        upRight,
         InputDirection.RightUp,
         Dispose,
         model.uiInputActionManager,
@@ -50,9 +54,13 @@ namespace LR.UI.Lobby
         model.sceneProvider);
       upPresenter = new(upModel, view.UpStageButtonView);
 
+      var rightStage = 2;
+      model.gameDataService.GetScoreData(this.model.chapter, rightStage, out var rightLeft, out var rightRight);
       var rightModel = new UIStageButtonPresenter.Model(
         model.chapter,
-        2,
+        rightStage,
+        rightLeft,
+        rightRight,
         InputDirection.RightRight,
         Dispose,
         model.uiInputActionManager,
@@ -60,9 +68,13 @@ namespace LR.UI.Lobby
         model.sceneProvider);
       rightPresenter = new(rightModel, view.RightStageButtonView);
 
+      var downStage = 3;
+      model.gameDataService.GetScoreData(this.model.chapter, downStage, out var downLeft, out var downRight);
       var downModel = new UIStageButtonPresenter.Model(
         model.chapter,
-        3,
+        downStage,
+        downLeft,
+        downRight,
         InputDirection.RightDown,
         Dispose,
         model.uiInputActionManager,
@@ -70,9 +82,13 @@ namespace LR.UI.Lobby
         model.sceneProvider);
       downPresenter = new(downModel, view.DownStageButtonView);
 
+      var leftStage = 4;
+      model.gameDataService.GetScoreData(this.model.chapter, leftStage, out var leftLeft, out var leftRight);
       var leftModel = new UIStageButtonPresenter.Model(
         model.chapter,
-        4,
+        leftStage,
+        leftLeft,
+        leftRight,
         InputDirection.RightLeft,
         Dispose,
         model.uiInputActionManager,

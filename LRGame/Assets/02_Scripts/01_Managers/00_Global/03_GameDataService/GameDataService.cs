@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameDataService : IGameDataService
@@ -44,38 +45,54 @@ public class GameDataService : IGameDataService
     }
   }
 
-  public void SetClearData(int chapter, int stage)
+  public void SetClearData(int chapter, int stage, bool left, bool right)
   {
     var chapterData = GetChapterData(chapter);
-
     if (chapterData == null)
     {
-      chapterData = new GameData.ChapterStageData
-      {
-        chapter = chapter
-      };
-      gameData.chaterStageDatas.Add(chapterData);
+      chapterData = new GameData.ClearData(chapter, stage, left, right);
+      gameData.clearDatas.Add(chapterData);
     }
-
-    chapterData.stage = stage;
+    else
+    {
+      chapterData.left = chapterData.left || left;
+      chapterData.right = chapterData.right || right;
+    }      
   }
 
-  public GameData.ChapterStageData GetTopClearData()
+  public void GetScoreData(int chapter, int stage, out bool left, out bool right)
   {
     if (gameData != null)
     {
-      var topData = gameData.chaterStageDatas.OrderByDescending(data => data.chapter).FirstOrDefault();
-      topData ??= new GameData.ChapterStageData();
+      var targetData =gameData.clearDatas.FirstOrDefault(data => data.chapter == chapter && data.stage == stage);
+      if (targetData != null)
+      {
+        left = targetData.left;
+        right = targetData.right;
+        return;
+      }
+    }
+
+    left = false;
+    right = false;
+  }
+
+  public GameData.ClearData GetTopClearData()
+  {
+    if (gameData != null)
+    {
+      var topData = gameData.clearDatas.OrderByDescending(data => data.chapter).FirstOrDefault();
+      topData ??= new GameData.ClearData(0,0,false,false);
 
       return topData;
     }
     else
-      return new GameData.ChapterStageData();
+      return new GameData.ClearData(0,0,false,false);
   }
 
-  private GameData.ChapterStageData GetChapterData(int chapter)
+  private GameData.ClearData GetChapterData(int chapter)
     => gameData
-          .chaterStageDatas
+          .clearDatas
           .FirstOrDefault(set => set.chapter == chapter);
 
   public void SetSelectedStage(int chapter, int stage)
@@ -94,7 +111,7 @@ public class GameDataService : IGameDataService
     => (chapter * 4 + stage) <= StageDataCount;
 
   public bool IsClearStage(int chapter, int stage)
-    => gameData.chaterStageDatas.FirstOrDefault(data => data.chapter == chapter && data.stage == stage) != null;
+    => gameData.clearDatas.FirstOrDefault(data => data.chapter == chapter && data.stage == stage) != null;
 
   private async UniTask CacheStageCount(IResourceManager resourceManager)
   {
@@ -140,7 +157,7 @@ public class GameDataService : IGameDataService
     if (topData.stage >= 3)
       topData.stage++;
     else
-      SetClearData(topData.chapter, topData.stage + 1);
+      SetClearData(topData.chapter, topData.stage + 1, true,true);
 
     SaveDataAsync().Forget();
   }
@@ -149,7 +166,7 @@ public class GameDataService : IGameDataService
   {
     var topData = GetTopClearData();
     if (topData.stage == 0)
-      gameData.chaterStageDatas.Remove(topData);
+      gameData.clearDatas.Remove(topData);
     else
       topData.stage--;
 

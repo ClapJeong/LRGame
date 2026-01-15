@@ -39,6 +39,8 @@ namespace LR.Stage.Player
     public bool IsFull => energy >= playerEnergyData.MaxEnergy;
 
     public float CurrentEnergy => energy;
+
+    public float CurrentNormalized => energy / playerEnergyData.MaxEnergy;
     #endregion
 
     public PlayerEnergyService(PlayerEnergyData playerEnergyData, SpriteRenderer spriteRenderer, IPlayerStateProvider stateProvider)

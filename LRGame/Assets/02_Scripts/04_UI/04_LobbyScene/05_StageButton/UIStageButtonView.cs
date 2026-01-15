@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using LR.UI.Enum;
+using System.Collections.Generic;
 
 namespace LR.UI.Lobby
 {
@@ -12,6 +13,8 @@ namespace LR.UI.Lobby
     [field: SerializeField] public BaseProgressSubmitView ProgressSubmitView { get; private set; }
     [field: SerializeField] public Image FillImage {  get; private set; }
     [field: SerializeField] public TextMeshProUGUI TMP {  get; private set; }
+    [field: SerializeField] public GameObject LeftScore {  get; private set; }
+    [field: SerializeField] public GameObject RightScore { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

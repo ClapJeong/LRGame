@@ -9,9 +9,11 @@ public interface IGameDataService
 
   public UniTask LoadDataAsync(CancellationToken token = default);
 
-  public void SetClearData(int chapter, int stage);
+  public void SetClearData(int chapter, int stage, bool left, bool right);
 
-  public GameData.ChapterStageData GetTopClearData();
+  public void GetScoreData(int chapter, int stage, out bool left, out bool right);
+
+  public GameData.ClearData GetTopClearData();
 
   public void SetSelectedStage(int chapter, int stage);
 

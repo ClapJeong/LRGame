@@ -13,6 +13,8 @@ namespace LR.UI.Lobby
     {
       public int chapter;
       public int stage;
+      public bool leftScore;
+      public bool rightScore;
       public InputDirection inputType;
       public UnityAction onComplete;
 
@@ -20,10 +22,12 @@ namespace LR.UI.Lobby
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
 
-      public Model(int chapter, int stage, InputDirection inputType, UnityAction onComplete, IUIInputManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(int chapter, int stage, bool leftScore, bool rightScore,InputDirection inputType, UnityAction onComplete, IUIInputManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.chapter = chapter;
         this.stage = stage;
+        this.leftScore = leftScore;
+        this.rightScore = rightScore;
         this.inputType = inputType;
         this.onComplete = onComplete;
         this.uiInputActionManager = uiInputActionManager;
@@ -42,7 +46,10 @@ namespace LR.UI.Lobby
       this.model = model;
       this.view = view;
       CreateSubscribeHandle();
-      
+
+      view.LeftScore.SetActive(model.leftScore);
+      view.RightScore.SetActive(model.rightScore);
+
       view.HideAsync(true).Forget();
       view.TMP.text = model.stage.ToString();
       if (model.stage < 0)

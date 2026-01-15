@@ -59,6 +59,7 @@ public class StageManager :
   private readonly TriggerTileService triggerTileService;
   private readonly InteractiveObjectService interactiveObjectService;
   private readonly ChatCardEventService chatCardEventService;
+  private readonly ScoreCalculator scoreCalculator;
 
   private readonly Dictionary<IStageEventSubscriber.StageEventType, UnityEvent> stageEvents = new();  
 
@@ -68,6 +69,7 @@ public class StageManager :
   private bool isLeftClear = false;
   private bool isRightClear = false;
 
+  private StageDataContainer stageDataContainer;
   private DialogueData beforeDialogueData;
   private DialogueData afterDialogueData;
 
@@ -75,6 +77,7 @@ public class StageManager :
   {
     this.model = model;
 
+    scoreCalculator = new();
     signalService = new();
     effectService = new(
       model.resourceManager, 
@@ -110,7 +113,7 @@ public class StageManager :
     var key = model.table.AddressableKeySO.Path.Stage + string.Format(model.table.AddressableKeySO.StageName.StageNameFormat, index);
     try
     {
-      var stageDataContainer = await model.resourceManager.CreateAssetAsync<StageDataContainer>(key);
+      stageDataContainer = await model.resourceManager.CreateAssetAsync<StageDataContainer>(key);
 
       var handles = await model.resourceManager.LoadAssetsAsync(model.table.AddressableKeySO.Label.Dialogue);
       CacheDialogueDatas(handles, stageDataContainer);
@@ -155,15 +158,20 @@ public class StageManager :
   public void Complete()
   {
     stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Complete);
-
-    IStageObjectControlService<IPlayerPresenter> playerController = playerSetupService;
-    IStageObjectControlService<ITriggerTilePresenter> triggerTileController = triggerTileService;
-    playerController.EnableAll(false);
-    triggerTileController.EnableAll(false);
+    
+    playerSetupService.EnableAll(false);
+    triggerTileService.EnableAll(false);
     interactiveObjectService.EnableAll(false);
 
+    scoreCalculator.CalculateScore(
+      stageDataContainer.scoreData,
+      playerSetupService.GetPlayer(PlayerType.Left),
+      playerSetupService.GetPlayer(PlayerType.Right),
+      out var leftScore,
+      out var rightScore);
+
     model.gameDataService.GetSelectedStage(out var chapter, out var stage);
-    model.gameDataService.SetClearData(chapter, stage);
+    model.gameDataService.SetClearData(chapter, stage, leftScore, rightScore);
     model.gameDataService.SaveDataAsync().Forget();
 
     SetState(StageEnum.State.Success);

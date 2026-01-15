@@ -5,10 +5,20 @@ using UnityEngine;
 public class GameData
 {
   [System.Serializable]
-  public class ChapterStageData
+  public class ClearData
   {
     public int chapter;
     public int stage;
+    public bool left;
+    public bool right;
+
+    public ClearData(int chapter, int stage, bool left, bool right)
+    {
+      this.chapter = chapter;
+      this.stage = stage;
+      this.left = left;
+      this.right = right;
+    }
   }
 
   [System.Serializable]
@@ -29,7 +39,7 @@ public class GameData
       => this.key == key && this.left == left && this.right == right;
   }
 
-  public List<ChapterStageData> chaterStageDatas = new();
+  public List<ClearData> clearDatas = new();
 
   public List<ConditionData> dialogueConditions = new();
 }
