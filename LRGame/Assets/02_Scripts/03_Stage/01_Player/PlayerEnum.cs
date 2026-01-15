@@ -15,8 +15,10 @@
     Right,
   }
 
-  public enum Effect
+  public enum PlayerEffect
   {
-
+    Move,
+    Inputing,
+    Stun,
   }
 }
