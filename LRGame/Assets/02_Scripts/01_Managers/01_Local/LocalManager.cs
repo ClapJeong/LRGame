@@ -32,8 +32,6 @@ public partial class LocalManager : MonoBehaviour
 
   private readonly List<IUIPresenter> firstPresenters = new();
 
-  private bool isPlayBeforeDialogue;
-
   public async UniTask InitializeAsync()
   {
     instance = this;
@@ -64,9 +62,14 @@ public partial class LocalManager : MonoBehaviour
 
       case SceneType.Game:
         {
-          if (isPlayBeforeDialogue)
+          StageManager.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, () =>
           {
-            StageManager.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, DialogueService.Play);
+            if (StageManager.IsAfterDialoguePlayable())
+              DialogueService.Play();
+          });
+
+          if (StageManager.IsBeforeDialoguePlayable())
+          {
             DialogueService.Play();
           }
           else
@@ -190,9 +193,6 @@ if(gameDataService.IsVeryFirst())
           GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
           var index = chapter * 4 + stage;
           await CreateStageAsync(index);
-
-          isPlayBeforeDialogue = GlobalManager.instance.GameDataService.IsClearStage(chapter, stage) == false &&
-                                 StageManager.TryGetBeforeDialogueData(out var beforeDialogueData);
           await CreateFirstUIAsync();
         }
         break;
@@ -225,9 +225,10 @@ if(gameDataService.IsVeryFirst())
 
       case SceneType.Game:
         {
-          await CreatePlayerUIsAsync(isPlayBeforeDialogue);
-          await CreateStageUIAsync(isPlayBeforeDialogue);
-          if(isPlayBeforeDialogue)
+          var playBeforeDialogue = StageManager.IsBeforeDialoguePlayable();
+          await CreatePlayerUIsAsync(playBeforeDialogue);
+          await CreateStageUIAsync(playBeforeDialogue);
+          if(StageManager.IsBeforeDialoguePlayable())
             await CreateDialogueUIAsync();
         }
         break;
@@ -271,7 +272,7 @@ if(gameDataService.IsVeryFirst())
     await presenter.ActivateAsync();
   }
 
-  private async UniTask CreatePlayerUIsAsync(bool isPlayDialogue)
+  private async UniTask CreatePlayerUIsAsync(bool playBeforeDialogue)
   {
     var table = GlobalManager.instance.Table.AddressableKeySO;
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
@@ -295,7 +296,7 @@ if(gameDataService.IsVeryFirst())
     var rightPresenter = new UIPlayerRootPresenter(rightmodel, rightView);
     rightPresenter.AttachOnDestroy(gameObject);
 
-    if (isPlayDialogue)
+    if (playBeforeDialogue)
     {
       DialogueService.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, () =>
       {
@@ -322,7 +323,7 @@ if(gameDataService.IsVeryFirst())
     });
   }
 
-  private async UniTask CreateStageUIAsync(bool isPlayDialogue)
+  private async UniTask CreateStageUIAsync(bool playBeforeDialogue)
   {
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
@@ -331,7 +332,7 @@ if(gameDataService.IsVeryFirst())
     var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
 
     var model = new UIStageRootPresenter.Model(
-      isPlayDialogue : isPlayDialogue,
+      dialoguePlayableProvider: StageManager,
       dialogueSubscriber: DialogueService,
       stageStateHandler: StageManager,
       stageStateProvider: StageManager,
@@ -345,7 +346,7 @@ if(gameDataService.IsVeryFirst())
     var view = await resourceManager.CreateAssetAsync<UIStageRootView>(key, root);
     var presenter = new UIStageRootPresenter(model, view);
 
-    if (isPlayDialogue == false)
+    if (playBeforeDialogue == false)
       firstPresenters.Add(presenter);
     presenter.AttachOnDestroy(gameObject);
     await presenter.DeactivateAsync(true);

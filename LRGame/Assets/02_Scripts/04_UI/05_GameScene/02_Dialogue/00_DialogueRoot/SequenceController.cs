@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.Table.Dialogue;
-using LR.UI.GameScene.Dialogue.Character;
 using System;
 using System.Linq;
 using System.Threading;

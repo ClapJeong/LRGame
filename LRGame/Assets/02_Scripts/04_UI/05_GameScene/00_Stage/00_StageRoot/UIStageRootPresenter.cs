@@ -10,7 +10,7 @@ namespace LR.UI.GameScene.Stage
   {
     public class Model
     {
-      public bool isPlayDialogue;
+      public IDialoguePlayableProvider dialoguePlayableProvider;
       public IDialogueStateSubscriber dialogueSubscriber;
       public IStageStateHandler stageStateHandler;
       public IStageStateProvider stageStateProvider;
@@ -23,7 +23,7 @@ namespace LR.UI.GameScene.Stage
       public TableContainer tableContainer;
 
       public Model(
-        bool isPlayDialogue,
+        IDialoguePlayableProvider dialoguePlayableProvider,
         IDialogueStateSubscriber dialogueSubscriber,
         IStageStateHandler stageStateHandler,
         IStageStateProvider stageStateProvider,
@@ -35,7 +35,7 @@ namespace LR.UI.GameScene.Stage
         IUIInputManager uiInputActionManager,
         TableContainer tableContainer)
       {
-        this.isPlayDialogue = isPlayDialogue;
+        this.dialoguePlayableProvider = dialoguePlayableProvider;
         this.dialogueSubscriber = dialogueSubscriber;
         this.stageStateHandler = stageStateHandler;
         this.stageStateProvider = stageStateProvider;
@@ -77,11 +77,10 @@ namespace LR.UI.GameScene.Stage
       pausePresenter.DeactivateAsync(true).Forget();
 
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, OnStageFailed);
+      model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, OnStageComplete);
 
-      if (model.isPlayDialogue)
+      if (model.dialoguePlayableProvider.IsBeforeDialoguePlayable())
         model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
-      else
-        model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, () => successPresenter.ActivateAsync().Forget());
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -115,12 +114,20 @@ namespace LR.UI.GameScene.Stage
       SubscribePauseInput();
     }
 
+    private void OnStageComplete()
+    {
+      if (model.dialoguePlayableProvider.IsAfterDialoguePlayable() == false)
+        successPresenter.ActivateAsync().Forget();
+    }
+
     private void OnBeforeDialgoueComplete()
     {
       ActivateAsync().Forget();
 
       model.dialogueSubscriber.UnsubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
-      model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
+
+      if (model.dialoguePlayableProvider.IsAfterDialoguePlayable())
+        model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
     }
 
     private void OnAfterDialogueBegin()
@@ -131,6 +138,7 @@ namespace LR.UI.GameScene.Stage
 
     private void OnAfterDialogueComplete()
     {
+      model.dialogueSubscriber.UnsubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
       successPresenter.ActivateAsync().Forget();
     }
 

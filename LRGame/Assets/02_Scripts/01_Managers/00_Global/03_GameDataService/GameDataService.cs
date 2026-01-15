@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameDataService : IGameDataService
@@ -47,7 +46,7 @@ public class GameDataService : IGameDataService
 
   public void SetClearData(int chapter, int stage, bool left, bool right)
   {
-    var chapterData = GetChapterData(chapter);
+    var chapterData = GetClearData(chapter, stage);
     if (chapterData == null)
     {
       chapterData = new GameData.ClearData(chapter, stage, left, right);
@@ -64,7 +63,7 @@ public class GameDataService : IGameDataService
   {
     if (gameData != null)
     {
-      var targetData =gameData.clearDatas.FirstOrDefault(data => data.chapter == chapter && data.stage == stage);
+      var targetData = GetClearData(chapter, stage);
       if (targetData != null)
       {
         left = targetData.left;
@@ -81,7 +80,9 @@ public class GameDataService : IGameDataService
   {
     if (gameData != null)
     {
-      var topData = gameData.clearDatas.OrderByDescending(data => data.chapter).FirstOrDefault();
+      var topData = gameData
+        .clearDatas
+        .OrderByDescending(data => data.chapter * 4 + data.stage).FirstOrDefault();
       topData ??= new GameData.ClearData(0,0,false,false);
 
       return topData;
@@ -90,10 +91,10 @@ public class GameDataService : IGameDataService
       return new GameData.ClearData(0,0,false,false);
   }
 
-  private GameData.ClearData GetChapterData(int chapter)
+  private GameData.ClearData GetClearData(int chapter, int stage)
     => gameData
           .clearDatas
-          .FirstOrDefault(set => set.chapter == chapter);
+          .FirstOrDefault(set => set.chapter == chapter && set.stage == stage);
 
   public void SetSelectedStage(int chapter, int stage)
   {    
@@ -111,7 +112,7 @@ public class GameDataService : IGameDataService
     => (chapter * 4 + stage) <= StageDataCount;
 
   public bool IsClearStage(int chapter, int stage)
-    => gameData.clearDatas.FirstOrDefault(data => data.chapter == chapter && data.stage == stage) != null;
+    => GetClearData(chapter, stage) != null;
 
   private async UniTask CacheStageCount(IResourceManager resourceManager)
   {

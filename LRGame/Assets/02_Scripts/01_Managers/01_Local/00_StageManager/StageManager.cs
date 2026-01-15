@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using LR.Stage.Player;
 using LR.Stage.StageDataContainer;
-using LR.Stage.TriggerTile;
 using LR.Table.Dialogue;
 using LR.UI.GameScene.Stage;
 using System.Collections.Generic;
@@ -17,7 +16,8 @@ public class StageManager :
   IStageEventSubscriber,
   IPlayerGetter,
   IStageCreator,
-  IDialogueDataProvider
+  IDialogueDataProvider,
+  IDialoguePlayableProvider
 {
   public class Model
   {
@@ -391,6 +391,24 @@ public class StageManager :
   {
     afterDialogueData = this.afterDialogueData;
     return afterDialogueData != null;
+  }
+  #endregion
+
+  #region IDialoguePlayableProvider
+  public bool IsBeforeDialoguePlayable()
+  {
+    model.gameDataService.GetSelectedStage(out var chapter, out var stage);
+    var isClearStage = model.gameDataService.IsClearStage(chapter, stage);
+    var isDialogueDataExist = beforeDialogueData != null;
+    return isClearStage == false && isDialogueDataExist;
+  }
+
+  public bool IsAfterDialoguePlayable()
+  {
+    model.gameDataService.GetSelectedStage(out var chapter, out var stage);
+    var isClearStage = model.gameDataService.IsClearStage(chapter, stage);
+    var isDialogueDataExist = afterDialogueData != null;
+    return isClearStage == false && isDialogueDataExist;
   }
   #endregion
 }
