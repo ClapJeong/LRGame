@@ -162,6 +162,10 @@ public class StageManager :
     triggerTileController.EnableAll(false);
     interactiveObjectService.EnableAll(false);
 
+    model.gameDataService.GetSelectedStage(out var chapter, out var stage);
+    model.gameDataService.SetClearData(chapter, stage);
+    model.gameDataService.SaveDataAsync().Forget();
+
     SetState(StageEnum.State.Success);
   }
 
