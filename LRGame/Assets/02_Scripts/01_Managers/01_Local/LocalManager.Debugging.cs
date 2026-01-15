@@ -1,7 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using LR.Stage.Player.Enum;
 
 public partial class LocalManager
 {

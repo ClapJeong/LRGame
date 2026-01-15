@@ -3,10 +3,10 @@ using LR.Table.Dialogue;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using UniRx;
 using UnityEngine;
+using LR.Stage.Player.Enum;
 
 namespace LR.UI.GameScene.Dialogue.Root
 {
@@ -23,7 +23,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     public SelectionController(
       GameObject attachTarget,
       TableContainer table,
-      IUIInputActionManager uiInputManager,
+      IUIInputManager uiInputManager,
       UISelectionTimerView timerview,
       UISelectionCharacterView leftView,
       UISelectionCharacterView rightView)

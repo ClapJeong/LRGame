@@ -5,6 +5,8 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
+using LR.Stage.Player.Enum;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -14,11 +16,11 @@ namespace LR.UI.GameScene.Dialogue
     {
       public PlayerType playerType;
       public UITextPresentationData textPresentationData;
-      public IUIInputActionManager uiInputActionManager;
+      public IUIInputManager uiInputActionManager;
       public UnityAction<Direction> onSelect;
       public UnityAction<Direction> onCanceled;
 
-      public Model(PlayerType playerType, UITextPresentationData textPresentationData, IUIInputActionManager uiInputActionManager, UnityAction<Direction> onSelect, UnityAction<Direction> onCanceled)
+      public Model(PlayerType playerType, UITextPresentationData textPresentationData, IUIInputManager uiInputActionManager, UnityAction<Direction> onSelect, UnityAction<Direction> onCanceled)
       {
         this.playerType = playerType;
         this.textPresentationData = textPresentationData;
@@ -71,7 +73,7 @@ namespace LR.UI.GameScene.Dialogue
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     public void SetStrings(DialogueSelectionData data)

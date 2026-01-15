@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace LR.Stage.Player
 {
+  using LR.Stage.Player.Enum;
+
   public class PlayerModel
   {
     public PlayerModelSO so;

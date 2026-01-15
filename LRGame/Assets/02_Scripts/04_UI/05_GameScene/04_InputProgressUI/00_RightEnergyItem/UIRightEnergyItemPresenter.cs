@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.InputProgress
 {
@@ -51,7 +52,7 @@ namespace LR.UI.GameScene.InputProgress
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     public void OnProgress(float normalizedValue)

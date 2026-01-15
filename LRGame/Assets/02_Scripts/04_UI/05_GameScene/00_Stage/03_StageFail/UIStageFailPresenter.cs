@@ -1,10 +1,10 @@
 using Cysharp.Threading.Tasks;
 using LR.UI.Indicator;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -86,7 +86,7 @@ namespace LR.UI.GameScene.Stage
     public IDisposable AttachOnDestroy(GameObject target)
       => target.AttachDisposable(this);
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     public void Dispose()

@@ -7,6 +7,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
+using LR.UI.Enum;
 using static LR.UI.Indicator.IUIIndicatorPresenter;
 
 namespace LR.UI.Indicator
@@ -121,7 +122,7 @@ namespace LR.UI.Indicator
     }
 
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)

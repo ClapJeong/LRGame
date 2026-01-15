@@ -4,13 +4,14 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Dialogue.Root
 {
   public class DialogueInputActionController : IDisposable
   {
     private readonly IDialogueStateController dialogueController;
-    private readonly IUIInputActionManager uiInputActionManager;
+    private readonly IUIInputManager uiInputActionManager;
     private readonly UITextPresentationData textPresentationData; 
 
     private readonly UnityAction onLeftPerformed;
@@ -27,7 +28,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private bool isLeftPerformed;
     private bool isRightPerformed;
 
-    public DialogueInputActionController(IDialogueStateController dialogueController, IUIInputActionManager uiInputActionManager, UITextPresentationData textPresentationData, UnityAction onLeftPerformed, UnityAction onLeftCanceled, UnityAction onRightPerformed, UnityAction onRightCanceled, UnityAction onLeftRightPerformed, UnityAction<float> onSkipProgress)
+    public DialogueInputActionController(IDialogueStateController dialogueController, IUIInputManager uiInputActionManager, UITextPresentationData textPresentationData, UnityAction onLeftPerformed, UnityAction onLeftCanceled, UnityAction onRightPerformed, UnityAction onRightCanceled, UnityAction onLeftRightPerformed, UnityAction<float> onSkipProgress)
     {
       this.dialogueController = dialogueController;
       this.uiInputActionManager = uiInputActionManager;
@@ -65,7 +66,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       uiInputActionManager.SubscribePerformedEvent(rightDirections, OnRightPerformed);
       uiInputActionManager.SubscribeCanceledEvent(rightDirections, OnRightCanceled);
 
-      var space = UIInputDirection.Space;
+      var space = InputDirection.Space;
       uiInputActionManager.SubscribePerformedEvent(space, OnSkipPerformed);
       uiInputActionManager.SubscribeCanceledEvent(space, OnSkipCanceled);
 
@@ -85,7 +86,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       uiInputActionManager.UnsubscribePerformedEvent(rightDirections, OnRightPerformed);
       uiInputActionManager.UnsubscribeCanceledEvent(rightDirections, OnRightCanceled);
 
-      var space = UIInputDirection.Space;
+      var space = InputDirection.Space;
       uiInputActionManager.UnsubscribePerformedEvent(space, OnSkipPerformed);
       uiInputActionManager.UnsubscribeCanceledEvent(space, OnSkipCanceled);
 

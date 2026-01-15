@@ -2,6 +2,7 @@
 using LR.UI.GameScene.InputQTE;
 using System;
 using UnityEngine;
+using LR.UI.Enum;
 
 public class InputQTEUIService : IInputQTEUIService
 {
@@ -40,7 +41,7 @@ public class InputQTEUIService : IInputQTEUIService
       case InputQTEEnum.UIType.QTEDefault:
         {
           var model = new UILeftEnergyItemPresenter.Model();
-          var view = await resourceManager.CreateAssetAsync<UILeftEnergyItemView>(viewKey, canvasProvider.GetCanvas(UIRootType.Overlay).transform);
+          var view = await resourceManager.CreateAssetAsync<UILeftEnergyItemView>(viewKey, canvasProvider.GetCanvas(RootType.Overlay).transform);
           var presenter = new UILeftEnergyItemPresenter(model, view);
           presenter.AttachOnDestroy(localManager);
           return presenter;

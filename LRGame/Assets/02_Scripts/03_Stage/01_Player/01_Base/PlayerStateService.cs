@@ -1,27 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
+using LR.Stage.Player.Enum;
 
 namespace LR.Stage.Player
 {
   public class PlayerStateService : IPlayerStateController, IPlayerStateSubscriber, IPlayerStateProvider
   {
-    private readonly Dictionary<PlayerStateType, IPlayerState> states = new();
-    private readonly Dictionary<PlayerStateType, UnityEvent> onEnterEvents = new();
-    private readonly Dictionary<PlayerStateType, UnityEvent> onExitEvents = new();
+    private readonly Dictionary<PlayerState, IPlayerState> states = new();
+    private readonly Dictionary<PlayerState, UnityEvent> onEnterEvents = new();
+    private readonly Dictionary<PlayerState, UnityEvent> onExitEvents = new();
 
-    private PlayerStateType currentKey = PlayerStateType.None;
+    private PlayerState currentKey = PlayerState.None;
 
-    public void AddState(PlayerStateType type, IPlayerState state)
+    public void AddState(PlayerState type, IPlayerState state)
       => states[type] = state;
 
-    public void RemoveState(PlayerStateType type, IPlayerState state)
+    public void RemoveState(PlayerState type, IPlayerState state)
     {
       if (states.ContainsKey(type))
         states.Remove(type);
     }
 
     #region IPlayerStateController
-    public void ChangeState(PlayerStateType type)
+    public void ChangeState(PlayerState type)
     {
       if (type == currentKey)
         return;
@@ -47,21 +48,21 @@ namespace LR.Stage.Player
     #endregion
 
     #region IPlayerStateProvider
-    public PlayerStateType GetCurrentState()
+    public PlayerState GetCurrentState()
       => currentKey;
     #endregion
 
     #region IPlayerStateSubscriber
-    public void SubscribeOnEnter(PlayerStateType playerState, UnityAction onEnter)
+    public void SubscribeOnEnter(PlayerState playerState, UnityAction onEnter)
       => onEnterEvents.AddEvent(playerState, onEnter);
 
-    public void UnsubscribeOnEnter(PlayerStateType playerState, UnityAction onEnter)
+    public void UnsubscribeOnEnter(PlayerState playerState, UnityAction onEnter)
       => onEnterEvents.RemoveEvent(playerState, onEnter);
 
-    public void SubscribeOnExit(PlayerStateType playerState, UnityAction onExit)
+    public void SubscribeOnExit(PlayerState playerState, UnityAction onExit)
       => onExitEvents.AddEvent(playerState, onExit);
 
-    public void UnsubscribeOnExit(PlayerStateType playerState, UnityAction onExit)
+    public void UnsubscribeOnExit(PlayerState playerState, UnityAction onExit)
       => onExitEvents.RemoveEvent(playerState, onExit);
     #endregion
 

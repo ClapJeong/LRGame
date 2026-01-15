@@ -3,6 +3,7 @@ using LR.Table.Dialogue;
 using System;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -49,7 +50,7 @@ namespace LR.UI.GameScene.Dialogue
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     public void ActivateLeftInput()

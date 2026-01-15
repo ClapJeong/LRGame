@@ -2,10 +2,10 @@ using Cysharp.Threading.Tasks;
 using LR.Stage.Player;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Player
 {
@@ -56,7 +56,7 @@ namespace LR.UI.GameScene.Player
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void SubscribeView()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using LR.Stage.Player.Enum;
 
 [System.Serializable]
 public class PlayerName

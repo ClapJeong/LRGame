@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -35,18 +36,18 @@ namespace LR.UI.Lobby
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Showing;
+      visibleState = VisibleState.Showing;
       await canvasGroup.DOFade(1.0f, isImmediately ? 0.0f : UISO.LobbyPanelMoveDuration)
         .ToUniTask(TweenCancelBehaviour.Kill, token);
-      visibleState = UIVisibleState.Showen;
+      visibleState = VisibleState.Showen;
     }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
       await canvasGroup.DOFade(0.0f, isImmediately ? 0.0f : UISO.LobbyPanelMoveDuration)
         .ToUniTask(TweenCancelBehaviour.Kill, token);
-      visibleState = UIVisibleState.Hidden;
+      visibleState = VisibleState.Hidden;
     }
   }
 }

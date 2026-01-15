@@ -1,16 +1,16 @@
 using Cysharp.Threading.Tasks;
-using LR.Stage.StageDataContainer;
 using LR.UI;
 using LR.UI.GameScene.Dialogue;
 using LR.UI.GameScene.Player;
 using LR.UI.GameScene.Stage;
 using LR.UI.Lobby;
 using LR.UI.Preloading;
-using System;
+using LR.Stage.Player.Enum;
 using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using LR.UI.Enum;
 
 public partial class LocalManager : MonoBehaviour
 {
@@ -241,7 +241,7 @@ if(gameDataService.IsVeryFirst())
     var table = GlobalManager.instance.Table.AddressableKeySO;
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(table.Path.UI + table.UIName.PreloadingRoot, root);
     var presenter = new UIPreloadingPresenter(model, view);
 
@@ -263,7 +263,7 @@ if(gameDataService.IsVeryFirst())
       gameDataService: GlobalManager.instance.GameDataService,
       sceneProvider: GlobalManager.instance.SceneProvider);
 
-    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
     var view = await resourceManager.CreateAssetAsync<UILobbyRootView>(table.Path.UI + table.UIName.LobbyRoot, root);
     var presenter = new UILobbyRootPresenter(model, view);
 
@@ -276,7 +276,7 @@ if(gameDataService.IsVeryFirst())
     var table = GlobalManager.instance.Table.AddressableKeySO;
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
-    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
     var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(table.Path.UI + table.UIName.PlayerRoot, root);
 
     var Leftmodel = new UIPlayerRootPresenter.Model(
@@ -328,7 +328,7 @@ if(gameDataService.IsVeryFirst())
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var key = table.Path.UI + table.UIName.StageRoot;
-    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
 
     var model = new UIStageRootPresenter.Model(
       isPlayDialogue : isPlayDialogue,
@@ -357,7 +357,7 @@ if(gameDataService.IsVeryFirst())
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var key = table.Path.UI + table.UIName.DialogueRoot;
-    var root = canvasProvider.GetCanvas(UIRootType.Overlay).transform;
+    var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
 
     var model = new UIDialogueRootPresenter.Model(
       table: GlobalManager.instance.Table,

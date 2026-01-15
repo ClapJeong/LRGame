@@ -43,7 +43,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       TableContainer table,
       IGameDataService gameDataService,
       IResourceManager resourceManager,
-      IUIInputActionManager uiInputActionManager,    
+      IUIInputManager uiInputActionManager,    
       IDialogueDataProvider dialogueDataProvider,
       IDialogueStateSubscriber dialogueSubscriber, 
       IDialogueStateController dialogueController,

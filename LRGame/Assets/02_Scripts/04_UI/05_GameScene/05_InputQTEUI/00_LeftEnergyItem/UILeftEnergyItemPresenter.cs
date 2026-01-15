@@ -1,9 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.InputQTE
 {
@@ -58,7 +57,7 @@ namespace LR.UI.GameScene.InputQTE
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     public void OnQTEBegin(Direction direction)

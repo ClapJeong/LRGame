@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 using LR.Stage.Player;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Player
 {
@@ -43,7 +44,7 @@ namespace LR.UI.GameScene.Player
     public IDisposable AttachOnDestroy(GameObject target)
       => target.AttachDisposable(this);
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     public void Dispose()

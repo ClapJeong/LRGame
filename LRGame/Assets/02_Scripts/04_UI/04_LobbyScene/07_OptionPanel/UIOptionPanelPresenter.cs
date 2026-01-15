@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -17,10 +18,10 @@ namespace LR.UI.Lobby
       public IUIIndicatorPresenter indicator;
       public IUIDepthService depthService;
       public IUISelectedGameObjectService selectedGameObjectService;
-      public IUIInputActionManager uiInputActionManager;
+      public IUIInputManager uiInputActionManager;
       public UnityAction onExit;
 
-      public Model(UISO uiSO, IUIIndicatorPresenter indicator, IUIDepthService depthService, IUISelectedGameObjectService selectedGameObjectService, IUIInputActionManager uiInputActionManager, UnityAction onExit)
+      public Model(UISO uiSO, IUIIndicatorPresenter indicator, IUIDepthService depthService, IUISelectedGameObjectService selectedGameObjectService, IUIInputManager uiInputActionManager, UnityAction onExit)
       {
         this.uiSO = uiSO;
         this.indicator = indicator;
@@ -52,16 +53,16 @@ namespace LR.UI.Lobby
         () =>
         {
           model.selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObject);
-          model.uiInputActionManager.SubscribePerformedEvent(UIInputDirection.RightLeft, OnLeftPerformed);
-          model.uiInputActionManager.SubscribePerformedEvent(UIInputDirection.RightRight, OnRightPerformed);
+          model.uiInputActionManager.SubscribePerformedEvent(InputDirection.RightLeft, OnLeftPerformed);
+          model.uiInputActionManager.SubscribePerformedEvent(InputDirection.RightRight, OnRightPerformed);
 
           model.depthService.RaiseDepth(view.MasterSlider.gameObject);
         },
         () =>
         {
           model.selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObject);
-          model.uiInputActionManager.UnsubscribePerformedEvent(UIInputDirection.RightLeft, OnLeftPerformed);
-          model.uiInputActionManager.UnsubscribePerformedEvent(UIInputDirection.RightRight, OnRightPerformed);
+          model.uiInputActionManager.UnsubscribePerformedEvent(InputDirection.RightLeft, OnLeftPerformed);
+          model.uiInputActionManager.UnsubscribePerformedEvent(InputDirection.RightRight, OnRightPerformed);
 
           model.depthService.LowerDepth();
         });
@@ -90,7 +91,7 @@ namespace LR.UI.Lobby
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void OnSelectedGameObject(GameObject gameObject)

@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -28,14 +29,14 @@ namespace LR.UI.GameScene.Dialogue
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
       gameObject.SetActive(false);
-      visibleState = UIVisibleState.Hidden;
+      visibleState = VisibleState.Hidden;
       await UniTask.CompletedTask;
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       gameObject.SetActive(true);
-      visibleState = UIVisibleState.Showen;
+      visibleState = VisibleState.Showen;
       await UniTask.CompletedTask;
     }
   }

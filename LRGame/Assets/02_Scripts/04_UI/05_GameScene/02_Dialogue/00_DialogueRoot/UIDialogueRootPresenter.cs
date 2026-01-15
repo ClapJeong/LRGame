@@ -3,6 +3,7 @@ using LR.UI.GameScene.Dialogue.Root;
 using System;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -13,13 +14,13 @@ namespace LR.UI.GameScene.Dialogue
       public TableContainer table;
       public IResourceManager resourceManager;
       public IGameDataService gameDataService;
-      public IUIInputActionManager uiInputActionManager;
+      public IUIInputManager uiInputActionManager;
       public IDialogueDataProvider dialogueDataProvider;
       public IDialogueStateSubscriber subscriber;
       public IDialogueStateController controller;
       public IStageStateHandler stageStateHandler;
 
-      public Model(TableContainer table, IResourceManager resourceManager, IGameDataService gameDataService, IUIInputActionManager uiInputActionManager, IDialogueDataProvider dialogueDataProvider, IDialogueStateSubscriber subscriber, IDialogueStateController controller, IStageStateHandler stageStateHandler)
+      public Model(TableContainer table, IResourceManager resourceManager, IGameDataService gameDataService, IUIInputManager uiInputActionManager, IDialogueDataProvider dialogueDataProvider, IDialogueStateSubscriber subscriber, IDialogueStateController controller, IStageStateHandler stageStateHandler)
       {
         this.table = table;
         this.resourceManager = resourceManager;
@@ -85,7 +86,7 @@ namespace LR.UI.GameScene.Dialogue
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
   }
 }

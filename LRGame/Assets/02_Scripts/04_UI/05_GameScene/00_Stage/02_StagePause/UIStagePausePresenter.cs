@@ -4,6 +4,8 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using LR.UI.Enum;
+
 namespace LR.UI.GameScene.Stage
 {
   public class UIStagePausePresenter : IUIPresenter
@@ -98,7 +100,7 @@ namespace LR.UI.GameScene.Stage
       await view.HideAsync(isImmediately, token);
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void OnResume()

@@ -1,15 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.UI.Indicator;
-using LR.UI.Lobby;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -89,7 +87,7 @@ namespace LR.UI.Lobby
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void SubscribeLocaleButtonSet(UILocalizePanelView.ButtonSet buttonSet)

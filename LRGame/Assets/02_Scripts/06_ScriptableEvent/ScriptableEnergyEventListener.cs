@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using LR.Stage.Player.Enum;
 
 namespace ScriptableEvent
 {

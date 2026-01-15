@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -26,7 +27,7 @@ namespace LR.UI.GameScene.Dialogue
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Showing;
+      visibleState = VisibleState.Showing;
       gameObject.SetActive(true);
       dialogueContainer.gameObject.SetActive(false);      
 
@@ -35,18 +36,18 @@ namespace LR.UI.GameScene.Dialogue
         .ToUniTask(TweenCancelBehaviour.Kill, token);
 
       dialogueContainer.gameObject.SetActive(true);
-      visibleState = UIVisibleState.Showen;      
+      visibleState = VisibleState.Showen;      
     }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
       dialogueContainer.gameObject.SetActive(false);
       await DOTween.Sequence()
         .Join(backgroundCanvasGroup.DOFade(0.0f, UISO.DialogueRootHideDuratoin))
         .ToUniTask(TweenCancelBehaviour.Kill, token);
       gameObject.SetActive(false);
-      visibleState = UIVisibleState.Hidden;
+      visibleState = VisibleState.Hidden;
     }
   }
 }

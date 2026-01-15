@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
+using LR.UI.Enum;
 
 namespace LR.UI
 {
@@ -20,9 +21,9 @@ namespace LR.UI
       }
     }
 
-    protected UIVisibleState visibleState = UIVisibleState.None;
+    protected VisibleState visibleState = VisibleState.None;
 
-    protected Dictionary<UIViewEventType, UnityEvent> events = new();
+    protected Dictionary<ViewEvent, UnityEvent> events = new();
 
     private UISO uiSO;
     protected UISO UISO
@@ -36,14 +37,14 @@ namespace LR.UI
       }
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => visibleState;
 
     public abstract UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default);
 
     public abstract UniTask HideAsync(bool isImmediately = false, CancellationToken token = default);
 
-    public void SubscribeEvent(UIViewEventType eventType, UnityAction action)
+    public void SubscribeEvent(ViewEvent eventType, UnityAction action)
     {
       if(events.TryGetValue(eventType, out var unityEvent))
       {
@@ -56,7 +57,7 @@ namespace LR.UI
       }
     }
 
-    public void UnsubscribeEvent(UIViewEventType eventType, UnityAction action)
+    public void UnsubscribeEvent(ViewEvent eventType, UnityAction action)
     {
       if(events.TryGetValue(eventType, out var unityEvent))
         unityEvent.RemoveListener(action);

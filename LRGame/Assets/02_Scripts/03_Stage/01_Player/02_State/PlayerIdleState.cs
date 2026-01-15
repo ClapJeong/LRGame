@@ -1,4 +1,4 @@
-using UnityEngine;
+using LR.Stage.Player.Enum;
 
 namespace LR.Stage.Player
 {
@@ -33,7 +33,7 @@ namespace LR.Stage.Player
       energyUpdater.UpdateEnergy(UnityEngine.Time.fixedDeltaTime);
 
       if (reactionController.IsInputting)
-        stateController.ChangeState(PlayerStateType.Inputting);
+        stateController.ChangeState(PlayerState.Inputting);
     }
 
     public void OnEnter()
@@ -49,7 +49,7 @@ namespace LR.Stage.Player
 
     private void OnMovePerformed(Direction direction)
     {
-      stateController.ChangeState(PlayerStateType.Move);
+      stateController.ChangeState(PlayerState.Move);
     }
   }
 }

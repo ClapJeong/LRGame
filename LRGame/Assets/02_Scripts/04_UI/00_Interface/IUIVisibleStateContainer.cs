@@ -1,9 +1,9 @@
-using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI
 {
   public interface IUIVisibleStateContainer
   {
-    public UIVisibleState GetVisibleState();
+    public VisibleState GetVisibleState();
   }
 }

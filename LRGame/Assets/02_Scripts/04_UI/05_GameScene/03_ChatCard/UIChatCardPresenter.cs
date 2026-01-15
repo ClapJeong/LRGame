@@ -2,9 +2,9 @@
 using DG.Tweening;
 using System;
 using System.Threading;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.ChatCard
 {
@@ -118,7 +118,7 @@ namespace LR.UI.GameScene.ChatCard
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private Vector2 GetHiddenPosition()

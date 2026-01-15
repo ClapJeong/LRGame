@@ -5,6 +5,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.ChatCard
 {
@@ -16,11 +17,11 @@ namespace LR.UI.GameScene.ChatCard
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {      
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
       try
       {
         await CanvasGroup.DOFade(0.0f, isImmediately ? 0.0f : UISO.ChatCardHideDuration).ToUniTask(TweenCancelBehaviour.Kill, token);
-        visibleState = UIVisibleState.Hidden;
+        visibleState = VisibleState.Hidden;
         gameObject.SetActive(false);
       }
       catch (OperationCanceledException) { }
@@ -29,9 +30,9 @@ namespace LR.UI.GameScene.ChatCard
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       gameObject.SetActive(true);
-      visibleState = UIVisibleState.Showing;
+      visibleState = VisibleState.Showing;
       await CanvasGroup.DOFade(1.0f, isImmediately ? 0.0f : UISO.ChatCardShowDuration).ToUniTask(TweenCancelBehaviour.Kill, token);
-      visibleState = UIVisibleState.Showen;      
+      visibleState = VisibleState.Showen;      
     }
   }
 }

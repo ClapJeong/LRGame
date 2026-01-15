@@ -1,5 +1,4 @@
-using Cysharp.Threading.Tasks;
-using System.Threading;
+using LR.Stage.TriggerTile.Enum;
 
 namespace LR.Stage.TriggerTile
 {

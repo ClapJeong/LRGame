@@ -1,4 +1,6 @@
 using UnityEngine;
+using LR.Stage.Player.Enum;
+
 
 public class TableContainer : MonoBehaviour
 {

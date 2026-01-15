@@ -5,8 +5,7 @@ using System.Threading;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -14,10 +13,10 @@ namespace LR.UI.GameScene.Stage
   {
     public class Model
     {
-      public IUIInputActionManager uiInputActionManager;
+      public IUIInputManager uiInputActionManager;
       public IStageStateHandler stageService;
 
-      public Model(IUIInputActionManager uiInputActionManager, IStageStateHandler stageService)
+      public Model(IUIInputManager uiInputActionManager, IStageStateHandler stageService)
       {
         this.uiInputActionManager = uiInputActionManager;
         this.stageService = stageService;
@@ -61,25 +60,25 @@ namespace LR.UI.GameScene.Stage
       subscribeHandle.Dispose();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void CreateSubscribeHandle()
     {
-      var leftInputs = new List<UIInputDirection>()
+      var leftInputs = new List<InputDirection>()
             {
-              UIInputDirection.LeftUp,
-              UIInputDirection.LeftRight,
-              UIInputDirection.LeftDown,
-              UIInputDirection.LeftLeft,
+              InputDirection.LeftUp,
+              InputDirection.LeftRight,
+              InputDirection.LeftDown,
+              InputDirection.LeftLeft,
             };
 
-      var rightInputs = new List<UIInputDirection>()
+      var rightInputs = new List<InputDirection>()
             {
-              UIInputDirection.RightUp,
-              UIInputDirection.RightRight,
-              UIInputDirection.RightDown,
-              UIInputDirection.RightLeft,
+              InputDirection.RightUp,
+              InputDirection.RightRight,
+              InputDirection.RightDown,
+              InputDirection.RightLeft,
             };
 
       subscribeHandle = new SubscribeHandle(

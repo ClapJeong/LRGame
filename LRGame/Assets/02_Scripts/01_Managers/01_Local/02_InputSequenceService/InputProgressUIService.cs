@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.UI.GameScene.InputProgress;
 using UnityEngine;
+using LR.UI.Enum;
 
 public class InputProgressUIService : IInputProgressUIService
 {
@@ -39,7 +40,7 @@ public class InputProgressUIService : IInputProgressUIService
       case InputProgressEnum.UIType.ProgressDefault:
         {
           var model = new UIRightEnergyItemPresenter.Model();
-          var view = await resourceManager.CreateAssetAsync<UIRightEnergyItemView>(viewKey, canvasProvider.GetCanvas(UIRootType.Overlay).transform);
+          var view = await resourceManager.CreateAssetAsync<UIRightEnergyItemView>(viewKey, canvasProvider.GetCanvas(RootType.Overlay).transform);
           var presenter = new UIRightEnergyItemPresenter(model, view);
           presenter.AttachOnDestroy(localManager);
           return presenter;

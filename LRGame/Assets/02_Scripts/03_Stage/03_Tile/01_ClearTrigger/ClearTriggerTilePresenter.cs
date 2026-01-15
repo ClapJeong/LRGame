@@ -1,4 +1,5 @@
 using UnityEngine;
+using LR.Stage.TriggerTile.Enum;
 
 namespace LR.Stage.TriggerTile
 {

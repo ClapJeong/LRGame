@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -18,7 +19,7 @@ namespace LR.UI.GameScene.Stage
       public IGameDataService gameDataService;
       public UIManager uiManager;
       public ISceneProvider sceneProvider;
-      public IUIInputActionManager uiInputActionManager;
+      public IUIInputManager uiInputActionManager;
       public TableContainer tableContainer;
 
       public Model(
@@ -31,7 +32,7 @@ namespace LR.UI.GameScene.Stage
         IGameDataService gameDataService, 
         UIManager uiManager, 
         ISceneProvider sceneProvider, 
-        IUIInputActionManager uiInputActionManager,
+        IUIInputManager uiInputActionManager,
         TableContainer tableContainer)
       {
         this.isPlayDialogue = isPlayDialogue;
@@ -48,7 +49,7 @@ namespace LR.UI.GameScene.Stage
       }
     }
 
-    private static readonly UIInputDirection PauseEnterDirection = UIInputDirection.Space;
+    private static readonly InputDirection PauseEnterDirection = InputDirection.Space;
 
     private readonly Model model;
     private readonly UIStageRootView view;
@@ -99,8 +100,8 @@ namespace LR.UI.GameScene.Stage
         .Remove(restartPresenter);
     }
 
-    public UIVisibleState GetVisibleState()
-      => UIVisibleState.Showen;
+    public VisibleState GetVisibleState()
+      => VisibleState.Showen;
 
     public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
     {

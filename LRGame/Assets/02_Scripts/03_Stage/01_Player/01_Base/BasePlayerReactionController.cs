@@ -1,5 +1,6 @@
 using LR.Table.TriggerTile;
 using UnityEngine;
+using LR.Stage.Player.Enum;
 
 namespace LR.Stage.Player
 {
@@ -27,7 +28,7 @@ namespace LR.Stage.Player
 
     public void Stun()
     {
-      stateController.ChangeState(PlayerStateType.Stun);
+      stateController.ChangeState(PlayerState.Stun);
     }
 
     public void Dispose()

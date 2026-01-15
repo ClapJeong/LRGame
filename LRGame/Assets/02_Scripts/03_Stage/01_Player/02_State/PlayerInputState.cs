@@ -1,4 +1,5 @@
 using UnityEngine;
+using LR.Stage.Player.Enum;
 
 namespace LR.Stage.Player
 {
@@ -34,7 +35,7 @@ namespace LR.Stage.Player
 
       if (reactionController.IsInputting == false)
       {
-        stateController.ChangeState(PlayerStateType.Idle);
+        stateController.ChangeState(PlayerState.Idle);
       }        
     }
 

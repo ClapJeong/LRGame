@@ -3,6 +3,7 @@ using DG.Tweening;
 using System;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.Loading
 {
@@ -12,7 +13,7 @@ namespace LR.UI.Loading
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
       try
       {
         await canvasGroup.DOFade(0.0f, isImmediately ? 0.0f : UISO.LoadingFaceDuraton).ToUniTask(TweenCancelBehaviour.Kill, token);
@@ -21,12 +22,12 @@ namespace LR.UI.Loading
       {
         canvasGroup.alpha = 0.0f;
       }
-      visibleState = UIVisibleState.Hidden;
+      visibleState = VisibleState.Hidden;
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Showing;
+      visibleState = VisibleState.Showing;
       try
       {
         await canvasGroup.DOFade(1.0f, isImmediately ? 0.0f : UISO.LoadingFaceDuraton).ToUniTask(TweenCancelBehaviour.Kill, token);
@@ -35,7 +36,7 @@ namespace LR.UI.Loading
       {
         canvasGroup.alpha = 1.0f;
       }
-      visibleState = UIVisibleState.Showen;
+      visibleState = VisibleState.Showen;
     }
   }
 }

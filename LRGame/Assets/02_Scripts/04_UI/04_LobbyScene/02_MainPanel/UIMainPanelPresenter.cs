@@ -6,6 +6,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -113,7 +114,7 @@ namespace LR.UI.Lobby
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void OnOptionButtonSubmit()

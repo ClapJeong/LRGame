@@ -1,11 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.UI.Indicator;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -80,7 +79,7 @@ namespace LR.UI.Lobby
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void OnSelect(GameObject gameObject)

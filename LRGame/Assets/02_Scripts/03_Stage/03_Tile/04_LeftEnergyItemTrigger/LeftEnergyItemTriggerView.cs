@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
+using LR.Stage.TriggerTile.Enum;
 
 namespace LR.Stage.TriggerTile
 {

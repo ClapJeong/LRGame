@@ -4,6 +4,7 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.InputQTE
 {
@@ -15,16 +16,16 @@ namespace LR.UI.GameScene.InputQTE
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
       await UniTask.CompletedTask;
-      visibleState = UIVisibleState.Hidden;
+      visibleState = VisibleState.Hidden;
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Showing;
+      visibleState = VisibleState.Showing;
       await UniTask.CompletedTask;
-      visibleState = UIVisibleState.Showen;
+      visibleState = VisibleState.Showen;
     }
   }
 }

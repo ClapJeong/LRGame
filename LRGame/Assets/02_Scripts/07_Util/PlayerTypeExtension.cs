@@ -1,3 +1,4 @@
+using LR.Stage.Player.Enum;
 
 public static class PlayerTypeExtension
 {

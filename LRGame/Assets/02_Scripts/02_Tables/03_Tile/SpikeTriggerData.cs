@@ -7,6 +7,6 @@ namespace LR.Table.TriggerTile
   {
     [field: SerializeField] public float DamageValue { get; private set; }
     [field: SerializeField] public BounceData BounceData { get; private set; }
-    [field: SerializeField] public EffectType EffectType { get; private set; }
+    [field: SerializeField] public InstanceEffectType EffectType { get; private set; }
   }
 }

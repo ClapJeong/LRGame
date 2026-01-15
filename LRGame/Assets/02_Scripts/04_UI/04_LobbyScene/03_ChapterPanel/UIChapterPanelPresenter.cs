@@ -1,13 +1,11 @@
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using LR.UI.Indicator;
 using LR.UI.Lobby.ChapterPanel;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -17,7 +15,7 @@ namespace LR.UI.Lobby
     {
       public AddressableKeySO addressableKeySO;
       public UISO uiSO;
-      public IUIInputActionManager uiInputActionManager;      
+      public IUIInputManager uiInputActionManager;      
       public IUIDepthService depthService;
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
@@ -26,7 +24,7 @@ namespace LR.UI.Lobby
       public IUISelectedGameObjectService uiSelectedGameObjectService;
       public UnityAction onPanelExit;
 
-      public Model(AddressableKeySO addressableKeySO, UISO uiSO, IUIInputActionManager uiInputActionManager, IUIDepthService depthService, IGameDataService gameDataService, ISceneProvider sceneProvider, IUIIndicatorPresenter panelIndicator, IResourceManager resourceManager, IUISelectedGameObjectService uiSelectedGameObjectService, UnityAction onPanelExit)
+      public Model(AddressableKeySO addressableKeySO, UISO uiSO, IUIInputManager uiInputActionManager, IUIDepthService depthService, IGameDataService gameDataService, ISceneProvider sceneProvider, IUIIndicatorPresenter panelIndicator, IResourceManager resourceManager, IUISelectedGameObjectService uiSelectedGameObjectService, UnityAction onPanelExit)
       {
         this.addressableKeySO = addressableKeySO;
         this.uiSO = uiSO;
@@ -105,7 +103,7 @@ namespace LR.UI.Lobby
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private async UniTask CreateStageButtonSetsAsync()

@@ -2,6 +2,7 @@
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.InputProgress
 {
@@ -11,16 +12,16 @@ namespace LR.UI.GameScene.InputProgress
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
       await UniTask.CompletedTask;
-      visibleState = UIVisibleState.Showen;
+      visibleState = VisibleState.Showen;
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
       await UniTask.CompletedTask;
-      visibleState = UIVisibleState.Showen;
+      visibleState = VisibleState.Showen;
     }
   }
 }

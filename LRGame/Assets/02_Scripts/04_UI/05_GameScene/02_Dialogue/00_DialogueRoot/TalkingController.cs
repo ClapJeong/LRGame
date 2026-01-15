@@ -30,7 +30,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       GameObject attachTarget,
       TableContainer table,
       IResourceManager resourceManager,
-      IUIInputActionManager uiInputActionManager,
+      IUIInputManager uiInputActionManager,
       IDialogueStateController dialogueController,
       UITalkingCharacterView leftView,
       UITalkingCharacterView centerView,

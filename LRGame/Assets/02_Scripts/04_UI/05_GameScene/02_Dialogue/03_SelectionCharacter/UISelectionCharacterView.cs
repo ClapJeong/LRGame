@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Localization.Components;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Dialogue
 {
@@ -20,7 +21,7 @@ namespace LR.UI.GameScene.Dialogue
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
 
       var duration = isImmediately ? 0.0f : UISO.SelectionHideDuration;
       try
@@ -29,7 +30,7 @@ namespace LR.UI.GameScene.Dialogue
                 .Join(canvasGroup.DOFade(0.0f, duration))
                 .ToUniTask(TweenCancelBehaviour.Kill, token);
         gameObject.SetActive(false);
-        visibleState = UIVisibleState.Hidden; 
+        visibleState = VisibleState.Hidden; 
       }
       catch (OperationCanceledException) { }
     }
@@ -37,7 +38,7 @@ namespace LR.UI.GameScene.Dialogue
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       gameObject.SetActive(true);
-      visibleState = UIVisibleState.Showing;
+      visibleState = VisibleState.Showing;
 
       var duration = isImmediately ? 0.0f : UISO.SelectionShowDuration;
       try
@@ -46,7 +47,7 @@ namespace LR.UI.GameScene.Dialogue
                 .Join(canvasGroup.DOFade(1.0f, duration))
                 .ToUniTask(TweenCancelBehaviour.Kill, token);
         
-        visibleState = UIVisibleState.Showen;
+        visibleState = VisibleState.Showen;
       }
       catch (OperationCanceledException) { }
     }

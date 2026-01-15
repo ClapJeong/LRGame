@@ -4,6 +4,8 @@ using System.Threading;
 using UniRx;
 using UnityEngine;
 using LR.Stage.Player;
+using LR.Stage.Player.Enum;
+using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Player
 {
@@ -55,7 +57,7 @@ namespace LR.UI.GameScene.Player
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)

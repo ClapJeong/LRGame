@@ -1,4 +1,5 @@
 ﻿using LR.Stage.Player;
+using LR.Stage.Player.Enum;
 
 namespace LR.Stage.StageDataContainer
 {
@@ -11,7 +12,7 @@ namespace LR.Stage.StageDataContainer
     public float targetNormalizedValue;
     public IPlayerEnergySubscriber.OnChangedType valueType;
 
-    public PlayerStateType targetPlayerState;
+    public PlayerState targetPlayerState;
     public bool enter = true;
   }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -12,14 +13,14 @@ namespace LR.UI.Lobby
     {
       public int chapter;
       public int stage;
-      public UIInputDirection inputType;
+      public InputDirection inputType;
       public UnityAction onComplete;
 
-      public IUIInputActionManager uiInputActionManager;
+      public IUIInputManager uiInputActionManager;
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
 
-      public Model(int chapter, int stage, UIInputDirection inputType, UnityAction onComplete, IUIInputActionManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(int chapter, int stage, InputDirection inputType, UnityAction onComplete, IUIInputManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.chapter = chapter;
         this.stage = stage;
@@ -68,7 +69,7 @@ namespace LR.UI.Lobby
       await view.HideAsync(isImmediately, token);
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void CreateSubscribeHandle()

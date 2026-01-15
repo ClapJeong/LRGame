@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -16,7 +17,7 @@ namespace LR.UI.Lobby
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
 
       var duration = isImmediately ? 0.0f : UISO.LobbyPanelMoveDuration;
       await DOTween
@@ -25,13 +26,13 @@ namespace LR.UI.Lobby
         .Join(canvasGroup.DOFade(0.0f, duration))
         .ToUniTask(TweenCancelBehaviour.Kill, token);
 
-      visibleState = UIVisibleState.Hidden;
+      visibleState = VisibleState.Hidden;
       gameObject.SetActive(false);
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Showing;
+      visibleState = VisibleState.Showing;
       gameObject.SetActive(true);
 
       var duration = isImmediately ? 0.0f : UISO.LobbyPanelMoveDuration;
@@ -41,7 +42,7 @@ namespace LR.UI.Lobby
         .Join(canvasGroup.DOFade(1.0f, duration))
         .ToUniTask(TweenCancelBehaviour.Kill, token);
 
-      visibleState = UIVisibleState.Showen;
+      visibleState = VisibleState.Showen;
     }
   }
 }

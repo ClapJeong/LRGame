@@ -1,9 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -13,11 +12,11 @@ namespace LR.UI.Lobby
     {
       public int chapter;
 
-      public IUIInputActionManager uiInputActionManager;
+      public IUIInputManager uiInputActionManager;
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
 
-      public Model(int chapter, IUIInputActionManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(int chapter, IUIInputManager uiInputActionManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.chapter = chapter;
         this.uiInputActionManager = uiInputActionManager;
@@ -44,7 +43,7 @@ namespace LR.UI.Lobby
       var upModel = new UIStageButtonPresenter.Model(
         model.chapter,
         1,
-        UIInputDirection.RightUp,
+        InputDirection.RightUp,
         Dispose,
         model.uiInputActionManager,
         model.gameDataService,
@@ -54,7 +53,7 @@ namespace LR.UI.Lobby
       var rightModel = new UIStageButtonPresenter.Model(
         model.chapter,
         2,
-        UIInputDirection.RightRight,
+        InputDirection.RightRight,
         Dispose,
         model.uiInputActionManager,
         model.gameDataService,
@@ -64,7 +63,7 @@ namespace LR.UI.Lobby
       var downModel = new UIStageButtonPresenter.Model(
         model.chapter,
         3,
-        UIInputDirection.RightDown,
+        InputDirection.RightDown,
         Dispose,
         model.uiInputActionManager,
         model.gameDataService,
@@ -74,7 +73,7 @@ namespace LR.UI.Lobby
       var leftModel = new UIStageButtonPresenter.Model(
         model.chapter,
         4,
-        UIInputDirection.RightLeft,
+        InputDirection.RightLeft,
         Dispose,
         model.uiInputActionManager,
         model.gameDataService,
@@ -121,7 +120,7 @@ namespace LR.UI.Lobby
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
   }
 }

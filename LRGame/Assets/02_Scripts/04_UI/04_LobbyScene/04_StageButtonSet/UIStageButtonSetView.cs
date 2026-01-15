@@ -1,9 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
-using System;
 using UnityEngine;
 using System.Threading;
 using DG.Tweening;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -18,26 +18,26 @@ namespace LR.UI.Lobby
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
 
       var duration = isImmediately ? 0.0f : UISO.StageButtonMoveDuration;
       await DOTween.Sequence()
         .Join(RectTransform.DOScale(UISO.StageButtonHideScale, duration))
         .ToUniTask(TweenCancelBehaviour.Kill, token);
       
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
 
       var duration = isImmediately ? 0.0f : UISO.StageButtonMoveDuration;
       await DOTween.Sequence()
         .Join(RectTransform.DOScale(UISO.StageButtonShowScale, duration))
         .ToUniTask(TweenCancelBehaviour.Kill, token);
 
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
     }
   }
 }

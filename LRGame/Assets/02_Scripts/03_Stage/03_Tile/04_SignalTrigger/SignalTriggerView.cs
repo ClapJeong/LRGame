@@ -5,6 +5,7 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.Events;
+using LR.Stage.TriggerTile.Enum;
 
 namespace LR.Stage.TriggerTile
 {

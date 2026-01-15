@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -21,12 +22,12 @@ namespace LR.UI.Lobby
     {
       public UIManager uiManager;
       public TableContainer table;
-      public IUIInputActionManager uiInputManager;
+      public IUIInputManager uiInputManager;
       public IResourceManager resourceManager;
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
 
-      public Model(UIManager uiManager, TableContainer table, IUIInputActionManager uiInputManager, IResourceManager resourceManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(UIManager uiManager, TableContainer table, IUIInputManager uiInputManager, IResourceManager resourceManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
       {
         this.uiManager = uiManager;
         this.table = table;
@@ -82,7 +83,7 @@ namespace LR.UI.Lobby
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
     private void SetState(PanelState panelState)

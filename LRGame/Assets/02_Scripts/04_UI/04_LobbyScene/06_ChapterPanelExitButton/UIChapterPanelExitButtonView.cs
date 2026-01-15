@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Threading;
 using UnityEngine.UI;
+using LR.UI.Enum;
 
 namespace LR.UI.Lobby
 {
@@ -13,16 +14,16 @@ namespace LR.UI.Lobby
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Hiding;
+      visibleState = VisibleState.Hiding;
       await UniTask.CompletedTask;
-      visibleState = UIVisibleState.Hidden;
+      visibleState = VisibleState.Hidden;
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = UIVisibleState.Showing;
+      visibleState = VisibleState.Showing;
       await UniTask.CompletedTask;
-      visibleState = UIVisibleState.Showen;
+      visibleState = VisibleState.Showen;
     }
   }
 }

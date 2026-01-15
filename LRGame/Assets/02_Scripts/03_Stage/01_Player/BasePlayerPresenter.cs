@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UniRx.Triggers;
+using LR.Stage.Player.Enum;
 
 namespace LR.Stage.Player
 {
@@ -36,28 +37,28 @@ namespace LR.Stage.Player
         moveController,
         stateService).AddTo(disposables);
 
-      stateService.AddState(PlayerStateType.Idle, new PlayerIdleState(
+      stateService.AddState(PlayerState.Idle, new PlayerIdleState(
         moveController, 
         inputActionController, 
         stateService,
         energyService,
         reactionController,
         animatorController));
-      stateService.AddState(PlayerStateType.Move, new PlayerMoveState(
+      stateService.AddState(PlayerState.Move, new PlayerMoveState(
         moveController, 
         inputActionController, 
         stateService,
         energyService,
         reactionController,
         animatorController));      
-      stateService.AddState(PlayerStateType.Stun, new PlayerStunState(
+      stateService.AddState(PlayerState.Stun, new PlayerStunState(
         moveController,
         stateService,
         energyService,
         animatorController,
         inputActionController,
         model.so.Stun));
-      stateService.AddState(PlayerStateType.Inputting, new PlayerInputState(
+      stateService.AddState(PlayerState.Inputting, new PlayerInputState(
         moveController,
         stateService,
         reactionController,
@@ -65,7 +66,7 @@ namespace LR.Stage.Player
         animatorController,
         inputSequenceStopController: model.inputSequenceStopController));
 
-      stateService.ChangeState(PlayerStateType.Idle);
+      stateService.ChangeState(PlayerState.Idle);
 
       SubscribeEnergyService();
       SubscribeObservable();
@@ -130,7 +131,7 @@ namespace LR.Stage.Player
       energyService.Restart();
 
       view.transform.position = model.beginPosition;
-      stateService.ChangeState(PlayerStateType.Idle);
+      stateService.ChangeState(PlayerState.Idle);
     }
     #endregion
 

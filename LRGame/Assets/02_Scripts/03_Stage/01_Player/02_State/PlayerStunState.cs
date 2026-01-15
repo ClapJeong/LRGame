@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using LR.Stage.Player.Enum;
 
 namespace LR.Stage.Player
 {
@@ -57,7 +58,7 @@ namespace LR.Stage.Player
       {
         await UniTask.WaitForSeconds(stunData.StunDuration, false, PlayerLoopTiming.Update, token);
 
-        var nextState = inputActionController.IsAnyInput() ? PlayerStateType.Move : PlayerStateType.Idle;
+        var nextState = inputActionController.IsAnyInput() ? PlayerState.Move : PlayerState.Idle;
         stateController.ChangeState(nextState);
       }
       catch (OperationCanceledException) { }

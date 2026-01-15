@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using LR.UI.Enum;
+
 using static DialogueDataEnum;
 
 namespace LR.UI.GameScene.Dialogue
@@ -87,7 +89,7 @@ namespace LR.UI.GameScene.Dialogue
         view.DestroySelf();
     }
 
-    public UIVisibleState GetVisibleState()
+    public VisibleState GetVisibleState()
       => view.GetVisibleState();
     
     public void ClearView()
@@ -134,21 +136,21 @@ namespace LR.UI.GameScene.Dialogue
       {
         case CharacterType.Left:
           {
-            foreach (var value in Enum.GetValues(typeof(DialogueDataEnum.Portrait.Left)))
+            foreach (var value in System.Enum.GetValues(typeof(DialogueDataEnum.Portrait.Left)))
               tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetLeftName((DialogueDataEnum.Portrait.Left)value)));
           }
           break;
 
         case CharacterType.Center:
           {
-            foreach (var value in Enum.GetValues(typeof(DialogueDataEnum.Portrait.Center)))
+            foreach (var value in System.Enum.GetValues(typeof(DialogueDataEnum.Portrait.Center)))
               tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetCenterName((DialogueDataEnum.Portrait.Center)value)));
           }
           break;
 
         case CharacterType.Right:
           {
-            foreach (var value in Enum.GetValues(typeof(DialogueDataEnum.Portrait.Right)))
+            foreach (var value in System.Enum.GetValues(typeof(DialogueDataEnum.Portrait.Right)))
               tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetRightName((DialogueDataEnum.Portrait.Right)value)));
           }
           break;
