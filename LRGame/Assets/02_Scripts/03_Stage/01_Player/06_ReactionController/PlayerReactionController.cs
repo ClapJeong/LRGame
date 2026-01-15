@@ -8,18 +8,25 @@ namespace LR.Stage.Player
   {
     private readonly IPlayerMoveController moveController;
     private readonly IPlayerStateController stateController;
+    private readonly IPlayerStateProvider stateProvider;
 
     private bool isCharging;
     public bool IsInputting => isCharging;
 
-    public PlayerReactionController(IPlayerMoveController moveController, IPlayerStateController stateController)
+    private bool IsFreezeState => stateProvider.GetCurrentState() == PlayerState.Freeze;
+
+    public PlayerReactionController(IPlayerMoveController moveController, IPlayerStateController stateController, IPlayerStateProvider stateProvider)
     {
       this.moveController = moveController;
       this.stateController = stateController;
+      this.stateProvider = stateProvider;
     }
 
     public void Bounce(BounceData data, Vector3 direction)
     {
+      if (IsFreezeState)
+        return;
+
       moveController.SetLinearVelocity(direction * data.Force);
     }
 
@@ -28,11 +35,19 @@ namespace LR.Stage.Player
 
     public void Stun()
     {
+      if (IsFreezeState)
+        return;
+
       stateController.ChangeState(PlayerState.Stun);
+    }
+
+    public void Freeze()
+    {
+      stateController.ChangeState(PlayerState.Freeze);
     }
 
     public void Dispose()
     {
-    }
+    }    
   }
 }

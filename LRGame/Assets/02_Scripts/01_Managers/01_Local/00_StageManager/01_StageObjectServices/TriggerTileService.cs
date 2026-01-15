@@ -65,7 +65,7 @@ public class TriggerTileService :
       {
         case TriggerTileType.LeftClearTrigger:
           {
-            var model = new ClearTriggerTilePresenter.Model(this.model.stageResultHandler);
+            var model = new ClearTriggerTilePresenter.Model(this.model.playerGetter, this.model.stageResultHandler);
             var clearTriggerTileView = view as ClearTriggerTileView;
             presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
           }
@@ -73,7 +73,7 @@ public class TriggerTileService :
 
         case TriggerTileType.RightClearTrigger:
           {
-            var model = new ClearTriggerTilePresenter.Model(this.model.stageResultHandler); 
+            var model = new ClearTriggerTilePresenter.Model(this.model.playerGetter, this.model.stageResultHandler); 
             var clearTriggerTileView = view as ClearTriggerTileView;
             presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
           }

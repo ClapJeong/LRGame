@@ -15,12 +15,16 @@ namespace LR.Stage.Player
     IPlayerEnergyProvider, 
     IDisposable
   {
-    private readonly PlayerEnergyData playerEnergyData;
-    private readonly Dictionary<IPlayerEnergySubscriber.EventType, UnityEvent> energyEvents = new();
+    private readonly PlayerEnergyData playerEnergyData;    
     private readonly SpriteRenderer spriteRenderer;
+    private readonly IPlayerStateProvider stateProvider;
+
+    private readonly Dictionary<IPlayerEnergySubscriber.EventType, UnityEvent> energyEvents = new();
     private readonly CancellationTokenSource cts = new();
     private readonly Dictionary<float, UnityEvent> aboveEvents = new();
     private readonly Dictionary<float, UnityEvent> belowEvents = new();
+
+    private bool IsFreezeState => stateProvider.GetCurrentState() == Enum.PlayerState.Freeze;
 
     private float energy;
     private float prevEnergy;
@@ -37,10 +41,11 @@ namespace LR.Stage.Player
     public float CurrentEnergy => energy;
     #endregion
 
-    public PlayerEnergyService(PlayerEnergyData playerEnergyData, SpriteRenderer spriteRenderer)
+    public PlayerEnergyService(PlayerEnergyData playerEnergyData, SpriteRenderer spriteRenderer, IPlayerStateProvider stateProvider)
     {
       this.playerEnergyData = playerEnergyData;
       this.spriteRenderer = spriteRenderer;
+      this.stateProvider = stateProvider;
 
       energy = playerEnergyData.MaxEnergy;
     }
@@ -49,6 +54,9 @@ namespace LR.Stage.Player
     public void Damage(float value, bool ignoreInvincible = false)
     {
       if (ignoreInvincible == false && isInvincible)
+        return;
+
+      if (IsFreezeState)
         return;
 
       energy = Mathf.Max(0.0f, energy -value);
@@ -68,6 +76,9 @@ namespace LR.Stage.Player
 
     public void Restore(float value)
     {
+      if (IsFreezeState)
+        return;
+
       var prevEnergy = energy;
       energy = Mathf.Min(playerEnergyData.MaxEnergy, energy + value);
 
@@ -81,6 +92,9 @@ namespace LR.Stage.Player
 
     public void RestoreFull()
     {
+      if (IsFreezeState)
+        return;
+
       var prevEnergy = energy;
       energy = playerEnergyData.MaxEnergy;
 
@@ -106,8 +120,10 @@ namespace LR.Stage.Player
     #region IPlayerEnergyUpdater
     public void UpdateEnergy(float deltaTime)
     {
-      if(IsDead ||
-         isUpdateEnergy == false)
+      if(IsDead || isUpdateEnergy == false)
+        return;
+
+      if (IsFreezeState)
         return;
 
       prevEnergy = energy;

@@ -13,5 +13,7 @@ namespace LR.Stage.Player
     public void SetInputting(bool isInputting);
 
     public void Stun();
+
+    public void Freeze();
   }
 }

@@ -27,16 +27,16 @@ namespace LR.Stage.Player
 
       view.transform.position = model.beginPosition;
 
+      stateService = new PlayerStateService().AddTo(disposables);
       effectController = new(view.ParticleSet);
       animatorController = new(view.Animator);
-      energyService = new PlayerEnergyService(model.so.Energy, view.SpriteRenderer).AddTo(disposables);
+      energyService = new PlayerEnergyService(model.so.Energy, view.SpriteRenderer, stateService).AddTo(disposables);
       inputActionController = new PlayerInputActionController(model.inputActionFactory).AddTo(disposables);
       moveController = new PlayerMoveController(view.Rigidbody2D, inputActionController: this.inputActionController, model).AddTo(disposables);
 
-      stateService = new PlayerStateService().AddTo(disposables);
-
       reactionController = new PlayerReactionController(
         moveController,
+        stateService,
         stateService).AddTo(disposables);
 
       stateService.AddState(PlayerState.Idle, new PlayerIdleState(
@@ -70,6 +70,9 @@ namespace LR.Stage.Player
         animatorController,
         model.inputSequenceStopController,
         effectController));
+      stateService.AddState(PlayerState.Freeze, new PlayerFreezeState(
+        moveController,
+        animatorController));
 
       stateService.ChangeState(PlayerState.Idle);
 

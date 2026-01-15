@@ -3,10 +3,13 @@
   public enum PlayerState
   {
     None,
+
     Idle,
     Move,
     Stun,
     Inputting,
+
+    Freeze,
   }
 
   public enum PlayerType

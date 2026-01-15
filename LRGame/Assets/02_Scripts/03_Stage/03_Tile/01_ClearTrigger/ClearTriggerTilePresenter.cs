@@ -1,5 +1,6 @@
 using UnityEngine;
 using LR.Stage.TriggerTile.Enum;
+using LR.Stage.Player;
 
 namespace LR.Stage.TriggerTile
 {
@@ -7,9 +8,11 @@ namespace LR.Stage.TriggerTile
   {
     public class Model
     {
+      public IPlayerGetter playerGetter;
       public IStageResultHandler stageResultHandler;
-      public Model(IStageResultHandler stageResultHandler)
+      public Model(IPlayerGetter playerGetter, IStageResultHandler stageResultHandler)
       {
+        this.playerGetter = playerGetter;
         this.stageResultHandler = stageResultHandler;
       }
     }
@@ -44,8 +47,7 @@ namespace LR.Stage.TriggerTile
         return;
       if (!isEnable)
         return;
-      
-
+     
       switch (view.GetTriggerType())
       {
         case TriggerTileType.LeftClearTrigger:
@@ -64,6 +66,13 @@ namespace LR.Stage.TriggerTile
 
         default: throw new System.NotImplementedException();
       }
+
+      var playerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
+      model
+        .playerGetter
+        .GetPlayer(playerType)
+        .GetReactionController()
+        .Freeze();
     }
 
     private void OnExit(Collider2D collider2D)
@@ -74,19 +83,6 @@ namespace LR.Stage.TriggerTile
         return;
 
       view.Animator.Play(AnimatorHash.ClearTriggerTile.Clip.Idle);
-
-      switch (view.GetTriggerType())
-      {
-        case TriggerTileType.LeftClearTrigger:
-          model.stageResultHandler.LeftClearExit();
-          break;
-
-        case TriggerTileType.RightClearTrigger:
-          model.stageResultHandler.RightClearExit();
-          break;
-
-        default: throw new System.NotImplementedException();
-      }
     }
   }
 }
