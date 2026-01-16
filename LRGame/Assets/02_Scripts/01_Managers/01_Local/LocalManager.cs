@@ -281,17 +281,29 @@ if(gameDataService.IsVeryFirst())
     var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(table.Path.UI + table.UIName.PlayerRoot, root);
 
     var Leftmodel = new UIPlayerRootPresenter.Model(
+      GlobalManager.instance.Table,
       stageManager: StageManager,
       playerType: PlayerType.Left,
-      playerGetter: StageManager);
+      playerGetter: StageManager,
+      GlobalManager.instance.UIInputManager,
+      GlobalManager.instance.UIManager,
+      StageManager.StageDataContainer,
+      StageManager,
+      GlobalManager.instance.GameDataService);
     var leftView = viewRoot.leftView;
     var leftPresenter = new UIPlayerRootPresenter(Leftmodel, leftView);
     leftPresenter.AttachOnDestroy(gameObject);
 
     var rightmodel = new UIPlayerRootPresenter.Model(
+      GlobalManager.instance.Table,
       stageManager: StageManager,
       playerType: PlayerType.Right,
-      playerGetter: StageManager);
+      playerGetter: StageManager,
+      GlobalManager.instance.UIInputManager,
+      GlobalManager.instance.UIManager,
+      StageManager.StageDataContainer,
+      StageManager,
+      GlobalManager.instance.GameDataService);
     var rightView = viewRoot.rightView;
     var rightPresenter = new UIPlayerRootPresenter(rightmodel, rightView);
     rightPresenter.AttachOnDestroy(gameObject);

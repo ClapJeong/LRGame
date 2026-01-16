@@ -69,7 +69,7 @@ public class StageManager :
   private bool isLeftClear = false;
   private bool isRightClear = false;
 
-  private StageDataContainer stageDataContainer;
+  public StageDataContainer StageDataContainer { get; private set;  }
   private DialogueData beforeDialogueData;
   private DialogueData afterDialogueData;
 
@@ -113,17 +113,17 @@ public class StageManager :
     var key = model.table.AddressableKeySO.Path.Stage + string.Format(model.table.AddressableKeySO.StageName.StageNameFormat, index);
     try
     {
-      stageDataContainer = await model.resourceManager.CreateAssetAsync<StageDataContainer>(key);
+      StageDataContainer = await model.resourceManager.CreateAssetAsync<StageDataContainer>(key);
 
       var handles = await model.resourceManager.LoadAssetsAsync(model.table.AddressableKeySO.Label.Dialogue);
-      CacheDialogueDatas(handles, stageDataContainer);
-      SetupCamera(stageDataContainer);
-      var playerSetupTask = SetupPlayersAsync(stageDataContainer);
-      var triggerSetupTask = SetupTriggersAsync(stageDataContainer);
-      var baseInteractiveObjectSetupTask = SetupBaseInteractiveObjectsAsync(stageDataContainer);
+      CacheDialogueDatas(handles, StageDataContainer);
+      SetupCamera(StageDataContainer);
+      var playerSetupTask = SetupPlayersAsync(StageDataContainer);
+      var triggerSetupTask = SetupTriggersAsync(StageDataContainer);
+      var baseInteractiveObjectSetupTask = SetupBaseInteractiveObjectsAsync(StageDataContainer);
       await UniTask.WhenAll(playerSetupTask, triggerSetupTask, baseInteractiveObjectSetupTask);
-      SetupSignalListeners(stageDataContainer);
-      SetupChatCardEventService(stageDataContainer);
+      SetupSignalListeners(StageDataContainer);
+      SetupChatCardEventService(StageDataContainer);
     }
     catch
     {
@@ -138,6 +138,8 @@ public class StageManager :
   {
     var restartPresenter = model.uiPresenterContainer.GetFirst<UIRestartPresenter>();
     await restartPresenter.ActivateAsync();
+    
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Restart);
 
     playerSetupService.RestartAll();
     triggerTileService.RestartAll();
@@ -151,7 +153,6 @@ public class StageManager :
     isRightClear = false;
 
     await restartPresenter.DeactivateAsync();
-
     SetState(StageEnum.State.Playing);
   }
 
@@ -164,7 +165,7 @@ public class StageManager :
     interactiveObjectService.EnableAll(false);
 
     scoreCalculator.CalculateScore(
-      stageDataContainer.scoreData,
+      StageDataContainer.scoreData,
       playerSetupService.GetPlayer(PlayerType.Left),
       playerSetupService.GetPlayer(PlayerType.Right),
       out var leftScore,

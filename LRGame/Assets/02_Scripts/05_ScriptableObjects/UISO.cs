@@ -31,6 +31,10 @@ public class UISO : ScriptableObject
   [field: SerializeField] public float BeginHideDuration { get; private set; }
   [field: SerializeField] public float RestartDelay { get; private set; }
   [field: SerializeField] public float RestartUIFadeDuration {  get; private set; }
+  [field: SerializeField] public float ScoreFillMaxDuration { get; private set;  }
+  [field: SerializeField] public float ScoreShowDuration {  get; private set; }
+  [field: SerializeField] public float ScoreHideDuration { get; private set; }
+  [field: SerializeField] public float SucessUIDelay { get; private set; }
 
   [field: Header("[ Dialogue ]")]
   [field: SerializeField] public float DialogueRootShowDuratoin {  get; private set; }

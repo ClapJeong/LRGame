@@ -11,10 +11,12 @@ namespace LR.UI.GameScene.Stage
     public class Model
     {
       public UISO uiSO;
+      public IUIPresenterContainer presenterContainer;
 
-      public Model(UISO uiSO)
+      public Model(UISO uiSO, IUIPresenterContainer presenterContainer)
       {
         this.uiSO = uiSO;
+        this.presenterContainer = presenterContainer;
       }
     }
 
@@ -25,6 +27,8 @@ namespace LR.UI.GameScene.Stage
     {
       this.model = model;
       this.view = view;
+
+      model.presenterContainer.Add(this);
     }
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
@@ -43,6 +47,7 @@ namespace LR.UI.GameScene.Stage
 
     public void Dispose()
     {
+      model.presenterContainer.Remove(this);
       if (view)
         view.DestroySelf();
     }

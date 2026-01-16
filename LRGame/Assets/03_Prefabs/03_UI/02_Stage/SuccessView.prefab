@@ -420,7 +420,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 394.0271, y: 0}
+  m_AnchoredPosition: {x: 350, y: -127.99176}
   m_SizeDelta: {x: 160, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1137942163652538107
@@ -491,9 +491,9 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 8896761004534834589}
-    m_SelectOnDown: {fileID: 4690196542281801142}
-    m_SelectOnLeft: {fileID: 8896761004534834589}
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 4690196542281801142}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 0
   m_Colors:
@@ -705,7 +705,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 150}
+  m_AnchoredPosition: {x: -350, y: -127.99176}
   m_SizeDelta: {x: 160, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6723739534033332719
@@ -762,9 +762,9 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 4690196542281801142}
+    m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 7464680669165527292}
+    m_SelectOnRight: {fileID: 4690196542281801142}
   m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -973,7 +973,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -127.99176}
   m_SizeDelta: {x: 160, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4680381330121860285
@@ -1029,9 +1029,9 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 8896761004534834589}
+    m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 8896761004534834589}
     m_SelectOnRight: {fileID: 7464680669165527292}
   m_Transition: 0
   m_Colors:
@@ -1136,10 +1136,10 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 1
+  m_FillMethod: 0
   m_FillAmount: 0
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8531950624058369267
@@ -1151,7 +1151,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7824171980539763542}
-  - component: {fileID: 5548366261356105062}
   - component: {fileID: 4896985160126008815}
   - component: {fileID: 7087345429071686996}
   m_Layer: 5
@@ -1175,8 +1174,8 @@ RectTransform:
   m_Children:
   - {fileID: 1762352726507241464}
   - {fileID: 5174788553061466822}
-  - {fileID: 6087991851575592175}
   - {fileID: 7706845918049836384}
+  - {fileID: 6087991851575592175}
   - {fileID: 5470125263936760088}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1185,18 +1184,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5548366261356105062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8531950624058369267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a1b429dbbc2cef4898c214480f9153c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseGameObjectView
 --- !u!114 &4896985160126008815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,7 +1196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10eceeaca6d3a2c469d7501fde4f9d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Stage.UIStageSuccessView
-  hidePosition: {x: 0, y: -300}
+  hidePosition: {x: 0, y: -100}
   showPosition: {x: 0, y: 0}
   canvasGroup: {fileID: 7087345429071686996}
   <IndicatorRoot>k__BackingField: {fileID: 5470125263936760088}

@@ -3,6 +3,9 @@ using System;
 using System.Threading;
 using UnityEngine;
 using LR.UI.Enum;
+using LR.UI.GameScene.Player;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -81,6 +84,11 @@ namespace LR.UI.GameScene.Stage
 
       if (model.dialoguePlayableProvider.IsBeforeDialoguePlayable())
         model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
+
+      model.
+        uiManager
+        .GetIUIPresenterContainer()
+        .Add(this);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)
@@ -93,10 +101,10 @@ namespace LR.UI.GameScene.Stage
 
       UnsubscribePauseInput();
 
-      model
-        .uiManager
+      model.
+        uiManager
         .GetIUIPresenterContainer()
-        .Remove(restartPresenter);
+        .Remove(this);
     }
 
     public VisibleState GetVisibleState()
@@ -117,7 +125,7 @@ namespace LR.UI.GameScene.Stage
     private void OnStageComplete()
     {
       if (model.dialoguePlayableProvider.IsAfterDialoguePlayable() == false)
-        successPresenter.ActivateAsync().Forget();
+        OnStageReallyCompleteAsync().Forget();
     }
 
     private void OnBeforeDialgoueComplete()
@@ -139,7 +147,18 @@ namespace LR.UI.GameScene.Stage
     private void OnAfterDialogueComplete()
     {
       model.dialogueSubscriber.UnsubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
-      successPresenter.ActivateAsync().Forget();
+      OnStageReallyCompleteAsync().Forget();
+    }
+
+    private async UniTask OnStageReallyCompleteAsync()
+    {
+      var playerRootPresenters = model.uiManager.GetIUIPresenterContainer().GetAll<UIPlayerRootPresenter>();
+      var tasks = new List<UniTask>();
+      foreach (var playerRootPresenter in playerRootPresenters)
+        tasks.Add(playerRootPresenter.PlayScoreUIAsync());
+
+      await UniTask.WhenAll(tasks);
+      await successPresenter.ActivateAsync();
     }
 
     private void CreateBeginPresenter()
@@ -194,17 +213,11 @@ namespace LR.UI.GameScene.Stage
 
     private void CreateRestartPresenter()
     {
-      var model = new UIRestartPresenter.Model(this.model.tableContainer.UISO);
+      var model = new UIRestartPresenter.Model(this.model.tableContainer.UISO, this.model.uiManager.GetIUIPresenterContainer());
       var view = this.view.RestartView;
       restartPresenter = new UIRestartPresenter(model, view);
       restartPresenter.AttachOnDestroy(this.view.gameObject);
       restartPresenter.DeactivateAsync(true).Forget();
-
-      this
-        .model
-        .uiManager
-        .GetIUIPresenterContainer()
-        .Add(restartPresenter);
     }
 
     private void SubscribePauseInput()

@@ -42,7 +42,7 @@ namespace LR.UI.GameScene.Stage
       this.view = view;
 
       view.RestartProgressSubmit.Subscribe(
-        Direction.Up,
+        Direction.Left,
         onPerformed: null,
         onCanceled: null,
         onProgress: view.RestartFillImage.SetFillAmount,
@@ -61,7 +61,6 @@ namespace LR.UI.GameScene.Stage
       else
       {
         view.NextProgressFillSubmit.gameObject.SetActive(false);
-        view.RestartSelectable.AddNavigation(Direction.Right, null);
         view.QuitSelectable.AddNavigation(Direction.Right, null);
       }
 

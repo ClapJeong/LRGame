@@ -1,13 +1,15 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEngine;
 using LR.UI.Enum;
 
 namespace LR.UI.GameScene.Player
 {
   public class UIPlayerRootView : BaseUIView
   {
-    public UIPlayerInputView inputView;
-    public UIPlayerEnergyView energyView;
+    [field: SerializeField] public UIPlayerInputView InputView { get; private set; }
+    [field: SerializeField] public UIPlayerEnergyView EnergyView { get; private set; }
+    [field: SerializeField] public UIPlayerScoreView ScoreView { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
