@@ -70,7 +70,6 @@ public class SceneProvider : ISceneProvider
       await handle.Result.ActivateAsync();      
       
       currentScene = sceneType;
-      onComplete?.Invoke();
 
       LocalManager localManager = null;
       foreach (var root in handle.Result.Scene.GetRootGameObjects())
@@ -86,6 +85,8 @@ public class SceneProvider : ISceneProvider
       if (useUI)
         await loadingPresenter.DeactivateAsync();
       localManager?.Play();
+
+      onComplete?.Invoke();
     }
     catch (OperationCanceledException e) { Debug.Log(e); }
   }

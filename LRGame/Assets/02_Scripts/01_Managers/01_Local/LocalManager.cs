@@ -169,8 +169,8 @@ if(gameDataService.IsVeryFirst())
                   null,
                   onComplete: async () =>
                   {
-                    await UniTask.Delay(10);
-                    veryFirstService.DestroyCutscene();
+                    UniTask.Delay(10)
+                     .ContinueWith(veryFirstService.DestroyCutscene).Forget();
                   }).Forget();
               });
           }
