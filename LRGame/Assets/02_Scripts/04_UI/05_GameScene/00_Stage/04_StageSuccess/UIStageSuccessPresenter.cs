@@ -98,11 +98,11 @@ namespace LR.UI.GameScene.Stage
 
     public async UniTask ActivateAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      model.stageService.Pause();
-      await view.ShowAsync(isImmediately, token);
+      model.stageService.Pause();      
       await GetNewIndicatorAsync();      
       subscribeHandle.Subscribe();
-      model.depthService.SelectTopObject();      
+      model.depthService.SelectTopObject();
+      await view.ShowAsync(isImmediately, token);
     }
 
     public async UniTask DeactivateAsync(bool isImmediately = false, CancellationToken token = default)
