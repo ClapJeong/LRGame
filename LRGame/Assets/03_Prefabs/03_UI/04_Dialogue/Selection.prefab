@@ -119,7 +119,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.4
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &158856258942995569
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,10 +214,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -310,16 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 6719428808767053332}
 --- !u!1 &364758459550658843
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,8 +396,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: -325}
-  m_SizeDelta: {x: 300, y: 300}
+  m_AnchoredPosition: {x: 550, y: -353.99628}
+  m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2993000616986172463
 MonoBehaviour:
@@ -534,10 +524,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -630,16 +620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 6560274931974091148}
 --- !u!1 &630697337312714498
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,10 +714,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -830,16 +810,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 8239795433689224187}
 --- !u!1 &1098858404042213035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.63162225, g: 0.8396226, b: 0.60595405, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1069,8 +1039,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -550, y: -325}
-  m_SizeDelta: {x: 300, y: 300}
+  m_AnchoredPosition: {x: -550, y: -353.99628}
+  m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1843765581863615682
 MonoBehaviour:
@@ -1197,10 +1167,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -1293,16 +1263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 941096835406182676}
 --- !u!1 &4991151068649858928
 GameObject:
   m_ObjectHideFlags: 0
@@ -1336,8 +1296,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 350, y: 37.5}
+  m_AnchoredPosition: {x: 0, y: 99.0076}
+  m_SizeDelta: {x: 446.98, y: 37.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5070563471956377053
 GameObject:
@@ -1433,10 +1393,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -1529,16 +1489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 2795945565544335774}
 --- !u!1 &5203813474498337458
 GameObject:
   m_ObjectHideFlags: 0
@@ -1597,7 +1547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8301887, g: 0.5991456, b: 0.5991456, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1649,7 +1599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -299.0008}
+  m_AnchoredPosition: {x: 0, y: -381.2033}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4846893391095550425
@@ -1760,10 +1710,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -1856,16 +1806,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 7919035115055276568}
 --- !u!1 &5985020732694681495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1940,7 +1880,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.4
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6557048080361472958
 GameObject:
   m_ObjectHideFlags: 0
@@ -2171,10 +2111,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -2267,16 +2207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 7654426694702603614}
 --- !u!1 &7179803224050791250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,8 +2379,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 100.01282}
-  m_SizeDelta: {x: 337.13, y: 121.4}
+  m_AnchoredPosition: {x: 0, y: -5.79364}
+  m_SizeDelta: {x: 413.8, y: 138.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5516837175502136429
 CanvasRenderer:
@@ -2507,8 +2437,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2603,16 +2533,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 3451311951513776635}
 --- !u!1 &7698179572340282856
 GameObject:
   m_ObjectHideFlags: 0
@@ -2707,10 +2627,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
-  m_fontSizeBase: 36
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -2803,13 +2723,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56282147fcc9d534196f1667d8ea321f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizeFontEvent
-  fontReference:
-    m_TableReference:
-      m_TableCollectionName: FontTable
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: Defaultfont
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-  textmeshPros:
-  - {fileID: 7178936135719699884}

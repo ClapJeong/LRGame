@@ -25,6 +25,7 @@ namespace LR.UI.GameScene.Dialogue.Character
     private bool isImageChanging = false;
     private Image forwardImage;
     private float forwardImageAlpha = 1.0f;
+    private DialogueDataEnum.Portrait.AnimationType currentAnimationType;
 
     public PortraitController(UIPortraitData portraitData, Animator animator, Image portraitImageA, Image portraitImageB)
     {
@@ -53,6 +54,10 @@ namespace LR.UI.GameScene.Dialogue.Character
 
     public void PlayAnimation(DialogueDataEnum.Portrait.AnimationType animType)
     {
+      if (currentAnimationType == animType)
+        return;
+
+      currentAnimationType = animType;
       animationCTS.Cancel();
       animationCTS.Create();
 
