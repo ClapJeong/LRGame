@@ -519,9 +519,14 @@ namespace LR.Editor
             selectedConditon.TargetSubName = availableSelections[selectedIndex].SubName;
             SaveData(selectedRootData);
           }
-
-          selectedConditon.LeftKey = (int)(Direction)EditorGUILayout.EnumPopup("Left: ", (Direction)selectedConditon.LeftKey);
-          selectedConditon.RightKey = (int)(Direction)EditorGUILayout.EnumPopup("Right: ", (Direction)selectedConditon.RightKey);
+          GUILayout.FlexibleSpace();
+          EditorGUILayout.LabelField("Left: ", GUILayout.Width(DialogueKeyWidth));
+          selectedConditon.LeftKey = (int)(Direction)EditorGUILayout.EnumPopup((Direction)selectedConditon.LeftKey, GUILayout.Width(DialogueKeyWidth));
+          selectedConditon.LeftCheckState = (int)(DialogueCondition.CheckState)EditorGUILayout.EnumPopup((DialogueCondition.CheckState)selectedConditon.LeftCheckState, GUILayout.Width(DialogueKeyWidth));
+          GUILayout.FlexibleSpace();
+          EditorGUILayout.LabelField("Right: ", GUILayout.Width(DialogueKeyWidth));
+          selectedConditon.RightKey = (int)(Direction)EditorGUILayout.EnumPopup((Direction)selectedConditon.RightKey, GUILayout.Width(DialogueKeyWidth));
+          selectedConditon.RightCheckState = (int)(DialogueCondition.CheckState)EditorGUILayout.EnumPopup((DialogueCondition.CheckState)selectedConditon.RightCheckState, GUILayout.Width(DialogueKeyWidth));
         }
       }
     }

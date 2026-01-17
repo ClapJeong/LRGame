@@ -237,7 +237,7 @@ namespace LR.UI.GameScene.Dialogue.Root
         targetSequence = sequenceSet.Sequences.FirstOrDefault(sequence =>
         {
           var targetCondition = sequence.GetCondition();
-          return gameDataService.IsContainsCondition(targetCondition.TargetSubName, targetCondition.LeftKey, targetCondition.RightKey);
+          return gameDataService.IsContainsCondition(targetCondition);
         });
         targetSequence ??= sequenceSet.Sequences[0];
       }

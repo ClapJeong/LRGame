@@ -47,34 +47,34 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 102
-    m_Localized: "<shake>\uB098\uB808\uC774\uD130 \uCD5C\uCD08 \uB300\uC0AC</shake>"
+    m_Localized: "\uC804\uB825 \uC774\uC0C1 \uC5C6\uC74C...<waitfor=0.5f>\\n\uC2E0\uD638
+      \uC774\uC0C1 \uC5C6\uC74C...<waitfor=0.5f>\\n\uC774\uC0C1 \uC774\uC0C1 \uC5C6\uC74C!"
     m_Metadata:
       m_Items: []
   - m_Id: 103
-    m_Localized: "<wiggle><b>\uC67C\uCABD\uC774</b> \uCD5C\uCD08 \uB300\uC0AC <b><i>\uD14C\uC2A4\uD2B8\uC6A9</i>\uC73C\uB85C
-      \uC880 \uB354 <i>\uB298\uB824</i>\uBD05\uB2C8\uB2E4</b></wiggle>"
+    m_Localized: "\uC67C\uCABD\uC774 1\uD638! \uC624\uB978\uCABD\uC774 1\uD638!<waitfor=0.5>\\n1\uCC28
+      \uAC00\uB3D9 \uD14C\uC2A4\uD2B8 \uC2DC\uC791!"
     m_Metadata:
       m_Items: []
   - m_Id: 104
-    m_Localized: "<wave><b>\uBC15\uC0AC</b> \uCD5C\uCD08 \uB300\uC0AC\\n<b>\uC2AC\uB798\uC26Cn</b>\uC774\uB791
-      <b>Rich Text</b>\uB3C4 \uB300\uC751\uB429\uB2C8\uB2E4\uC694</wave>"
+    m_Localized: "<shake>\uC544\uBC14\uBC14\uBC14\uBC14\uBC27!!!</shake>"
     m_Metadata:
       m_Items: []
   - m_Id: 105
-    m_Localized: "<bounce><i>\uC624\uB978\uCABD\uC774 \uCD5C\uCD08 \uB300\uC0AC \uBCF4\uB2E4\uC2DC\uD53C
-      <b>\uC624\uB978\uCABD</b>\uBD80\uD130 \uD0C0\uC774\uD551\uC774\uB3FC\uC694</i></bounce>"
+    m_Localized: "<shake>\uC544\uBC14\uBC14\uBC14\uBC14\uBC27!!!</shake>"
     m_Metadata:
       m_Items: []
   - m_Id: 106
-    m_Localized: "\uCF69\uADF8\uB808\uCE04\uB808\uC774\uC158...!"
+    m_Localized: "<wiggle>\uC5B4...\uC5B4...</wiggle>"
     m_Metadata:
       m_Items: []
   - m_Id: 107
-    m_Localized: "\uC120\uD0DD\uC9C0 \uBABB \uB9DE\uCDC4\uC744 \uB54C"
+    m_Localized: "\uD574...\uD574\uB0C8\uB2E4\uC544!\\n\uC124\uB9C8 \uD55C\uBC88\uC5D0
+      \uC131\uACF5\uD558\uB2E4\uB2C8!"
     m_Metadata:
       m_Items: []
   - m_Id: 108
-    m_Localized: "\uC120\uD0DD\uC9C0 \uB9DE\uCDC4\uAE14"
+    m_Localized: "<wiggle>\uC5D0\uC5D0\uC5D0\uC5D1...</wiggle>"
     m_Metadata:
       m_Items: []
   - m_Id: 1001
@@ -82,23 +82,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1002
-    m_Localized: "\uCD5C\uCD08 \uC120\uD0DD\uC9C0"
+    m_Localized: "\uB0B4\uAC00 \uC2DC\uD0A4\uB294 \uB300\uB85C \uBCF5\uC885\uD574\uB77C!"
     m_Metadata:
       m_Items: []
   - m_Id: 1003
-    m_Localized: "\uC67C\uCABD O"
+    m_Localized: "\uB124, \uC8FC\uC778\uB2D8~"
     m_Metadata:
       m_Items: []
   - m_Id: 1004
-    m_Localized: "\uC67C\uCABD X"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1005
-    m_Localized: "\uC624\uB978\uCABD O"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1006
-    m_Localized: "\uC624\uB978\uCABD X"
+    m_Localized: "\uC2EB\uC740\uB370?"
     m_Metadata:
       m_Items: []
   - m_Id: 2001
@@ -128,6 +120,91 @@ MonoBehaviour:
   - m_Id: 2007
     m_Localized: "\uC624\uB978\uCABD \uCC57\uCE74\uB4DC \uB4DC\\n\uB4DC \uB4DC \uB4DC
       <b>\uB4DC\uB4DC\uB4DC</b>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9973670907314176
+    m_Localized: ???
+    m_Metadata:
+      m_Items: []
+  - m_Id: 109
+    m_Localized: "<wiggle>\uAC8C\uC5D0\uC5D0\uC5D1...</wiggle>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 110
+    m_Localized: "<wiggle>\uC5D1?</wiggle>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 111
+    m_Localized: "<wiggle>\uAC8D?</wiggle>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 112
+    m_Localized: "\uBC14\uB85C \uD14C\uC2A4\uD2B8\uB85C \uB118\uC5B4\uAC00\uB3C4
+      \uB418\uACA0\uC5B4!\\n\uC6B0\uC120 \uBA85\uB839 \uBC0F \uC6B4\uB3D9\uB2A5\uB825
+      \uC2E4\uD5D8\uC774\uB2E4!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 113
+    m_Localized: "\uAC04\uB2E8\uD55C \uC6B4\uB3D9\uB2A5\uB825 \uD655\uC778,\\n\uADF8\uB9AC\uACE0...\uADF8\uB9AC\uACE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 114
+    m_Localized: "\uD638\uC624..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 115
+    m_Localized: "\uD5E4\uC5D0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116
+    m_Localized: "<incr>\uBA85...\uBA85\uB839 \uC644\uC804 \uBCF5\uC885...\uD655\uC778...!</incr>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 117
+    m_Localized: "<waitfor=0.4>\uC751?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 118
+    m_Localized: "<waitfor=0.4>\uC5C9?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 119
+    m_Localized: "\uBA85\uB839\uC740 \uBB34\uC2A8?\\n\uC774\uAC8C \uBB34\uC2A8 \uC0C1\uD669\uC778\uB370?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 120
+    m_Localized: "\uBB50, \uC8FC\uC778\uB2D8\uC774\uB77C\uACE0 \uBD88\uB7EC\uC918?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 121
+    m_Localized: "\uBA85\uB839\uAE4C\uC9C4 \uC870\uAE08 \uADF8\uB7F0\uB370...\\n\uADF8\uB7F0\uB370
+      \uC5EC\uAE34 \uC5B4\uB514\uC57C?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 122
+    m_Localized: "\uC5B4\uBA38\uB098, \uBB58 \uD558\uBA74 \uB420\uAE4C?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 123
+    m_Localized: "<wiggle>\uC5D0\uD5E4...\uC5D0\uD5E4\uD5E4...</wiggle>\\n\uC6B0,
+      \uC6B0\uC120 \uC774\uCABD\uC73C\uB85C...<waitfor=1>\\n<shake>\uC7A0\uAE50?</shake>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 124
+    m_Localized: "\uC73C\uC73D...\uBA85\uB839 \uC2E4\uD5D8\uC740 \uBC18\uCBE4 \uC2E4\uD328\uB124.<waitfor=1>\\n<shake>\uC7A0\uAE50?</shake>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125
+    m_Localized: "<shake>\uB9D0...\uB9D0\uC744 \uD558\uC796\uC544!?!?!?</shake>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 126
+    m_Localized: "<waitfor=1>\uB9D0 \uD558\uB294 \uC0AC\uB78C \uCC98\uC74C \uBD10?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 127
+    m_Localized: "<waitfor=1>\uADF8\uB807\uAC8C \uB180\uB784 \uAC83 \uAE4C\uC9C0
+      \uC788\uB2C8?"
     m_Metadata:
       m_Items: []
   references:

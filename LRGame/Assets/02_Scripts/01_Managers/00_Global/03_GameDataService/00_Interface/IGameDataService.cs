@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using LR.Table.Dialogue;
 using System.Threading;
 
 public interface IGameDataService
@@ -23,7 +24,7 @@ public interface IGameDataService
 
   public void SetDialogueCondition(string key, int left, int right);
 
-  public bool IsContainsCondition(string key, int left, int right);
+  public bool IsContainsCondition(DialogueCondition condition);
 
   public bool IsClearStage(int chapter, int stage);
 }

@@ -90,14 +90,6 @@ MonoBehaviour:
     m_Localized: Left X
     m_Metadata:
       m_Items: []
-  - m_Id: 1005
-    m_Localized: Right O
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1006
-    m_Localized: Right X
-    m_Metadata:
-      m_Items: []
   - m_Id: 2001
     m_Localized: nameSample
     m_Metadata:
@@ -124,6 +116,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 2007
     m_Localized: RIghtTest 2 2 2 2 2 2\n2 2 2 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9973670907314176
+    m_Localized: ???
     m_Metadata:
       m_Items: []
   references:

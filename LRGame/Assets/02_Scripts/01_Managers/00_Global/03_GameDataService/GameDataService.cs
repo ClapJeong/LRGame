@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using LR.Table.Dialogue;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -138,9 +139,9 @@ public class GameDataService : IGameDataService
     }
   }
 
-  public bool IsContainsCondition(string key, int left, int right)
+  public bool IsContainsCondition(DialogueCondition condition)
   {
-    var targetCondition = gameData.dialogueConditions.FirstOrDefault(data => data.IsSame(key, left, right));
+    var targetCondition = gameData.dialogueConditions.FirstOrDefault(data => condition.IsCondition(data.key, data.left, data.right));
     return targetCondition != null;
   }
 

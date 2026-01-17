@@ -1,4 +1,6 @@
-﻿namespace LR.Editor
+﻿using UnityEngine;
+
+namespace LR.Editor
 {
   public partial class DialogueEditorWindow
   {
@@ -14,6 +16,7 @@
     private const float PortraitHeight = 100.0f;
     private const float BackgroundWidth = 1920.0f * 0.25f;
     private const float BackgroundHeight = 1080.0f * 0.25f;
+    private const float DialogueKeyWidth = 80.0f;
 
     private string GetPortraitPath(CharacterPositionType positionType)
       => positionType switch
