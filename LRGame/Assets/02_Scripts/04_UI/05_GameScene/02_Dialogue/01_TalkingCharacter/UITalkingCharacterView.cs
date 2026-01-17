@@ -18,7 +18,8 @@ namespace LR.UI.GameScene.Dialogue
     [field: SerializeField] public Image PortraitImageB { get; private set; }
 
     [field: Header("[ Dialogue ]")]
-    [field: SerializeField] public CanvasGroup nameCanvasgGroup { get; private set; }
+    [field: SerializeField] public GameObject DialogueBackground {  get; private set; }
+    [field: SerializeField] public CanvasGroup NameCanvasgGroup { get; private set; }
     [field: SerializeField] public TextMeshProUGUI NameTMP { get; private set; }
     [field: SerializeField] public LocalizeStringEvent NameLocalize { get; private set; }
     [field: SerializeField] public TextMeshProUGUI DialogueTMP { get; private set; }

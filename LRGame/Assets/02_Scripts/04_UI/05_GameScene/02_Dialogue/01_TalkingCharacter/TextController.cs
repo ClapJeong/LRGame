@@ -14,6 +14,7 @@ namespace LR.UI.GameScene.Dialogue.Character
   public class TextController
   {
     private readonly UITextPresentationData tableData;
+    private readonly GameObject dialogueBackground;
     private readonly CanvasGroup nameCanvasGroup;
     private readonly LocalizeStringEvent nameLocalize;
     private readonly LocalizeStringEvent dialogueLocalize;
@@ -26,7 +27,8 @@ namespace LR.UI.GameScene.Dialogue.Character
     private bool isTyping = false;
 
     public TextController(
-      UITextPresentationData tableData, 
+      UITextPresentationData tableData,
+      GameObject dialogueBackground,
       CanvasGroup nameCanvasGroup, 
       LocalizeStringEvent nameLocalize, 
       LocalizeStringEvent dialogueLocalize, 
@@ -35,6 +37,7 @@ namespace LR.UI.GameScene.Dialogue.Character
       TypewriterComponent typewriter)
     {
       this.tableData = tableData;
+      this.dialogueBackground = dialogueBackground;
       this.nameCanvasGroup = nameCanvasGroup;
       this.nameLocalize = nameLocalize;
       this.dialogueLocalize = dialogueLocalize;
@@ -42,6 +45,7 @@ namespace LR.UI.GameScene.Dialogue.Character
       this.animatorTMP = animatorTMP;
       this.typewriter = typewriter;
 
+      dialogueBackground.SetActive(false);
       typewriter.onMessage.AddListener(OnTypeComplete);
     }
 
@@ -64,11 +68,13 @@ namespace LR.UI.GameScene.Dialogue.Character
       dialogueCTS.Create();
       if (string.IsNullOrWhiteSpace(key))
       {
+        dialogueBackground.SetActive(false);
         ClearText();
       }
       else
       {
         isTyping = true;
+        dialogueBackground.SetActive(true);
         await SetLocalizeKeyAsync(key, dialogueCTS.token);
         var originText = dialogueTMP.text;
         var typingText = dialogueTMP.text + "<?OnTypeComplete>";        

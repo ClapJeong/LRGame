@@ -484,6 +484,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &2206714106597578287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1484916466700146914, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 721888076416011981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2225215961509652396 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1505652814512269665, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
@@ -577,6 +582,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &6765161452225090191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6333757751949728834, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 721888076416011981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6882749195002185277 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6161142596256909552, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
@@ -599,6 +609,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6b0a2b8ddbab342ad54b5409ccffec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Febucci.TextAnimatorForUnity.Runtime::Febucci.TextAnimatorForUnity.TypewriterComponent
+--- !u!1 &7491790863106116213 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7925378192400499896, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
+  m_PrefabInstance: {fileID: 721888076416011981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7977144309597044999 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7255346404956196810, guid: fdeeb4bbcef93554fb80c2e5edf44af4, type: 3}
@@ -714,6 +729,14 @@ PrefabInstance:
       propertyPath: <DialogueLocalize>k__BackingField
       value: 
       objectReference: {fileID: 6882749195002185277}
+    - target: {fileID: 1479590611986242128, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <NameCanvasgGroup>k__BackingField
+      value: 
+      objectReference: {fileID: 8613953571451872751}
+    - target: {fileID: 1479590611986242128, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueBackground>k__BackingField
+      value: 
+      objectReference: {fileID: 6765161452225090191}
     - target: {fileID: 4950173396851348628, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
       propertyPath: m_Name
       value: Portrait
@@ -734,6 +757,14 @@ PrefabInstance:
       propertyPath: <DialogueLocalize>k__BackingField
       value: 
       objectReference: {fileID: 3579814570704805390}
+    - target: {fileID: 5666039031899291540, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <NameCanvasgGroup>k__BackingField
+      value: 
+      objectReference: {fileID: 7939957964251986222}
+    - target: {fileID: 5666039031899291540, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueBackground>k__BackingField
+      value: 
+      objectReference: {fileID: 7491790863106116213}
     - target: {fileID: 6163170925318386007, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
       propertyPath: <Typewriter>k__BackingField
       value: 
@@ -750,6 +781,14 @@ PrefabInstance:
       propertyPath: <DialogueLocalize>k__BackingField
       value: 
       objectReference: {fileID: 2748328793881957332}
+    - target: {fileID: 6163170925318386007, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <NameCanvasgGroup>k__BackingField
+      value: 
+      objectReference: {fileID: 1042179121564441648}
+    - target: {fileID: 6163170925318386007, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+      propertyPath: <DialogueBackground>k__BackingField
+      value: 
+      objectReference: {fileID: 2206714106597578287}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -766,6 +805,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcb4fc97019463478e73503f4a65671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Dialogue.UIDialogueCharacterView
+--- !u!225 &1042179121564441648 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 6491530925594371080, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+  m_PrefabInstance: {fileID: 6079890936541657144}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1928047390191011756 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5666039031899291540, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
@@ -791,6 +835,16 @@ MonoBehaviour:
 --- !u!224 &6373477108508963132 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 870108634400164100, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+  m_PrefabInstance: {fileID: 6079890936541657144}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &7939957964251986222 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4201991680064962838, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
+  m_PrefabInstance: {fileID: 6079890936541657144}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &8613953571451872751 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 2588151116897590743, guid: 9cacb0833c6ae4f409f7ba6ff020f3c4, type: 3}
   m_PrefabInstance: {fileID: 6079890936541657144}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8587386076692208847

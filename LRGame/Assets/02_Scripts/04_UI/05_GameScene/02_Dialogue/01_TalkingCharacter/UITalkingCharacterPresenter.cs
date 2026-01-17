@@ -1,13 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.Table.Dialogue;
+using LR.UI.Enum;
 using LR.UI.GameScene.Dialogue.Character;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using LR.UI.Enum;
-
 using static DialogueDataEnum;
 
 namespace LR.UI.GameScene.Dialogue
@@ -57,7 +57,8 @@ namespace LR.UI.GameScene.Dialogue
       portraitController = new(model.portraitData, view.PortraitAnimator, view.PortraitImageA, view.PortraitImageB);
       textController = new(
         model.textPresentationData, 
-        view.nameCanvasgGroup, 
+        view.DialogueBackground,
+        view.NameCanvasgGroup, 
         view.NameLocalize, 
         view.DialogueLocalize, 
         view.DialogueTMP,
