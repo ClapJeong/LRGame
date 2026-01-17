@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -16,6 +17,7 @@ public class GlobalManager : MonoBehaviour
   public UIInputManager UIInputManager { get; private set; }
   public GameDataService GameDataService { get; private set; }
   public VeryFirstService VeryFirstService { get; private set; }
+  public LocaleService LocaleService { get; private set; }
 
   [field: Space(10)]
   [field: SerializeField] public bool PlayVeryFirstCutscene = false;
@@ -41,6 +43,9 @@ public class GlobalManager : MonoBehaviour
 
   private async UniTask InitializeAsync()
   {
+    LocaleService = new(Table.LocalizationSO.LocalizeFonts);
+    disposables.Add(LocaleService);
+
     FactoryManager = new();
     FactoryManager.Initialize();
 

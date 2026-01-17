@@ -4,5 +4,7 @@
 
 public class LocalizationSO : ScriptableObject
 {
-  [field: SerializeField] public TableName TableName {  get; set; }
+  [field: SerializeField] public TableName TableName {  get; private set; }
+
+  [field: SerializeField] public LocalizeFonts LocalizeFonts { get; private set; }
 }

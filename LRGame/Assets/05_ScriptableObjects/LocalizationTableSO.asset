@@ -15,3 +15,9 @@ MonoBehaviour:
   <TableName>k__BackingField:
     <UITable>k__BackingField: UITextTable
     <DialogueTable>k__BackingField: Dialogue
+  <LocalizeFonts>k__BackingField:
+    <FontSets>k__BackingField:
+    - <Locale>k__BackingField: {fileID: 11400000, guid: 118385c55b075c448be8f37605f201d6, type: 2}
+      <FontAsset>k__BackingField: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - <Locale>k__BackingField: {fileID: 11400000, guid: 84469fc991700364b8aa718d87caca88, type: 2}
+      <FontAsset>k__BackingField: {fileID: 11400000, guid: ff80eee57331d6e47bcb127e4a4138d8, type: 2}
