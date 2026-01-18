@@ -3,14 +3,16 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using LR.UI.Enum;
+using System.Collections.Generic;
 
 namespace LR.UI.GameScene.Dialogue
 {
   public class UITalkingInputsView : BaseUIView
   {
-    public Image left;
-    public Image right;
-    public RectTransform skip;
+    [field: SerializeField] public Image Left { get; private set;  }
+    [field: SerializeField] public Image Right { get; private set; }
+    [field: SerializeField] public RectTransform Skip { get; private set; }
+    [field: SerializeField] public List<GameObject> InputEnableIcons { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

@@ -46,7 +46,6 @@ namespace LR.UI.GameScene.Dialogue.Character
       this.typewriter = typewriter;
 
       dialogueBackground.SetActive(false);
-      typewriter.onMessage.AddListener(OnTypeComplete);
     }
 
     public void SetName(string key)
@@ -71,27 +70,32 @@ namespace LR.UI.GameScene.Dialogue.Character
         dialogueBackground.SetActive(false);
         ClearText();
       }
+      else if(key == dialogueLocalize.StringReference.TableEntryReference.Key)
+      {
+
+      }
       else
       {
+        var token = dialogueCTS.token;
+
         isTyping = true;
         dialogueBackground.SetActive(true);
-        await SetLocalizeKeyAsync(key, dialogueCTS.token);
-        var originText = dialogueTMP.text;
-        var typingText = dialogueTMP.text + "<?OnTypeComplete>";        
+        typewriter.onTextShowed.AddListener(OnTextShowed);
+        await SetLocalizeKeyAsync(key, token);
         try
-        {
-          typewriter.ShowText(typingText);
-          await UniTask.WaitUntil(() => isTyping == false, PlayerLoopTiming.Update, dialogueCTS.token);
+        {          
+          await UniTask.WaitUntil(() => isTyping == false, PlayerLoopTiming.Update, token);
         }
         catch (OperationCanceledException)
         {
+          typewriter.onTextShowed.RemoveListener(OnTextShowed);
           animatorTMP.SetText(dialogueTMP.text);
           isTyping = false;
-        }       
+        }
       }
     }
 
-    private void OnTypeComplete(EventMarker marker)
+    private void OnTextShowed()
     {
       isTyping = false;
     }

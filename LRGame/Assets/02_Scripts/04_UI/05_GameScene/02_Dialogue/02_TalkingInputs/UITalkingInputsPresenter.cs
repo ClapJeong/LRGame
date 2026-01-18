@@ -54,18 +54,18 @@ namespace LR.UI.GameScene.Dialogue
       => view.GetVisibleState();
 
     public void ActivateLeftInput()
-      => view.left.SetAlpha(model.textPresentationData.InputPerformedAlpha);
+      => view.Left.SetAlpha(model.textPresentationData.InputPerformedAlpha);
 
     public void DeactivateLeftInput()
-      => view.left.SetAlpha(model.textPresentationData.InputCanceledAlpha);
+      => view.Left.SetAlpha(model.textPresentationData.InputCanceledAlpha);
 
     public void ActivateRightInput()
-      => view.right.SetAlpha(model.textPresentationData.InputPerformedAlpha);
+      => view.Right.SetAlpha(model.textPresentationData.InputPerformedAlpha);
 
     public void DeactivateRightInput()
-      => view.right.SetAlpha(model.textPresentationData.InputCanceledAlpha);
+      => view.Right.SetAlpha(model.textPresentationData.InputCanceledAlpha);
 
     public void SkipProgress(float value)
-      => view.skip.localScale = Vector3.one * value;
+      => view.Skip.localScale = Vector3.one * value;
   }
 }

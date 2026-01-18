@@ -2,6 +2,7 @@
 using DG.Tweening;
 using LR.Table.Dialogue;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private readonly IDialogueStateController dialogueController;
     private readonly Image backgroundImageA;
     private readonly Image backgroundImageB;
+    private readonly List<GameObject> inputEnableIcons;
 
     private readonly CTSContainer cts = new();
     private bool isTalkling = false;
@@ -37,7 +39,8 @@ namespace LR.UI.GameScene.Dialogue.Root
       UITalkingCharacterView rightView,
       UITalkingInputsView inputView,
       Image backgroundImageA,
-      Image backgroudnImageB)
+      Image backgroudnImageB,
+      List<GameObject> inputEnableIcons)
     {
       this.dialogueUIDataSO = table.DialogueUIDataSO;
       this.dialogueController = dialogueController;
@@ -45,6 +48,7 @@ namespace LR.UI.GameScene.Dialogue.Root
       this.resourceManager = resourceManager;
       this.backgroundImageA = backgroundImageA;
       this.backgroundImageB = backgroudnImageB;
+      this.inputEnableIcons = inputEnableIcons;
 
       var leftModel = new UITalkingCharacterPresenter.Model(
         table.AddressableKeySO.PortraitName,
@@ -134,6 +138,9 @@ namespace LR.UI.GameScene.Dialogue.Root
       var token = cts.token;
       try
       {
+        foreach (var inputEnableIcon in inputEnableIcons)
+          inputEnableIcon.SetActive(false);
+
         isTalkling = true;
         await UniTask.WhenAll(
           leftCharacterPresenter.PlayCharacterDataAsync(talkingData.left),
@@ -151,6 +158,8 @@ namespace LR.UI.GameScene.Dialogue.Root
       }
       finally
       {
+        foreach (var inputEnableIcon in inputEnableIcons)
+          inputEnableIcon.SetActive(true);
         isTalkling = false;
       }
     }

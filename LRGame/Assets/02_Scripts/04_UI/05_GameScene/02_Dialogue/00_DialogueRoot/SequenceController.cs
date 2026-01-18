@@ -77,7 +77,8 @@ namespace LR.UI.GameScene.Dialogue.Root
         rightTalkingView,
         talkingInputView,
         backgroundA,
-        backgroundB);
+        backgroundB,
+        talkingInputView.InputEnableIcons);
       talkingController.DeactivateAsync(true, default).Forget();
       talkingController.ClearTexts();
 
