@@ -15,5 +15,13 @@ namespace LR.Stage.Player
     public void Stun();
 
     public void Freeze();
+
+    public void Clear();
+
+    public void RestoreEnergy(float value);
+
+    public void RestoreEnergyFull();
+
+    public void DamageEnergy(float value, bool ignoreInvincible = false);
   }
 }

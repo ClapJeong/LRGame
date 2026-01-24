@@ -9,17 +9,24 @@ namespace LR.Stage.Player
     private readonly IPlayerMoveController moveController;
     private readonly IPlayerStateController stateController;
     private readonly IPlayerStateProvider stateProvider;
+    private readonly IPlayerEnergyController energyController;
 
     private bool isCharging;
     public bool IsInputting => isCharging;
 
-    private bool IsFreezeState => stateProvider.GetCurrentState() == PlayerState.Freeze;
+    private bool IsFreezeState => stateProvider.GetCurrentState() == Enum.PlayerState.Freeze ||
+                                    stateProvider.GetCurrentState() == Enum.PlayerState.Clear;
 
-    public PlayerReactionController(IPlayerMoveController moveController, IPlayerStateController stateController, IPlayerStateProvider stateProvider)
+    public PlayerReactionController(
+      IPlayerMoveController moveController, 
+      IPlayerStateController stateController, 
+      IPlayerStateProvider stateProvider,
+      IPlayerEnergyController energyController)
     {
       this.moveController = moveController;
       this.stateController = stateController;
       this.stateProvider = stateProvider;
+      this.energyController = energyController;
     }
 
     public void Bounce(BounceData data, Vector3 direction)
@@ -44,6 +51,26 @@ namespace LR.Stage.Player
     public void Freeze()
     {
       stateController.ChangeState(PlayerState.Freeze);
+    }
+
+    public void Clear()
+    {
+      stateController.ChangeState(PlayerState.Clear);
+    }
+
+    public void RestoreEnergy(float value)
+    {
+      energyController.Restore(value);
+    }
+
+    public void RestoreEnergyFull()
+    {
+      energyController.RestoreFull(); 
+    }
+
+    public void DamageEnergy(float value, bool ignoreInvincible = false)
+    {
+      energyController.Damage(value, ignoreInvincible);
     }
 
     public void Dispose()

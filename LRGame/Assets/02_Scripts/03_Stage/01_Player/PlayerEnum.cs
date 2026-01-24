@@ -10,6 +10,7 @@
     Inputting,
 
     Freeze,
+    Clear,
   }
 
   public enum PlayerType

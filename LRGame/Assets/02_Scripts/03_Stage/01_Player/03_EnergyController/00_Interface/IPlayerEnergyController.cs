@@ -1,5 +1,3 @@
-using UnityEngine.Events;
-
 namespace LR.Stage.Player
 {
   public interface IPlayerEnergyController
@@ -9,7 +7,5 @@ namespace LR.Stage.Player
     public void RestoreFull();
 
     public void Damage(float value, bool ignoreInvincible = false);
-
-    public void Restart();    
   }
 }

@@ -37,7 +37,8 @@ namespace LR.Stage.Player
       reactionController = new PlayerReactionController(
         moveController,
         stateService,
-        stateService).AddTo(disposables);
+        stateService,
+        energyService).AddTo(disposables);
 
       stateService.AddState(PlayerState.Idle, new PlayerIdleState(
         moveController, 
@@ -73,6 +74,8 @@ namespace LR.Stage.Player
       stateService.AddState(PlayerState.Freeze, new PlayerFreezeState(
         moveController,
         animatorController));
+      stateService.AddState(PlayerState.Clear, new PlayerClearState(
+        moveController));
 
       stateService.ChangeState(PlayerState.Idle);
 
@@ -151,9 +154,6 @@ namespace LR.Stage.Player
 
     public IPlayerInputActionController GetInputActionController()
       => inputActionController;
-
-    public IPlayerEnergyController GetEnergyController()
-      => energyService;
 
     public IPlayerReactionController GetReactionController()
       => reactionController;

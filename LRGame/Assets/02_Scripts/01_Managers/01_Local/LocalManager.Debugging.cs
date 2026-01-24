@@ -17,8 +17,10 @@ public partial class LocalManager
     if (sceneType != SceneType.Game)
       return;
 
-    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
-    leftPlayer.GetEnergyController().Damage(float.MaxValue, ignoreInvincible: true);
+    StageManager
+      .GetPlayer(PlayerType.Left)
+      .GetReactionController()
+      .DamageEnergy(float.MaxValue, ignoreInvincible: true);
   }
 
   public void Debugging_StageRightFail()
@@ -26,8 +28,10 @@ public partial class LocalManager
     if (sceneType != SceneType.Game)
       return;
 
-    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
-    rightPlayer.GetEnergyController().Damage(float.MaxValue, ignoreInvincible: true);
+    StageManager
+      .GetPlayer(PlayerType.Right)
+      .GetReactionController()
+      .DamageEnergy(float.MaxValue, ignoreInvincible: true);
   }
 
   public void Debugging_StageRestart()
@@ -44,10 +48,10 @@ public partial class LocalManager
     if (StageManager.IsAllPlayerExist() == false)
       return;
 
-    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
-    leftPlayer
-      .GetEnergyController()
-      .Damage(value, true);
+    StageManager
+          .GetPlayer(PlayerType.Left)
+          .GetReactionController()
+          .DamageEnergy(value, true);
   }
 
   public void Debugging_LeftPlayerEnergyRestored(float value)
@@ -55,10 +59,10 @@ public partial class LocalManager
     if (StageManager.IsAllPlayerExist() == false)
       return;
 
-    var leftPlayer = StageManager.GetPlayer(PlayerType.Left);
-    leftPlayer
-      .GetEnergyController()
-      .Restore(value);
+    StageManager
+      .GetPlayer(PlayerType.Left)
+      .GetReactionController()
+      .RestoreEnergy(value);
   }
 
   public void Debugging_RightPlayerEnergyDamaged(float value)
@@ -66,10 +70,10 @@ public partial class LocalManager
     if (StageManager.IsAllPlayerExist() == false)
       return;
 
-    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
-    rightPlayer
-      .GetEnergyController()
-      .Damage(value, true);
+    StageManager
+      .GetPlayer(PlayerType.Right)
+      .GetReactionController()
+      .DamageEnergy(value, true);
   }
 
   public void Debugging_RightPlayerEnergyRestored(float value)
@@ -77,10 +81,10 @@ public partial class LocalManager
     if (StageManager.IsAllPlayerExist() == false)
       return;
 
-    var rightPlayer = StageManager.GetPlayer(PlayerType.Right);
-    rightPlayer
-      .GetEnergyController()
-      .Restore(value);
+    StageManager
+      .GetPlayer(PlayerType.Right)
+      .GetReactionController()
+      .RestoreEnergy(value);
   }
 
   public void Debugging_PlayChatCard(int index)

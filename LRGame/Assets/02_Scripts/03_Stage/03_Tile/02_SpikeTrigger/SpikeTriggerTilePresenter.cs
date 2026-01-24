@@ -55,11 +55,12 @@ namespace LR.Stage.TriggerTile
       var playerType = playerView.GetPlayerType();
       var playerPresenter = model.playerGetter.GetPlayer(playerType);
 
-      if (playerPresenter.GetEnergyProvider().IsInvincible == false)
-        playerPresenter.GetEnergyController().Damage(model.data.DamageValue);
-      //TODO: 에너지는안깎이는데피격바운스랑이펙트이런건계속중첩ㄷ이됨
-      var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;
       var reactionController = playerPresenter.GetReactionController();
+      if (playerPresenter.GetEnergyProvider().IsInvincible == false)
+        reactionController.DamageEnergy(model.data.DamageValue);
+      //TODO: 에너지는안깎이는데피격바운스랑이펙트이런건계속중첩ㄷ이됨
+
+      var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;      
       reactionController.Bounce(model.data.BounceData, bounceDirection);
 
       if (model.data.BounceData.IsStun)

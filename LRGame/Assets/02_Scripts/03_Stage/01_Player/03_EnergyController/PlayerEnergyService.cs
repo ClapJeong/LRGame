@@ -24,7 +24,8 @@ namespace LR.Stage.Player
     private readonly Dictionary<float, UnityEvent> aboveEvents = new();
     private readonly Dictionary<float, UnityEvent> belowEvents = new();
 
-    private bool IsFreezeState => stateProvider.GetCurrentState() == Enum.PlayerState.Freeze;
+    private bool IsEnergyWorking => stateProvider.GetCurrentState() == Enum.PlayerState.Freeze ||
+                                    stateProvider.GetCurrentState() == Enum.PlayerState.Clear;
 
     private float energy;
     private float prevEnergy;
@@ -58,7 +59,7 @@ namespace LR.Stage.Player
       if (ignoreInvincible == false && isInvincible)
         return;
 
-      if (IsFreezeState)
+      if (IsEnergyWorking)
         return;
 
       energy = Mathf.Max(0.0f, energy -value);
@@ -78,7 +79,7 @@ namespace LR.Stage.Player
 
     public void Restore(float value)
     {
-      if (IsFreezeState)
+      if (IsEnergyWorking)
         return;
 
       var prevEnergy = energy;
@@ -94,7 +95,7 @@ namespace LR.Stage.Player
 
     public void RestoreFull()
     {
-      if (IsFreezeState)
+      if (IsEnergyWorking)
         return;
 
       var prevEnergy = energy;
@@ -125,7 +126,7 @@ namespace LR.Stage.Player
       if(IsDead || isUpdateEnergy == false)
         return;
 
-      if (IsFreezeState)
+      if (IsEnergyWorking)
         return;
 
       prevEnergy = energy;

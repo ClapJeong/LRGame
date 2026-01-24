@@ -94,8 +94,8 @@ namespace LR.Stage.TriggerTile
     private void OnChargerComplete(IPlayerPresenter targetPlayer)
     {
       targetPlayer
-        .GetEnergyController()
-        .Restore(model.data.RestoreValue);
+        .GetReactionController()
+        .RestoreEnergy(model.data.RestoreValue);
     }
   }
 }

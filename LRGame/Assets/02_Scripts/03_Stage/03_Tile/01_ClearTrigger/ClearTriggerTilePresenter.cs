@@ -72,7 +72,7 @@ namespace LR.Stage.TriggerTile
         .playerGetter
         .GetPlayer(playerType)
         .GetReactionController()
-        .Freeze();
+        .Clear();
     }
 
     private void OnExit(Collider2D collider2D)
