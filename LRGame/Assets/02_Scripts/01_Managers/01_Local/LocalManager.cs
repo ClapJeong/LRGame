@@ -289,7 +289,8 @@ if(gameDataService.IsVeryFirst())
       GlobalManager.instance.UIManager,
       StageManager.StageDataContainer,
       StageManager,
-      GlobalManager.instance.GameDataService);
+      GlobalManager.instance.GameDataService,
+      GlobalManager.instance.ResourceManager);
     var leftView = viewRoot.leftView;
     var leftPresenter = new UIPlayerRootPresenter(Leftmodel, leftView);
     leftPresenter.AttachOnDestroy(gameObject);
@@ -303,7 +304,8 @@ if(gameDataService.IsVeryFirst())
       GlobalManager.instance.UIManager,
       StageManager.StageDataContainer,
       StageManager,
-      GlobalManager.instance.GameDataService);
+      GlobalManager.instance.GameDataService,
+      GlobalManager.instance.ResourceManager);
     var rightView = viewRoot.rightView;
     var rightPresenter = new UIPlayerRootPresenter(rightmodel, rightView);
     rightPresenter.AttachOnDestroy(gameObject);

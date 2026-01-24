@@ -10,6 +10,7 @@ namespace LR.UI.GameScene.Player
     [field: SerializeField] public UIPlayerInputView InputView { get; private set; }
     [field: SerializeField] public UIPlayerEnergyView EnergyView { get; private set; }
     [field: SerializeField] public UIPlayerScoreView ScoreView { get; private set; }
+    [field: SerializeField] public UIPlayerStatePortraitView StatePortraitView { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {

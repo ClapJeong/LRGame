@@ -7,9 +7,7 @@ namespace LR.Table.Dialogue
   {
     [field: Header("ChangeType")]
     [field: SerializeField] public float ChangeFadeDuration { get; private set; }
-
-    [field: Space(10)]
-    [field: Header("AnimationType")]
+   
     public int IdleHash => Animator.StringToHash("Idle");
     public int SurprisedHash => Animator.StringToHash("Surprised");
     public int JumpOnceHash => Animator.StringToHash("JumpOnce");

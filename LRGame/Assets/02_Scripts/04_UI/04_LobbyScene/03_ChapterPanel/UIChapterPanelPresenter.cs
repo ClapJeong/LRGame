@@ -109,9 +109,8 @@ namespace LR.UI.Lobby
     private async UniTask CreateStageButtonSetsAsync()
     {
       var setCount = model.gameDataService.StageDataCount;
-      setCount = 24;//Test
       UIStageButtonSetView prevView = null;
-      for (int i = 0; i < setCount / 4; i++)
+      for (int i = 0; i < (setCount / 4) + 1; i++)
       {
         var key = this.model.addressableKeySO.Path.UI + this.model.addressableKeySO.UIName.StageButtonSet;
         var model = new UIStageButtonSetPresenter.Model(

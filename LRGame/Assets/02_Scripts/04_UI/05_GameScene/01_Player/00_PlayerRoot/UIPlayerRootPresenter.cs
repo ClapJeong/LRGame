@@ -23,6 +23,7 @@ namespace LR.UI.GameScene.Player
       public StageDataContainer StageDataContainer;
       public IStageEventSubscriber stageEventSubscriber;
       public IGameDataService gameDataService;
+      public IResourceManager resourceManager;
 
       public Model(
         TableContainer table, 
@@ -33,7 +34,8 @@ namespace LR.UI.GameScene.Player
         UIManager uiManager,
         StageDataContainer StageDataContainer,
         IStageEventSubscriber stageEventSubscriber,
-        IGameDataService gameDataService)
+        IGameDataService gameDataService,
+        IResourceManager resourceManager)
       {
         this.table = table;
         this.stageManager = stageManager;
@@ -44,6 +46,7 @@ namespace LR.UI.GameScene.Player
         this.StageDataContainer = StageDataContainer;
         this.stageEventSubscriber = stageEventSubscriber;
         this.gameDataService = gameDataService;
+        this.resourceManager = resourceManager;
       }
 
       public IPlayerPresenter GetPlayer()
@@ -60,6 +63,7 @@ namespace LR.UI.GameScene.Player
     private UIPlayerInputPresenter inputActionPresenter;
     private UIPlayerEnergyPresenter energyPresenter;
     private UIPlayerScorePresenter scorePresenter;
+    private UIPlayerStatePortraitPresenter statePortraitPresenter;
 
     public UIPlayerRootPresenter(Model model, UIPlayerRootView view)
     {
@@ -71,7 +75,8 @@ namespace LR.UI.GameScene.Player
       UniTask.WhenAll(
         CreateInputPresenterAsync(),
         CreateEnergyPresenterAsync(),
-        CreateScorePresenterAsync())
+        CreateScorePresenterAsync(),
+        CreatePortraitPresenterAsync())
         .ContinueWith(() => isAllPresentersCreated = true)
         .Forget();
     }
@@ -185,6 +190,26 @@ namespace LR.UI.GameScene.Player
       scorePresenter.AttachOnDestroy(this.view.gameObject);
 
       scorePresenter.DeactivateAsync(true).Forget();
+    }
+
+    private async UniTask CreatePortraitPresenterAsync()
+    {
+      await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
+
+      var player = this.model.GetPlayer();
+      var model = new UIPlayerStatePortraitPresenter.Model(
+        player.GetStateProvider(),
+        player.GetEnergyProvider(),
+        this.model.table.UISO,
+        this.model.table.AddressableKeySO,
+        this.model.playerType,
+        this.model.resourceManager);
+      var view = this.view.StatePortraitView;
+
+      statePortraitPresenter = new UIPlayerStatePortraitPresenter(model, view);
+      statePortraitPresenter.AttachOnDestroy(this.view.gameObject);
+
+      statePortraitPresenter.ActivateAsync(true).Forget();
     }
   }
 }

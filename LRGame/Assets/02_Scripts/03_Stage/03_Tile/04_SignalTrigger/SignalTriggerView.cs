@@ -91,6 +91,7 @@ namespace LR.Stage.TriggerTile
     {
       if (IsEnterKeyExist)
       {        
+        Gizmos.color = Color.yellow;
         var stb = new StringBuilder("{ " + EnterKey +" }");
         var index = 0;
 

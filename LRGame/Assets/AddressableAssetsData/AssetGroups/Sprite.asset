@@ -26,7 +26,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cb718db1893765a4fbdcd5640243467c
-    m_Address: Portrait
+    m_Address: DialoguePortrait
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1c4f3b8af31b784e805193d1cd5ff2a
+    m_Address: StatePortrait
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

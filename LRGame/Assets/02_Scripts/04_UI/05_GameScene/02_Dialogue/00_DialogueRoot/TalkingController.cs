@@ -54,7 +54,7 @@ namespace LR.UI.GameScene.Dialogue.Root
         table.AddressableKeySO.PortraitName,
         UITalkingCharacterPresenter.CharacterType.Left,
         resourceManager,
-        table.AddressableKeySO.Path.LeftPortrait,
+        table.AddressableKeySO.Path.LeftDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,
         table.DialogueUIDataSO.TextPresentationData);
       this.leftCharacterPresenter = new (leftModel, leftView);
@@ -64,7 +64,7 @@ namespace LR.UI.GameScene.Dialogue.Root
         table.AddressableKeySO.PortraitName,
         UITalkingCharacterPresenter.CharacterType.Center,
         resourceManager,
-        table.AddressableKeySO.Path.CenterPortrait,
+        table.AddressableKeySO.Path.CenterDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,
         table.DialogueUIDataSO.TextPresentationData);
       this.centerCharacterPresenter = new (centerModel, centerView);
@@ -74,7 +74,7 @@ namespace LR.UI.GameScene.Dialogue.Root
         table.AddressableKeySO.PortraitName,
         UITalkingCharacterPresenter.CharacterType.Right,
         resourceManager,
-        table.AddressableKeySO.Path.RightPortrait,
+        table.AddressableKeySO.Path.RightDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,
         table.DialogueUIDataSO.TextPresentationData);
       this.rightCharacterPresenter = new (rightModel, rightView);
