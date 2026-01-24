@@ -9,4 +9,17 @@ namespace LR.Stage.TriggerTile.Enum
     LeftEnergyItem,
     DefaultSignal,
   }
+
+  public enum SignalEnter
+  {
+    None,
+    QTE,
+    Progress,
+  }
+
+  public enum SignalInputFail
+  {
+    Bounce,
+    BounceAndStun,
+  }
 }

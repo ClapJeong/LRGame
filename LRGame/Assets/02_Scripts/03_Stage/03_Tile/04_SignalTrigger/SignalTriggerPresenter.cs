@@ -74,19 +74,19 @@ namespace LR.Stage.TriggerTile
       {
         switch (view.EnterType)
         {
-          case SignalTriggerView.EnterSignalType.None:
+          case Enum.SignalEnter.None:
             {
               OnSignalSuccess();
             }
             break;
 
-          case SignalTriggerView.EnterSignalType.QTE:
+          case Enum.SignalEnter.QTE:
             {
               PlayQTE(collider2D);
             }
             break;
 
-          case SignalTriggerView.EnterSignalType.Progress:
+          case Enum.SignalEnter.Progress:
             {
               PlayProgress(collider2D);
             }
@@ -163,40 +163,34 @@ namespace LR.Stage.TriggerTile
       model.signalConsumer.AcquireSignal(view.EnterKey);
       isSignalAcquired = true;
 
-      switch (view.AfterSignal)
+      if(view.IsRecycable == false)
       {
-        case SignalTriggerView.AftersignalType.None:
-          break;
-
-        case SignalTriggerView.AftersignalType.Deactivate:
-          {
-            Enable(false);
-            view.gameObject.SetActive(false);
-          }
-          break;
+        Enable(false);
+        view.gameObject.SetActive(false);
       }
     }
 
     private void OnInputFail(Collider2D collider2D)
     {
+      var playerView = collider2D.gameObject.GetComponent<IPlayerView>();
+      var playerType = playerView.GetPlayerType();
+      var playerPresenter = model.playerGetter.GetPlayer(playerType);
+      var reactionController = playerPresenter.GetReactionController();
+
       switch (view.InputFail)
       {
-        case SignalTriggerView.InputFailType.Destroy:
-          {
-            Enable(false);
-            view.gameObject.SetActive(false);
+        case Enum.SignalInputFail.Bounce:
+          {            
+            var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;            
+            reactionController.Bounce(model.data.FailBounceData, bounceDirection);
           }
           break;
 
-        case SignalTriggerView.InputFailType.Bounce:
+        case Enum.SignalInputFail.BounceAndStun:
           {
-            var playerView = collider2D.gameObject.GetComponent<IPlayerView>();
-            var playerType = playerView.GetPlayerType();
-            var playerPresenter = model.playerGetter.GetPlayer(playerType);
-
             var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;
-            var reactionController = playerPresenter.GetReactionController();
             reactionController.Bounce(model.data.FailBounceData, bounceDirection);
+            reactionController.Stun();
           }
           break;
       }

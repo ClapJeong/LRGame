@@ -11,34 +11,15 @@ namespace LR.Stage.TriggerTile
 {
   public class SignalTriggerView : MonoBehaviour, ITriggerTileView
   {
-    public enum EnterSignalType
-    {
-      None,
-      QTE,
-      Progress,
-    }
-
-    public enum AftersignalType
-    {
-      None,
-      Deactivate,
-    }
-
-    public enum InputFailType
-    {
-      Destroy,
-      Bounce,
-    }
-
     [field: Header("[ Key ]")]
-    [field: SerializeField] public EnterSignalType EnterType {  get; private set; }
+    [field: SerializeField] public SignalEnter EnterType {  get; private set; }
     [field: SerializeField] public string EnterKey { get; private set; }
 
-    [field: Header("[ After Signal ]")]
-    [field: SerializeField] public AftersignalType AfterSignal { get; private set; }
+    [field: Header("[ Recycle ]")]
+    [field: SerializeField] public bool IsRecycable { get; private set; } = false;
 
     [field: Header("[ Input Fail ]")]
-    [field: SerializeField] public InputFailType InputFail { get; private set; }
+    [field: SerializeField] public SignalInputFail InputFail { get; private set; }
 
     [Space(10)]
     [SerializeField] private TriggerTileType triggerTileType = TriggerTileType.DefaultSignal;
@@ -98,13 +79,13 @@ namespace LR.Stage.TriggerTile
         stb.Append($"\nEnterType: {EnterType}");
         index++;
 
-        if (EnterType != EnterSignalType.None)
+        if (EnterType != SignalEnter.None)
         {
           stb.Append($"\nInput Fail: {InputFail}");
           index++;
         }
         
-        stb.Append($"\nAfter Signal: {AfterSignal}");
+        stb.Append($"\nRecycle: {IsRecycable}");
         index++;
 
         var labelCenterStyle = new GUIStyle(EditorStyles.label)
