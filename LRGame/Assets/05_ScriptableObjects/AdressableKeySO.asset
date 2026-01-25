@@ -18,6 +18,7 @@ MonoBehaviour:
     <Dialogue>k__BackingField: Dialogue
   <Path>k__BackingField:
     <Player>k__BackingField: Player/
+    <GameObjects>k__BackingField: GameObjects/
     <UI>k__BackingField: UI/
     <Scene>k__BackingField: Scene/
     <Stage>k__BackingField: Stage/
@@ -33,9 +34,11 @@ MonoBehaviour:
     preloading: Preloading
     lobby: Lobby
     game: Game
-  <PlayerName>k__BackingField:
-    leftPlayer: LeftPlayer
-    rightPlayer: RightPlayer
+  <GameObjectName>k__BackingField:
+    <LeftPlayer>k__BackingField: LeftPlayer
+    <RightPlayer>k__BackingField: RightPlayer
+    <ACSignalPreview>k__BackingField: ACSignalPreview
+    <ACDCSignalPreview>k__BackingField: ACDCSignalPreview
   <UIName>k__BackingField:
     <PreloadingRoot>k__BackingField: PreloadingRoot
     <VeryFirstCutscene>k__BackingField: VeryFirstCutscene

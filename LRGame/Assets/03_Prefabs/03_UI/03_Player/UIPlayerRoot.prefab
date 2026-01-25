@@ -422,10 +422,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPortrait
       objectReference: {fileID: 0}
-    - target: {fileID: 6528348237028951465, guid: e2aa2dc539ba0cf4f86bad7290e5d329, type: 3}
-      propertyPath: <PortraitImage>k__BackingField
-      value: 
-      objectReference: {fileID: 8214342097230794553}
+    - target: {fileID: 6593934248080373624, guid: e2aa2dc539ba0cf4f86bad7290e5d329, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 308.51697
+      objectReference: {fileID: 0}
+    - target: {fileID: 8774584909957197468, guid: e2aa2dc539ba0cf4f86bad7290e5d329, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 308.51697
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -447,17 +451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806545dbba637c040b691a4d5cb8bfba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerStatePortraitView
---- !u!114 &8214342097230794553 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5588311541374987464, guid: e2aa2dc539ba0cf4f86bad7290e5d329, type: 3}
-  m_PrefabInstance: {fileID: 4355718752313385969}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!114 &8678107604388252526 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4907880997351598239, guid: e2aa2dc539ba0cf4f86bad7290e5d329, type: 3}
@@ -478,24 +471,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 4631190539370123604}
     m_Modifications:
     - target: {fileID: 2983963617140459800, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 330
-      objectReference: {fileID: 0}
-    - target: {fileID: 2983963617140459800, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 288
+      value: 308.51697
       objectReference: {fileID: 0}
     - target: {fileID: 6161715366333496784, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
       propertyPath: m_Name
       value: PlayerEnergy
       objectReference: {fileID: 0}
     - target: {fileID: 7845247097119559323, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -330
-      objectReference: {fileID: 0}
-    - target: {fileID: 7845247097119559323, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 288
+      value: 308.51697
       objectReference: {fileID: 0}
     - target: {fileID: 7861014259770484236, guid: e52d8f3bdb91c51448aec371bdb34d3b, type: 3}
       propertyPath: m_Pivot.x

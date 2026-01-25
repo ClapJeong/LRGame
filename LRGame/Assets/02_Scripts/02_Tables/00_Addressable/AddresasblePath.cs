@@ -5,6 +5,7 @@ using UnityEngine;
 public class AddresasblePath
 {
   [field: SerializeField] public string Player {  get; private set; }
+  [field: SerializeField] public string GameObjects { get; private set; }
   [field: SerializeField] public string UI {  get; private set; }
   [field: SerializeField] public string Scene {  get; private set; }
   [field: SerializeField] public string Stage {  get; private set; }

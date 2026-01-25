@@ -13,7 +13,7 @@ public class AddressableKeySO: ScriptableObject
   [Header("Names")]
   [field: SerializeField] public SceneName SceneName {  get; set; }
 
-  [field: SerializeField] public PlayerName PlayerName {  get; set; }
+  [field: SerializeField] public GameObjectName GameObjectName {  get; set; }
 
   [field: SerializeField] public UIName UIName {  get; set; }
 

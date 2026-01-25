@@ -70,7 +70,7 @@ public class PlayerService :
     var modelSO = GlobalManager.instance.Table.GetPlayerModelSO(playerType);
     var playerKey = 
       GlobalManager.instance.Table.AddressableKeySO.Path.Player +
-      GlobalManager.instance.Table.AddressableKeySO.PlayerName.GetPlayerName(playerType);
+      GlobalManager.instance.Table.AddressableKeySO.GameObjectName.GetPlayerName(playerType);
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
     var view = await resourceManager.CreateAssetAsync<BasePlayerView>(playerKey);

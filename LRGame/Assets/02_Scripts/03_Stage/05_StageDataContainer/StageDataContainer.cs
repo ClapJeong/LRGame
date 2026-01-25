@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using LR.Stage.TriggerTile;
 using LR.Stage.InteractiveObject;
+using LR.Stage.SignalListener;
 
 namespace LR.Stage.StageDataContainer
 {
@@ -19,7 +20,7 @@ namespace LR.Stage.StageDataContainer
     public ScoreData scoreData;
 
     public List<ITriggerTileView> TriggerTiles => otherObjectsRoot.GetComponentsInChildren<ITriggerTileView>().ToList();
-    public List<SignalListener> SignalListeners => otherObjectsRoot.GetComponentsInChildren<SignalListener>().ToList();
+    public List<SignalListener.SignalListener> SignalListeners => otherObjectsRoot.GetComponentsInChildren<SignalListener.SignalListener>().ToList();
     public List<IInteractiveObject> InteractiveObject => otherObjectsRoot.GetComponentsInChildren<IInteractiveObject>().ToList();
 
     private void OnDrawGizmos()

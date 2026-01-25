@@ -7,17 +7,19 @@ public class SignalService :
   ISignalKeyRegister, 
   ISignalConsumer, 
   ISignalSubscriber,
-  ISignalLifesProvider
+  ISignalIDLifeProvider
 {
-  private class EventSet
+  private class Signal
   {
-    public readonly UnityEvent onActive = new();
-    public readonly UnityEvent onDeactive = new();
-    
-    private readonly Dictionary<int, bool> keys = new();
-    public Dictionary<int, SignalLife> KeyLifes { get; private set; } = new();
+    public readonly UnityEvent activateEvent = new();
+    public readonly UnityEvent deactivateEvent = new();
+    public readonly UnityEvent<int> idActivateEvent = new();
+    public readonly UnityEvent<int> idDeactivateEvent = new();
 
-    public EventSet(int id, SignalLife signalLife)
+    private readonly Dictionary<int, bool> keys = new();
+    public Dictionary<int, SignalLife> IDLifes { get; private set; } = new();
+
+    public Signal(int id, SignalLife signalLife)
     {
       AddProvider(id, signalLife);
     }
@@ -25,7 +27,7 @@ public class SignalService :
     public void AddProvider(int id, SignalLife signalLife)
     {
       keys[id] = false;
-      KeyLifes[id] = signalLife;
+      IDLifes[id] = signalLife;
     }
 
     public void Acquire(int id)
@@ -34,25 +36,27 @@ public class SignalService :
         return;
 
       keys[id] = true;
+      idActivateEvent?.Invoke(id);
 
       if (IsActivated())
-        onActive?.Invoke();
+        activateEvent?.Invoke();
     }
 
     public void Release(int id)
     {
       if (keys[id] == false)
         return;
+      idDeactivateEvent?.Invoke(id);
 
       if(IsActivated())
-        onDeactive?.Invoke();
+        deactivateEvent?.Invoke();
 
       keys[id] = false;
     }
 
     public void ResetActiveCount()
     {
-      var originKeys = keys.Keys;
+      var originKeys = keys.Keys.ToList();
       foreach(var key in originKeys)
         keys[key] = false;
     }
@@ -67,71 +71,98 @@ public class SignalService :
     }
   }
 
-  private readonly Dictionary<string, EventSet> eventSets = new();
+  private readonly Dictionary<string, Signal> signals = new();
 
   #region ISignalKeyRegister
   public void RegisterKey(string key, int id, SignalLife signalLife)
   {
-    if (eventSets.TryGetValue(key, out var set))
+    if (signals.TryGetValue(key, out var set))
       set.AddProvider(id, signalLife);
     else
-      eventSets[key] = new EventSet(id, signalLife);
+      signals[key] = new Signal(id, signalLife);
   }
   #endregion
 
   #region ISignalConsumer
   public void AcquireSignal(string key, int id)
   {
-    eventSets[key].Acquire(id);
+    signals[key].Acquire(id);
   }
 
   public void ReleaseSignal(string key, int id)
   {
-    eventSets[key].Release(id);
+    signals[key].Release(id);
   }
 
   public void ResetAllSignal()
   {
-    foreach (var eventSet in eventSets.Values)
+    foreach (var eventSet in signals.Values)
       eventSet.ResetActiveCount();
   }
   #endregion
 
   #region ISignalSubscriber
-  public void SubscribeActivate(string key, UnityAction activate)
+  public void SubscribeSignalActivate(string key, UnityAction activate)
   {
-    eventSets[key]
-      .onActive
+    signals[key]
+      .activateEvent
       .AddListener(activate);
   }
 
-  public void UnsubscribeActivate(string key, UnityAction activate)
+  public void UnsubscribeSignalActivate(string key, UnityAction activate)
   {
-    eventSets[key]
-      .onActive.
+    signals[key]
+      .activateEvent.
       RemoveListener(activate);
   }
 
-  public void SubscribeDeactivate(string key, UnityAction deactivate)
+  public void SubscribeSignalDeactivate(string key, UnityAction deactivate)
   {
-    eventSets[key]
-      .onDeactive
+    signals[key]
+      .deactivateEvent
       .AddListener(deactivate);
   }
 
-  public void UnsubscribeDeactivate(string key, UnityAction deactivate)
+  public void UnsubscribeSignalDeactivate(string key, UnityAction deactivate)
   {
-    eventSets[key]
-      .onDeactive
+    signals[key]
+      .deactivateEvent
       .RemoveListener(deactivate);
   }
+
+  public void SubscribeIDActivate(string key, int id, UnityAction<int> activate)
+  {
+    signals[key]
+      .idActivateEvent
+      .AddListener(activate);
+  }
+
+  public void UnsubscribeIDActivate(string key, int id, UnityAction<int> activate)
+  {
+    signals[key]
+      .idActivateEvent
+      .RemoveListener(activate);
+  }
+
+  public void SubscribeIDDeactivate(string key, int id, UnityAction<int> deactivate)
+  {
+    signals[key]
+      .idDeactivateEvent
+      .AddListener(deactivate);
+  }
+
+  public void UnsubscribeIDDeactivate(string key, int id, UnityAction<int> deactivate)
+  {
+    signals[key]
+      .idDeactivateEvent
+      .RemoveListener(deactivate);
+  }
+
   #endregion
 
   #region ISignalLifesProvider
-  public List<SignalLife> GetSignalLifes(string key)
-    => eventSets[key]
-      .KeyLifes
-      .Values
-      .ToList();
+  public Dictionary<int, SignalLife> GetSignalIDLifes(string key)
+    => signals[key]
+      .IDLifes;
   #endregion
 }

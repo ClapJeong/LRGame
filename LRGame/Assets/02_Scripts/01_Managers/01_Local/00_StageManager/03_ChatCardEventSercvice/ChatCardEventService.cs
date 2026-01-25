@@ -144,11 +144,11 @@ public class ChatCardEventService
             switch (data.signalEventType)
             {
               case SignalEventType.OnActivate:
-                signalSubscriber.SubscribeActivate(data.targetKey, PlayChatCard);
+                signalSubscriber.SubscribeSignalActivate(data.targetKey, PlayChatCard);
                 break;
 
               case SignalEventType.OnDeactivate:
-                signalSubscriber.SubscribeDeactivate(data.targetKey, PlayChatCard);
+                signalSubscriber.SubscribeSignalDeactivate(data.targetKey, PlayChatCard);
                 break;
             }
           }

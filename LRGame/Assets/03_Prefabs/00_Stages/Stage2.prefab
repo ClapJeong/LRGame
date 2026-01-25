@@ -154,7 +154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: cameraSize
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: scoreData.Left
@@ -25774,8 +25774,103 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8709137215589598131, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1263002694154742427}
   m_SourcePrefab: {fileID: 100100000, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+--- !u!114 &413953614112640835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5702402293561907128, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 5376638462995536123}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3621098702377540424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c43b6f9ce7f5a48802a738379c8d30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpikeTriggerTileView
+--- !u!1 &3621098702377540424 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8709137215589598131, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 5376638462995536123}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1263002694154742427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3621098702377540424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e9097ca54b0ad46965263b6e9e9815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.SignalListener.SignalListener
+  <RequireKey>k__BackingField: 0
+  onActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 413953614112640835}
+        m_TargetAssemblyTypeName: LR.Stage.TriggerTile.SpikeTriggerTileView, Assembly-CSharp
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4429364069349089658}
+        m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDeactivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 413953614112640835}
+        m_TargetAssemblyTypeName: LR.Stage.TriggerTile.SpikeTriggerTileView, Assembly-CSharp
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 4429364069349089658}
+        m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  countPreview: 1
+  previewPosition: {x: 0, y: 1, z: 0}
+  previewSpace: 0.15
+  prevSize: 0.4
+--- !u!212 &4429364069349089658 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8639569936527882625, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 5376638462995536123}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4441140331483007236 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
@@ -25836,10 +25931,58 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8709137215589598131, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3554367140835453857}
   m_SourcePrefab: {fileID: 100100000, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+--- !u!212 &1317434469195792441 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8639569936527882625, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 7326684510163450296}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1338181610698156103 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8592781965923029503, guid: b830603c511e52c42b42e00cbde49903, type: 3}
   m_PrefabInstance: {fileID: 7326684510163450296}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2121352215678188043 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8709137215589598131, guid: b830603c511e52c42b42e00cbde49903, type: 3}
+  m_PrefabInstance: {fileID: 7326684510163450296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3554367140835453857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121352215678188043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e9097ca54b0ad46965263b6e9e9815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.SignalListener.SignalListener
+  <RequireKey>k__BackingField: 1
+  onActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1317434469195792441}
+        m_TargetAssemblyTypeName: UnityEngine.SpriteRenderer, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+  countPreview: 3
+  previewPosition: {x: 0, y: 1, z: 0}
+  previewSpace: 0.15
+  prevSize: 0.4

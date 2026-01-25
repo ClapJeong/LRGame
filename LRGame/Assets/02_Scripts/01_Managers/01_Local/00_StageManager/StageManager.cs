@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using LR.Stage.Player.Enum;
+using LR.Stage.SignalListener;
 
 public class StageManager : 
   IStageStateHandler,
@@ -34,7 +35,19 @@ public class StageManager :
     public IChatCardService chatCardService;
     public IUIPresenterContainer uiPresenterContainer;
 
-    public Model(GameObject localManager, TableContainer table, IGameDataService gameDataService, IResourceManager resourceManager, ISceneProvider sceneProvider, ICameraService cameraService, Transform defaultEffectRoot, InputActionFactory inputActionFactory, IInputProgressService inputProgressService, IInputQTEService inputQTEService, IChatCardService chatCardService, IUIPresenterContainer uiPresenterContainer)
+    public Model(
+      GameObject localManager, 
+      TableContainer table, 
+      IGameDataService gameDataService, 
+      IResourceManager resourceManager, 
+      ISceneProvider sceneProvider, 
+      ICameraService cameraService, 
+      Transform defaultEffectRoot, 
+      InputActionFactory inputActionFactory, 
+      IInputProgressService inputProgressService, 
+      IInputQTEService inputQTEService, 
+      IChatCardService chatCardService, 
+      IUIPresenterContainer uiPresenterContainer)
     {
       this.localManager = localManager;
       this.table = table;
@@ -118,11 +131,14 @@ public class StageManager :
       var handles = await model.resourceManager.LoadAssetsAsync(model.table.AddressableKeySO.Label.Dialogue);
       CacheDialogueDatas(handles, StageDataContainer);
       SetupCamera(StageDataContainer);
-      var playerSetupTask = SetupPlayersAsync(StageDataContainer);
-      var triggerSetupTask = SetupTriggersAsync(StageDataContainer);
-      var baseInteractiveObjectSetupTask = SetupBaseInteractiveObjectsAsync(StageDataContainer);
-      await UniTask.WhenAll(playerSetupTask, triggerSetupTask, baseInteractiveObjectSetupTask);
-      SetupSignalListeners(StageDataContainer);
+      var tasks = new UniTask[]
+      {
+        SetupPlayersAsync(StageDataContainer),
+        SetupTriggersAsync(StageDataContainer),
+        SetupBaseInteractiveObjectsAsync(StageDataContainer),
+        SetupSignalListenersAsync(StageDataContainer),
+      };
+      await UniTask.WhenAll(tasks);
       SetupChatCardEventService(StageDataContainer);
     }
     catch
@@ -349,12 +365,48 @@ public class StageManager :
     await interactiveObjectService.SetupAsync(model);
   }
 
-  private void SetupSignalListeners(StageDataContainer stageData)
+  private async UniTask SetupSignalListenersAsync(StageDataContainer stageData)
   {
     foreach (var signalListener in stageData.SignalListeners)
     {
-      signalService.SubscribeActivate(signalListener.RequireKey, signalListener.OnActivate);
-      signalService.SubscribeDeactivate(signalListener.RequireKey, signalListener.OnDeactivate);
+      var signalKey = signalListener.RequireKey;
+      signalService.SubscribeSignalActivate(signalKey, signalListener.OnActivate);
+      signalService.SubscribeSignalDeactivate(signalKey, signalListener.OnDeactivate);
+
+      var signalIDLifes = signalService.GetSignalIDLifes(signalKey);
+      var previewPositions = signalListener.GetPreviewPositions(signalIDLifes.Count);
+      var count = 0;
+      foreach(var pair in signalIDLifes)
+      {
+        var id = pair.Key;
+        var life = pair.Value;
+        var signalPreviewKey = model.table.AddressableKeySO.Path.GameObjects + life switch
+        {
+          LR.Stage.TriggerTile.Enum.SignalLife.OnlyActivate => model.table.AddressableKeySO.GameObjectName.ACSignalPreview,
+          LR.Stage.TriggerTile.Enum.SignalLife.ActivateAndDeactivate => model.table.AddressableKeySO.GameObjectName.ACDCSignalPreview,
+          _ => throw new System.NotImplementedException(),
+        };
+        var signalPreview = await model.resourceManager.CreateAssetAsync<BaseSignalPreview>(signalPreviewKey, signalListener.transform);
+        signalPreview.Initialize(previewPositions[count]);
+
+        signalService.SubscribeIDActivate(signalKey, id, onActivate);
+        signalService.SubscribeIDDeactivate(signalKey, id, onDeactivate);
+
+        void onActivate(int activatedID)
+        {
+          if (activatedID != id)
+            return;
+          signalPreview.Activate();
+        }
+        void onDeactivate(int deactivatedID)
+        {
+          if (deactivatedID != id)
+            return;
+          signalPreview.Deactivate();
+        }
+
+        count++;
+      }
     }
   }
 
