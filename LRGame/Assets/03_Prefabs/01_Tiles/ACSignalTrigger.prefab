@@ -138,7 +138,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.TriggerTile.SignalTriggerView
   <BackgroundTransform>k__BackingField: {fileID: 5435869921072826506}
   <BackgroundSpriteRenderer>k__BackingField: {fileID: 3724456529169238622}
-  <GlowEffect>k__BackingField: {fileID: 0}
   <InputSpriteRenderer>k__BackingField: {fileID: 0}
   <Key>k__BackingField: 
   <SignalLife>k__BackingField: 0
@@ -178,4 +177,4 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.05

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 548135499281614106}
   - component: {fileID: 850764404680363831}
   - component: {fileID: 3256540705379991725}
-  - component: {fileID: 8888573766154508884}
   - component: {fileID: 187520682508144327}
+  - component: {fileID: 1418447602598247837}
   m_Layer: 7
   m_Name: ClearTrigger
   m_TagString: Untagged
@@ -116,8 +116,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!61 &8888573766154508884
-BoxCollider2D:
+--- !u!114 &187520682508144327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4176292232341367746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e031728ab38d85f45be0bd4429c8445a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearTriggerTileView
+  triggerTileType: 0
+  <Animator>k__BackingField: {fileID: 3256540705379991725}
+--- !u!58 &1418447602598247837
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -151,31 +165,7 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &187520682508144327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4176292232341367746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e031728ab38d85f45be0bd4429c8445a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClearTriggerTileView
-  triggerTileType: 0
-  <Animator>k__BackingField: {fileID: 3256540705379991725}
+  m_Radius: 0.05
 --- !u!1 &8566169381931548201
 GameObject:
   m_ObjectHideFlags: 0

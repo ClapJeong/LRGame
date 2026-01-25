@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2031683980731028845}
   - component: {fileID: 1278994512803049542}
-  - component: {fileID: 3891116959685641618}
   - component: {fileID: 3416887581678596621}
+  - component: {fileID: 6344136521344526714}
   m_Layer: 7
   m_Name: RightEnergyItem
   m_TagString: Untagged
@@ -92,8 +92,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &3891116959685641618
-BoxCollider2D:
+--- !u!114 &3416887581678596621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9038861070120110921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb195c1ffba538d42a6c77cfd4290968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.TriggerTile.RightEnergyItmeTriggerView
+--- !u!58 &6344136521344526714
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -127,26 +139,4 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1.28, y: 1.28}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &3416887581678596621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9038861070120110921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb195c1ffba538d42a6c77cfd4290968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.TriggerTile.RightEnergyItmeTriggerView
+  m_Radius: 0.05

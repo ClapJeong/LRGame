@@ -53,12 +53,12 @@ namespace LR.Stage.TriggerTile
     {
       if (isEnable == false)
         return;
-      if (collider2D.CompareTag(Tag.Player) == false)
+      if (collider2D.CompareTag(Tag.PlayerTileTriggerCollider) == false)
         return;
 
       Enable(false);
 
-      var enterPlayerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
+      var enterPlayerType = collider2D.GetComponentInParent<IPlayerView>().GetPlayerType();
       var enterPlayerKeyCodeData = model
         .table
         .GetPlayerModelSO(enterPlayerType)

@@ -250,7 +250,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.05
 --- !u!114 &6837138401083529113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +265,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.TriggerTile.InputSignalTriggerView
   <BackgroundTransform>k__BackingField: {fileID: 8220716847912285038}
   <BackgroundSpriteRenderer>k__BackingField: {fileID: 798443109829420501}
-  <GlowEffect>k__BackingField: {fileID: 0}
   <InputSpriteRenderer>k__BackingField: {fileID: 3274917685546992804}
   <Key>k__BackingField: 
   <Input>k__BackingField: 0

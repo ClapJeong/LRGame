@@ -154,20 +154,24 @@ public class TriggerTileService :
 
         void OnTriggerEnter(Collider2D collider2D)
         {
-          if (collider2D.CompareTag(Tag.Player) == false)
+          if (collider2D.CompareTag(Tag.PlayerTileTriggerCollider) == false)
             return;
 
-          if (collider2D.TryGetComponent<IPlayerView>(out var playerView))
-            onEnterEvents[playerView.GetPlayerType()].TryInvoke(tileType);
+          var playerType = collider2D
+            .GetComponentInParent<IPlayerView>()
+            .GetPlayerType();
+          onEnterEvents[playerType].TryInvoke(tileType);
         }
 
         void OnTriggerExit(Collider2D collider2D)
         {
-          if (collider2D.CompareTag(Tag.Player) == false)
+          if (collider2D.CompareTag(Tag.PlayerTileTriggerCollider) == false)
             return;
 
-          if (collider2D.TryGetComponent<IPlayerView>(out var playerView))
-            onExitEvents[playerView.GetPlayerType()].TryInvoke(tileType);
+          var playerType = collider2D
+            .GetComponentInParent<IPlayerView>()
+            .GetPlayerType();
+          onExitEvents[playerType].TryInvoke(tileType);
         }
       }      
     }

@@ -32,8 +32,7 @@ namespace LR.Stage.Player
     }
 
     public void FixedUpdate()
-    {
-      moveController.ApplyMoveDeceleration();
+    {      
       energyUpdater.UpdateEnergy(Time.fixedDeltaTime);
 
       if (reactionController.IsInputting == false)
@@ -45,6 +44,7 @@ namespace LR.Stage.Player
     public void OnEnter()
     {
       animatorController.Play(AnimatorHash.Player.Clip.Inputing);
+      moveController.SetLinearVelocity(Vector3.zero);
       effectController.PlayEffect(PlayerEffect.Inputing);
     }
 

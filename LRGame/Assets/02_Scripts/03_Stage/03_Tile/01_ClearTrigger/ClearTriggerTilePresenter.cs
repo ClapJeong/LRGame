@@ -43,7 +43,7 @@ namespace LR.Stage.TriggerTile
 
     private void OnEnter(Collider2D collider2D)
     {
-      if (collider2D.CompareTag(Tag.Player) == false)
+      if (collider2D.CompareTag(Tag.PlayerTileTriggerCollider) == false)
         return;
       if (!isEnable)
         return;
@@ -67,7 +67,7 @@ namespace LR.Stage.TriggerTile
         default: throw new System.NotImplementedException();
       }
 
-      var playerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
+      var playerType = collider2D.GetComponentInParent<IPlayerView>().GetPlayerType();
       model
         .playerGetter
         .GetPlayer(playerType)
@@ -77,7 +77,7 @@ namespace LR.Stage.TriggerTile
 
     private void OnExit(Collider2D collider2D)
     {
-      if (collider2D.CompareTag(Tag.Player) == false)
+      if (collider2D.CompareTag(Tag.PlayerTileTriggerCollider) == false)
         return;
       if (!isEnable)
         return;

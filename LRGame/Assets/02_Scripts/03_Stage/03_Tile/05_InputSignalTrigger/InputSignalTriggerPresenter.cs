@@ -72,11 +72,11 @@ namespace LR.Stage.TriggerTile
     private void OnEnter(Collider2D collider2D)
     {
       if (!enable ||
-          !collider2D.CompareTag(Tag.Player)||
+          !collider2D.CompareTag(Tag.PlayerTileTriggerCollider) ||
           !view.IsEnterKeyExist)
         return;
 
-      var enterPlayerType = collider2D.GetComponent<IPlayerView>().GetPlayerType();
+      var enterPlayerType = collider2D.GetComponentInParent<IPlayerView>().GetPlayerType();
       var enterPlayerKeyCodeData = model
         .table
         .GetPlayerModelSO(enterPlayerType)
@@ -196,6 +196,7 @@ namespace LR.Stage.TriggerTile
     {
       if (!enable ||
           !isSignalAcquired ||
+          !collider2D.CompareTag(Tag.PlayerTileTriggerCollider) ||
           !view.IsEnterKeyExist)
         return;
 
