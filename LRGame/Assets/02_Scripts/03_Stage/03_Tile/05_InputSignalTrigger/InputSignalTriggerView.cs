@@ -10,7 +10,7 @@ using SpriteGlow;
 
 namespace LR.Stage.TriggerTile
 {
-  public class SignalTriggerView : MonoBehaviour, ITriggerTileView
+  public class InputSignalTriggerView : MonoBehaviour, ITriggerTileView
   {
     [field: SerializeField] public Transform BackgroundTransform { get; private set; }
     [field: SerializeField] public SpriteRenderer BackgroundSpriteRenderer { get; private set; }
@@ -19,11 +19,15 @@ namespace LR.Stage.TriggerTile
     [field: Header("[ Key ]")]    
     [field: SerializeField] public string Key { get; private set; }
 
+    [field: Header("[ Input ]")]
+    [field: SerializeField] public SignalInput Input { get; private set; }
+    [field: SerializeField] public SignalInputFail InputFail { get; private set; }
+
     [field: Header("[ Life ]")]
     [field: SerializeField] public SignalLife SignalLife { get; private set; }    
 
     [Space(10)]
-    [SerializeField] private TriggerTileType triggerTileType = TriggerTileType.DefaultSignal;
+    [SerializeField] private TriggerTileType triggerTileType = TriggerTileType.InputSignal;
 
     public bool IsEnterKeyExist
       => string.IsNullOrEmpty(Key) == false;
@@ -82,7 +86,13 @@ namespace LR.Stage.TriggerTile
       {        
         var stb = new StringBuilder("{ " + Key +" }");
         var index = 0;
-        
+
+        stb.Append($"\n{Input}");
+        index++;
+
+        stb.Append($"\nFail: {InputFail}");
+        index++;
+
         stb.Append($"\n{SignalLife}");
         index++;
 

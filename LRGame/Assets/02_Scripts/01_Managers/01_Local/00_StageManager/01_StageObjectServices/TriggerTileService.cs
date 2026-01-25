@@ -111,9 +111,22 @@ public class TriggerTileService :
           }
           break;
 
-        case TriggerTileType.Signal:
+        case TriggerTileType.DefaultSignal:
           {
             var model = new SignalTriggerPresenter.Model(
+              this.model.table.TriggerTileModelSO.SignalTriggerData,
+              this.model.table,
+              this.model.signalService,
+              this.model.signalService,
+              this.model.playerGetter);
+            var defaultSignalView = view as SignalTriggerView;
+            presenter = new SignalTriggerPresenter(model, defaultSignalView);
+          }
+          break;
+
+        case TriggerTileType.InputSignal:
+          {
+            var model = new InputSignalTriggerPresenter.Model(
               this.model.table.TriggerTileModelSO.SignalTriggerData,
               this.model.table,
               this.model.signalService,
@@ -121,8 +134,8 @@ public class TriggerTileService :
               this.model.inputProgressService,
               this.model.inputQTEService,
               this.model.playerGetter);
-            var defaultSignalView = view as SignalTriggerView;
-            presenter = new SignalTriggerPresenter(model, defaultSignalView);
+            var inputSignalView = view as InputSignalTriggerView;
+            presenter = new InputSignalTriggerPresenter(model, inputSignalView);
           }
           break;
 

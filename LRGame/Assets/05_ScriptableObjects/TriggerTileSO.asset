@@ -15,7 +15,7 @@ MonoBehaviour:
   <SpikeTrigger>k__BackingField:
     <DamageValue>k__BackingField: 30
     <BounceData>k__BackingField:
-      <Force>k__BackingField: 4
+      <Force>k__BackingField: 6
     <EffectType>k__BackingField: 1
   <RightEnergyItemTrigger>k__BackingField:
     <RestoreValue>k__BackingField: 50
@@ -47,9 +47,9 @@ MonoBehaviour:
       <Failable>k__BackingField: 1
       <BeginValue>k__BackingField: 0.5
       <DecreaseValuePerSecond>k__BackingField: 0.66
-      <IncreaseValueOnInput>k__BackingField: 0.3
+      <IncreaseValueOnInput>k__BackingField: 0.12
     <FailBounceData>k__BackingField:
-      <Force>k__BackingField: 0
+      <Force>k__BackingField: 6
     <RotateSpeed>k__BackingField: 1.5
     <ActivateAlpha>k__BackingField: 1
     <DeactivateAlpha>k__BackingField: 0.5
