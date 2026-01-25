@@ -137,7 +137,10 @@ public class InputProgressService : IInputProgressService
         presenter.OnComplete();
       }
     }
-    catch (OperationCanceledException) { }
+    catch (OperationCanceledException)
+    {
+      onFail?.Invoke();
+    }
     finally
     {
       isPlaying = false;
