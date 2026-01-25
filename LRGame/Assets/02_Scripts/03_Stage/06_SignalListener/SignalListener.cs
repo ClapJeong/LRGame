@@ -19,10 +19,10 @@ namespace LR.Stage.SignalListener
 
     [Header("[ Preview ]")]
     [SerializeField] private int countPreview = 3;
-    [SerializeField] private Vector3 previewPosition = Vector3.up;
+    [SerializeField] private Vector3 previewPosition = new (0.0f, 0.8f, 0.0f);
     [SerializeField] private float previewSpace = 0.15f;
     [SerializeField] private float prevSize = 0.4f;
-    public Color previewColor;
+    public Color previewColor = new(1.0f, 1.0f, 1.0f, 1.0f);
 
     private bool IsKeyExist
       => string.IsNullOrEmpty(RequireKey) == false;
