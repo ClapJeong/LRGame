@@ -73,6 +73,7 @@ namespace LR.Stage.TriggerTile
         .GetPlayer(playerType)
         .GetReactionController()
         .Clear();
+      collider2D.transform.parent.transform.position = view.transform.position;
     }
 
     private void OnExit(Collider2D collider2D)
