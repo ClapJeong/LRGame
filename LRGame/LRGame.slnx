@@ -8,6 +8,5 @@
   <Project Path="Febucci.TextAnimator.Demo.Sounds.Runtime.csproj" />
   <Project Path="Febucci.Attributes.Runtime.csproj" />
   <Project Path="Febucci.TextAnimatorForUnity.Input.Runtime.csproj" />
-  <Project Path="Elringus.SpriteGlow.Runtime.csproj" />
   <Project Path="Tests.csproj" />
 </Solution>

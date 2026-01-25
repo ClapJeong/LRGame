@@ -17,11 +17,12 @@ namespace LR.Stage.SignalListener
     [SerializeField] private UnityEvent onActivate = new();
     [SerializeField] private UnityEvent onDeactivate = new();
 
-    [Header("[ Counting ]")]
+    [Header("[ Preview ]")]
     [SerializeField] private int countPreview = 3;
     [SerializeField] private Vector3 previewPosition = Vector3.up;
     [SerializeField] private float previewSpace = 0.15f;
     [SerializeField] private float prevSize = 0.4f;
+    public Color previewColor;
 
     private bool IsKeyExist
       => string.IsNullOrEmpty(RequireKey) == false;

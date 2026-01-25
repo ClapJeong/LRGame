@@ -5,9 +5,10 @@ namespace LR.Stage.SignalListener
   {
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    public override void Initialize(Vector3 worldPosition)
+    public override void Initialize(Vector3 worldPosition, Color color)
     {
       transform.position = worldPosition;
+      spriteRenderer.color = color;
       spriteRenderer.SetAlpha(SignalTriggerData.DeactivateAlpha);
     }
 

@@ -391,7 +391,7 @@ public class StageManager :
           _ => throw new System.NotImplementedException(),
         };
         var signalPreview = await model.resourceManager.CreateAssetAsync<BaseSignalPreview>(signalPreviewKey, signalListener.transform);
-        signalPreview.Initialize(previewPositions[count]);
+        signalPreview.Initialize(previewPositions[count], signalListener.previewColor);
 
         signalService.SubscribeIDActivate(signalKey, id, onActivate);
         signalService.SubscribeIDDeactivate(signalKey, id, onDeactivate);

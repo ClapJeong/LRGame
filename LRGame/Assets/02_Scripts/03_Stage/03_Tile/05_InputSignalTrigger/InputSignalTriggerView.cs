@@ -6,7 +6,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using LR.Stage.TriggerTile.Enum;
-using SpriteGlow;
 
 namespace LR.Stage.TriggerTile
 {
@@ -14,7 +13,6 @@ namespace LR.Stage.TriggerTile
   {
     [field: SerializeField] public Transform BackgroundTransform { get; private set; }
     [field: SerializeField] public SpriteRenderer BackgroundSpriteRenderer { get; private set; }
-    [field: SerializeField] public SpriteGlowEffect GlowEffect { get; private set; }
     [field: SerializeField] public SpriteRenderer InputSpriteRenderer {  get; private set; } 
     [field: Header("[ Key ]")]    
     [field: SerializeField] public string Key { get; private set; }

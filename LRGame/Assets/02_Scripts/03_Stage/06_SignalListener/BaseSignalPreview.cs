@@ -15,7 +15,7 @@ namespace LR.Stage.SignalListener
       }
     }
 
-    public abstract void Initialize(Vector3 worldPosition);
+    public abstract void Initialize(Vector3 worldPosition, Color color);
 
     public abstract void Activate();
 

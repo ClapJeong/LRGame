@@ -11,9 +11,10 @@ namespace LR.Stage.SignalListener
 
     private IDisposable rotateDisposable;
 
-    public override void Initialize(Vector3 worldPosition)
+    public override void Initialize(Vector3 worldPosition, Color color)
     {
       transform.position = worldPosition;
+      spriteRenderer.color = color;
       spriteRenderer.SetAlpha(SignalTriggerData.DeactivateAlpha);
     }
 

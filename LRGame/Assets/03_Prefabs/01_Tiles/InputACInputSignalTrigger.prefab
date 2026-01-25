@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LR.Stage.TriggerTile.InputSignalTriggerView
   <BackgroundTransform>k__BackingField: {fileID: 3420145517356259993}
   <BackgroundSpriteRenderer>k__BackingField: {fileID: 3149489134328728826}
-  <GlowEffect>k__BackingField: {fileID: 5337836137695148198}
+  <GlowEffect>k__BackingField: {fileID: 0}
   <InputSpriteRenderer>k__BackingField: {fileID: 1154792422799939330}
   <Key>k__BackingField: 
   <Input>k__BackingField: 0
@@ -192,7 +192,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3420145517356259993}
   - component: {fileID: 3149489134328728826}
-  - component: {fileID: 5337836137695148198}
   m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
@@ -240,7 +239,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -273,21 +272,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5337836137695148198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992766326334337552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8f6d3c6e4250e84192f5b34ce9e71bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Elringus.SpriteGlow.Runtime::SpriteGlow.SpriteGlowEffect
-  glowColor: {r: 0.3207547, g: 0.022694904, b: 0.022694904, a: 1}
-  glowBrightness: 3.41
-  outlineWidth: 2
-  alphaThreshold: 0.01
-  drawOutside: 0
-  enableInstancing: 0

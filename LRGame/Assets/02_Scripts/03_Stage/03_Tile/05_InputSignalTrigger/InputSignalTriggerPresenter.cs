@@ -45,7 +45,6 @@ namespace LR.Stage.TriggerTile
       this.model = model;
       this.view = view;
 
-      view.GlowEffect.enabled = false;
       view.SetAlpha(model.data.DeactivateAlpha);
       view.SubscribeOnEnter(OnEnter);
       view.SubscribeOnExit(OnExit);
@@ -60,7 +59,6 @@ namespace LR.Stage.TriggerTile
     public void Restart()
     {
       Enable(true);
-      view.GlowEffect.enabled = false;
       isSignalAcquired = false;
       view.SetAlpha(model.data.DeactivateAlpha);
     }
@@ -149,7 +147,6 @@ namespace LR.Stage.TriggerTile
     {
       model.signalConsumer.AcquireSignal(view.Key, view.GetHashCode());
       isSignalAcquired = true;
-      view.GlowEffect.enabled = true;
       view.SetAlpha(model.data.ActivateAlpha);
 
       switch (view.SignalLife)
@@ -215,7 +212,6 @@ namespace LR.Stage.TriggerTile
             model.signalConsumer.ReleaseSignal(view.Key, view.GetHashCode());
             rotatingDisposable?.Dispose();
             view.transform.eulerAngles = Vector3.zero;
-            view.GlowEffect.enabled = false;
             view.SetAlpha(model.data.DeactivateAlpha);
           }
           break;
