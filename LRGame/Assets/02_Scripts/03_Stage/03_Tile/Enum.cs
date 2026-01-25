@@ -22,4 +22,10 @@ namespace LR.Stage.TriggerTile.Enum
     Bounce,
     BounceAndStun,
   }
+
+  public enum SignalLife
+  {
+    OnlyActivate,
+    ActivateAndDeactivate,
+  }
 }

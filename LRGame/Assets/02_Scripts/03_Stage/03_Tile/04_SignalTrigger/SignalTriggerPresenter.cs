@@ -60,7 +60,7 @@ namespace LR.Stage.TriggerTile
     private void RegisterKeys()
     {
       if(view.IsEnterKeyExist)
-        model.signalKeyRegister.RegisterKey(view.EnterKey);
+        model.signalKeyRegister.RegisterKey(view.EnterKey, view.GetHashCode(), view.SignalLife);
     }
 
     private void OnEnter(Collider2D collider2D)
@@ -160,13 +160,23 @@ namespace LR.Stage.TriggerTile
 
     private void OnSignalSuccess()
     {
-      model.signalConsumer.AcquireSignal(view.EnterKey);
+      model.signalConsumer.AcquireSignal(view.EnterKey, view.GetHashCode());
       isSignalAcquired = true;
 
-      if(view.IsRecycable == false)
+      switch (view.SignalLife)
       {
-        Enable(false);
-        view.gameObject.SetActive(false);
+        case Enum.SignalLife.OnlyActivate:
+          {
+            Enable(false);
+            view.gameObject.SetActive(false);
+          }
+          break;
+
+        case Enum.SignalLife.ActivateAndDeactivate:
+          {
+
+          }
+          break;
       }
     }
 
@@ -202,7 +212,7 @@ namespace LR.Stage.TriggerTile
         return;
 
       if (isSignalAcquired && view.IsEnterKeyExist)
-        model.signalConsumer.ReleaseSignal(view.EnterKey);
+        model.signalConsumer.ReleaseSignal(view.EnterKey, view.GetHashCode());
     }
   }
 }

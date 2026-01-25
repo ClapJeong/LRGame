@@ -66,6 +66,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
   m_PrefabInstance: {fileID: 129545801789583168}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &579518764228970523
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4980473559108449999}
+    m_Modifications:
+    - target: {fileID: 247555902822858903, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_Name
+      value: DefaultSignalTrigger (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.50021
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.0000997
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907273482937661445, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: <EnterKey>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907273482937661445, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: <EnterType>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907273482937661445, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+      propertyPath: <SignalLife>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+--- !u!4 &1463286758145141978 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2036892240307856577, guid: af1607e19ed98664eb95b49b3f709137, type: 3}
+  m_PrefabInstance: {fileID: 579518764228970523}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1940999749879905778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108,7 +182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: 'triggerTiles.Array.data[0]'
@@ -120,11 +194,11 @@ PrefabInstance:
       objectReference: {fileID: 2264720930264277238}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[0].id
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[1].id
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[2].id
@@ -176,11 +250,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[0].eventType
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[1].eventType
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[2].eventType
@@ -200,11 +274,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[0].stageEventData.time
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[1].stageEventData.time
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[2].stageEventData.time
@@ -279,7 +353,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[0].signalEventData.targetKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[1].playerEventData.valueType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].signalEventData.targetKey
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
@@ -339,12 +421,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      propertyPath: chatCardEvents.Array.data[1].signalEventData.signalEventType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[2].playerEventData.targetPlayerType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[1].playerEventData.targetNormalizedValue
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485306416637203880, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       propertyPath: chatCardEvents.Array.data[2].playerEventData.targetNormalizedValue
@@ -25456,6 +25542,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6913556137515469629, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2128025089093077889}
+    - targetCorrespondingSourceObject: {fileID: 6913556137515469629, guid: a35ea90458ce55648aec757755174e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1463286758145141978}
     - targetCorrespondingSourceObject: {fileID: 6913556137515469629, guid: a35ea90458ce55648aec757755174e1a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4441140331483007236}

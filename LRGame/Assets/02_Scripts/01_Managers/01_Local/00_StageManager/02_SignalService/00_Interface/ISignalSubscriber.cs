@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using LR.Stage.TriggerTile.Enum;
+using UnityEngine.Events;
 
 public interface ISignalSubscriber
 {

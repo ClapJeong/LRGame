@@ -16,7 +16,7 @@ namespace LR.Stage.TriggerTile
     [field: SerializeField] public string EnterKey { get; private set; }
 
     [field: Header("[ Recycle ]")]
-    [field: SerializeField] public bool IsRecycable { get; private set; } = false;
+    [field: SerializeField] public SignalLife SignalLife { get; private set; }
 
     [field: Header("[ Input Fail ]")]
     [field: SerializeField] public SignalInputFail InputFail { get; private set; }
@@ -85,7 +85,7 @@ namespace LR.Stage.TriggerTile
           index++;
         }
         
-        stb.Append($"\nRecycle: {IsRecycable}");
+        stb.Append($"\nSignalLife: {SignalLife}");
         index++;
 
         var labelCenterStyle = new GUIStyle(EditorStyles.label)
