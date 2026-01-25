@@ -31,6 +31,7 @@ namespace LR.Stage
         {
           alignment = TextAnchor.MiddleCenter
         };
+        labelCenterStyle.normal.textColor = Color.red;
         Handles.Label(transform.position + Vector3.up, "[ " + RequireKey +" ]", labelCenterStyle);
       }
     }

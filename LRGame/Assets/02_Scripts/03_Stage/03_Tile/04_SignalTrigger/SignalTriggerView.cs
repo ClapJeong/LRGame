@@ -6,26 +6,29 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using LR.Stage.TriggerTile.Enum;
+using SpriteGlow;
 
 namespace LR.Stage.TriggerTile
 {
   public class SignalTriggerView : MonoBehaviour, ITriggerTileView
   {
-    [field: Header("[ Key ]")]
-    [field: SerializeField] public SignalEnter EnterType {  get; private set; }
-    [field: SerializeField] public string EnterKey { get; private set; }
+    [field: SerializeField] public SpriteRenderer SpriteRenderer { get; private set; }
+    [field: SerializeField] public SpriteGlowEffect GlowEffect { get; private set; }
+    [field: Header("[ Key ]")]    
+    [field: SerializeField] public string Key { get; private set; }
 
-    [field: Header("[ Recycle ]")]
-    [field: SerializeField] public SignalLife SignalLife { get; private set; }
-
-    [field: Header("[ Input Fail ]")]
+    [field: Header("[ Input ]")]
+    [field: SerializeField] public SignalInput Input { get; private set; }
     [field: SerializeField] public SignalInputFail InputFail { get; private set; }
 
+    [field: Header("[ Life ]")]
+    [field: SerializeField] public SignalLife SignalLife { get; private set; }    
+
     [Space(10)]
-    [SerializeField] private TriggerTileType triggerTileType = TriggerTileType.DefaultSignal;
+    [SerializeField] private TriggerTileType triggerTileType = TriggerTileType.Signal;
 
     public bool IsEnterKeyExist
-      => string.IsNullOrEmpty(EnterKey) == false;
+      => string.IsNullOrEmpty(Key) == false;
 
     private const float DebuggingTextSpace = 0.6f;
 
@@ -72,14 +75,13 @@ namespace LR.Stage.TriggerTile
     {
       if (IsEnterKeyExist)
       {        
-        Gizmos.color = Color.yellow;
-        var stb = new StringBuilder("{ " + EnterKey +" }");
+        var stb = new StringBuilder("{ " + Key +" }");
         var index = 0;
 
-        stb.Append($"\nEnterType: {EnterType}");
+        stb.Append($"\nInput: {Input}");
         index++;
 
-        if (EnterType != SignalEnter.None)
+        if (Input != SignalInput.None)
         {
           stb.Append($"\nInput Fail: {InputFail}");
           index++;
@@ -92,6 +94,7 @@ namespace LR.Stage.TriggerTile
         {
           alignment = TextAnchor.MiddleCenter
         };
+        labelCenterStyle.normal.textColor = Color.red;
         Handles.Label(transform.position + DebuggingTextSpace * index * Vector3.up, stb.ToString(), labelCenterStyle);
       }        
     }

@@ -17,6 +17,11 @@ public class SignalService :
     private readonly Dictionary<int, bool> keys = new();
     public Dictionary<int, SignalLife> KeyLifes { get; private set; } = new();
 
+    public EventSet(int id, SignalLife signalLife)
+    {
+      AddProvider(id, signalLife);
+    }
+
     public void AddProvider(int id, SignalLife signalLife)
     {
       keys[id] = false;
@@ -25,6 +30,9 @@ public class SignalService :
 
     public void Acquire(int id)
     {
+      if (keys[id] == true)
+        return;
+
       keys[id] = true;
 
       if (IsActivated())
@@ -33,6 +41,9 @@ public class SignalService :
 
     public void Release(int id)
     {
+      if (keys[id] == false)
+        return;
+
       if(IsActivated())
         onDeactive?.Invoke();
 
@@ -64,7 +75,7 @@ public class SignalService :
     if (eventSets.TryGetValue(key, out var set))
       set.AddProvider(id, signalLife);
     else
-      eventSets[key] = new EventSet();
+      eventSets[key] = new EventSet(id, signalLife);
   }
   #endregion
 

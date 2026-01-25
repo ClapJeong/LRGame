@@ -11,5 +11,9 @@ namespace LR.Table.TriggerTile
     [field: SerializeField] public InputProgressData ProgressData { get; private set; }
     [field: Space(5)]
     [field: SerializeField] public BounceData FailBounceData { get; private set; }
+    [field: Space(5)]
+    [field: SerializeField] public float RotateSpeed {  get; private set; }
+    [field: SerializeField] public float ActivateAlpha {  get; private set; }
+    [field: SerializeField] public float DeactivateAlpha { get; private set; }
   }
 }

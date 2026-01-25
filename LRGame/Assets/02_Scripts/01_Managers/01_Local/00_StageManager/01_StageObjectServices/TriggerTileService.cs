@@ -111,10 +111,10 @@ public class TriggerTileService :
           }
           break;
 
-        case TriggerTileType.DefaultSignal:
+        case TriggerTileType.Signal:
           {
             var model = new SignalTriggerPresenter.Model(
-              this.model.table.TriggerTileModelSO.DefaultSignalTriggerData,
+              this.model.table.TriggerTileModelSO.SignalTriggerData,
               this.model.table,
               this.model.signalService,
               this.model.signalService,

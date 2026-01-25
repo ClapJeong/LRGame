@@ -1,5 +1,8 @@
 ﻿using LR.Stage.Player;
 using LR.Table.TriggerTile;
+using System;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace LR.Stage.TriggerTile
@@ -34,12 +37,15 @@ namespace LR.Stage.TriggerTile
 
     private bool enable;
     private bool isSignalAcquired = false;
+    private IDisposable rotatingDisposable;
 
     public SignalTriggerPresenter(Model model, SignalTriggerView view)
     {
       this.model = model;
       this.view = view;
 
+      view.GlowEffect.enabled = false;
+      view.SpriteRenderer.SetAlpha(model.data.DeactivateAlpha);
       view.SubscribeOnEnter(OnEnter);
       view.SubscribeOnExit(OnExit);
       RegisterKeys();
@@ -47,52 +53,51 @@ namespace LR.Stage.TriggerTile
 
     public void Enable(bool enable)
     {
-      this.enable = enable;      
+      this.enable = enable; 
     }
 
     public void Restart()
     {
       Enable(true);
+      view.GlowEffect.enabled = false;
       isSignalAcquired = false;
-      view.gameObject.SetActive(true);
+      view.SpriteRenderer.SetAlpha(model.data.DeactivateAlpha);
     }
 
     private void RegisterKeys()
     {
       if(view.IsEnterKeyExist)
-        model.signalKeyRegister.RegisterKey(view.EnterKey, view.GetHashCode(), view.SignalLife);
+        model.signalKeyRegister.RegisterKey(view.Key, view.GetHashCode(), view.SignalLife);
     }
 
     private void OnEnter(Collider2D collider2D)
     {
-      if (!enable)
-        return;
-      if (collider2D.CompareTag(Tag.Player) == false)
+      if (!enable ||
+          !collider2D.CompareTag(Tag.Player)||
+          !view.IsEnterKeyExist)
         return;
 
-      if (view.IsEnterKeyExist)
+      switch (view.Input)
       {
-        switch (view.EnterType)
-        {
-          case Enum.SignalEnter.None:
-            {
-              OnSignalSuccess();
-            }
-            break;
+        case Enum.SignalInput.None:
+          {
+            OnSignalSuccess();
+          }
+          break;
 
-          case Enum.SignalEnter.QTE:
-            {
-              PlayQTE(collider2D);
-            }
-            break;
+        case Enum.SignalInput.QTE:
+          {
+            PlayQTE(collider2D);
+          }
+          break;
 
-          case Enum.SignalEnter.Progress:
-            {
-              PlayProgress(collider2D);
-            }
-            break;
-        }
+        case Enum.SignalInput.Progress:
+          {
+            PlayProgress(collider2D);
+          }
+          break;
       }
+
     }
 
     private void PlayQTE(Collider2D collider2D)
@@ -160,21 +165,28 @@ namespace LR.Stage.TriggerTile
 
     private void OnSignalSuccess()
     {
-      model.signalConsumer.AcquireSignal(view.EnterKey, view.GetHashCode());
+      model.signalConsumer.AcquireSignal(view.Key, view.GetHashCode());
       isSignalAcquired = true;
+      view.GlowEffect.enabled = true;
+      view.SpriteRenderer.SetAlpha(model.data.ActivateAlpha);
 
       switch (view.SignalLife)
       {
         case Enum.SignalLife.OnlyActivate:
           {
             Enable(false);
-            view.gameObject.SetActive(false);
           }
           break;
 
         case Enum.SignalLife.ActivateAndDeactivate:
           {
-
+            rotatingDisposable = view
+              .gameObject
+              .UpdateAsObservable()
+              .Subscribe(_ =>
+              {
+                view.transform.Rotate(-360.0f * Time.deltaTime * model.data.RotateSpeed * Vector3.forward);
+              });
           }
           break;
       }
@@ -208,11 +220,29 @@ namespace LR.Stage.TriggerTile
 
     private void OnExit(Collider2D collider2D)
     {
-      if (!enable)
+      if (!enable ||
+          !isSignalAcquired ||
+          !view.IsEnterKeyExist)
         return;
 
-      if (isSignalAcquired && view.IsEnterKeyExist)
-        model.signalConsumer.ReleaseSignal(view.EnterKey, view.GetHashCode());
+      switch (view.SignalLife)
+      {
+        case Enum.SignalLife.OnlyActivate:
+          {
+            
+          }
+          break;
+
+        case Enum.SignalLife.ActivateAndDeactivate:
+          {
+            model.signalConsumer.ReleaseSignal(view.Key, view.GetHashCode());
+            rotatingDisposable?.Dispose();
+            view.transform.eulerAngles = Vector3.zero;
+            view.GlowEffect.enabled = false;
+            view.SpriteRenderer.SetAlpha(model.data.DeactivateAlpha);
+          }
+          break;
+      }
     }
   }
 }

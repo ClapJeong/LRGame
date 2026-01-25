@@ -63,9 +63,6 @@ namespace LR.Stage.TriggerTile
       var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;      
       reactionController.Bounce(model.data.BounceData, bounceDirection);
 
-      if (model.data.BounceData.IsStun)
-        reactionController.Stun();
-
       var playerPosition = playerView.Transform.position;
       model.effectService.Create(
         model.data.EffectType,

@@ -7,10 +7,10 @@ namespace LR.Stage.TriggerTile.Enum
     Spike,
     RightEnergyItem,
     LeftEnergyItem,
-    DefaultSignal,
+    Signal,
   }
 
-  public enum SignalEnter
+  public enum SignalInput
   {
     None,
     QTE,
