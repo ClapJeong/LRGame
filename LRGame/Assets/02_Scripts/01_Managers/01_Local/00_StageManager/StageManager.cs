@@ -340,7 +340,11 @@ public class StageManager :
   {
     var leftPosition = stageData.leftPlayerBeginTransform.position;
     var rightPosition = stageData.rightPlayerBeginTransform.position;
-    await playerSetupService.SetupAsync(new PlayerService.SetupData(leftPosition,rightPosition),isEnableImmediately);
+    var setupData = new PlayerService.SetupData(
+      StageDataContainer.playerRoot,
+      leftPosition, 
+      rightPosition);
+    await playerSetupService.SetupAsync(setupData ,isEnableImmediately);
   }
 
   private async UniTask SetupTriggersAsync(StageDataContainer stageData, bool isEnableImmediately = false)

@@ -5,6 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.LowLevel;
 
 namespace LR.Editor.StageDataContainer
 {
@@ -21,6 +22,7 @@ namespace LR.Editor.StageDataContainer
 
     private SerializedProperty leftPlayerBeginTransform;
     private SerializedProperty rightPlayerBeginTransform;
+    private SerializedProperty playerRoot;
 
     private SerializedProperty staticObstacle;
 
@@ -39,6 +41,7 @@ namespace LR.Editor.StageDataContainer
 
       leftPlayerBeginTransform = serializedObject.FindProperty(nameof(leftPlayerBeginTransform));
       rightPlayerBeginTransform = serializedObject.FindProperty(nameof(rightPlayerBeginTransform));
+      playerRoot = serializedObject.FindProperty(nameof(playerRoot));
 
       staticObstacle = serializedObject.FindProperty(nameof(staticObstacle));
 
@@ -194,6 +197,7 @@ namespace LR.Editor.StageDataContainer
       EditorGUILayout.Space(5);
       EditorGUILayout.PropertyField(leftPlayerBeginTransform);
       EditorGUILayout.PropertyField(rightPlayerBeginTransform);
+      EditorGUILayout.PropertyField(playerRoot);
       EditorGUILayout.Space(5);
       EditorGUILayout.PropertyField(staticObstacle);
       EditorGUILayout.PropertyField(otherObjectsRoot);

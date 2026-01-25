@@ -14,10 +14,11 @@ namespace LR.Stage.StageDataContainer
     public float cameraSize;
     public Transform leftPlayerBeginTransform;
     public Transform rightPlayerBeginTransform;
+    public Transform playerRoot;
     public GameObject staticObstacle;
     public Transform otherObjectsRoot;
     public List<ChatCardEventSet> chatCardEvents = new();
-    public ScoreData scoreData;
+    public ScoreData scoreData;    
 
     public List<ITriggerTileView> TriggerTiles => otherObjectsRoot.GetComponentsInChildren<ITriggerTileView>().ToList();
     public List<SignalListener.SignalListener> SignalListeners => otherObjectsRoot.GetComponentsInChildren<SignalListener.SignalListener>().ToList();

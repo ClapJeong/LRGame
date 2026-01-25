@@ -12,10 +12,12 @@ public class PlayerService :
 {
   public class SetupData
   {
+    public readonly Transform root;
     public readonly Vector3 leftPosition;
     public readonly Vector3 rightPosition;
-    public SetupData(Vector3 leftPosition, Vector3 rightPosition) 
+    public SetupData(Transform root, Vector3 leftPosition, Vector3 rightPosition) 
     { 
+      this.root = root;
       this.leftPosition = leftPosition; 
       this.rightPosition = rightPosition; 
     }
@@ -44,8 +46,8 @@ public class PlayerService :
   public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
   {
     var setupData = data as SetupData;
-    leftPlayer = await CreatePlayerAsync(PlayerType.Left, setupData.leftPosition);
-    rightPlayer = await CreatePlayerAsync(PlayerType.Right, setupData.rightPosition);
+    leftPlayer = await CreatePlayerAsync(PlayerType.Left, setupData.leftPosition, setupData.root);
+    rightPlayer = await CreatePlayerAsync(PlayerType.Right, setupData.rightPosition, setupData.root);
 
     leftPlayer.Enable(isEnableImmediately);
     rightPlayer.Enable(isEnableImmediately);
@@ -65,7 +67,7 @@ public class PlayerService :
       .Dispose();
   }
 
-  private async UniTask<IPlayerPresenter> CreatePlayerAsync(PlayerType playerType, Vector3 beginPosition)
+  private async UniTask<IPlayerPresenter> CreatePlayerAsync(PlayerType playerType, Vector3 beginPosition, Transform root)
   {
     var modelSO = GlobalManager.instance.Table.GetPlayerModelSO(playerType);
     var playerKey = 
@@ -73,7 +75,7 @@ public class PlayerService :
       GlobalManager.instance.Table.AddressableKeySO.GameObjectName.GetPlayerName(playerType);
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
 
-    var view = await resourceManager.CreateAssetAsync<BasePlayerView>(playerKey);
+    var view = await resourceManager.CreateAssetAsync<BasePlayerView>(playerKey, root);
     var model = new PlayerModel(
       modelSO,
       playerType,
