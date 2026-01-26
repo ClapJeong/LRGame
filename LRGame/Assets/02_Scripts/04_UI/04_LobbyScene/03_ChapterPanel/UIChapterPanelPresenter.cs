@@ -115,7 +115,7 @@ namespace LR.UI.Lobby
       {
         var key = this.model.addressableKeySO.Path.UI + this.model.addressableKeySO.UIName.StageButtonSet;
         var model = new UIStageButtonSetPresenter.Model(
-          i,
+          i + 1,
           this.model.uiInputActionManager,
           this.model.gameDataService,
           this.model.sceneProvider);

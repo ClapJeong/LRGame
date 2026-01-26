@@ -48,7 +48,7 @@ namespace LR.UI.Lobby
       CreateSubscribeHandle();
 
       var topClearData = model.gameDataService.GetTopClearData();
-      var currentIndex = (model.chapter - 1) * 4 + model.stage;
+      var currentIndex = Mathf.Max(0, (model.chapter - 1)) * 4 + model.stage;
       if(currentIndex > topClearData.ParseIndex() + 1)
       {
         view.CanvasGroup.alpha = 0.5f;
