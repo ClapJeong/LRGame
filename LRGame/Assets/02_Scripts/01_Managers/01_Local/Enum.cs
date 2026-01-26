@@ -1,7 +1,7 @@
 ﻿public enum InstanceEffectType
 {
-  TestParticle,
-  TestAnim,
+  ClearTrigger,
+  StageClear,
 }
 
 public enum SequenceState

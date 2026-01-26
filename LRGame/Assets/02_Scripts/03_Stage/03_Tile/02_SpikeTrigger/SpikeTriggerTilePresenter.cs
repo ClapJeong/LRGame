@@ -62,12 +62,6 @@ namespace LR.Stage.TriggerTile
 
       var bounceDirection = (collider2D.transform.position - view.transform.position).normalized;      
       reactionController.Bounce(model.data.BounceData, bounceDirection);
-
-      var playerPosition = playerView.Transform.position;
-      model.effectService.Create(
-        model.data.EffectType,
-        playerPosition,
-        Quaternion.identity);
     }
   }
 }

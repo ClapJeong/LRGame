@@ -1,6 +1,7 @@
 using UnityEngine;
 using LR.Stage.TriggerTile.Enum;
 using LR.Stage.Player;
+using LR.Table.TriggerTile;
 
 namespace LR.Stage.TriggerTile
 {
@@ -8,12 +9,17 @@ namespace LR.Stage.TriggerTile
   {
     public class Model
     {
+      public ClearTriggerData data;
       public IPlayerGetter playerGetter;
       public IStageResultHandler stageResultHandler;
-      public Model(IPlayerGetter playerGetter, IStageResultHandler stageResultHandler)
+      public IEffectService effectService;
+
+      public Model(ClearTriggerData data, IPlayerGetter playerGetter, IStageResultHandler stageResultHandler, IEffectService effectService)
       {
+        this.data = data;
         this.playerGetter = playerGetter;
         this.stageResultHandler = stageResultHandler;
+        this.effectService = effectService;
       }
     }
 
@@ -52,7 +58,7 @@ namespace LR.Stage.TriggerTile
       {
         case TriggerTileType.LeftClearTrigger:
           {
-            model.stageResultHandler.LeftClearEnter();
+            model.stageResultHandler.LeftClearEnter();            
             view.Animator.Play(AnimatorHash.ClearTriggerTile.Clip.LeftEnter);
           }          
           break;
@@ -66,6 +72,7 @@ namespace LR.Stage.TriggerTile
 
         default: throw new System.NotImplementedException();
       }
+      model.effectService.Create(model.data.EffectType, view.transform.position, Quaternion.identity);
 
       var playerType = collider2D.GetComponentInParent<IPlayerView>().GetPlayerType();
       model
