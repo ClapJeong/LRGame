@@ -121,7 +121,7 @@ public class GameDataService : IGameDataService
     var stageLabel = table.Label.Stage;
 
     var stages = await resourceManager.LoadAssetsAsync(stageLabel);
-    StageDataCount = stages.Count;
+    StageDataCount = stages.Count - 1;
   }
 
   public void SetDialogueCondition(string key, int left, int right)

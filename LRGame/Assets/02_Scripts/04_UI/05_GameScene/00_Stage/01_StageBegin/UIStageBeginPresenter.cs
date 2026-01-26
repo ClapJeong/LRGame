@@ -116,7 +116,6 @@ namespace LR.UI.GameScene.Stage
     private void OnLeftPerformed()
     {
       leftPerfomedCount++;
-      view.LeftReadyImage.SetAlpha(1.0f);
 
       if (IsPlayble())
         BeginStage();
@@ -125,14 +124,11 @@ namespace LR.UI.GameScene.Stage
     private void OnLeftCanceled()
     {
       leftPerfomedCount--;
-      if (leftPerfomedCount == 0)
-        view.LeftReadyImage.SetAlpha(0.4f);
     }
 
     private void OnRightPerformed()
     {
       rightPerfomedCount++;
-      view.RightReadyImage.SetAlpha(1.0f);
 
       if (IsPlayble())
         BeginStage();
@@ -141,8 +137,6 @@ namespace LR.UI.GameScene.Stage
     private void OnRightCanceled()
     {
       rightPerfomedCount--;
-      if (rightPerfomedCount == 0)
-        view.RightReadyImage.SetAlpha(0.4f);
     }
 
     private bool IsPlayble()

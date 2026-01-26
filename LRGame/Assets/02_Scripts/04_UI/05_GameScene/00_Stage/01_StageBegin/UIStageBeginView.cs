@@ -14,12 +14,10 @@ namespace LR.UI.GameScene.Stage
     [SerializeField] private Vector2 labelHidePosition;
 
     [field: SerializeField] private RectTransform leftContainer;
-    [field: SerializeField] public Image LeftReadyImage { get; private set; }
     [field: SerializeField] public Image LeftInputImage {  get; private set; }
 
     [field: Space(5)]
     [field: SerializeField] private RectTransform rightContainer;
-    [field: SerializeField] public Image RightReadyImage { get; private set; }
     [field: SerializeField] public Image RightInputImage { get; private set; }
 
     [SerializeField] private float hideLength;
@@ -44,9 +42,6 @@ namespace LR.UI.GameScene.Stage
     {
       gameObject.SetActive(true);
       visibleState = VisibleState.Showing;
-
-      LeftReadyImage.SetAlpha(0.4f);
-      RightReadyImage.SetAlpha(0.4f);
 
       var duration = isImmediately ? 0.0f : UISO.BeginHideDuration;
       await DOTween.Sequence()

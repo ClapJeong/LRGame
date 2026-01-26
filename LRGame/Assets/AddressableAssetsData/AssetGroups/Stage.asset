@@ -15,14 +15,8 @@ MonoBehaviour:
   m_GroupName: Stage
   m_GUID: 4fccac5c93c3ae34c9a7a13d941f9adf
   m_SerializeEntries:
-  - m_GUID: e778f1e63998c9444825ed65e1a00e38
-    m_Address: Stage/Stage_2
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f36a8e861395f4f4dba3bc4c1bfbaae8
-    m_Address: Stage/Stage_1
+  - m_GUID: 7426bb67b3ee3a142b7516dad30bce83
+    m_Address: Stage
     m_ReadOnly: 0
     m_SerializedLabels:
     - Stage

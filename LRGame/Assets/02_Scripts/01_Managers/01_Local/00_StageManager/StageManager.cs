@@ -123,7 +123,7 @@ public class StageManager :
   #region IStageCreator
   public async UniTask CreateAsync(int index, bool isEnableImmediately = false)
   {
-    var key = model.table.AddressableKeySO.Path.Stage + string.Format(model.table.AddressableKeySO.StageName.StageNameFormat, index);
+    var key = model.table.AddressableKeySO.Path.Stage + index.ToString() + ".prefab";
     try
     {
       StageDataContainer = await model.resourceManager.CreateAssetAsync<StageDataContainer>(key);
