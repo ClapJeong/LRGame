@@ -367,6 +367,8 @@ GameObject:
   - component: {fileID: 1924002148048305055}
   - component: {fileID: 2014614874414542661}
   - component: {fileID: 978322568436072943}
+  - component: {fileID: 3296026200956282373}
+  - component: {fileID: 5519422031740116877}
   m_Layer: 0
   m_Name: DebuggingEvents
   m_TagString: Untagged
@@ -492,6 +494,62 @@ MonoBehaviour:
       - m_Target: {fileID: 8379034784178458988}
         m_TargetAssemblyTypeName: GlobalManager, Assembly-CSharp
         m_MethodName: Debugging_ClearAllConditions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3296026200956282373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638019882668573358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cbe5aa94346d8b439832537751b4dd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableGameDataEventListener
+  type: 4
+  listenrEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8379034784178458988}
+        m_TargetAssemblyTypeName: GlobalManager, Assembly-CSharp
+        m_MethodName: Debugging_ClearClearStage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5519422031740116877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638019882668573358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cbe5aa94346d8b439832537751b4dd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableEvent.ScriptableGameDataEventListener
+  type: 5
+  listenrEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8379034784178458988}
+        m_TargetAssemblyTypeName: GlobalManager, Assembly-CSharp
+        m_MethodName: Debugging_MaxClearStage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1214,6 +1272,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebuggingUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3023960247800877406, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3023960247800877406, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3023960247800877406, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3023960247800877406, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4009506044703161103, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1227,6 +1301,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4009506044703161103, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123493798059209871, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123493798059209871, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123493798059209871, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123493798059209871, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -1272,7 +1362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725473893879836810, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 270
+      value: 750.82
       objectReference: {fileID: 0}
     - target: {fileID: 4725473893879836810, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1511,6 +1601,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8412590743590464468, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8777358396655851387, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8777358396655851387, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8777358396655851387, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8777358396655851387, guid: 359bc4b36d5622c43b973f89989444c8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}

@@ -175,6 +175,30 @@ public class GameDataService : IGameDataService
     SaveDataAsync().Forget();
   }
 
+  public void Debugging_ClearClearData()
+  {
+    gameData.clearDatas.Clear();
+    SaveDataAsync().Forget();
+  }
+
+  public void Debugging_MaxClearData()
+  {
+    var chapterCount = Mathf.Max(1, StageDataCount / 4);
+    for(int i = 0; i < chapterCount; i++)
+    {
+      if(i == chapterCount - 1)
+      {
+        SetClearData(i + 1, (StageDataCount % 4) + 1, true, true);
+      }
+      else
+      {
+        SetClearData(i + 1, 4, true, true);
+      }
+    }
+
+    SaveDataAsync().Forget();
+  }
+
   public string Debugging_GetAllConditions()
   {
     var stb = new StringBuilder();

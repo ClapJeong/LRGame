@@ -15,6 +15,7 @@ namespace LR.UI.Debugging
     [SerializeField] private GameObject root;
     [SerializeField] private ScriptableEventSO scriptableEventSO;
     [SerializeField] private TextMeshProUGUI selectedStageIndexText;
+    [SerializeField] private TextMeshProUGUI clearStageCountTMP;
 
     [Header("[ Dialogue Conditions ]")]
     [SerializeField] private GameObject conditionArea;
@@ -47,6 +48,7 @@ namespace LR.UI.Debugging
       gameDataService.GetSelectedStage(out var chapter, out var stage);
       selectedStageIndexText.text = $"current: {chapter}/{stage}";
       var topClearData = gameDataService.GetTopClearData();
+      clearStageCountTMP.text = $"clear: { (topClearData.chapter - 1) * 4 + topClearData.stage}";
     }
 
     public void OnLocaleButtonClicked(Locale locale)

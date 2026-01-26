@@ -9,6 +9,8 @@ namespace ScriptableEvent
     MinusClearedStage,
     ClearDialogueConditions,
     AddDialogueCondition,
+    ClearAll,
+    Max,
   }
   public class ScriptableGameDataEventListener : MonoBehaviour
   {
