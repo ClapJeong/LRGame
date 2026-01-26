@@ -31,6 +31,7 @@ public static class DialogueDataEnum
     {
       None,
       Fade,
+      Move,
     }
 
     public enum AnimationType

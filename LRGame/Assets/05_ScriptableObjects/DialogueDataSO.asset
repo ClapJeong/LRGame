@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DialogueUIDataSO
   <BackgroundChangeDuration>k__BackingField: 1
   <PortraitData>k__BackingField:
-    <ChangeFadeDuration>k__BackingField: 0.4
+    <ChangeDuration>k__BackingField: 0.4
+    <MoveLength>k__BackingField: 60
     <AlphaMax>k__BackingField: 1
     <AlphaHalfHidden>k__BackingField: 0.6
     <AlphaMin>k__BackingField: 0

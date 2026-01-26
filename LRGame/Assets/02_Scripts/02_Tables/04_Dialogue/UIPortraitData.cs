@@ -6,7 +6,8 @@ namespace LR.Table.Dialogue
   public class UIPortraitData
   {
     [field: Header("ChangeType")]
-    [field: SerializeField] public float ChangeFadeDuration { get; private set; }
+    [field: SerializeField] public float ChangeDuration { get; private set; }
+    [field: SerializeField] public float MoveLength {  get; private set; }
    
     public int IdleHash => Animator.StringToHash("Idle");
     public int SurprisedHash => Animator.StringToHash("Surprised");

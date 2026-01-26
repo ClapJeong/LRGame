@@ -8,9 +8,9 @@ namespace LR.Editor
     private const string FileNameFormat = "{0}_{1}.json";
     private const string NewDataSetName = "newName";
     private const string DataSubNameTextField = "DataSubName";
-    private const string LeftPortraitPath = "Assets/01_Art/00_Sprites/00_Portrait/00_Left/";
-    private const string RightPortraitPath = "Assets/01_Art/00_Sprites/00_Portrait/01_Right/";
-    private const string CenterPortraitPath = "Assets/01_Art/00_Sprites/00_Portrait/02_Center/";
+    private const string LeftPortraitPath = "Assets/01_Art/00_Sprites/00_DialoguePortrait/00_Left/";
+    private const string RightPortraitPath = "Assets/01_Art/00_Sprites/00_DialoguePortrait/01_Right/";
+    private const string CenterPortraitPath = "Assets/01_Art/00_Sprites/00_DialoguePortrait/02_Center/";
     private const string BackgroundPath = "Assets/01_Art/00_Sprites/04_DialogueBackground/";
     private const float PortraitWidth = 100.0f;
     private const float PortraitHeight = 100.0f;

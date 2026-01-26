@@ -52,7 +52,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
       var leftModel = new UITalkingCharacterPresenter.Model(
         table.AddressableKeySO.PortraitName,
-        UITalkingCharacterPresenter.CharacterType.Left,
+        CharacterPositionType.Left,
         resourceManager,
         table.AddressableKeySO.Path.LeftDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,
@@ -62,7 +62,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
       var centerModel = new UITalkingCharacterPresenter.Model(
         table.AddressableKeySO.PortraitName,
-        UITalkingCharacterPresenter.CharacterType.Center,
+        CharacterPositionType.Center,
         resourceManager,
         table.AddressableKeySO.Path.CenterDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,
@@ -72,7 +72,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
       var rightModel = new UITalkingCharacterPresenter.Model(
         table.AddressableKeySO.PortraitName,
-        UITalkingCharacterPresenter.CharacterType.Right,
+        CharacterPositionType.Right,
         resourceManager,
         table.AddressableKeySO.Path.RightDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,

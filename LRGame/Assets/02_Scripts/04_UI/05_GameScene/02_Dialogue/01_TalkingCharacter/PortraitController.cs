@@ -10,6 +10,7 @@ namespace LR.UI.GameScene.Dialogue.Character
 {
   public class PortraitController
   {
+    private readonly CharacterPositionType positionType;
     private readonly UIPortraitData portraitData;
     private readonly Animator animator;
     private readonly Image portraitImageA;    
@@ -27,8 +28,14 @@ namespace LR.UI.GameScene.Dialogue.Character
     private float forwardImageAlpha = 1.0f;
     private DialogueDataEnum.Portrait.AnimationType currentAnimationType;
 
-    public PortraitController(UIPortraitData portraitData, Animator animator, Image portraitImageA, Image portraitImageB)
+    public PortraitController(
+      CharacterPositionType positionType,
+      UIPortraitData portraitData, 
+      Animator animator, 
+      Image portraitImageA, 
+      Image portraitImageB)
     {
+      this.positionType = positionType;
       this.portraitData = portraitData;
       this.animator = animator;
       this.portraitImageA = portraitImageA;      
@@ -112,17 +119,53 @@ namespace LR.UI.GameScene.Dialogue.Character
             {
               isImageChanging = true;
               forwardImage.sprite = sprite;
-              await UniTask.WhenAll(
-                forwardImage.DOFade(forwardImageAlpha, portraitData.ChangeFadeDuration).ToUniTask(TweenCancelBehaviour.Kill, token),
-                backwardImage.DOFade(0.0f, portraitData.ChangeFadeDuration).ToUniTask(TweenCancelBehaviour.Kill, token));
+              await DOTween
+                .Sequence()
+                .Join(forwardImage.DOFade(forwardImageAlpha, portraitData.ChangeDuration))
+                .Join(backwardImage.DOFade(0.0f, portraitData.ChangeDuration))
+                .OnComplete(() =>
+                {
+                  isImageChanging = false;
+                })
+                .ToUniTask(TweenCancelBehaviour.Complete, token);
             }
             catch (OperationCanceledException) { }
-            finally
+          }
+          break;
+
+        case DialogueDataEnum.Portrait.ChangeType.Move:
+          {
+            try
             {
-              isImageChanging = false;
+              isImageChanging = true;
+
+              var beginPosition = positionType switch
+              {
+                CharacterPositionType.Left => new Vector3(-portraitData.MoveLength, 0.0f, 0.0f),
+                CharacterPositionType.Center => new Vector3(0.0f, -portraitData.MoveLength, 0.0f),
+                CharacterPositionType.Right => new Vector3(portraitData.MoveLength, 0.0f, 0.0f),
+                _ => throw new NotImplementedException(),
+              };
+              var endPosition = Vector3.zero;
+
+              forwardImage
+                .rectTransform
+                .anchoredPosition = beginPosition;
+
+              forwardImage.sprite = sprite;
               forwardImage.SetAlpha(forwardImageAlpha);
-              backwardImage.SetAlpha(0.0f);
+              backwardImage.sprite = transparent;
+              
+              await DOTween
+                .Sequence()
+                .Join(forwardImage.rectTransform.DOAnchorPos(endPosition, portraitData.ChangeDuration))
+                .OnComplete(() =>
+                {
+                  isImageChanging = false;
+                })                
+                .ToUniTask(TweenCancelBehaviour.Complete, token);
             }
+            catch (OperationCanceledException) { }
           }
           break;
       }
