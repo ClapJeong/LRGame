@@ -174,8 +174,8 @@ public class StageManager :
 
   public void Complete()
   {
-    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Complete);
-    
+    stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllClearEnter);
+
     playerSetupService.EnableAll(false);
     triggerTileService.EnableAll(false);
     interactiveObjectService.EnableAll(false);
@@ -192,6 +192,15 @@ public class StageManager :
     model.gameDataService.SaveDataAsync().Forget();
 
     SetState(StageEnum.State.Success);
+
+    effectService.Create(
+      InstanceEffectType.StageClear, 
+      Vector3.zero, 
+      Quaternion.identity,
+      onComplete: () =>
+      {
+        stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Complete);
+      });    
   }
 
   public void Begin()

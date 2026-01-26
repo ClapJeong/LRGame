@@ -73,8 +73,8 @@ public class ChatCardEventService
                 stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, PlayChatCard);
                 break;
 
-              case StageEventType.OnComplete:
-                stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, PlayChatCard);
+              case StageEventType.OnAllClear:
+                stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllClearEnter, PlayChatCard);
                 break;
 
               case StageEventType.OnRestart:

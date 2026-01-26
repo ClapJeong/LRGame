@@ -49,7 +49,7 @@ public static class ChatCardEnum
   {
     OnAfterBeginTime,
     OnFail,
-    OnComplete,
+    OnAllClear,
     OnRestart,
   }
 

@@ -24,6 +24,8 @@ public interface IStageEventSubscriber
     RightClearExit,
 
     Restart,
+
+    AllClearEnter,
   }
 
   public void SubscribeOnEvent(StageEventType type, UnityAction action);
