@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7959312687941297086}
   - component: {fileID: 4566598742772568409}
   - component: {fileID: 5891724123871268746}
-  - component: {fileID: 7450187403281994172}
   - component: {fileID: 3577222299680576505}
   m_Layer: 5
   m_Name: UILobbyRoot
@@ -104,18 +103,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7450187403281994172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2501519006623981672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a1b429dbbc2cef4898c214480f9153c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseGameObjectView
 --- !u!114 &3577222299680576505
 MonoBehaviour:
   m_ObjectHideFlags: 0

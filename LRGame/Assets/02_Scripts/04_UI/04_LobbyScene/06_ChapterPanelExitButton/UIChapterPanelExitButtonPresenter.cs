@@ -29,8 +29,6 @@ namespace LR.UI.Lobby
     private readonly Model model;
     private readonly UIChapterPanelExitButtonView view;
 
-    private readonly SubscribeHandle subscribeHandle;
-
     public UIChapterPanelExitButtonPresenter(Model model, UIChapterPanelExitButtonView view)
     {
       this.model = model;
@@ -45,27 +43,17 @@ namespace LR.UI.Lobby
   onProgress: view.FillImage.SetFillAmount,
   onComplete: model.onExit);
 
-      subscribeHandle = new(
-        onSubscribe: () =>
-        {
-          model.selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelect);
-        },
-        onUnsubscribe: () =>
-        {
-          model.selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelect);
-        });
+      model.selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelect);
     }
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      subscribeHandle.Subscribe();
       await view.ShowAsync(isImmedieately, token);
     }
 
 
     public async UniTask DeactivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      subscribeHandle.Unsubscribe();
       await view.HideAsync(isImmedieately, token);
     }
 
@@ -74,7 +62,7 @@ namespace LR.UI.Lobby
 
     public void Dispose()
     {
-      subscribeHandle.Dispose();
+      model.selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelect);
       if (view)
         view.DestroySelf();
     }

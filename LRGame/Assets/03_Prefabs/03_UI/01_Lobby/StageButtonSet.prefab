@@ -1935,10 +1935,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Lobby.UIStageButtonSetView
   <Selectable>k__BackingField: {fileID: 4521235351402869072}
-  UpStageButtonView: {fileID: 1966973946433886347}
-  RightStageButtonView: {fileID: 7244593719912149248}
-  DownStageButtonView: {fileID: 683000518417523651}
-  LeftStageButtonView: {fileID: 9092689404518738076}
+  <UpStageButtonView>k__BackingField: {fileID: 1966973946433886347}
+  <RightStageButtonView>k__BackingField: {fileID: 7244593719912149248}
+  <DownStageButtonView>k__BackingField: {fileID: 683000518417523651}
+  <LeftStageButtonView>k__BackingField: {fileID: 9092689404518738076}
 --- !u!114 &4521235351402869072
 MonoBehaviour:
   m_ObjectHideFlags: 0

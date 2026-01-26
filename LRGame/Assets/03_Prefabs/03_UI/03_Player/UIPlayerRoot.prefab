@@ -28,10 +28,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4804550698424693952}
   - {fileID: 3810526065801438197}
   - {fileID: 2881653887257627345}
   - {fileID: 3978740347447658304}
+  - {fileID: 4804550698424693952}
   m_Father: {fileID: 3157662194337645738}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -203,85 +203,21 @@ PrefabInstance:
       value: PlayerInput
       objectReference: {fileID: 0}
     - target: {fileID: 1220872325800640177, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_Pivot.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220872325800640177, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220872325800640177, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220872325800640177, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220872325800640177, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 320
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220872325800640177, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 210
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220872325800640177, guid: 83944298714ec254494e06f449574c36, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -30
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 1220872325800640177, guid: 83944298714ec254494e06f449574c36, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 11.511047
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430048153035849471, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430048153035849471, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430048153035849471, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430048153035849471, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430048153035849471, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 320
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430048153035849471, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 210
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3430048153035849471, guid: 83944298714ec254494e06f449574c36, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 30
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3430048153035849471, guid: 83944298714ec254494e06f449574c36, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 11.511047
+      value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 3568005319630412919, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: energyView
-      value: 
-      objectReference: {fileID: 2367065540280873545}
-    - target: {fileID: 3568005319630412919, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: <ScoreView>k__BackingField
-      value: 
-      objectReference: {fileID: 5260348948911995524}
-    - target: {fileID: 3568005319630412919, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: <EnergyView>k__BackingField
-      value: 
-      objectReference: {fileID: 2367065540280873545}
-    - target: {fileID: 6929263337007370607, guid: 83944298714ec254494e06f449574c36, type: 3}
-      propertyPath: energyView
-      value: 
-      objectReference: {fileID: 8648177334462296278}
     - target: {fileID: 8278548571577220862, guid: 83944298714ec254494e06f449574c36, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

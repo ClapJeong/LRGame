@@ -12,10 +12,10 @@ namespace LR.UI.Lobby
   {
     [field: SerializeField] public Selectable Selectable { get; private set; }
     [field: Header("[ Stage Buttons ]")] 
-    [field: SerializeField] public UIStageButtonView UpStageButtonView;
-    [field: SerializeField] public UIStageButtonView RightStageButtonView;
-    [field: SerializeField] public UIStageButtonView DownStageButtonView;
-    [field: SerializeField] public UIStageButtonView LeftStageButtonView;    
+    [field: SerializeField] public UIStageButtonView UpStageButtonView { get; private set; }
+    [field: SerializeField] public UIStageButtonView RightStageButtonView { get; private set; }
+    [field: SerializeField] public UIStageButtonView DownStageButtonView { get; private set; }
+    [field: SerializeField] public UIStageButtonView LeftStageButtonView   { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
