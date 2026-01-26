@@ -88,6 +88,9 @@ namespace LR.UI.Lobby
 
     private void SetState(PanelState panelState)
     {
+      if (panelState == currentPanelState)
+        return;
+
       if (currentPanelState != PanelState.None)
         panelPresenters[currentPanelState].DeactivateAsync().Forget();
 

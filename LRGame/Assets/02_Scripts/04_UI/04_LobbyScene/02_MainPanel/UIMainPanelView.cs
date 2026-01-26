@@ -4,6 +4,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using LR.UI.Enum;
+using System;
 
 namespace LR.UI.Lobby
 {
@@ -37,17 +38,37 @@ namespace LR.UI.Lobby
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
     {
       visibleState = VisibleState.Showing;
-      await canvasGroup.DOFade(1.0f, isImmediately ? 0.0f : UISO.LobbyPanelMoveDuration)
-        .ToUniTask(TweenCancelBehaviour.Kill, token);
-      visibleState = VisibleState.Showen;
+      try
+      {
+        gameObject.SetActive(true);
+        await DOTween
+          .Sequence()
+          .Join(canvasGroup.DOFade(1.0f, isImmediately ? 0.0f : UISO.LobbyPanelMoveDuration))
+          .OnComplete(() =>
+          {
+            visibleState = VisibleState.Showen;
+          })
+          .ToUniTask(TweenCancelBehaviour.Kill, token);        
+      }
+      catch (OperationCanceledException) { }
     }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
-      visibleState = VisibleState.Hiding;
-      await canvasGroup.DOFade(0.0f, isImmediately ? 0.0f : UISO.LobbyPanelMoveDuration)
+      visibleState = VisibleState.Hiding;            
+      try
+      {
+        await DOTween
+          .Sequence()
+          .Join(canvasGroup.DOFade(0.0f, isImmediately ? 0.0f : UISO.LobbyPanelMoveDuration))
+          .OnComplete(() =>
+          {
+            visibleState = VisibleState.Hidden;
+            gameObject.SetActive(false);
+          })
         .ToUniTask(TweenCancelBehaviour.Kill, token);
-      visibleState = VisibleState.Hidden;
+      }
+      catch (OperationCanceledException) { }
     }
   }
 }
