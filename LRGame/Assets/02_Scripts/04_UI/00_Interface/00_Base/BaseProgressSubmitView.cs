@@ -47,7 +47,7 @@ namespace LR.UI
     }
 
     public void Enable(bool isEnable)
-      => this.isEnable = true;
+      => this.isEnable = isEnable;
 
     public bool IsEnable()
       => isEnable;

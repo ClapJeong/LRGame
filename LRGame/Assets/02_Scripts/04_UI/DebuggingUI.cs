@@ -48,7 +48,7 @@ namespace LR.UI.Debugging
       gameDataService.GetSelectedStage(out var chapter, out var stage);
       selectedStageIndexText.text = $"current: {chapter}/{stage}";
       var topClearData = gameDataService.GetTopClearData();
-      clearStageCountTMP.text = $"clear: { (topClearData.chapter - 1) * 4 + topClearData.stage}";
+      clearStageCountTMP.text = $"clear: {Mathf.Max(0, topClearData.ParseIndex())}";
     }
 
     public void OnLocaleButtonClicked(Locale locale)

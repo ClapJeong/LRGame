@@ -19,6 +19,9 @@ public class GameData
       this.left = left;
       this.right = right;
     }
+
+    public int ParseIndex()
+      => (chapter - 1) * 4 + stage;
   }
 
   [System.Serializable]

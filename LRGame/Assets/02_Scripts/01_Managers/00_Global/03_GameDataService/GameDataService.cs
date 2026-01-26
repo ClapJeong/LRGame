@@ -83,7 +83,7 @@ public class GameDataService : IGameDataService
     {
       var topData = gameData
         .clearDatas
-        .OrderByDescending(data => data.chapter * 4 + data.stage).FirstOrDefault();
+        .OrderByDescending(data => data.ParseIndex()).FirstOrDefault();
       topData ??= new GameData.ClearData(0,0,false,false);
 
       return topData;

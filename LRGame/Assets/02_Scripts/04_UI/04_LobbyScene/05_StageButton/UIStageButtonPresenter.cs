@@ -47,13 +47,19 @@ namespace LR.UI.Lobby
       this.view = view;
       CreateSubscribeHandle();
 
+      var topClearData = model.gameDataService.GetTopClearData();
+      var currentIndex = (model.chapter - 1) * 4 + model.stage;
+      if(currentIndex > topClearData.ParseIndex() + 1)
+      {
+        view.CanvasGroup.alpha = 0.5f;
+        view.ProgressSubmitView.Enable(false);
+      }
+
       view.LeftScore.SetActive(model.leftScore);
       view.RightScore.SetActive(model.rightScore);
 
       view.HideAsync(true).Forget();
       view.TMP.text = model.stage.ToString();
-      if (model.stage < 0)
-        view.ProgressSubmitView.Enable(false);
     }
 
     public IDisposable AttachOnDestroy(GameObject target)

@@ -10,6 +10,7 @@ namespace LR.UI.Lobby
 {
   public class UIStageButtonView : BaseUIView
   {
+    [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
     [field: SerializeField] public BaseProgressSubmitView ProgressSubmitView { get; private set; }
     [field: SerializeField] public Image FillImage {  get; private set; }
     [field: SerializeField] public TextMeshProUGUI TMP {  get; private set; }
