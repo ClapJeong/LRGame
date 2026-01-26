@@ -11,8 +11,8 @@ namespace LR.Stage.TriggerTile
 {
   public class SignalTriggerView : MonoBehaviour, ITriggerTileView
   {
-    [field: SerializeField] public Transform BackgroundTransform { get; private set; }
-    [field: SerializeField] public SpriteRenderer BackgroundSpriteRenderer { get; private set; }
+    [field: SerializeField] public Transform IconTransform { get; private set; }
+    [field: SerializeField] public SpriteRenderer IconSpriteRenderer { get; private set; }
     [field: SerializeField] public SpriteRenderer InputSpriteRenderer {  get; private set; } 
     [field: Header("[ Key ]")]    
     [field: SerializeField] public string Key { get; private set; }
@@ -58,7 +58,7 @@ namespace LR.Stage.TriggerTile
 
     public void SetAlpha(float alpha)
     {
-      BackgroundSpriteRenderer.SetAlpha(alpha);
+      IconSpriteRenderer.SetAlpha(alpha);
       if(InputSpriteRenderer!=null)
         InputSpriteRenderer.SetAlpha(alpha);
     }

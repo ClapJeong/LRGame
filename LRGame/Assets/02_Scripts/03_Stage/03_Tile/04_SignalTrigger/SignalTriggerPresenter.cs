@@ -95,7 +95,7 @@ namespace LR.Stage.TriggerTile
               .UpdateAsObservable()
               .Subscribe(_ =>
               {
-                view.BackgroundTransform.Rotate(-360.0f * Time.deltaTime * model.data.RotateSpeed * Vector3.forward);
+                view.IconTransform.Rotate(-360.0f * Time.deltaTime * model.data.RotateSpeed * Vector3.forward);
               });
           }
           break;
