@@ -48,7 +48,7 @@ namespace LR.UI.Lobby
         upLeft,
         upRight,
         InputDirection.RightUp,
-        Dispose,
+        null,
         model.uiInputActionManager,
         model.gameDataService,
         model.sceneProvider);
@@ -62,7 +62,7 @@ namespace LR.UI.Lobby
         rightLeft,
         rightRight,
         InputDirection.RightRight,
-        Dispose,
+        null,
         model.uiInputActionManager,
         model.gameDataService,
         model.sceneProvider);
@@ -76,7 +76,7 @@ namespace LR.UI.Lobby
         downLeft,
         downRight,
         InputDirection.RightDown,
-        Dispose,
+        null,
         model.uiInputActionManager,
         model.gameDataService,
         model.sceneProvider);
@@ -90,7 +90,7 @@ namespace LR.UI.Lobby
         leftLeft,
         leftRight,
         InputDirection.RightLeft,
-        Dispose,
+        null,
         model.uiInputActionManager,
         model.gameDataService,
         model.sceneProvider);

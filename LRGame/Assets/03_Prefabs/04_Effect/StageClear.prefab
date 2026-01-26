@@ -4942,4 +4942,4 @@ MonoBehaviour:
   particles:
   - {fileID: 1992991265767085078}
   beforeDelay: 0.4
-  afterDelay: 0.5
+  afterDelay: 0.3

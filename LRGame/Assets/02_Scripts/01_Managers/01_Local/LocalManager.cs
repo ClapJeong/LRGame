@@ -191,7 +191,7 @@ if(gameDataService.IsVeryFirst())
       case SceneType.Game:
         {
           GlobalManager.instance.GameDataService.GetSelectedStage(out var chapter, out var stage);
-          var index = chapter * 4 + stage;
+          var index = (Mathf.Max(0, chapter - 1)) * 4 + stage;
           await CreateStageAsync(index);
           await CreateFirstUIAsync();
         }

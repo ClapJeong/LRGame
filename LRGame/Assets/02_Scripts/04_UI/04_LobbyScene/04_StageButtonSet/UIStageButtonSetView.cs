@@ -4,6 +4,7 @@ using System.Threading;
 using DG.Tweening;
 using UnityEngine.UI;
 using LR.UI.Enum;
+using System;
 
 namespace LR.UI.Lobby
 {
@@ -21,9 +22,13 @@ namespace LR.UI.Lobby
       visibleState = VisibleState.Hiding;
 
       var duration = isImmediately ? 0.0f : UISO.StageButtonMoveDuration;
-      await DOTween.Sequence()
+      try
+      {
+        await DOTween.Sequence()
         .Join(RectTransform.DOScale(UISO.StageButtonHideScale, duration))
         .ToUniTask(TweenCancelBehaviour.Kill, token);
+      }
+      catch (OperationCanceledException) { }
       
       visibleState = VisibleState.Hiding;
     }
@@ -33,10 +38,13 @@ namespace LR.UI.Lobby
       visibleState = VisibleState.Hiding;
 
       var duration = isImmediately ? 0.0f : UISO.StageButtonMoveDuration;
-      await DOTween.Sequence()
-        .Join(RectTransform.DOScale(UISO.StageButtonShowScale, duration))
-        .ToUniTask(TweenCancelBehaviour.Kill, token);
-
+      try
+      {
+        await DOTween.Sequence()
+                .Join(RectTransform.DOScale(UISO.StageButtonShowScale, duration))
+                .ToUniTask(TweenCancelBehaviour.Kill, token);
+      }      
+      catch (OperationCanceledException) { }
       visibleState = VisibleState.Hiding;
     }
   }

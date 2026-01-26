@@ -110,7 +110,7 @@ public class GameDataService : IGameDataService
   }
 
   public bool IsStageExist(int chapter, int stage)
-    => (chapter * 4 + stage) <= StageDataCount;
+    => (Mathf.Max(0, chapter - 1) * 4 + stage) <= StageDataCount;
 
   public bool IsClearStage(int chapter, int stage)
     => GetClearData(chapter, stage) != null;
