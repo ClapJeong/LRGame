@@ -26,6 +26,7 @@ public interface IStageEventSubscriber
     Restart,
 
     AllClearEnter,
+    FailEffectComplete,
   }
 
   public void SubscribeOnEvent(StageEventType type, UnityAction action);

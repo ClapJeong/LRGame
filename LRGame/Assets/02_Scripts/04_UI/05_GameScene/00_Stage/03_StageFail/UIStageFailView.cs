@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Threading;
 using UnityEngine;
 using LR.UI.Enum;
+using System;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -11,6 +12,7 @@ namespace LR.UI.GameScene.Stage
     [SerializeField] private Vector2 hidePosition;
     [SerializeField] private Vector2 showPosition;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private RectTransform content;
 
     [field: SerializeField] public Transform IndicatorRoot { get; private set; }
     [field: SerializeField] public UIProgressSubmitViewFillSet RestartProgressSubmitSet { get; private set; }
@@ -21,13 +23,19 @@ namespace LR.UI.GameScene.Stage
       visibleState = VisibleState.Hiding;
 
       var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
-      await DOTween.Sequence()
-        .Join(RectTransform.DOAnchorPos(hidePosition, duration))
-        .Join(canvasGroup.DOFade(0.0f, duration))
-        .ToUniTask(TweenCancelBehaviour.Kill, token);
-      
-      visibleState = VisibleState.Hidden;
-      gameObject.SetActive(false);
+      try
+      {
+        await DOTween.Sequence()
+                .Join(content.DOAnchorPos(hidePosition, duration))
+                .Join(canvasGroup.DOFade(0.0f, duration))
+                .OnComplete(() =>
+                {
+                  visibleState = VisibleState.Hidden;
+                  gameObject.SetActive(false);
+                })
+                .ToUniTask(TweenCancelBehaviour.Kill, token);
+      }
+      catch (OperationCanceledException) { }
     }
 
     public override async UniTask ShowAsync(bool isImmediately = false, CancellationToken token = default)
@@ -36,12 +44,18 @@ namespace LR.UI.GameScene.Stage
       visibleState = VisibleState.Showing;
 
       var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
-      await DOTween.Sequence()
-        .Join(RectTransform.DOAnchorPos(showPosition, duration))
-        .Join(canvasGroup.DOFade(1.0f, duration))
-        .ToUniTask(TweenCancelBehaviour.Kill, token);
-
-      visibleState = VisibleState.Showen;
+      try
+      {
+        await DOTween.Sequence()
+                .Join(content.DOAnchorPos(showPosition, duration))
+                .Join(canvasGroup.DOFade(1.0f, duration))
+                .OnComplete(() =>
+                {
+                  visibleState = VisibleState.Showen;
+                })
+                .ToUniTask(TweenCancelBehaviour.Kill, token);
+      }
+      catch (OperationCanceledException) { }
     }
   }
 }

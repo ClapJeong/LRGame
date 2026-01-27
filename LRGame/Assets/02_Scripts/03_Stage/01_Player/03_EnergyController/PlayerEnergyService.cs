@@ -18,6 +18,7 @@ namespace LR.Stage.Player
     private readonly PlayerEnergyData playerEnergyData;    
     private readonly SpriteRenderer spriteRenderer;
     private readonly IPlayerStateProvider stateProvider;
+    private readonly IPlayerEffectController effectController;
 
     private readonly Dictionary<IPlayerEnergySubscriber.EventType, UnityEvent> energyEvents = new();
     private readonly CancellationTokenSource cts = new();
@@ -44,11 +45,16 @@ namespace LR.Stage.Player
     public float CurrentNormalized => energy / playerEnergyData.MaxEnergy;
     #endregion
 
-    public PlayerEnergyService(PlayerEnergyData playerEnergyData, SpriteRenderer spriteRenderer, IPlayerStateProvider stateProvider)
+    public PlayerEnergyService(
+      PlayerEnergyData playerEnergyData, 
+      SpriteRenderer spriteRenderer, 
+      IPlayerStateProvider stateProvider,
+      IPlayerEffectController effectController)
     {
       this.playerEnergyData = playerEnergyData;
       this.spriteRenderer = spriteRenderer;
       this.stateProvider = stateProvider;
+      this.effectController = effectController;
 
       energy = playerEnergyData.MaxEnergy;
     }
@@ -65,7 +71,7 @@ namespace LR.Stage.Player
       energy = Mathf.Max(0.0f, energy -value);
 
       if (IsDead)
-        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnExhausted);
+        OnExhauset();
 
       PlayInvincibleAsync().Forget();
     }
@@ -149,7 +155,7 @@ namespace LR.Stage.Player
       energy = currentEnergy;
 
       if (IsDead)
-        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnExhausted);
+        OnExhauset();
     }
 
     public void Pause()
@@ -199,6 +205,12 @@ namespace LR.Stage.Player
       => prev < normalized && curr >= normalized;
 
     #endregion
+
+    private void OnExhauset()
+    {
+      energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnExhausted);
+      effectController.PlayEffect(Enum.PlayerEffect.Exhaust);
+    }
 
     public void Dispose()
     {

@@ -79,7 +79,7 @@ namespace LR.UI.GameScene.Stage
       successPresenter.DeactivateAsync(true).Forget();
       pausePresenter.DeactivateAsync(true).Forget();
 
-      model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.AllExhausted, OnStageFailed);
+      model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.FailEffectComplete, OnStageFailed);
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Complete, OnStageComplete);
 
       if (model.dialoguePlayableProvider.IsBeforeDialoguePlayable())

@@ -24,5 +24,6 @@
     Move,
     Inputing,
     Stun,
+    Exhaust,
   }
 }

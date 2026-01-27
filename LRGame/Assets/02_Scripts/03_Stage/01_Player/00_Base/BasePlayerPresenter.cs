@@ -30,7 +30,11 @@ namespace LR.Stage.Player
       stateService = new PlayerStateService().AddTo(disposables);
       effectController = new(view.ParticleSet);
       animatorController = new(view.Animator);
-      energyService = new PlayerEnergyService(model.so.Energy, view.SpriteRenderer, stateService).AddTo(disposables);
+      energyService = new PlayerEnergyService(
+        model.so.Energy, 
+        view.SpriteRenderer, 
+        stateService,
+        effectController).AddTo(disposables);
       inputActionController = new PlayerInputActionController(model.inputActionFactory).AddTo(disposables);
       moveController = new PlayerMoveController(view.Rigidbody2D, inputActionController: this.inputActionController, model).AddTo(disposables);
 
