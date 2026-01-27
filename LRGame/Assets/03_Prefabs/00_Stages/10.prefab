@@ -288,7 +288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2440878000396382324, guid: 0e1cc71cc5f00874cb17771cca963f32, type: 3}
       propertyPath: onActivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Close
+      value: Open
       objectReference: {fileID: 0}
     - target: {fileID: 2440878000396382324, guid: 0e1cc71cc5f00874cb17771cca963f32, type: 3}
       propertyPath: onDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -296,7 +296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2440878000396382324, guid: 0e1cc71cc5f00874cb17771cca963f32, type: 3}
       propertyPath: onDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Open
+      value: Close
       objectReference: {fileID: 0}
     - target: {fileID: 2440878000396382324, guid: 0e1cc71cc5f00874cb17771cca963f32, type: 3}
       propertyPath: onActivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -17960,7 +17960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8401788968845054173, guid: 2944fcb52d73c8c4fb38908c0cb8672c, type: 3}
       propertyPath: isOpened
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8542788615273946462, guid: 2944fcb52d73c8c4fb38908c0cb8672c, type: 3}
       propertyPath: m_LocalRotation.w
