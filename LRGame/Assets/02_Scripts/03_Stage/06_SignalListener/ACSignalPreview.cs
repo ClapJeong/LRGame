@@ -21,5 +21,10 @@ namespace LR.Stage.SignalListener
     {
       spriteRenderer.SetAlpha(SignalTriggerData.DeactivateAlpha);
     }
+
+    public override void Restart()
+    {
+      spriteRenderer.SetAlpha(SignalTriggerData.DeactivateAlpha);
+    }
   }
 }

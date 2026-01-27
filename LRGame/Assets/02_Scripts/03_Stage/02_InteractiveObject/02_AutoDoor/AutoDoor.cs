@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace LR.Stage.InteractiveObject.AutoMover
 {
@@ -12,7 +13,7 @@ namespace LR.Stage.InteractiveObject.AutoMover
     [SerializeField] private bool isOpened = false;
 
     private readonly CTSContainer cts = new();
-    private bool isEnable;
+    private bool isEnable = true;
     private IStageStateProvider stageStateProvider;
 
     public override void Initialize(IStageStateProvider stageStateProvider)
@@ -56,7 +57,12 @@ namespace LR.Stage.InteractiveObject.AutoMover
       cts.Cancel();
       cts.Create();
       var token = cts.token;
-      ChangeAsync(AnimatorHash.AutoDoor.Openeing, token).Forget();
+      ChangeAsync(
+        AnimatorHash.AutoDoor.Openeing,
+        token, () =>
+        {
+          collider2D.isTrigger = true;
+        }).Forget();
     }
 
     public void Close()
@@ -67,28 +73,35 @@ namespace LR.Stage.InteractiveObject.AutoMover
       cts.Cancel();
       cts.Create();
       var token = cts.token;
-      ChangeAsync(AnimatorHash.AutoDoor.Closing, token).Forget();
+      ChangeAsync(
+        AnimatorHash.AutoDoor.Closing, 
+        token, 
+        () =>
+        {
+          collider2D.isTrigger = false;
+        }).Forget();
     }
 
-    private async UniTask ChangeAsync(int targetHash, CancellationToken token)
+    private async UniTask ChangeAsync(int targetHash, CancellationToken token, UnityAction onComplete)
     {
       try
       {
         animator.speed = 1.0f;
         animator.Play(targetHash);
         await UniTask.WaitForEndOfFrame();
-
-        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        
         while (true)
         {
           token.ThrowIfCancellationRequested();
-          if (stateInfo.shortNameHash != targetHash)
+          
+          if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != targetHash)
             break;
-
+          
           UpdateAnimatorSpeed();
 
           await UniTask.Yield();
         }
+        onComplete?.Invoke();
       }
       catch (OperationCanceledException) { }
     }

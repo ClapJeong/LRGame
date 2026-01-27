@@ -8,7 +8,7 @@ using UnityEditor;
 
 namespace LR.Stage.SignalListener
 {
-  public class SignalListener : MonoBehaviour
+  public class SignalListener : MonoBehaviour, IStageObjectController
   {
     [field: Header("[ Key ]")]
     [field: SerializeField] public string RequireKey { get; private set; }
@@ -27,11 +27,48 @@ namespace LR.Stage.SignalListener
     private bool IsKeyExist
       => string.IsNullOrEmpty(RequireKey) == false;
 
+    private IEffectService effectService;
+
+    public void Initialize(IEffectService effectService)
+    {
+      this.effectService = effectService;
+    }
+
+    public void Enable(bool isEnable)
+    {
+
+    }
+
     public void OnActivate()
-      => onActivate.Invoke();
+    {      
+      onActivate.Invoke();
+      effectService.Create(
+        InstanceEffectType.SignalListenerActivated, 
+        transform.position, 
+        Quaternion.identity,
+        () =>
+        {
+          transform.localScale = Vector3.zero;
+        });      
+    }
 
     public void OnDeactivate()
-      => onDeactivate.Invoke();
+    {      
+      onDeactivate.Invoke();
+      effectService.Create(
+        InstanceEffectType.SiganlListenerDeactivated, 
+        transform.position, 
+        Quaternion.identity,
+        () =>
+        {
+          transform.localScale = Vector3.one;
+        });      
+    }
+
+    public void Restart()
+    {
+      transform.localScale = Vector3.one;
+    }
 
     public List<Vector3> GetPreviewPositions(int count)
     {
@@ -63,12 +100,12 @@ namespace LR.Stage.SignalListener
         {
           alignment = TextAnchor.MiddleCenter
         };
-        labelCenterStyle.normal.textColor = Color.red;
+        labelCenterStyle.normal.textColor = previewColor;
         Handles.Label(transform.position + Vector3.up, "[ " + RequireKey + " ]", labelCenterStyle);
 
         if (countPreview > 0)
         {
-          Gizmos.color = Color.red;
+          Gizmos.color = previewColor;
           var positions = GetPreviewPositions(countPreview);
           foreach(var position in positions)
           {

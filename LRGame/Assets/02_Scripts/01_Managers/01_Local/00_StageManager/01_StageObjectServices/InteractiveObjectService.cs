@@ -1,34 +1,30 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.Stage.InteractiveObject;
+using LR.Stage.StageDataContainer;
 using System.Collections.Generic;
 
 
 public class InteractiveObjectService : IStageObjectSetupService<IInteractiveObject>, IStageObjectControlService<IInteractiveObject>
 {
-  public class Model
-  {
-    public List<IInteractiveObject> interactiveObjects;
-    public IStageStateProvider stageStateProvider;
+  private readonly IStageStateProvider stageStateProvider;
 
-    public Model(List<IInteractiveObject> interactiveObjects, IStageStateProvider stageStateProvider)
-    {
-      this.interactiveObjects = interactiveObjects;
-      this.stageStateProvider = stageStateProvider;
-    }
-  }
-
-  private Model model;
+  private List<IInteractiveObject> interactiveObjects;
   private bool isSetupComplete = false;
 
-  public async UniTask<List<IInteractiveObject>> SetupAsync(object data, bool isEnableImmediately = false)
+  public InteractiveObjectService(IStageStateProvider stageStateProvider)
   {
-    this.model = data as Model;
+    this.stageStateProvider = stageStateProvider;
+  }
 
-    foreach(var baseInteractiveObject in model.interactiveObjects)
-      baseInteractiveObject.Initialize(model.stageStateProvider);
+  public async UniTask<List<IInteractiveObject>> SetupAsync(StageDataContainer stageDataContainer, bool isEnableImmediately = false)
+  {
+    interactiveObjects = stageDataContainer.InteractiveObject;
+
+    foreach (var baseInteractiveObject in interactiveObjects)
+      baseInteractiveObject.Initialize(stageStateProvider);
 
     isSetupComplete = true;
-    return model.interactiveObjects;
+    return interactiveObjects;
   }
 
   public async UniTask AwaitUntilSetupCompleteAsync()
@@ -38,7 +34,7 @@ public class InteractiveObjectService : IStageObjectSetupService<IInteractiveObj
 
   public void EnableAll(bool isEnable)
   {
-    foreach (var baseInteractiveObject in model.interactiveObjects)
+    foreach (var baseInteractiveObject in interactiveObjects)
       baseInteractiveObject.Enable(isEnable);
   }
 
@@ -49,7 +45,7 @@ public class InteractiveObjectService : IStageObjectSetupService<IInteractiveObj
 
   public void RestartAll()
   {
-    foreach (var baseInteractiveObject in model.interactiveObjects)
+    foreach (var baseInteractiveObject in interactiveObjects)
       baseInteractiveObject.Restart();
   }  
 }

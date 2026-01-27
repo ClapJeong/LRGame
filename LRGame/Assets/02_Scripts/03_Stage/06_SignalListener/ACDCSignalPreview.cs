@@ -40,5 +40,10 @@ namespace LR.Stage.SignalListener
     {
       rotateDisposable?.Dispose();      
     }
+
+    public override void Restart()
+    {
+      spriteRenderer.SetAlpha(SignalTriggerData.DeactivateAlpha);
+    }
   }
 }

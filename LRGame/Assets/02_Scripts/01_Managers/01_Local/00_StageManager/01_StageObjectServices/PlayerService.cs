@@ -1,28 +1,18 @@
 using Cysharp.Threading.Tasks;
+using LR.Stage.Player;
+using LR.Stage.Player.Enum;
+using LR.Stage.StageDataContainer;
+using LR.Table.Input;
 using System.Collections.Generic;
 using UnityEngine;
-using LR.Stage.Player;
-using LR.Table.Input;
-using LR.Stage.Player.Enum;
 
 public class PlayerService : 
   IStageObjectSetupService<IPlayerPresenter>, 
   IStageObjectControlService<IPlayerPresenter>,
   IPlayerGetter
 {
-  public class SetupData
-  {
-    public readonly Transform root;
-    public readonly Vector3 leftPosition;
-    public readonly Vector3 rightPosition;
-    public SetupData(Transform root, Vector3 leftPosition, Vector3 rightPosition) 
-    { 
-      this.root = root;
-      this.leftPosition = leftPosition; 
-      this.rightPosition = rightPosition; 
-    }
-  }
-
+  private readonly TableContainer table;
+  private readonly IResourceManager resourceManager;
   private readonly IStageStateHandler stageService;
   private readonly IStageResultHandler stageResultHandler;
   private readonly InputActionFactory inputActionFactory;
@@ -34,8 +24,17 @@ public class PlayerService :
 
   private bool isSetupComplete = false;
 
-  public PlayerService(IStageStateHandler stageService, IStageResultHandler stageResultHandler, InputActionFactory inputActionFactory, IInputSequenceStopController inputQTEStopController, IInputSequenceStopController inputProgressStopController)
+  public PlayerService(
+    TableContainer table,
+    IResourceManager resourceManager,
+    IStageStateHandler stageService, 
+    IStageResultHandler stageResultHandler, 
+    InputActionFactory inputActionFactory, 
+    IInputSequenceStopController inputQTEStopController, 
+    IInputSequenceStopController inputProgressStopController)
   {
+    this.table = table;
+    this.resourceManager = resourceManager;
     this.stageService = stageService;
     this.stageResultHandler = stageResultHandler;
     this.inputActionFactory = inputActionFactory;
@@ -43,14 +42,17 @@ public class PlayerService :
     this.inputProgressStopController = inputProgressStopController;
   }
 
-  public async UniTask<List<IPlayerPresenter>> SetupAsync(object data, bool isEnableImmediately = false)
+  public async UniTask<List<IPlayerPresenter>> SetupAsync(StageDataContainer stageDataContainer, bool isEnableImmediately = false)
   {
-    var setupData = data as SetupData;
-    leftPlayer = await CreatePlayerAsync(PlayerType.Left, setupData.leftPosition, setupData.root);
-    rightPlayer = await CreatePlayerAsync(PlayerType.Right, setupData.rightPosition, setupData.root);
+    var root = stageDataContainer.playerRoot;
+    var leftPosition = stageDataContainer.leftPlayerBeginTransform.position;
+    var rightPosition = stageDataContainer.rightPlayerBeginTransform.position;
 
-    leftPlayer.Enable(isEnableImmediately);
-    rightPlayer.Enable(isEnableImmediately);
+    leftPlayer = await CreatePlayerAsync(PlayerType.Left, leftPosition, root);
+    rightPlayer = await CreatePlayerAsync(PlayerType.Right, rightPosition, root);
+
+    leftPlayer.Enable(false);
+    rightPlayer.Enable(false);
 
     isSetupComplete = true;
 
@@ -69,11 +71,10 @@ public class PlayerService :
 
   private async UniTask<IPlayerPresenter> CreatePlayerAsync(PlayerType playerType, Vector3 beginPosition, Transform root)
   {
-    var modelSO = GlobalManager.instance.Table.GetPlayerModelSO(playerType);
-    var playerKey = 
-      GlobalManager.instance.Table.AddressableKeySO.Path.Player +
-      GlobalManager.instance.Table.AddressableKeySO.GameObjectName.GetPlayerName(playerType);
-    IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
+    var modelSO = table.GetPlayerModelSO(playerType);
+    var playerKey =
+      table.AddressableKeySO.Path.Player +
+      table.AddressableKeySO.GameObjectName.GetPlayerName(playerType);
 
     var view = await resourceManager.CreateAssetAsync<BasePlayerView>(playerKey, root);
     var model = new PlayerModel(

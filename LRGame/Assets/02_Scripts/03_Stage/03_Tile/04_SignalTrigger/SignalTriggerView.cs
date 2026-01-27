@@ -11,6 +11,7 @@ namespace LR.Stage.TriggerTile
 {
   public class SignalTriggerView : MonoBehaviour, ITriggerTileView
   {
+    [SerializeField] private Color signalColor = new(1.0f, 1.0f, 1.0f, 1.0f);
     [field: SerializeField] public Transform IconTransform { get; private set; }
     [field: SerializeField] public SpriteRenderer IconSpriteRenderer { get; private set; }
     [field: SerializeField] public SpriteRenderer InputSpriteRenderer {  get; private set; } 
@@ -30,6 +31,11 @@ namespace LR.Stage.TriggerTile
 
     private readonly UnityEvent<Collider2D> onEnter = new();
     private readonly UnityEvent<Collider2D> onExit = new();
+
+    private void Awake()
+    {
+      IconSpriteRenderer.color = signalColor;
+    }
 
     public TriggerTileType GetTriggerType()
       => triggerTileType;
@@ -88,7 +94,7 @@ namespace LR.Stage.TriggerTile
         {
           alignment = TextAnchor.MiddleCenter
         };
-        labelCenterStyle.normal.textColor = Color.red;
+        labelCenterStyle.normal.textColor = signalColor;
         Handles.Label(transform.position + DebuggingTextSpace * index * Vector3.up, stb.ToString(), labelCenterStyle);
       }        
     }

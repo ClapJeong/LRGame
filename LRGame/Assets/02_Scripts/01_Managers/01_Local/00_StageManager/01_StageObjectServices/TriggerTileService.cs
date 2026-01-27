@@ -6,49 +6,43 @@ using UnityEngine;
 using UnityEngine.Events;
 using LR.Stage.Player.Enum;
 using LR.Stage.TriggerTile.Enum;
+using LR.Stage.StageDataContainer;
 
 public class TriggerTileService : 
   IStageObjectSetupService<ITriggerTilePresenter>, 
   IStageObjectControlService<ITriggerTilePresenter>,
   ITriggerTileEventSubscriber
 {
-  public class Model
-  {
-    public readonly IEffectService effectService;
-    public readonly IStageResultHandler stageResultHandler;
-    public readonly IPlayerGetter playerGetter;
-    public readonly List<ITriggerTileView> existViews;
-    public readonly TableContainer table;
-    public readonly IInputProgressService inputProgressService;
-    public readonly IInputQTEService inputQTEService;
-    public readonly SignalService signalService;
-
-    public Model(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, List<ITriggerTileView> existViews, TableContainer table, IInputProgressService inputProgressService, IInputQTEService inputQTEService, SignalService signalService)
-    {
-      this.effectService = effectService;
-      this.stageResultHandler = stageResultHandler;
-      this.playerGetter = playerGetter;
-      this.existViews = existViews;
-      this.table = table;
-      this.inputProgressService = inputProgressService;
-      this.inputQTEService = inputQTEService;
-      this.signalService = signalService;
-    }
-  }
+  private readonly IEffectService effectService;
+  private readonly IStageResultHandler stageResultHandler;
+  private readonly IPlayerGetter playerGetter;
+  private readonly TableContainer table;
+  private readonly IInputProgressService inputProgressService;
+  private readonly IInputQTEService inputQTEService;
+  private readonly SignalService signalService;
 
   private readonly List<ITriggerTilePresenter> cachedTriggers = new();
 
   private readonly Dictionary<PlayerType, Dictionary<TriggerTileType, UnityEvent>> onEnterEvents = new();
   private readonly Dictionary<PlayerType, Dictionary<TriggerTileType, UnityEvent>> onExitEvents = new();
 
-  private Model model;
-
   private bool isSetupComplete = false;
 
-  public async UniTask<List<ITriggerTilePresenter>> SetupAsync(object data, bool isEnableImmediately = false)
+  public TriggerTileService(IEffectService effectService, IStageResultHandler stageResultHandler, IPlayerGetter playerGetter, TableContainer table, IInputProgressService inputProgressService, IInputQTEService inputQTEService, SignalService signalService)
+  {
+    this.effectService = effectService;
+    this.stageResultHandler = stageResultHandler;
+    this.playerGetter = playerGetter;
+    this.table = table;
+    this.inputProgressService = inputProgressService;
+    this.inputQTEService = inputQTEService;
+    this.signalService = signalService;
+  }
+
+  public async UniTask<List<ITriggerTilePresenter>> SetupAsync(StageDataContainer stageDataContainer, bool isEnableImmediately = false)
   {
     var presenters = new List<ITriggerTilePresenter>();
-    this.model = data as Model;
+    var views = stageDataContainer.TriggerTiles;
     var triggerDataSO = GlobalManager.instance.Table.TriggerTileModelSO;
 
     onEnterEvents[PlayerType.Left] = new();
@@ -58,7 +52,7 @@ public class TriggerTileService :
 
     ITriggerTilePresenter presenter = null;
 
-    foreach (var view in model.existViews)
+    foreach (var view in views)
     {
       var tileType = view.GetTriggerType();
       switch (tileType)
@@ -66,10 +60,10 @@ public class TriggerTileService :
         case TriggerTileType.LeftClearTrigger:
           {
             var model = new ClearTriggerTilePresenter.Model(
-              this.model.table.TriggerTileModelSO.ClearTrigger,
-              this.model.playerGetter, 
-              this.model.stageResultHandler,
-              this.model.effectService);
+              table.TriggerTileModelSO.ClearTrigger,
+              playerGetter, 
+              stageResultHandler,
+              effectService);
             var clearTriggerTileView = view as ClearTriggerTileView;
             presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
           }
@@ -78,10 +72,10 @@ public class TriggerTileService :
         case TriggerTileType.RightClearTrigger:
           {
             var model = new ClearTriggerTilePresenter.Model(
-              this.model.table.TriggerTileModelSO.ClearTrigger, 
-              this.model.playerGetter, 
-              this.model.stageResultHandler,
-              this.model.effectService); 
+              table.TriggerTileModelSO.ClearTrigger, 
+              playerGetter, 
+              stageResultHandler,
+              effectService); 
             var clearTriggerTileView = view as ClearTriggerTileView;
             presenter = new ClearTriggerTilePresenter(model, clearTriggerTileView);
           }
@@ -89,7 +83,7 @@ public class TriggerTileService :
 
         case TriggerTileType.Spike:
           {
-            var model = new SpikeTriggerTilePresenter.Model(triggerDataSO.SpikeTrigger, this.model.playerGetter, this.model.effectService);
+            var model = new SpikeTriggerTilePresenter.Model(triggerDataSO.SpikeTrigger, playerGetter, effectService);
             var spikeTriggerTileView = view as SpikeTriggerTileView;
             presenter = new SpikeTriggerTilePresenter(model, spikeTriggerTileView);
           }
@@ -98,10 +92,10 @@ public class TriggerTileService :
         case TriggerTileType.RightEnergyItem:
           {
             var model = new RightEnergyItemTriggerPresenter.Model(
-              this.model.table.TriggerTileModelSO.RightEnergyItemTrigger,
-              this.model.inputProgressService,
-              this.model.playerGetter,
-              this.model.table);
+              table.TriggerTileModelSO.RightEnergyItemTrigger,
+              inputProgressService,
+              playerGetter,
+              table);
             var rightEnergyItemView = view as RightEnergyItmeTriggerView;
             presenter = new RightEnergyItemTriggerPresenter(model, rightEnergyItemView);
           }
@@ -110,10 +104,10 @@ public class TriggerTileService :
         case TriggerTileType.LeftEnergyItem:
           {
             var model = new LeftEnergyItemTriggerPresenter.Model(
-              this.model.table.TriggerTileModelSO.LeftEnergyItemTrigger,
-              this.model.inputQTEService,
-              this.model.playerGetter,
-              this.model.table);
+              table.TriggerTileModelSO.LeftEnergyItemTrigger,
+              inputQTEService,
+              playerGetter,
+              table);
             var leftEnergyItemView = view as LeftEnergyItemTriggerView;
             presenter = new LeftEnergyItemTriggerPresenter(model, leftEnergyItemView);
           }
@@ -122,11 +116,11 @@ public class TriggerTileService :
         case TriggerTileType.DefaultSignal:
           {
             var model = new SignalTriggerPresenter.Model(
-              this.model.table.TriggerTileModelSO.SignalTriggerData,
-              this.model.table,
-              this.model.signalService,
-              this.model.signalService,
-              this.model.playerGetter);
+              table.TriggerTileModelSO.SignalTriggerData,
+              table,
+              signalService,
+              signalService,
+              playerGetter);
             var defaultSignalView = view as SignalTriggerView;
             presenter = new SignalTriggerPresenter(model, defaultSignalView);
           }
@@ -135,13 +129,13 @@ public class TriggerTileService :
         case TriggerTileType.InputSignal:
           {
             var model = new InputSignalTriggerPresenter.Model(
-              this.model.table.TriggerTileModelSO.SignalTriggerData,
-              this.model.table,
-              this.model.signalService,
-              this.model.signalService,
-              this.model.inputProgressService,
-              this.model.inputQTEService,
-              this.model.playerGetter);
+              table.TriggerTileModelSO.SignalTriggerData,
+              table,
+              signalService,
+              signalService,
+              inputProgressService,
+              inputQTEService,
+              playerGetter);
             var inputSignalView = view as InputSignalTriggerView;
             presenter = new InputSignalTriggerPresenter(model, inputSignalView);
           }

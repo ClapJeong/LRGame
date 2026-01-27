@@ -71,6 +71,7 @@ public class StageManager :
   private readonly PlayerService playerSetupService;
   private readonly TriggerTileService triggerTileService;
   private readonly InteractiveObjectService interactiveObjectService;
+  private readonly SignalListenerService signalListenerService;
   private readonly ChatCardEventService chatCardEventService;
   private readonly ScoreCalculator scoreCalculator;
 
@@ -98,13 +99,28 @@ public class StageManager :
       model.table.EffectTableSO,
       model.defaultEffectRoot);
     playerSetupService = new PlayerService(
+      model.table,
+      model.resourceManager,
       stageService: this,
       stageResultHandler: this,
       model.inputActionFactory,
       model.inputQTEService,
       model.inputProgressService);
-    triggerTileService = new TriggerTileService();
-    interactiveObjectService = new();
+    triggerTileService = new TriggerTileService(
+      effectService,
+      stageResultHandler: this,
+      playerGetter: this,
+      this.model.table,
+      this.model.inputProgressService,
+      this.model.inputQTEService,
+      signalService);
+    interactiveObjectService = new(this);
+    signalListenerService = new(
+      effectService,
+      signalService,
+      signalService,
+      this.model.table,
+      this.model.resourceManager);
     chatCardEventService = new(
       model.localManager,
       model.chatCardService,
@@ -133,10 +149,10 @@ public class StageManager :
       SetupCamera(StageDataContainer);
       var tasks = new UniTask[]
       {
-        SetupPlayersAsync(StageDataContainer),
-        SetupTriggersAsync(StageDataContainer),
-        SetupBaseInteractiveObjectsAsync(StageDataContainer),
-        SetupSignalListenersAsync(StageDataContainer),
+        playerSetupService.SetupAsync(StageDataContainer, isEnableImmediately),
+        triggerTileService.SetupAsync(StageDataContainer, isEnableImmediately),
+        interactiveObjectService.SetupAsync(StageDataContainer, isEnableImmediately),
+        signalListenerService.SetupAsync(StageDataContainer, isEnableImmediately),
       };
       await UniTask.WhenAll(tasks);
       SetupChatCardEventService(StageDataContainer);
@@ -343,84 +359,6 @@ public class StageManager :
   private void SetupCamera(StageDataContainer stageData)
   {
     model.cameraService.SetSize(stageData.cameraSize);
-  }
-
-  private async UniTask SetupPlayersAsync(StageDataContainer stageData, bool isEnableImmediately = false)
-  {
-    var leftPosition = stageData.leftPlayerBeginTransform.position;
-    var rightPosition = stageData.rightPlayerBeginTransform.position;
-    var setupData = new PlayerService.SetupData(
-      StageDataContainer.playerRoot,
-      leftPosition, 
-      rightPosition);
-    await playerSetupService.SetupAsync(setupData ,isEnableImmediately);
-  }
-
-  private async UniTask SetupTriggersAsync(StageDataContainer stageData, bool isEnableImmediately = false)
-  {
-    var model = new TriggerTileService.Model(
-      effectService,
-      stageResultHandler: this,
-      playerGetter: this,
-      existViews: stageData.TriggerTiles,
-      this.model.table,
-      this.model.inputProgressService,
-      this.model.inputQTEService,
-      signalService);
-    await triggerTileService.SetupAsync(model,isEnableImmediately);
-  }
-
-  private async UniTask SetupBaseInteractiveObjectsAsync(StageDataContainer stageData)
-  {
-    var model = new InteractiveObjectService.Model(
-      stageData.InteractiveObject,
-      this);
-    await interactiveObjectService.SetupAsync(model);
-  }
-
-  private async UniTask SetupSignalListenersAsync(StageDataContainer stageData)
-  {
-    foreach (var signalListener in stageData.SignalListeners)
-    {
-      var signalKey = signalListener.RequireKey;
-      signalService.SubscribeSignalActivate(signalKey, signalListener.OnActivate);
-      signalService.SubscribeSignalDeactivate(signalKey, signalListener.OnDeactivate);
-
-      var signalIDLifes = signalService.GetSignalIDLifes(signalKey);
-      var previewPositions = signalListener.GetPreviewPositions(signalIDLifes.Count);
-      var count = 0;
-      foreach(var pair in signalIDLifes)
-      {
-        var id = pair.Key;
-        var life = pair.Value;
-        var signalPreviewKey = model.table.AddressableKeySO.Path.GameObjects + life switch
-        {
-          LR.Stage.TriggerTile.Enum.SignalLife.OnlyActivate => model.table.AddressableKeySO.GameObjectName.ACSignalPreview,
-          LR.Stage.TriggerTile.Enum.SignalLife.ActivateAndDeactivate => model.table.AddressableKeySO.GameObjectName.ACDCSignalPreview,
-          _ => throw new System.NotImplementedException(),
-        };
-        var signalPreview = await model.resourceManager.CreateAssetAsync<BaseSignalPreview>(signalPreviewKey, signalListener.transform);
-        signalPreview.Initialize(previewPositions[count], signalListener.previewColor);
-
-        signalService.SubscribeIDActivate(signalKey, id, onActivate);
-        signalService.SubscribeIDDeactivate(signalKey, id, onDeactivate);
-
-        void onActivate(int activatedID)
-        {
-          if (activatedID != id)
-            return;
-          signalPreview.Activate();
-        }
-        void onDeactivate(int deactivatedID)
-        {
-          if (deactivatedID != id)
-            return;
-          signalPreview.Deactivate();
-        }
-
-        count++;
-      }
-    }
   }
 
   private void SetupChatCardEventService(StageDataContainer stageDataContainer)
