@@ -2,6 +2,14 @@
 
 public static class AnimatorHash
 {
+  public static class AutoDoor
+  {
+    public static readonly int Closed = Animator.StringToHash(nameof(Closed));
+    public static readonly int Openeing = Animator.StringToHash(nameof(Openeing));
+    public static readonly int Opened = Animator.StringToHash(nameof(Opened));
+    public static readonly int Closing = Animator.StringToHash(nameof(Closing));
+  }
+
   public static class Effect
   {
     public static readonly int Idle = Animator.StringToHash(nameof(Idle));

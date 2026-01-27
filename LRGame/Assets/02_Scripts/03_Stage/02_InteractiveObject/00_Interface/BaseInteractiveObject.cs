@@ -6,7 +6,7 @@ namespace LR.Stage.InteractiveObject
   {
     public abstract void Initialize(IStageStateProvider stageStateProvider);
 
-    public abstract void Enable(bool enable);
+    public abstract void Enable(bool isEnable);
 
     public abstract void Restart();
   }
