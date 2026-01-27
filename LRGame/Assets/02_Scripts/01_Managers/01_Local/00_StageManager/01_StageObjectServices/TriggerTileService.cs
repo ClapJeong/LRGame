@@ -89,27 +89,27 @@ public class TriggerTileService :
           }
           break;
 
-        case TriggerTileType.RightEnergyItem:
+        case TriggerTileType.DefaultEnergy:
           {
-            var model = new RightEnergyItemTriggerPresenter.Model(
-              table.TriggerTileModelSO.RightEnergyItemTrigger,
-              inputProgressService,
+            var model = new EnergyItemTriggerPresenter.Model(
+              table.TriggerTileModelSO.DefaultEnergyItemTriggerData,
               playerGetter,
               table);
-            var rightEnergyItemView = view as RightEnergyItmeTriggerView;
-            presenter = new RightEnergyItemTriggerPresenter(model, rightEnergyItemView);
+            var defaultEnergyItemView = view as EnergyItemTriggerView;
+            presenter = new EnergyItemTriggerPresenter(model, defaultEnergyItemView);
           }
           break;
 
-        case TriggerTileType.LeftEnergyItem:
+        case TriggerTileType.InputtingEnergy:
           {
-            var model = new LeftEnergyItemTriggerPresenter.Model(
-              table.TriggerTileModelSO.LeftEnergyItemTrigger,
+            var model = new InputtingEnergyItemTriggerPresenter.Model(
+              table.TriggerTileModelSO.InputtingEnergyItemTriggerData,
               inputQTEService,
+              inputProgressService,
               playerGetter,
               table);
-            var leftEnergyItemView = view as LeftEnergyItemTriggerView;
-            presenter = new LeftEnergyItemTriggerPresenter(model, leftEnergyItemView);
+            var inputtingEnergyItemTriggerView = view as InputtingEnergyItemTriggerView;
+            presenter = new InputtingEnergyItemTriggerPresenter(model, inputtingEnergyItemTriggerView);
           }
           break;
 

@@ -24,8 +24,6 @@ namespace LR.Stage.TriggerTile
     [field: Header("[ Life ]")]
     [field: SerializeField] public SignalLife SignalLife { get; private set; }    
 
-    [Space(10)]
-    [SerializeField] private TriggerTileType triggerTileType = TriggerTileType.InputSignal;
 
     public bool IsEnterKeyExist
       => string.IsNullOrEmpty(Key) == false;
@@ -36,7 +34,7 @@ namespace LR.Stage.TriggerTile
     private readonly UnityEvent<Collider2D> onExit = new();
 
     public TriggerTileType GetTriggerType()
-      => triggerTileType;
+      => TriggerTileType.InputSignal;
 
     public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
     {

@@ -5,10 +5,10 @@ namespace LR.Stage.TriggerTile.Enum
     LeftClearTrigger,
     RightClearTrigger,
     Spike,
-    RightEnergyItem,
-    LeftEnergyItem,
     DefaultSignal,
     InputSignal,
+    DefaultEnergy,
+    InputtingEnergy,
   }
 
   public enum SignalInput

@@ -1,16 +1,23 @@
-﻿using UnityEngine;
+﻿using LR.Stage.TriggerTile.Enum;
+using UnityEngine;
 using UnityEngine.Events;
-using LR.Stage.TriggerTile.Enum;
 
-namespace LR.Stage.TriggerTile  
+namespace LR.Stage.TriggerTile
 {
-  public class RightEnergyItmeTriggerView : MonoBehaviour, ITriggerTileView
+  public class InputtingEnergyItemTriggerView : MonoBehaviour, ITriggerTileView
   {
+    public enum EnergyItemInput
+    {
+      QTE,
+      Progress,
+    }
+    [field: SerializeField] public EnergyItemInput Input { get; private set; }
+
     private readonly UnityEvent<Collider2D> onEnter = new();
     private readonly UnityEvent<Collider2D> onExit = new();
 
     public TriggerTileType GetTriggerType()
-      => TriggerTileType.RightEnergyItem;
+      => TriggerTileType.InputtingEnergy;
 
     public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
     {
@@ -43,5 +50,6 @@ namespace LR.Stage.TriggerTile
     {
       onExit?.Invoke(collision);
     }
+
   }
 }

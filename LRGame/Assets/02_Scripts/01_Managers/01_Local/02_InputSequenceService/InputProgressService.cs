@@ -87,14 +87,14 @@ public class InputProgressService : IInputProgressService
   }
 
   private async UniTask PlayAsync(
-    IUIInputProgressPresenter presenter,
+    IUIInputProgressPresenter uiPresenter,
     CharacterMoveKeyCodeData keyCodeData, 
     UnityAction<float> onProgress, 
     UnityAction onComplete,
     UnityAction onFail,
     CancellationToken token)
   {
-    await presenter.ActivateAsync();
+    await uiPresenter.ActivateAsync();
 
     try
     {      
@@ -114,7 +114,7 @@ public class InputProgressService : IInputProgressService
         
         value = Mathf.Max(0.0f, value - currentData.DecreaseValuePerSecond * Time.deltaTime);
         onProgress?.Invoke(value);
-        presenter.OnProgress(value);
+        uiPresenter.OnProgress(value);
         await UniTask.Yield();
       }
 
@@ -124,8 +124,8 @@ public class InputProgressService : IInputProgressService
         onProgress?.Invoke(value);
         onComplete?.Invoke();
 
-        presenter.OnProgress(value);
-        presenter.OnComplete();
+        uiPresenter.OnProgress(value);
+        uiPresenter.OnComplete();
       }        
       else if (value <= 0.0f)
       {
@@ -133,8 +133,8 @@ public class InputProgressService : IInputProgressService
         onProgress?.Invoke(value);        
         onFail?.Invoke();
 
-        presenter.OnProgress(value);
-        presenter.OnComplete();
+        uiPresenter.OnProgress(value);
+        uiPresenter.OnComplete();
       }
     }
     catch (OperationCanceledException)
@@ -145,7 +145,7 @@ public class InputProgressService : IInputProgressService
     {
       isPlaying = false;
       UnsubscribeInputActions();
-      presenter.DeactivateAsync().Forget();
+      uiPresenter.DeactivateAsync().Forget();
     }
   }
   

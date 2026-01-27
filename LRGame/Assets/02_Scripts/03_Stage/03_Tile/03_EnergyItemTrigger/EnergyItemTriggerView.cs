@@ -1,16 +1,16 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
 using LR.Stage.TriggerTile.Enum;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace LR.Stage.TriggerTile
 {
-  public class LeftEnergyItemTriggerView : MonoBehaviour, ITriggerTileView
+  public class EnergyItemTriggerView : MonoBehaviour, ITriggerTileView
   {
     private readonly UnityEvent<Collider2D> onEnter = new();
     private readonly UnityEvent<Collider2D> onExit = new();
 
     public TriggerTileType GetTriggerType()
-      => TriggerTileType.LeftEnergyItem;
+      => TriggerTileType.DefaultEnergy;
 
     public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
     {
