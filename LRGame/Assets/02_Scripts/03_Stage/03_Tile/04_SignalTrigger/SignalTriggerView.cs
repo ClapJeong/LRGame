@@ -87,9 +87,6 @@ namespace LR.Stage.TriggerTile
         var stb = new StringBuilder("{ " + Key +" }");
         var index = 0;
         
-        stb.Append($"\n{SignalLife}");
-        index++;
-
         var labelCenterStyle = new GUIStyle(EditorStyles.label)
         {
           alignment = TextAnchor.MiddleCenter
