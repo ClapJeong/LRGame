@@ -43,6 +43,8 @@ namespace LR.UI.GameScene.Player
       this.model = model;
       this.view = view;
 
+      view.FillImage.fillAmount = 1.0f;
+
       subscribeHandle = new(SubscribePlayerEnergy, UnsubscribePlayerEnergy);
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Restart, subscribeHandle.Subscribe);
     }

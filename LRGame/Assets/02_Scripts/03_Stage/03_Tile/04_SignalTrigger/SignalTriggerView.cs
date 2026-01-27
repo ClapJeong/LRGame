@@ -32,6 +32,12 @@ namespace LR.Stage.TriggerTile
     private readonly UnityEvent<Collider2D> onEnter = new();
     private readonly UnityEvent<Collider2D> onExit = new();
 
+    private void OnValidate()
+    {
+      if (IconSpriteRenderer != null)
+        IconSpriteRenderer.color = signalColor;
+    }
+
     private void Awake()
     {
       IconSpriteRenderer.color = signalColor;
