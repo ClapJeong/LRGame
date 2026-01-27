@@ -24,6 +24,7 @@ namespace LR.Stage.Player
     private readonly CancellationTokenSource cts = new();
     private readonly Dictionary<float, UnityEvent> aboveEvents = new();
     private readonly Dictionary<float, UnityEvent> belowEvents = new();
+    private readonly UnityEvent<float> onDamagedEvent = new();
 
     private bool IsEnergyWorking => stateProvider.GetCurrentState() == Enum.PlayerState.Freeze ||
                                     stateProvider.GetCurrentState() == Enum.PlayerState.Clear;
@@ -68,7 +69,10 @@ namespace LR.Stage.Player
       if (IsEnergyWorking)
         return;
 
+      var beforeNormalized = CurrentNormalized;
       energy = Mathf.Max(0.0f, energy -value);
+
+      onDamagedEvent?.Invoke(beforeNormalized - CurrentNormalized);
 
       if (IsDead)
         OnExhauset();
@@ -204,6 +208,11 @@ namespace LR.Stage.Player
     private static bool IsCrossedUp(float prev, float curr, float normalized)
       => prev < normalized && curr >= normalized;
 
+    public void SubscribeOnDamaged(UnityAction<float> onDamaged)
+      => onDamagedEvent.AddListener(onDamaged);
+
+    public void UnsubscribeOnDamaged(UnityAction<float> onDamaged)
+      => onDamagedEvent.RemoveListener(onDamaged);
     #endregion
 
     private void OnExhauset()

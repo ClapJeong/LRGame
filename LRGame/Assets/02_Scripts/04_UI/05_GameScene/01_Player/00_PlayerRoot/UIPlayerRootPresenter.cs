@@ -159,9 +159,11 @@ namespace LR.UI.GameScene.Player
       await UniTask.WaitUntil(() => this.model.playerGetter.IsAllPlayerExist());
 
       var playerTable = this.model.table.GetPlayerModelSO(this.model.playerType);
+      var energySubscriber = this.model.GetPlayer().GetEnergySubscriber();
       var energyProvider = this.model.GetPlayer().GetEnergyProvider();
 
       var model = new UIPlayerEnergyPresenter.Model(
+        energySubscriber: energySubscriber,
         energyProvider: energyProvider,
         playerTable.Energy,
         this.model.stageEventSubscriber,

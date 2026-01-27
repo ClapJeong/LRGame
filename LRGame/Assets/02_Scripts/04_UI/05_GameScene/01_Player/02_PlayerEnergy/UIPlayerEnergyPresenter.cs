@@ -14,17 +14,20 @@ namespace LR.UI.GameScene.Player
   {
     public class Model
     {
+      public IPlayerEnergySubscriber energySubscriber;
       public IPlayerEnergyProvider energyProvider;
       public PlayerEnergyData playerEnergyData;
       public IStageEventSubscriber stageEventSubscriber;
       public UISO uiSO;
 
       public Model(
+        IPlayerEnergySubscriber energySubscriber,
         IPlayerEnergyProvider energyProvider, 
         PlayerEnergyData playerEnergyData,
         IStageEventSubscriber stageEventSubscriber,
         UISO uiSO)
       {
+        this.energySubscriber = energySubscriber;
         this.energyProvider = energyProvider;
         this.playerEnergyData = playerEnergyData;
         this.stageEventSubscriber = stageEventSubscriber;
@@ -36,7 +39,12 @@ namespace LR.UI.GameScene.Player
     private readonly UIPlayerEnergyView view;
 
     private readonly SubscribeHandle subscribeHandle;
+    private readonly CTSContainer damagedCTS = new();
     private IDisposable viewUpdateObserver;
+
+    private float lastDamagedNormalized;
+    private float fillNormalized;
+    private float damagedUIDuration;
 
     public UIPlayerEnergyPresenter(Model model, UIPlayerEnergyView view)
     {
@@ -51,6 +59,7 @@ namespace LR.UI.GameScene.Player
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
+      damagedUIDuration = 0.0f;
       subscribeHandle.Subscribe();
       await view.ShowAsync(isImmedieately, token);
     }    
@@ -66,6 +75,8 @@ namespace LR.UI.GameScene.Player
 
     public void Dispose()
     {
+      damagedCTS.Cancel();
+      damagedCTS.Dispose();
       subscribeHandle.Dispose();
       if (view)
         view.DestroySelf();
@@ -91,14 +102,39 @@ namespace LR.UI.GameScene.Player
         .UpdateAsObservable()
         .Subscribe(_ =>
         {
-          var normalized = model.energyProvider.CurrentEnergy / model.playerEnergyData.MaxEnergy;
-          view.FillImage.SetFillAmount(normalized);
+          UpdateFillNormalized();
+
+          view.FillImage.SetFillAmount(fillNormalized);
         });
+      model.energySubscriber.SubscribeOnDamaged(OnDamaged);
+    }
+
+    private void UpdateFillNormalized()
+    {
+      var currentNormalized = model.energyProvider.CurrentNormalized;
+
+      if (damagedUIDuration > 0.0f)
+      {
+        var t = 1.0f - damagedUIDuration / model.uiSO.DamagedEnergyUIDuration;
+        fillNormalized = Mathf.Lerp(lastDamagedNormalized, currentNormalized, t);
+        damagedUIDuration -= Time.deltaTime;
+      }
+      else
+      {
+        fillNormalized = currentNormalized;
+      }
     }
 
     private void UnsubscribePlayerEnergy()
     {
       viewUpdateObserver.Dispose();
+      model.energySubscriber.UnsubscribeOnDamaged(OnDamaged);
+    }
+
+    private void OnDamaged(float damagedNormalized)
+    {
+      lastDamagedNormalized = model.energyProvider.CurrentNormalized + damagedNormalized;
+      damagedUIDuration = model.uiSO.DamagedEnergyUIDuration;
     }
   }
 }

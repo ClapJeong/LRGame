@@ -24,5 +24,9 @@ namespace LR.Stage.Player
     public void SubscribeOnChanged(OnChangedType type, float normalizedValue, UnityAction action);
 
     public void UnsubscribeOnChanged(OnChangedType type, float normalizedValue, UnityAction action);
+
+    public void SubscribeOnDamaged(UnityAction<float> onDamaged);
+
+    public void UnsubscribeOnDamaged(UnityAction<float> onDamaged);
   }
 }

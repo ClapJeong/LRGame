@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerEnergyView
   <FillImage>k__BackingField: {fileID: 4318366804179906277}
+  <DamagedImage>k__BackingField: {fileID: 0}
 --- !u!1 &6161715366333496784
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,3 +449,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.GameScene.Player.UIPlayerEnergyView
   <FillImage>k__BackingField: {fileID: 7572807081056394881}
+  <DamagedImage>k__BackingField: {fileID: 0}

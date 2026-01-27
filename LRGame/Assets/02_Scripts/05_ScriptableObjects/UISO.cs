@@ -38,7 +38,7 @@ public class UISO : ScriptableObject
 
   [field: Header("[ Player ]")]
   [field: SerializeField][field: Range(0.0f, 1.0f)] public float PortraitLowEnergy { get; private set; }
-
+  [field: SerializeField] public float DamagedEnergyUIDuration { get; private set; }
   [field: Header("[ Dialogue ]")]
   [field: SerializeField] public float DialogueRootShowDuratoin {  get; private set; }
   [field: SerializeField] public float DialogueRootHideDuratoin { get; private set; }
