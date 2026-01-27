@@ -56,6 +56,8 @@ namespace LR.Stage.TriggerTile
       Enable(true);
       isSignalAcquired = false;
       view.SetAlpha(model.data.DeactivateAlpha);
+      rotatingDisposable?.Dispose();
+      view.transform.eulerAngles = Vector3.zero;
     }
 
     private void RegisterKeys()
