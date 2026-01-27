@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d733dcfbee02454599e56fe61a8cf3a, type: 3}
   m_Name: TriggerTileSO
   m_EditorClassIdentifier: Assembly-CSharp::TriggerTileModelSO
+  <ClearTrigger>k__BackingField:
+    <EffectType>k__BackingField: 0
   <SpikeTrigger>k__BackingField:
-    <DamageValue>k__BackingField: 30
+    <DamageValue>k__BackingField: 15
     <BounceData>k__BackingField:
       <Force>k__BackingField: 6
-    <EffectType>k__BackingField: 1
   <RightEnergyItemTrigger>k__BackingField:
     <RestoreValue>k__BackingField: 50
     <InputProgressData>k__BackingField:

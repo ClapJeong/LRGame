@@ -303,6 +303,11 @@ public class StageManager :
     isLeftClear = true;
     if (isLeftClear && isRightClear)
       Complete();
+    else if(IsStageFail())
+    { 
+      stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllExhausted);
+      SetState(StageEnum.State.Fail);
+    }      
   }
 
   public void LeftClearExit()
@@ -319,6 +324,11 @@ public class StageManager :
     isRightClear = true;
     if (isLeftClear && isRightClear)
       Complete();
+    else if (IsStageFail())
+    {
+      stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllExhausted);
+      SetState(StageEnum.State.Fail);
+    }
   }
 
   public void RightClearExit()

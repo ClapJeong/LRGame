@@ -10,8 +10,9 @@ namespace LR.Stage.InteractiveObject.AutoMover
     private readonly IStageStateProvider stageStateProvider; 
     private readonly Transform transform;
     private readonly AnimationCurve animationCurve;
+    private readonly Vector2 initializePosition;
     private readonly float radius;
-    private readonly Vector3 circleCenter;
+    private readonly Vector3 circleCenter;    
     private float duration;
 
     private readonly float beginRad;
@@ -19,11 +20,20 @@ namespace LR.Stage.InteractiveObject.AutoMover
     private float normalizedTime;
     private float circleAngleRad;
 
-    public CircleLoopMoveController(IStageStateProvider stageStateProvider, Transform transform, AnimationCurve animationCurve, float radius, float duration, Vector3 circleCenter, float beginAngle)
+    public CircleLoopMoveController(
+      IStageStateProvider stageStateProvider, 
+      Transform transform, 
+      AnimationCurve animationCurve, 
+      Vector2 initializePosition,
+      float radius, 
+      float duration, 
+      Vector3 circleCenter, 
+      float beginAngle)
     {
       this.stageStateProvider = stageStateProvider;
       this.transform = transform;
       this.animationCurve = animationCurve;
+      this.initializePosition = initializePosition;
       this.radius = radius;
       this.duration = duration;
       this.circleCenter = circleCenter;

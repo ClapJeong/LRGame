@@ -44,9 +44,9 @@ namespace LR.Stage.InteractiveObject.AutoMover
       initializePosition = transform.position;
       circleCenter = transform.TransformPoint(new Vector2(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle)) * radius);
 
-      straightMoveController = new(stageStateProvider, transform, waypoints, animationCurve, duration);
-      repeatMoveController = new(stageStateProvider, transform, waypoints, animationCurve, duration);
-      circleLoopMoveController = new(stageStateProvider, transform, animationCurve, radius, duration, circleCenter, angle - 180.0f);
+      straightMoveController = new(stageStateProvider, transform, waypoints, animationCurve, initializePosition, duration);
+      repeatMoveController = new(stageStateProvider, transform, waypoints, animationCurve, initializePosition, duration);
+      circleLoopMoveController = new(stageStateProvider, transform, animationCurve, initializePosition, radius, duration, circleCenter, angle - 180.0f);
     }
 
     public void ActivateMove()

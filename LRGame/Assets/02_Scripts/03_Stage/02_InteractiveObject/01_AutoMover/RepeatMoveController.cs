@@ -12,17 +12,25 @@ namespace LR.Stage.InteractiveObject.AutoMover
     private readonly Transform transform;
     private readonly List<Vector3> waypoints;
     private readonly AnimationCurve animationCurve;
+    private readonly Vector3 initializedPosition;
     private float duration;
 
     private float repeatTime;
 
-    public RepeatMoveController(IStageStateProvider stageStateProvider, Transform transform, List<Vector3> waypoints, AnimationCurve animationCurve, float duration)
+    public RepeatMoveController(
+      IStageStateProvider stageStateProvider, 
+      Transform transform, 
+      List<Vector3> waypoints, 
+      AnimationCurve animationCurve,
+      Vector3 initializedPosition,
+      float duration)
     {
       this.stageStateProvider = stageStateProvider;
       this.transform = transform;
       this.waypoints = waypoints;
       this.animationCurve = animationCurve;
-      this.duration = duration;
+      this.initializedPosition = initializedPosition;
+      this.duration = duration;      
     }
 
     public void UpdateDuration(float duration)
@@ -35,9 +43,9 @@ namespace LR.Stage.InteractiveObject.AutoMover
       if (waypoints.Count == 0)
         return;
 
-      List<Vector3> points = new() { transform.position };
+      List<Vector3> points = new() { initializedPosition };
       foreach (var wp in waypoints)
-        points.Add(transform.TransformPoint(wp));
+        points.Add(initializedPosition + wp);
 
       try
       {

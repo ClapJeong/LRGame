@@ -12,6 +12,7 @@ namespace LR.Stage.InteractiveObject.AutoMover
     private readonly Transform transform;
     private readonly List<Vector3> waypoints;
     private readonly AnimationCurve animationCurve;
+    private readonly Vector3 initializedPosition;
     private float duration;
 
     private float straightTime;
@@ -21,12 +22,19 @@ namespace LR.Stage.InteractiveObject.AutoMover
 
     private bool straightFinished = false;
 
-    public StraightMoveController(IStageStateProvider stageStateProvider, Transform transform, List<Vector3> waypoints, AnimationCurve animationCurve, float duration)
+    public StraightMoveController(
+      IStageStateProvider stageStateProvider, 
+      Transform transform, 
+      List<Vector3> waypoints, 
+      AnimationCurve animationCurve, 
+      Vector3 initializedPosition,
+      float duration)
     {
       this.stageStateProvider = stageStateProvider;
       this.transform = transform;
       this.waypoints = waypoints;
       this.animationCurve = animationCurve;
+      this.initializedPosition = initializedPosition;
       this.duration = duration;
     }
 
@@ -42,11 +50,11 @@ namespace LR.Stage.InteractiveObject.AutoMover
 
       try
       {
-        Vector3 from = transform.position;
+        Vector3 from = initializedPosition;
 
         for (; straightIndex < waypoints.Count; straightIndex++)
         {
-          Vector3 to = transform.TransformPoint(waypoints[straightIndex]);
+          Vector3 to = from + waypoints[straightIndex];
 
           while (segmentT < 1f)
           {
