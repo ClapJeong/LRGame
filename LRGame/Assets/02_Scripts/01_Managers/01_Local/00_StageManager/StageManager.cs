@@ -262,7 +262,7 @@ public class StageManager :
 
     isLeftExhausted = true;
 
-    if (isLeftExhausted && isRightExhausted)
+    if (IsStageFail())
     {
       stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllExhausted);
       SetState(StageEnum.State.Fail);
@@ -282,7 +282,7 @@ public class StageManager :
 
     isRightExhausted = true;
 
-    if (isLeftExhausted && isRightExhausted)
+    if (IsStageFail())
     {
       stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.AllExhausted);
       SetState(StageEnum.State.Fail);
@@ -327,6 +327,9 @@ public class StageManager :
 
     isRightClear = false;
   }
+
+  private bool IsStageFail()
+    => (isLeftExhausted && isRightExhausted) || (isLeftExhausted && isRightClear) || (isLeftClear && isRightExhausted);
 
   #endregion
 
