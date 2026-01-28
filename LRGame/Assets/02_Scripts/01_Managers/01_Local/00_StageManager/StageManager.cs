@@ -86,6 +86,7 @@ public class StageManager :
   private bool isRightExhausted = false;
   private bool isLeftClear = false;
   private bool isRightClear = false;
+  private bool isThisStageFirst = false;
 
   public StageDataContainer StageDataContainer { get; private set;  }
   private DialogueData beforeDialogueData;
@@ -162,6 +163,9 @@ public class StageManager :
       };
       await UniTask.WhenAll(tasks);
       SetupChatCardEventService(StageDataContainer);
+
+      var topClearIndex = model.gameDataService.GetTopClearData().ParseIndex();
+      isThisStageFirst = index > topClearIndex;
     }
     catch
     {
@@ -207,7 +211,7 @@ public class StageManager :
       playerSetupService.GetPlayer(PlayerType.Left),
       playerSetupService.GetPlayer(PlayerType.Right),
       out var leftScore,
-      out var rightScore);
+      out var rightScore);    
 
     model.gameDataService.GetSelectedStage(out var chapter, out var stage);
     model.gameDataService.SetClearData(chapter, stage, leftScore, rightScore);
@@ -216,13 +220,16 @@ public class StageManager :
     SetState(StageEnum.State.Success);
 
     effectService.Create(
-      InstanceEffectType.StageClear, 
-      Vector3.zero, 
-      Quaternion.identity,
-      onComplete: () =>
-      {
-        stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Complete);
-      });    
+          InstanceEffectType.StageClear,
+          Vector3.zero,
+          Quaternion.identity,
+          onComplete: () =>
+          {
+            stageEvents.TryInvoke(IStageEventSubscriber.StageEventType.Complete);
+
+            if (isThisStageFirst)
+              isThisStageFirst = false;
+          });    
   }
 
   public void Begin()
@@ -422,10 +429,18 @@ public class StageManager :
 
   public bool IsAfterDialoguePlayable()
   {
-    model.gameDataService.GetSelectedStage(out var chapter, out var stage);
-    var isClearStage = model.gameDataService.IsClearStage(chapter, stage);
-    var isDialogueDataExist = afterDialogueData != null;
-    return isClearStage == false && isDialogueDataExist;
+    if (isThisStageFirst)
+    {      
+      var isDialogueDataExist = afterDialogueData != null;
+      return isDialogueDataExist;
+    }
+    else
+    {
+      model.gameDataService.GetSelectedStage(out var chapter, out var stage);
+      var isClearStage = model.gameDataService.IsClearStage(chapter, stage);
+      var isDialogueDataExist = afterDialogueData != null;
+      return isClearStage == false && isDialogueDataExist;
+    }      
   }
 
   public void Dispose()

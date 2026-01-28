@@ -135,13 +135,7 @@ namespace LR.UI.GameScene.Stage
       model.dialogueSubscriber.UnsubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnBeforeDialgoueComplete);
 
       if (model.dialoguePlayableProvider.IsAfterDialoguePlayable())
-        model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
-    }
-
-    private void OnAfterDialogueBegin()
-    {
-      model.dialogueSubscriber.UnsubscribeEvent(IDialogueStateSubscriber.EventType.OnPlay, OnAfterDialogueBegin);
-      model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
+        model.dialogueSubscriber.SubscribeEvent(IDialogueStateSubscriber.EventType.OnComplete, OnAfterDialogueComplete);
     }
 
     private void OnAfterDialogueComplete()

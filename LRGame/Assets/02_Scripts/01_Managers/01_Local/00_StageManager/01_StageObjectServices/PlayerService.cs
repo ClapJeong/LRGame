@@ -5,7 +5,6 @@ using LR.Stage.StageDataContainer;
 using LR.Table.Input;
 using System;
 using System.Collections.Generic;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class PlayerService : 

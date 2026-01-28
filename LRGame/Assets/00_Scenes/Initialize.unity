@@ -1033,7 +1033,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8379034784178458988, guid: 43edf24d82c43a342bdc1a30f973a003, type: 3}
       propertyPath: PlayVeryFirstCutscene
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8432993149905673151, guid: 43edf24d82c43a342bdc1a30f973a003, type: 3}
       propertyPath: m_AnchorMax.y
