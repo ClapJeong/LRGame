@@ -52,6 +52,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2350293246091198544
+  - m_Id: 28329042072141824
+    m_Localized: If this language is correct, please press Space.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

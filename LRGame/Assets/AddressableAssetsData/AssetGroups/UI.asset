@@ -50,6 +50,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a87178e7076afc49b2580777d14de3f
+    m_Address: UI/VeryFirstLocale
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d37167132dab1f45a3422ee3e7df7e8
     m_Address: UI/PreloadingRoot
     m_ReadOnly: 0

@@ -156,23 +156,43 @@ if(gameDataService.IsVeryFirst())
 #endif
           {
             var veryFirstService = GlobalManager.instance.VeryFirstService;
-            await veryFirstService.CreateFirstTimelineAsync();
-            veryFirstService.PlayFirstTimeline(
-              onComplete: async () =>
-              {
-                gameDataService.SetSelectedStage(0, 1);
-                var sceneProvider = GlobalManager.instance.SceneProvider;
-                sceneProvider.LoadSceneAsync(
-                  SceneType.Game, 
-                  false,
-                  default,
-                  null,
-                  onComplete: async () =>
-                  {
-                    UniTask.Delay(10)
-                     .ContinueWith(veryFirstService.DestroyCutscene).Forget();
-                  }).Forget();
-              });
+
+            var adddressableSO = GlobalManager.instance.Table.AddressableKeySO;
+            var resourceManager = GlobalManager.instance.ResourceManager;
+            var canvasProvider = GlobalManager.instance.UIManager;
+
+            var localeService = GlobalManager.instance.LocaleService;
+            var indicatorService = GlobalManager.instance.UIManager.GetIUIIndicatorService();
+            var selectedGameObjectService = GlobalManager.instance.UIManager.GetIUISelectedGameObjectService();
+            var depthService = GlobalManager.instance.UIManager.GetIUIDepthService();
+            var uiInputManager = GlobalManager.instance.UIInputManager;
+
+            await veryFirstService.CreateFirstTimelineAsync(adddressableSO, resourceManager, canvasProvider);
+
+            await veryFirstService.CreateFirstLocaleUI(adddressableSO, resourceManager, canvasProvider);
+            await veryFirstService.InitializeFirstLocaleUIAsync(localeService, indicatorService, selectedGameObjectService, depthService, uiInputManager, 
+              onConfirm: async () =>
+            {              
+              await veryFirstService.DestroyFirstLocaleUIAsync();
+
+              var sceneProvider = GlobalManager.instance.SceneProvider;              
+              veryFirstService.PlayFirstTimeline(
+                onComplete: async () =>
+                {
+                  gameDataService.SetSelectedStage(0, 1);                  
+                  sceneProvider.LoadSceneAsync(
+                    SceneType.Game,
+                    false,
+                    default,
+                    null,
+                    onComplete: async () =>
+                    {
+                      UniTask.Delay(10)
+                       .ContinueWith(veryFirstService.DestroyCutscene).Forget();
+                    }).Forget();
+                });
+
+            });
           }
           else
           {
@@ -257,6 +277,7 @@ if(gameDataService.IsVeryFirst())
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var model = new UILobbyRootPresenter.Model(
+      localeService: GlobalManager.instance.LocaleService,
       uiManager: GlobalManager.instance.UIManager,
       GlobalManager.instance.Table,
       uiInputManager: GlobalManager.instance.UIInputManager,

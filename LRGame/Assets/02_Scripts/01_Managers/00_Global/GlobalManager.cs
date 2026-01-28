@@ -43,6 +43,10 @@ public partial class GlobalManager : MonoBehaviour
 
   private async UniTask InitializeAsync()
   {
+    await LocalizationSettings.InitializationOperation;
+
+    VeryFirstService = new();
+
     LocaleService = new(Table.LocalizationSO.LocalizeFonts);
     disposables.Add(LocaleService);
 
@@ -59,8 +63,6 @@ public partial class GlobalManager : MonoBehaviour
     await GameDataService.LoadDataAsync();
 
     UIManager.Initialize(ResourceManager, FactoryManager);
-
-    VeryFirstService = new(Table.AddressableKeySO, ResourceManager, UIManager);
 
     SceneProvider = new(ResourceManager, UIManager, Table.AddressableKeySO);
     await SceneProvider.LoadSceneAsync(SceneType.Preloading, false);

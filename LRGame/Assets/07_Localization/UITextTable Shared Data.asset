@@ -43,6 +43,10 @@ MonoBehaviour:
     m_Key: PressToLobby
     m_Metadata:
       m_Items: []
+  - m_Id: 28329042072141824
+    m_Key: PressSpaceToFirstGame
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

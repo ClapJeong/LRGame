@@ -42,6 +42,7 @@ MonoBehaviour:
   <UIName>k__BackingField:
     <PreloadingRoot>k__BackingField: PreloadingRoot
     <VeryFirstCutscene>k__BackingField: VeryFirstCutscene
+    <VeryFirstLocale>k__BackingField: VeryFirstLocale
     <LobbyRoot>k__BackingField: LobbyRoot
     <StageButtonSet>k__BackingField: StageButtonSet
     <StageRoot>k__BackingField: StageRoot

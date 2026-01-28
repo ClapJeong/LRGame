@@ -20,6 +20,7 @@ namespace LR.UI.Lobby
 
     public class Model
     {
+      public LocaleService localeService;
       public UIManager uiManager;
       public TableContainer table;
       public IUIInputManager uiInputManager;
@@ -27,8 +28,15 @@ namespace LR.UI.Lobby
       public IGameDataService gameDataService;
       public ISceneProvider sceneProvider;
 
-      public Model(UIManager uiManager, TableContainer table, IUIInputManager uiInputManager, IResourceManager resourceManager, IGameDataService gameDataService, ISceneProvider sceneProvider)
+      public Model(LocaleService localeService,
+        UIManager uiManager, 
+        TableContainer table, 
+        IUIInputManager uiInputManager, 
+        IResourceManager resourceManager, 
+        IGameDataService gameDataService, 
+        ISceneProvider sceneProvider)
       {
+        this.localeService = localeService;
         this.uiManager = uiManager;
         this.table = table;
         this.uiInputManager = uiInputManager;
@@ -158,6 +166,7 @@ namespace LR.UI.Lobby
     private void CreateLocalizePanelPresenter()
     {
       var model = new UILocalizePanelPresenter.Model(
+        this.model.localeService,
         currentIndicator,
         this.model.uiManager.GetIUISelectedGameObjectService(),
         this.model.uiManager.GetIUIDepthService(),

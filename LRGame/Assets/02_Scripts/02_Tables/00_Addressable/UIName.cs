@@ -6,6 +6,7 @@ public class UIName
   [field: Header("[ Prealoading ]")]
   [field: SerializeField] public string PreloadingRoot {  get; private set; }
   [field: SerializeField] public string VeryFirstCutscene { get; private set; }
+  [field: SerializeField] public string VeryFirstLocale { get; private set; }
 
   [field: Space(10)]
   [field: Header("[ Lobby ]")]
