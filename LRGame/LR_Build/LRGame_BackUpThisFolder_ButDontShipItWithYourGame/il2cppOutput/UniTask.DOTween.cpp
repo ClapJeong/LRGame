@@ -885,7 +885,7 @@ inline void Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_inline (Ac
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117049
+// Method Definition Index: 117111
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t35E44D4E1EDBFA9E2583F3F725B7FA69E230F413 UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mD0842F659E98B6F832E680043BDD5A4E88705F78 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -919,7 +919,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t35E44D4E1EDBFA9E2583F3F725B7F
 		return L_6;
 	}
 }
-// Method Definition Index: 117050
+// Method Definition Index: 117112
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_m89AE455545CB1CF5D1040B5321861207EAD67C2A (UnitySourceGeneratedAssemblyMonoScriptTypes_v1_t9F2EB27C66D1841992D652E55E370E26502CD3FE* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1013,7 +1013,7 @@ IL2CPP_EXTERN_C void MonoScriptData_t35E44D4E1EDBFA9E2583F3F725B7FA69E230F413_ma
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117051
+// Method Definition Index: 117113
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2 DOTweenAsyncExtensions_GetAwaiter_mE07CE5183C5301A1083A1B7F6482DC8A64DAB89E (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, const RuntimeMethod* method) 
 {
 	{
@@ -1025,7 +1025,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR TweenAwaiter_t720E676C1FDA6AF32C91DB1339C0556
 		return L_1;
 	}
 }
-// Method Definition Index: 117052
+// Method Definition Index: 117114
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 DOTweenAsyncExtensions_WithCancellation_mF74598B2584FD3B6DE7D8D7DAB4AAD012AF07573 (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED ___1_cancellationToken, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1073,7 +1073,7 @@ IL_0019:
 		return L_8;
 	}
 }
-// Method Definition Index: 117053
+// Method Definition Index: 117115
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 DOTweenAsyncExtensions_ToUniTask_m97FA4AF127198255D60F53537DBDC3C083148370 (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, int32_t ___1_tweenCancelBehaviour, CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED ___2_cancellationToken, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1122,7 +1122,7 @@ IL_0019:
 		return L_9;
 	}
 }
-// Method Definition Index: 117054
+// Method Definition Index: 117116
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 DOTweenAsyncExtensions_AwaitForComplete_m21F609845F58FA51C8694711D31DABB250224EFC (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, int32_t ___1_tweenCancelBehaviour, CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED ___2_cancellationToken, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1171,7 +1171,7 @@ IL_0019:
 		return L_9;
 	}
 }
-// Method Definition Index: 117055
+// Method Definition Index: 117117
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 DOTweenAsyncExtensions_AwaitForPause_m02CDBC26B55F75652A73D77A4ECE8CBF079E1E3D (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, int32_t ___1_tweenCancelBehaviour, CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED ___2_cancellationToken, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1220,7 +1220,7 @@ IL_0019:
 		return L_9;
 	}
 }
-// Method Definition Index: 117056
+// Method Definition Index: 117118
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 DOTweenAsyncExtensions_AwaitForPlay_mC9D3BE310B90C35522EFA28997BD19C8BF984730 (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, int32_t ___1_tweenCancelBehaviour, CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED ___2_cancellationToken, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1269,7 +1269,7 @@ IL_0019:
 		return L_9;
 	}
 }
-// Method Definition Index: 117057
+// Method Definition Index: 117119
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 DOTweenAsyncExtensions_AwaitForRewind_m9CA9E66DD54DDC981B825924DD8E3695E23853DC (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, int32_t ___1_tweenCancelBehaviour, CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED ___2_cancellationToken, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1318,7 +1318,7 @@ IL_0019:
 		return L_9;
 	}
 }
-// Method Definition Index: 117058
+// Method Definition Index: 117120
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR UniTask_t8E1453C1D8424B1FC22B0E51B017D3B028E17270 DOTweenAsyncExtensions_AwaitForStepComplete_m3D260F9365DC07EB79A1BDB1E4B934326BF04B1D (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, int32_t ___1_tweenCancelBehaviour, CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED ___2_cancellationToken, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1437,7 +1437,7 @@ IL2CPP_EXTERN_C void TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2_mars
 IL2CPP_EXTERN_C void TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2_marshal_com_cleanup(TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2_marshaled_com& marshaled)
 {
 }
-// Method Definition Index: 117059
+// Method Definition Index: 117121
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool TweenAwaiter_get_IsCompleted_m4F40B494B983AF730D22C6D68A2F1179BA9D3360 (TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1457,7 +1457,7 @@ IL2CPP_EXTERN_C  bool TweenAwaiter_get_IsCompleted_m4F40B494B983AF730D22C6D68A2F
 	_returnValue = TweenAwaiter_get_IsCompleted_m4F40B494B983AF730D22C6D68A2F1179BA9D3360(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 117060
+// Method Definition Index: 117122
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenAwaiter__ctor_mD41EF7686F65951616AB5CAE1A8B1F13810E3A6E (TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2* __this, Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, const RuntimeMethod* method) 
 {
 	{
@@ -1476,7 +1476,7 @@ IL2CPP_EXTERN_C  void TweenAwaiter__ctor_mD41EF7686F65951616AB5CAE1A8B1F13810E3A
 	_thisAdjusted = reinterpret_cast<TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2*>(__this + _offset);
 	TweenAwaiter__ctor_mD41EF7686F65951616AB5CAE1A8B1F13810E3A6E_inline(_thisAdjusted, ___0_tween, method);
 }
-// Method Definition Index: 117061
+// Method Definition Index: 117123
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2 TweenAwaiter_GetAwaiter_mF15A2C6D59C94F3700605423800EB1387815852C (TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1494,7 +1494,7 @@ IL2CPP_EXTERN_C  TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2 TweenAwa
 	_returnValue = TweenAwaiter_GetAwaiter_mF15A2C6D59C94F3700605423800EB1387815852C(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 117062
+// Method Definition Index: 117124
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenAwaiter_GetResult_m762E37CE12BE2C2B1890A646216AAA93066F2611 (TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1509,7 +1509,7 @@ IL2CPP_EXTERN_C  void TweenAwaiter_GetResult_m762E37CE12BE2C2B1890A646216AAA9306
 	_thisAdjusted = reinterpret_cast<TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2*>(__this + _offset);
 	TweenAwaiter_GetResult_m762E37CE12BE2C2B1890A646216AAA93066F2611(_thisAdjusted, method);
 }
-// Method Definition Index: 117063
+// Method Definition Index: 117125
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenAwaiter_OnCompleted_m9623A7A492F4A32CBB23CB48134E97507A6801BF (TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) 
 {
 	{
@@ -1527,7 +1527,7 @@ IL2CPP_EXTERN_C  void TweenAwaiter_OnCompleted_m9623A7A492F4A32CBB23CB48134E9750
 	_thisAdjusted = reinterpret_cast<TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2*>(__this + _offset);
 	TweenAwaiter_OnCompleted_m9623A7A492F4A32CBB23CB48134E97507A6801BF(_thisAdjusted, ___0_continuation, method);
 }
-// Method Definition Index: 117064
+// Method Definition Index: 117126
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenAwaiter_UnsafeOnCompleted_m3E6700193A0E11955A400474411222B05E6FC2DB (TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1565,7 +1565,7 @@ IL2CPP_EXTERN_C  void TweenAwaiter_UnsafeOnCompleted_m3E6700193A0E11955A40047441
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117065
+// Method Definition Index: 117127
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840** TweenConfiguredSource_get_NextNode_mAA71141136565CA76DDD4B2304713593E85C3696 (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1574,7 +1574,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR TweenConfiguredSource_tF2D9AED4A61CAF33A0030A
 		return L_0;
 	}
 }
-// Method Definition Index: 117066
+// Method Definition Index: 117128
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource__cctor_m7E07DD25AFDBDC71F5482652BCD1366AD6B138C9 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1603,7 +1603,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource__cctor_m7E07DD25AF
 		return;
 	}
 }
-// Method Definition Index: 117067
+// Method Definition Index: 117129
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource__ctor_mEEB9BC49E54FE6D5CA25710CF0648FA5F975E99F (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1625,7 +1625,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource__ctor_mEEB9BC49E54
 		return;
 	}
 }
-// Method Definition Index: 117068
+// Method Definition Index: 117130
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* TweenConfiguredSource_Create_m6AE50FC44757A871B15EA8D31CE0F4D192349FB1 (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, int32_t ___1_cancelBehaviour, CancellationToken_t51142D9C6D7C02D314DA34A6A7988C528992FFED ___2_cancellationToken, int32_t ___3_callbackType, int16_t* ___4_token, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2019,7 +2019,7 @@ IL_015f:
 		return L_74;
 	}
 }
-// Method Definition Index: 117069
+// Method Definition Index: 117131
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource_OnCompleteCallbackDelegate_m66C0890DCA40FC4F970CCEFFDA0AFB2EA0D92615 (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2143,7 +2143,7 @@ IL_006d:
 		return;
 	}
 }
-// Method Definition Index: 117070
+// Method Definition Index: 117132
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource_DoCancelBeforeCreate_m2042894DB456FA9416D692DDA89743B8EA74B54F (Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, int32_t ___1_tweenCancelBehaviour, const RuntimeMethod* method) 
 {
 	{
@@ -2265,7 +2265,7 @@ IL_0069:
 		return;
 	}
 }
-// Method Definition Index: 117071
+// Method Definition Index: 117133
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource_GetResult_m96D373826DC1F00BFAEC48325D457E0422FD43C1 (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, int16_t ___0_token, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2309,7 +2309,7 @@ IL_0017:
 		return;
 	}
 }
-// Method Definition Index: 117072
+// Method Definition Index: 117134
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t TweenConfiguredSource_GetStatus_mEB0C0200AA62FD7AB29A0FB7C840F7DAD6F39A47 (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, int16_t ___0_token, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2327,7 +2327,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t TweenConfiguredSource_GetStatus_mEB0C
 		return L_2;
 	}
 }
-// Method Definition Index: 117073
+// Method Definition Index: 117135
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t TweenConfiguredSource_UnsafeGetStatus_mBF5AD83341D15A8354AB113071A2FD0714844618 (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2344,7 +2344,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t TweenConfiguredSource_UnsafeGetStatus
 		return L_1;
 	}
 }
-// Method Definition Index: 117074
+// Method Definition Index: 117136
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource_OnCompleted_m140F8BCE3FAE3796F3B208097FF7D1FD3C8D9476 (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, int16_t ___2_token, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2364,7 +2364,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource_OnCompleted_m140F8
 		return;
 	}
 }
-// Method Definition Index: 117075
+// Method Definition Index: 117137
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool TweenConfiguredSource_TryReturn_mF859CCE9ED09BFD0D2FAA15F664D0381F65A52F2 (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2400,7 +2400,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool TweenConfiguredSource_TryReturn_mF859CCE
 		return L_3;
 	}
 }
-// Method Definition Index: 117076
+// Method Definition Index: 117138
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TweenConfiguredSource_RestoreOriginalCallback_mCC4C2EA95EDC03D106719D2FCAA29072C21EF544 (TweenConfiguredSource_tF2D9AED4A61CAF33A0030AE131A77A0C0794B840* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
@@ -2521,7 +2521,7 @@ IL_0080:
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117077
+// Method Definition Index: 117139
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__cctor_m52E5BCCD56FAB026202402E39E58263A9B698393 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2538,7 +2538,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__cctor_m52E5BCCD56FAB026202402E3
 		return;
 	}
 }
-// Method Definition Index: 117078
+// Method Definition Index: 117140
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__ctor_mC92B5A9F35E9DD05D0A479A644EE681D0C4835DC (U3CU3Ec_t814BA87B741D1C7D533243EB72796CEC98F247F5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -2546,7 +2546,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__ctor_mC92B5A9F35E9DD05D0A479A64
 		return;
 	}
 }
-// Method Definition Index: 117079
+// Method Definition Index: 117141
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t U3CU3Ec_U3C_cctorU3Eb__4_0_m300383F0A23DCB1212437BE93377064600BE3F21 (U3CU3Ec_t814BA87B741D1C7D533243EB72796CEC98F247F5* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2564,7 +2564,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t U3CU3Ec_U3C_cctorU3Eb__4_0_m300383F0A
 		return L_0;
 	}
 }
-// Method Definition Index: 117080
+// Method Definition Index: 117142
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec_U3CCreateU3Eb__15_0_mBC6C30E159034DBF433C59641E94B0BD333432C5 (U3CU3Ec_t814BA87B741D1C7D533243EB72796CEC98F247F5* __this, RuntimeObject* ___0_x, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2758,7 +2758,7 @@ IL_00bc:
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117081
+// Method Definition Index: 117143
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PooledTweenCallback__ctor_mA201AF9C25B14707A1F406B17456BD26574E4B26 (PooledTweenCallback_t996595779DC922379A75168E966786CFDDDAEFE0* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2780,7 +2780,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PooledTweenCallback__ctor_mA201AF9C25B14
 		return;
 	}
 }
-// Method Definition Index: 117082
+// Method Definition Index: 117144
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR TweenCallback_t7C8B8A38E7B30905FF1B83C943256EF23617BB24* PooledTweenCallback_Create_m58882BAB2EDA3EE49CD9E0963BA9BBABB9795954 (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2825,7 +2825,7 @@ IL_0014:
 		return L_6;
 	}
 }
-// Method Definition Index: 117083
+// Method Definition Index: 117145
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PooledTweenCallback_Run_mEBA1CEB71770BD8923787A666DD6F3B4562F1431 (PooledTweenCallback_t996595779DC922379A75168E966786CFDDDAEFE0* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2868,7 +2868,7 @@ IL_0022:
 		return;
 	}
 }
-// Method Definition Index: 117084
+// Method Definition Index: 117146
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PooledTweenCallback__cctor_m53ADA3186F4C6734F9B5FB4A76FF7B80FB56F6F7 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2915,7 +2915,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PooledTweenCallback__cctor_m53ADA3186F4C
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-// Method Definition Index: 117060
+// Method Definition Index: 117122
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void TweenAwaiter__ctor_mD41EF7686F65951616AB5CAE1A8B1F13810E3A6E_inline (TweenAwaiter_t720E676C1FDA6AF32C91DB1339C05567E9D7C0F2* __this, Tween_t8CB06EBC48A5B6F5065C490E4F4909C18CE7983C* ___0_tween, const RuntimeMethod* method) 
 {
 	{
@@ -2942,7 +2942,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void UniTask__ctor_m5CBDA4598A896
 		return;
 	}
 }
-// Method Definition Index: 117082
+// Method Definition Index: 117144
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR TweenCallback_t7C8B8A38E7B30905FF1B83C943256EF23617BB24* PooledTweenCallback_Create_m58882BAB2EDA3EE49CD9E0963BA9BBABB9795954_inline (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2987,7 +2987,7 @@ IL_0014:
 		return L_6;
 	}
 }
-// Method Definition Index: 103592
+// Method Definition Index: 103652
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void TweenCallback_Invoke_mE4105043678D7086C7740B0D7B7589B734C14E1F_inline (TweenCallback_t7C8B8A38E7B30905FF1B83C943256EF23617BB24* __this, const RuntimeMethod* method) 
 {
 	typedef void (*FunctionPointerType) (RuntimeObject*, const RuntimeMethod*);

@@ -22,11 +22,11 @@ static Il2CppMethodPointer s_methodPointers[5] =
 };
 static const int32_t s_InvokerIndices[5] = 
 {
-	32454,
-	19646,
-	19646,
-	14798,
-	19646,
+	32457,
+	19648,
+	19648,
+	14800,
+	19648,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_Febucci_TextAnimator_Demo_Sounds_Runtime_CodeGenModule;
 const Il2CppCodeGenModule g_Febucci_TextAnimator_Demo_Sounds_Runtime_CodeGenModule = 

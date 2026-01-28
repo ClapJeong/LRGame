@@ -538,7 +538,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MonoBehaviour__ctor_m592DB0105CA0BC97AA1
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117087
+// Method Definition Index: 117149
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_tC637F8DC6C412F4CB5206779EF778BE6620DC6E8 UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_m6172A79DA76C3C1ACD5EC69459EC54667F531F93 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -572,7 +572,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_tC637F8DC6C412F4CB5206779EF778
 		return L_6;
 	}
 }
-// Method Definition Index: 117088
+// Method Definition Index: 117150
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_m5CA849C91E8C81E653A9E82B05F46516874BCB8F (UnitySourceGeneratedAssemblyMonoScriptTypes_v1_tAF1F94A8278D5478C112032D1F1F8A59406285CB* __this, const RuntimeMethod* method) 
 {
 	{
@@ -658,7 +658,7 @@ IL2CPP_EXTERN_C void MonoScriptData_tC637F8DC6C412F4CB5206779EF778BE6620DC6E8_ma
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117089
+// Method Definition Index: 117151
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TAnimSoundWriter_Awake_m09E0D09EB42C20B3ACAF44D8730755C374060678 (TAnimSoundWriter_tE1F29F3A5167CD4D7811D06CE75630D7AD1093C3* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -773,7 +773,7 @@ IL_006c:
 		return;
 	}
 }
-// Method Definition Index: 117090
+// Method Definition Index: 117152
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TAnimSoundWriter_OnCharacter_m8051CE9F08F45ABB3BFBA20227737F014261848C (TAnimSoundWriter_tE1F29F3A5167CD4D7811D06CE75630D7AD1093C3* __this, CharacterData_tCF18996A54960321B346A9089CAD863B2B05C27D ___0_character, const RuntimeMethod* method) 
 {
 	{
@@ -878,7 +878,7 @@ IL_009b:
 		return;
 	}
 }
-// Method Definition Index: 117091
+// Method Definition Index: 117153
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TAnimSoundWriter__ctor_mA3A9D6530E975B7D5626D61DF8D6E47A89EC816A (TAnimSoundWriter_tE1F29F3A5167CD4D7811D06CE75630D7AD1093C3* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;

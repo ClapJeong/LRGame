@@ -23608,7 +23608,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TProfilingSampler_1__ctor_m8C78DA1293999
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 93633
+// Method Definition Index: 93693
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* TableEntryResult_get_Entry_m4A22A09E73EAA2A222653C31120442E25431F1F3_gshared (TableEntryResult_t6AC3D8F06FD32E63ECFD9265471669605BD54C61* __this, const RuntimeMethod* method) 
 {
 	{
@@ -23626,7 +23626,7 @@ IL2CPP_EXTERN_C  RuntimeObject* TableEntryResult_get_Entry_m4A22A09E73EAA2A22265
 	_returnValue = TableEntryResult_get_Entry_m4A22A09E73EAA2A222653C31120442E25431F1F3_inline(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 93634
+// Method Definition Index: 93694
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* TableEntryResult_get_Table_mB43A7435B5900D9C456166B1BA484712E28D04AF_gshared (TableEntryResult_t6AC3D8F06FD32E63ECFD9265471669605BD54C61* __this, const RuntimeMethod* method) 
 {
 	{
@@ -23644,7 +23644,7 @@ IL2CPP_EXTERN_C  RuntimeObject* TableEntryResult_get_Table_mB43A7435B5900D9C4561
 	_returnValue = TableEntryResult_get_Table_mB43A7435B5900D9C456166B1BA484712E28D04AF_inline(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 93635
+// Method Definition Index: 93695
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TableEntryResult__ctor_m3D0E6C13C6C110E20B8BF1484EBB2457F62AEF82_gshared (TableEntryResult_t6AC3D8F06FD32E63ECFD9265471669605BD54C61* __this, RuntimeObject* ___0_entry, RuntimeObject* ___1_table, const RuntimeMethod* method) 
 {
 	{
@@ -37329,7 +37329,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void TMP_TextProcessingStack_1_se
 		return;
 	}
 }
-// Method Definition Index: 93633
+// Method Definition Index: 93693
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* TableEntryResult_get_Entry_m4A22A09E73EAA2A222653C31120442E25431F1F3_gshared_inline (TableEntryResult_t6AC3D8F06FD32E63ECFD9265471669605BD54C61* __this, const RuntimeMethod* method) 
 {
 	{
@@ -37338,7 +37338,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* TableEntryResult_g
 		return L_0;
 	}
 }
-// Method Definition Index: 93634
+// Method Definition Index: 93694
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR RuntimeObject* TableEntryResult_get_Table_mB43A7435B5900D9C456166B1BA484712E28D04AF_gshared_inline (TableEntryResult_t6AC3D8F06FD32E63ECFD9265471669605BD54C61* __this, const RuntimeMethod* method) 
 {
 	{

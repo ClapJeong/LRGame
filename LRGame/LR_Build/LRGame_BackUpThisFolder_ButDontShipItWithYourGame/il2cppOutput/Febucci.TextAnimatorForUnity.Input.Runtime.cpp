@@ -921,7 +921,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ActionScriptableBase__ctor_m5C33966B4AE0
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117110
+// Method Definition Index: 117172
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t9D3D3A6D979DD15F3EF21E3D704820FE483C6163 UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_m0679DDCEDF48675E716939ACFB61511F2D161E59 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -955,7 +955,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t9D3D3A6D979DD15F3EF21E3D70482
 		return L_6;
 	}
 }
-// Method Definition Index: 117111
+// Method Definition Index: 117173
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mBC72E3E8B6567074FF205BB043A3D6968D6BCB9F (UnitySourceGeneratedAssemblyMonoScriptTypes_v1_tA39589FB87799428B10651215ACD2141E30B77C3* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1041,7 +1041,7 @@ IL2CPP_EXTERN_C void MonoScriptData_t9D3D3A6D979DD15F3EF21E3D704820FE483C6163_ma
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117112
+// Method Definition Index: 117174
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnityInputWrapper__ctor_mC555FC90B0DB8591620DA4332A56C6FCEBD53EFB (UnityInputWrapper_t2E64C43660C8D618F7C85333ECE108FB5E4DB9AC* __this, bool ___0__, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1075,7 +1075,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnityInputWrapper__ctor_mC555FC90B0DB859
 		return;
 	}
 }
-// Method Definition Index: 117113
+// Method Definition Index: 117175
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnityInputWrapper_PassInput_mA50A2F3F2426E82A5040A2A5BEBACCCB7FB5E88A (UnityInputWrapper_t2E64C43660C8D618F7C85333ECE108FB5E4DB9AC* __this, InputControl_t74F06B623518F992BF8E38656A5E0857169E3E2E* ___0_control, const RuntimeMethod* method) 
 {
 	{
@@ -1085,7 +1085,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnityInputWrapper_PassInput_mA50A2F3F242
 		return;
 	}
 }
-// Method Definition Index: 117114
+// Method Definition Index: 117176
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t UnityInputWrapper_Progress_m3371784BC3B5ECC8E84D913DA656B6C3A7A86CDC (UnityInputWrapper_t2E64C43660C8D618F7C85333ECE108FB5E4DB9AC* __this, float ___0_deltaTime, TypingInfo_tEA40AE3A3C221A56A38EA3E6593C5C47F9C090B5** ___1_typingInfo, const RuntimeMethod* method) 
 {
 	{
@@ -1122,7 +1122,7 @@ IL_0013:
 		return (int32_t)(0);
 	}
 }
-// Method Definition Index: 117115
+// Method Definition Index: 117177
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnityInputWrapper_Cancel_mCDE2EAEC84411F8ED97DF6CD1543214EDB2A23E7 (UnityInputWrapper_t2E64C43660C8D618F7C85333ECE108FB5E4DB9AC* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1164,7 +1164,7 @@ IL_000b:
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 117116
+// Method Definition Index: 117178
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* WaitAnyInputAction_get_TagID_m83DE8E944D4BB5266B2B5B742327158C99D3FE73 (WaitAnyInputAction_t0D5BFF7993039545289E5864462CBB06C4E25232* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1173,7 +1173,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* WaitAnyInputAction_get_TagID_m83DE8
 		return L_0;
 	}
 }
-// Method Definition Index: 117117
+// Method Definition Index: 117179
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WaitAnyInputAction_set_TagID_m83379C971224CE37C1B9C8315FD97AD1533AD2F8 (WaitAnyInputAction_t0D5BFF7993039545289E5864462CBB06C4E25232* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -1184,7 +1184,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WaitAnyInputAction_set_TagID_m83379C9712
 		return;
 	}
 }
-// Method Definition Index: 117118
+// Method Definition Index: 117180
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* WaitAnyInputAction_CreateActionFrom_m941E54C1F3A626376844C34BBE8FE4A0EF42F010 (WaitAnyInputAction_t0D5BFF7993039545289E5864462CBB06C4E25232* __this, ActionMarker_tEA270C64C6A990EB7C5D9887FD49D70562806B83* ___0_marker, RuntimeObject* ___1_typewriter, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1200,7 +1200,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* WaitAnyInputAction_CreateActio
 		return L_0;
 	}
 }
-// Method Definition Index: 117119
+// Method Definition Index: 117181
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WaitAnyInputAction__ctor_m6DC45D4C28047073072659CA6A1EF90C23736A24 (WaitAnyInputAction_t0D5BFF7993039545289E5864462CBB06C4E25232* __this, const RuntimeMethod* method) 
 {
 	{

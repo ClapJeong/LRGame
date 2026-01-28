@@ -5,13 +5,19 @@
     <type fullname="LocalManager" preserve="all" />
     <type fullname="LR.Stage.Effect.AnimEffectObject" preserve="all" />
     <type fullname="LR.Stage.Effect.ParticleEffectObject" preserve="all" />
+    <type fullname="LR.Stage.InteractiveObject.AutoMover.AutoDoor" preserve="all" />
+    <type fullname="LR.Stage.InteractiveObject.AutoMover.AutoMover" preserve="all" />
     <type fullname="LR.Stage.Player.BasePlayerView" preserve="all" />
     <type fullname="LR.Stage.Player.PlayerParticleSet" preserve="all" />
     <type fullname="LR.Stage.Player.PlayerStartPositionGizmo" preserve="all" />
     <type fullname="LR.Stage.SignalListener.ACDCSignalPreview" preserve="all" />
     <type fullname="LR.Stage.SignalListener.ACSignalPreview" preserve="all" />
+    <type fullname="LR.Stage.SignalListener.SignalListener" preserve="all" />
     <type fullname="LR.Stage.StageDataContainer.StageDataContainer" preserve="all" />
     <type fullname="LR.Stage.TriggerTile.ClearTriggerTileView" preserve="all" />
+    <type fullname="LR.Stage.TriggerTile.EnergyItemTriggerView" preserve="all" />
+    <type fullname="LR.Stage.TriggerTile.InputtingEnergyItemTriggerView" preserve="all" />
+    <type fullname="LR.Stage.TriggerTile.SignalTriggerView" preserve="all" />
     <type fullname="LR.Stage.TriggerTile.SpikeTriggerTileView" preserve="all" />
     <type fullname="LR.UI.BaseProgressSubmitView" preserve="all" />
     <type fullname="LR.UI.GameScene.ChatCard.UIChatCardView" preserve="all" />
@@ -131,7 +137,6 @@
     <type fullname="UnityEngine.GameObject" preserve="all" />
     <type fullname="UnityEngine.LightmapSettings" preserve="all" />
     <type fullname="UnityEngine.Material" preserve="all" />
-    <type fullname="UnityEngine.MonoBehaviour" preserve="all" />
     <type fullname="UnityEngine.Object" preserve="all" />
     <type fullname="UnityEngine.RectTransform" preserve="all" />
     <type fullname="UnityEngine.RenderSettings" preserve="all" />

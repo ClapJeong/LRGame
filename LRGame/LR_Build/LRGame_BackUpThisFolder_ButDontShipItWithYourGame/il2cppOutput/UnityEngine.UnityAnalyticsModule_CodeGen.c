@@ -36,18 +36,18 @@ static Il2CppMethodPointer s_methodPointers[12] =
 };
 static const int32_t s_InvokerIndices[12] = 
 {
-	30978,
-	32421,
-	25000,
-	7605,
-	19646,
-	27617,
-	23124,
-	30994,
-	7605,
-	2301,
-	7605,
-	15003,
+	30981,
+	32424,
+	25003,
+	7607,
+	19648,
+	27620,
+	23126,
+	30997,
+	7607,
+	2302,
+	7607,
+	15005,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_UnityEngine_UnityAnalyticsModule_CodeGenModule;
 const Il2CppCodeGenModule g_UnityEngine_UnityAnalyticsModule_CodeGenModule = 

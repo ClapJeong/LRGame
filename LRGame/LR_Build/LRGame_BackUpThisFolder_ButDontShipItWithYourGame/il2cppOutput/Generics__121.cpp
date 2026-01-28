@@ -5170,7 +5170,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LowLevelList_1__cctor_m663DD9A631105882B
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_mD9C4F1D714A5D735778C1640CA2DA8FF6CBB701E_gshared (ManagedEffectScriptable_2_t8B1CF1E6C44F94A25878592E6B715564EC1BE755* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5190,7 +5190,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m7AE6BE1FA4141C41334A18489EE429393C69D00A_gshared (ManagedEffectScriptable_2_t8B1CF1E6C44F94A25878592E6B715564EC1BE755* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5206,7 +5206,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m7AE6BE1
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_m8088EA82EFBB4836FB63604938F1EA05AFCFF78A_gshared (ManagedEffectScriptable_2_t3E075F3FB4900173F039D374E0D337009A79B5C6* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5226,7 +5226,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_mA2150558714341E631860217C202019028C4CE9D_gshared (ManagedEffectScriptable_2_t3E075F3FB4900173F039D374E0D337009A79B5C6* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5242,7 +5242,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_mA215055
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_m9E731852285930DDD2EB1726403C4CD47C3C29AA_gshared (ManagedEffectScriptable_2_t5E5EC079F0AD3D34602CFB4D676D0FD354A679B7* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5262,7 +5262,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_mECBEEE07E5E8AD9030A5A45EDF0ABB5CFE71EBBD_gshared (ManagedEffectScriptable_2_t5E5EC079F0AD3D34602CFB4D676D0FD354A679B7* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5278,7 +5278,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_mECBEEE0
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_m56E651DEB9CCE0D4EF66E6F446E364D6C00F6E16_gshared (ManagedEffectScriptable_2_tB7C93988FF1CD376AB01B3DE3E01D304E76ACEDF* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5298,7 +5298,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m736CD50CC7F6E6B3BDF25615AE1FF1ABB1DAB02E_gshared (ManagedEffectScriptable_2_tB7C93988FF1CD376AB01B3DE3E01D304E76ACEDF* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5314,7 +5314,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m736CD50
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_m64A4C9D2F9BA8174C5F58E7FE187C3E001F03751_gshared (ManagedEffectScriptable_2_t863FE648F1BD3F61D7A6969AEDF693CED3804154* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5334,7 +5334,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_mBF19051A88F23B45C84985F35BEC790957B712EB_gshared (ManagedEffectScriptable_2_t863FE648F1BD3F61D7A6969AEDF693CED3804154* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5350,7 +5350,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_mBF19051
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_mF32924A269C23AE6479B594B9DA86C8EA9E76289_gshared (ManagedEffectScriptable_2_t8373E6DE9F658C136D102C9277E987666BD3E011* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5370,7 +5370,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m14CBF29C80C055EF27163C1990766F8E58D0D860_gshared (ManagedEffectScriptable_2_t8373E6DE9F658C136D102C9277E987666BD3E011* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5386,7 +5386,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m14CBF29
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_m198FA5ED11106A2DA0C6C7232B635D9DEA59BEC5_gshared (ManagedEffectScriptable_2_tEC21C031546C9D9BBE3687F400A6BD5E85572326* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5406,7 +5406,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m27C1226EB02EB4355F586A7BEF4EB939841397D5_gshared (ManagedEffectScriptable_2_tEC21C031546C9D9BBE3687F400A6BD5E85572326* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5422,7 +5422,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m27C1226
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_m0BA3DB8B236BC82A8197DA09AE573B52DD2CC6A7_gshared (ManagedEffectScriptable_2_t445AFD07D5895DCBFA9BD88968BF0933ABE4A9C6* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5442,7 +5442,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m107535B81B581F5CEAF49B15D9EFAD52E14600F9_gshared (ManagedEffectScriptable_2_t445AFD07D5895DCBFA9BD88968BF0933ABE4A9C6* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5458,7 +5458,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m107535B
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111941
+// Method Definition Index: 112001
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B0521A57B2E9 ManagedEffectScriptable_2_CreatePhase_m564EC3DFE5D2D84C5FE81EE17EF23AAA644A6DA4_gshared (ManagedEffectScriptable_2_t7D1BBB22FF1049D2197F4ED657E9D6F96E265F33* __this, DefaultPhaseParams_tE634096F095F043AF40FEF8136424351EB9F0020* ___0_parameters, const RuntimeMethod* method) 
 {
 	{
@@ -5478,7 +5478,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR DefaultPhase_t3930114C59D5D6AF0855A4D89C92B05
 		return L_6;
 	}
 }
-// Method Definition Index: 111942
+// Method Definition Index: 112002
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m55B5BEE12792D8A5E9F4F99A20F263A0397D9184_gshared (ManagedEffectScriptable_2_t7D1BBB22FF1049D2197F4ED657E9D6F96E265F33* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5494,7 +5494,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_2__ctor_m55B5BEE
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_mCB50D5AFC2A67309E90181375D94B003625258BE_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5553,7 +5553,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_m51321EDA6CEC13ADAE814B9D5A8856272B1C4038_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5562,7 +5562,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_m9661575454DB69D1C10E196883F910CDFD14A0E8_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5571,7 +5571,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_mA677B8DACB80716BE68E3B7035D8D054FF04B5C5_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5580,7 +5580,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_mFB67279172EAEC8C889B552194876A9D7D1065C9_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5589,7 +5589,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_m63EEB55D780CF0293EEB2A10AF25A01A22318712_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5598,7 +5598,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m24A51601939AEE61E964ACE6CBD6050BAE23B2A3_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -5609,7 +5609,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m24A
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m41BC755FCE0FEF327CFEE8C5D40A029A47CE491C_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5622,7 +5622,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m41
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_m58A4CA2B7FC2CE3CCDCFA5388673FEC6ABFA54E4_gshared (ManagedEffectScriptable_4_tE889BD329C1935083FE9A9EF17070669D256677B* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -5648,7 +5648,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_m58A4CA2
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_mE4DDF38DAF644C65DEA5282F9AB2D079D3EDA6BC_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5707,7 +5707,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_m53DA291C829288E826434860121FD03803837B0E_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5716,7 +5716,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_mA1570D5D6E127B9D0A3DC0DD85FDC5898D8D7C0E_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5725,7 +5725,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_m0FE6C665FF60F8CF97FE0613DC0EE368ABD9B4A2_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5734,7 +5734,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_m549F3AB69E70B1E5F8B1A50382856DE610D65D13_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5743,7 +5743,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_mE1F9A2D5CA4EBFB7654FB09247DAB6AD62B752FF_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5752,7 +5752,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m6CE0F55AAC8433ABBF8C952CDCC87852B560668E_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -5763,7 +5763,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m6CE
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_mDB5FFEDAF2879F1679806C5FFD3FE2EB249B6DC4_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5776,7 +5776,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_mDB
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_m4B55047D41D5B02414C7F5A253BEED4690B66363_gshared (ManagedEffectScriptable_4_tADC949E67D60F7AEC6B49AA118B34E6A2B074CC0* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -5802,7 +5802,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_m4B55047
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_m7F4507D93CE02E35B62E06880D0ED9EAFF4B1703_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5861,7 +5861,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_mB545877E7FCF92EBA532A6AD9831DB6DE140F6E3_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5870,7 +5870,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_mF3A4885323323114AE539A3D82160A9121400C18_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5879,7 +5879,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_m0ECE29A64FC225F5B451725A6D6A4E56881A351C_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5888,7 +5888,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_mCD42D43951AB92E39616BC547792AD4ABC342C4E_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5897,7 +5897,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_m4849E96DA09E5353C707E8A5A61FCCB59DC283B9_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5906,7 +5906,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m3042178E99E92C9B7C611CEE115D2CC35B2E2887_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -5917,7 +5917,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m304
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m37FCB19AEE47C1944ADA3CBF65CB9BAE46BB7134_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5930,7 +5930,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m37
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_m473D86ADAD2FA627901F469398EF03970AB2D077_gshared (ManagedEffectScriptable_4_tA465ADD455B0D9FC2750ABB95860B876F54ACEC5* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -5956,7 +5956,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_m473D86A
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_m18AF38DFD36D28A80415205606FFB34008BB9265_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6015,7 +6015,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_m1B14CB084E58B92924C09780E69D1910B2874959_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6024,7 +6024,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_m7F28C45A56DC22358067AA7425581A969456DC47_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6033,7 +6033,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_mE2125F2505F723FE0FE82F6C2E6AC17A8DC69A08_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6042,7 +6042,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_m1BBDBBD3A23555DDF39E95E7C3146514CF63E284_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6051,7 +6051,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_mCA05B83A6D2734D9B38A439F268716DBBB158049_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6060,7 +6060,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_mC8CF87FD3D0FC56CCB6C0236F2258203FBE179D9_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -6071,7 +6071,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_mC8C
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m0C91A59D05BA56DF2B4728F8F5EED8C7AFD4209D_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6084,7 +6084,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m0C
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mB1FF33FEAEC4B7B0BC83A5949A45E76105E00131_gshared (ManagedEffectScriptable_4_tE6825AEACF703468E45D4FEA7A5828237BA889BD* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -6110,7 +6110,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mB1FF33F
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_mD2148F39014C5DD0E796E4D69156891FC5307230_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6169,7 +6169,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_m6AB34D846FCB4071D15DAA6BD880F180377A9240_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6178,7 +6178,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_m6EEFF8078E2568EF35430B9B9831F6B54B99ED2F_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6187,7 +6187,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_mB1AB7E20A787D68C854E31E203C41F55F04C226B_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6196,7 +6196,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_m801FA9A7609FCF6FA535D34EF2C7C22617FDDE2E_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6205,7 +6205,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_m6165AD9D2807C1D2B4E07D49C5D09219008887EF_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6214,7 +6214,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m68C557CFACFA7EB1EEAEECA6FBC7400D504D8648_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -6225,7 +6225,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m68C
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m97B9B3C6573719F9F25AC6D853D17264487595CD_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6238,7 +6238,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m97
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_m6F7F5277FC341418A87051F977A7024371898154_gshared (ManagedEffectScriptable_4_t5A8ABE4726AB7CE0388B02ADE0CE3BA4E6FFD206* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -6264,7 +6264,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_m6F7F527
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_m89F0B14B7775B5456512E7305587D8EE3E18FD8C_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6323,7 +6323,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_mE8042BB00FD2DC054B6BCDBFB9FD32B375233DE4_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6332,7 +6332,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_m5B942CE544F2E8030F8A3CCFA078AC352504B8C6_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6341,7 +6341,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_mEAA370FC1D91D8486FE6FAE6A449D1A206C2DA07_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6350,7 +6350,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_mB5858BE2E98BEDCDC05BF4455BDA63AB1474ECF3_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6359,7 +6359,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_m927F8C9F39F16CEF4C2DE38C4B8E0DA00255E2E5_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6368,7 +6368,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m6A6DEB6F162830690425F49B45930522012AE2AC_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -6379,7 +6379,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m6A6
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m5198155A9AFE3AF96FC5C9612E342D1B97BDCA49_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6392,7 +6392,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m51
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mE8AFA1D61C52C6148DA54F79F1F9A1C7BCB05D87_gshared (ManagedEffectScriptable_4_t759DAA3FD70345B35ADDAD0F80865FD632668F37* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -6418,7 +6418,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mE8AFA1D
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_mCD4EE36F64628C813C2272B4A17F5BFBA3FDF812_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6477,7 +6477,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_mDC3C7AFD448D2274CF88389442184E0E6C897B15_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6486,7 +6486,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_m06DB22D4ABB766CFD14C5689A22443A0F39B03D5_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6495,7 +6495,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_m4D3724FB4EDCC7129AAE65F4C3C041A13DE491CC_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6504,7 +6504,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_mDA1144D102445E65AB6DA3544FB6FFB357FAC5B9_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6513,7 +6513,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_m385549B9205FC40AE28ACAD0D9E477255E33BCD5_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6522,7 +6522,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_mC7F0A42A0AD8A4175C80422AE2A5AC785546E5E0_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -6533,7 +6533,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_mC7F
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_mC136231F74B6361774330262C67BDF87A1B4BFA0_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6546,7 +6546,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_mC1
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mFC05AA37DD8556E94AAA8651E42D8BE6CF5968CA_gshared (ManagedEffectScriptable_4_t3ED8DDD8D1495B6C984F5A8E46439A38A850C032* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -6572,7 +6572,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mFC05AA3
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_mC5688A55EFAAAA514884CCF27FCF43E3D616C5DC_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6631,7 +6631,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_mF51F9C2BA4B1379E03027A10D6BB4A0EEEC92669_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6640,7 +6640,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_mEB7CB9BDE97269392417A65E671F82CAEF970710_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6649,7 +6649,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_m47CB4A21FD000CB0C30595796328AA6ACF433A9A_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6658,7 +6658,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_mF8FEDBCC6B704A50F899ABF22E7E3DE762604D48_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6667,7 +6667,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_m324D00E590D59E41E029185EA65033ABAF148357_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6676,7 +6676,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m59BB4E886B4EA861D3E3271D078263CC331F755F_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -6687,7 +6687,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m59B
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m4202D7644CCBD886EB94DE11B5AD70F8F24DF137_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6700,7 +6700,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m42
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mF42165042F3A3689BDB5C7F70B3AB61509A4FBEE_gshared (ManagedEffectScriptable_4_t125A55460B275236D3A91BA5634E21DDD04E1352* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -6726,7 +6726,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mF421650
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 111943
+// Method Definition Index: 112003
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_OnEnable_m2C2B805FC5182959F0580A37697B562B7312681B_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6782,7 +6782,7 @@ IL_003c:
 		return;
 	}
 }
-// Method Definition Index: 111946
+// Method Definition Index: 112006
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Appearance_m90C1AEF6EBDBD7C67D00290DE33B9955A52DC931_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6791,7 +6791,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111947
+// Method Definition Index: 112007
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Persistent_mEC09B1150CE1C95DAD98B286BF776D707C4DF326_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6800,7 +6800,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111948
+// Method Definition Index: 112008
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_Disappearance_mA80AAE9B93B2B042A30C8B5C03B086CF1EBD078B_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6809,7 +6809,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* ManagedEffectScriptable_4_get_
 		return (RuntimeObject*)L_0;
 	}
 }
-// Method Definition Index: 111949
+// Method Definition Index: 112009
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C ManagedEffectScriptable_4_get_Settings_mC0E86694958E218B8435858E3C0E5DF69589181B_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6818,7 +6818,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA2
 		return L_0;
 	}
 }
-// Method Definition Index: 111950
+// Method Definition Index: 112010
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID_mEB15758B6A48010DBDA52CF094371363ECB77691_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6827,7 +6827,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* ManagedEffectScriptable_4_get_TagID
 		return L_0;
 	}
 }
-// Method Definition Index: 111951
+// Method Definition Index: 112011
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m4E3432962133D0624B1061F43B0D9DF62B266F7E_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, String_t* ___0_value, const RuntimeMethod* method) 
 {
 	{
@@ -6838,7 +6838,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_set_TagID_m4E3
 		return;
 	}
 }
-// Method Definition Index: 111952
+// Method Definition Index: 112012
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m3326E5AD5D1477179407F83E0B9F504A45AC3BC4_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6851,7 +6851,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4_Initialize_m33
 		return;
 	}
 }
-// Method Definition Index: 111953
+// Method Definition Index: 112013
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ManagedEffectScriptable_4__ctor_mFFA833B14B2E3DB13ACD61CA125785A8147EBF21_gshared (ManagedEffectScriptable_4_t834087DE8E108871BD7B562DEFFC22AD44E339B4* __this, const RuntimeMethod* method) 
 {
 	EffectPresetSettings_tF1D798FC7BA6D7DDAD8AFA28FC13787312605D8C V_0;
@@ -8003,7 +8003,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* MaterializeObservable_1_Subscr
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 113514
+// Method Definition Index: 113576
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxNDebugView_1__ctor_m612DBE768DD5AEC78CC6BFA61C0F75B9635C5EAC_gshared (MatrixMxNDebugView_1_t54DB71F55826C54683CEB4D2B2ECCAF248A88B13* __this, MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E ___0_array, const RuntimeMethod* method) 
 {
 	{
@@ -8016,7 +8016,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxNDebugView_1__ctor_m612DBE768DD5
 		return;
 	}
 }
-// Method Definition Index: 113515
+// Method Definition Index: 113577
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR __Il2CppFullySharedGenericStructTypeU5BU5D_tF3B929B6E80D0A8C109178E11CE8FF9957B014C1* MatrixMxNDebugView_1_get_Items_m7B33D95C2C7B4B06248F825614948E7BF49BE97B_gshared (MatrixMxNDebugView_1_t54DB71F55826C54683CEB4D2B2ECCAF248A88B13* __this, const RuntimeMethod* method) 
 {
 	__Il2CppFullySharedGenericStructTypeU5BU5D_tF3B929B6E80D0A8C109178E11CE8FF9957B014C1* V_0 = NULL;
@@ -8044,7 +8044,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR __Il2CppFullySharedGenericStructTypeU5BU5D_tF
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 113502
+// Method Definition Index: 113564
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1__ctor_m42EE67C3AE34F91BC93CDF9C31BCA817F55658DB_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, int32_t ___0_width, int32_t ___1_height, int32_t ___2_allocMode, int32_t ___3_options, const RuntimeMethod* method) 
 {
 	{
@@ -8080,7 +8080,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1__ctor_m42EE67C3AE34F91BC93CDF9C31BCA817F55658D
 	_thisAdjusted = reinterpret_cast<MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D*>(__this + _offset);
 	MatrixMxN_1__ctor_m42EE67C3AE34F91BC93CDF9C31BCA817F55658DB(_thisAdjusted, ___0_width, ___1_height, ___2_allocMode, ___3_options, method);
 }
-// Method Definition Index: 113503
+// Method Definition Index: 113565
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float MatrixMxN_1_get_Item_mFCA9EF7296777CC0B209745CD76F7DBC0D9E9EC6_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, int32_t ___0_index, const RuntimeMethod* method) 
 {
 	{
@@ -8101,7 +8101,7 @@ IL2CPP_EXTERN_C  float MatrixMxN_1_get_Item_mFCA9EF7296777CC0B209745CD76F7DBC0D9
 	_returnValue = MatrixMxN_1_get_Item_mFCA9EF7296777CC0B209745CD76F7DBC0D9E9EC6(_thisAdjusted, ___0_index, method);
 	return _returnValue;
 }
-// Method Definition Index: 113504
+// Method Definition Index: 113566
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_set_Item_mF2D7D6C7F733B23C461F4975ABB03F4DC237B968_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, int32_t ___0_index, float ___1_value, const RuntimeMethod* method) 
 {
 	{
@@ -8121,7 +8121,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_set_Item_mF2D7D6C7F733B23C461F4975ABB03F4DC237
 	_thisAdjusted = reinterpret_cast<MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D*>(__this + _offset);
 	MatrixMxN_1_set_Item_mF2D7D6C7F733B23C461F4975ABB03F4DC237B968(_thisAdjusted, ___0_index, ___1_value, method);
 }
-// Method Definition Index: 113505
+// Method Definition Index: 113567
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR NativeArray_1_t3848EE4B6647317212A754634DE6DBC90B99FBEF MatrixMxN_1_GetArray_mE61D04544D11D44F3C5AE38CA98935D92BFB87AD_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8139,7 +8139,7 @@ IL2CPP_EXTERN_C  NativeArray_1_t3848EE4B6647317212A754634DE6DBC90B99FBEF MatrixM
 	_returnValue = MatrixMxN_1_GetArray_mE61D04544D11D44F3C5AE38CA98935D92BFB87AD_inline(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113506
+// Method Definition Index: 113568
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float MatrixMxN_1_Get_m8F7C9C7B8B58D109C883751922BFF2553DCEC7BC_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, int32_t ___0_x, int32_t ___1_y, const RuntimeMethod* method) 
 {
 	{
@@ -8162,7 +8162,7 @@ IL2CPP_EXTERN_C  float MatrixMxN_1_Get_m8F7C9C7B8B58D109C883751922BFF2553DCEC7BC
 	_returnValue = MatrixMxN_1_Get_m8F7C9C7B8B58D109C883751922BFF2553DCEC7BC(_thisAdjusted, ___0_x, ___1_y, method);
 	return _returnValue;
 }
-// Method Definition Index: 113507
+// Method Definition Index: 113569
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_Set_m52205E84593140C82A17897C3B62299790D22919_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, int32_t ___0_x, int32_t ___1_y, float ___2_v, const RuntimeMethod* method) 
 {
 	{
@@ -8184,7 +8184,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_Set_m52205E84593140C82A17897C3B62299790D22919_
 	_thisAdjusted = reinterpret_cast<MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D*>(__this + _offset);
 	MatrixMxN_1_Set_m52205E84593140C82A17897C3B62299790D22919(_thisAdjusted, ___0_x, ___1_y, ___2_v, method);
 }
-// Method Definition Index: 113508
+// Method Definition Index: 113570
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool MatrixMxN_1_get_IsCreated_mB57721EFA9DC872DF20F9DB4BDA74E50302F9F99_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8204,7 +8204,7 @@ IL2CPP_EXTERN_C  bool MatrixMxN_1_get_IsCreated_mB57721EFA9DC872DF20F9DB4BDA74E5
 	_returnValue = MatrixMxN_1_get_IsCreated_mB57721EFA9DC872DF20F9DB4BDA74E50302F9F99(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113509
+// Method Definition Index: 113571
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_Length_m531DB9117B7CA5F7E3CFD9ECAE20F6E3335ED0F1_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8223,7 +8223,7 @@ IL2CPP_EXTERN_C  int32_t MatrixMxN_1_get_Length_m531DB9117B7CA5F7E3CFD9ECAE20F6E
 	_returnValue = MatrixMxN_1_get_Length_m531DB9117B7CA5F7E3CFD9ECAE20F6E3335ED0F1(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113510
+// Method Definition Index: 113572
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_DimensionX_m8C6025181DFE84DEE3F2C5BEDE9B124F74AF8F98_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8241,7 +8241,7 @@ IL2CPP_EXTERN_C  int32_t MatrixMxN_1_get_DimensionX_m8C6025181DFE84DEE3F2C5BEDE9
 	_returnValue = MatrixMxN_1_get_DimensionX_m8C6025181DFE84DEE3F2C5BEDE9B124F74AF8F98_inline(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113511
+// Method Definition Index: 113573
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_DimensionY_mF28FCA0D0E539D3FC424AE5BF3D158CA0DC29637_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8259,7 +8259,7 @@ IL2CPP_EXTERN_C  int32_t MatrixMxN_1_get_DimensionY_mF28FCA0D0E539D3FC424AE5BF3D
 	_returnValue = MatrixMxN_1_get_DimensionY_mF28FCA0D0E539D3FC424AE5BF3D158CA0DC29637_inline(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113512
+// Method Definition Index: 113574
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_Dispose_m32C69CB03A52DCA67A787A940C3BF45E626F4E06_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8281,7 +8281,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_Dispose_m32C69CB03A52DCA67A787A940C3BF45E626F4
 	_thisAdjusted = reinterpret_cast<MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D*>(__this + _offset);
 	MatrixMxN_1_Dispose_m32C69CB03A52DCA67A787A940C3BF45E626F4E06(_thisAdjusted, method);
 }
-// Method Definition Index: 113513
+// Method Definition Index: 113575
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_CopyTo_m32814D0007FD25455CD34927FC901D9BBA02E3A0_gshared (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, SingleU5BU5D_t89DEFE97BCEDB5857010E79ECE0F52CF6E93B87C* ___0_array, const RuntimeMethod* method) 
 {
 	{
@@ -8308,7 +8308,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_CopyTo_m32814D0007FD25455CD34927FC901D9BBA02E3
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 113502
+// Method Definition Index: 113564
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1__ctor_mD7C1B5E5DB3EC632CE6E6B29DC4782EE4E10E669_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, int32_t ___0_width, int32_t ___1_height, int32_t ___2_allocMode, int32_t ___3_options, const RuntimeMethod* method) 
 {
 	{
@@ -8344,7 +8344,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1__ctor_mD7C1B5E5DB3EC632CE6E6B29DC4782EE4E10E66
 	_thisAdjusted = reinterpret_cast<MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E*>(__this + _offset);
 	MatrixMxN_1__ctor_mD7C1B5E5DB3EC632CE6E6B29DC4782EE4E10E669(_thisAdjusted, ___0_width, ___1_height, ___2_allocMode, ___3_options, method);
 }
-// Method Definition Index: 113503
+// Method Definition Index: 113565
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_get_Item_mCB286376FAE8DB6E7DDD529ECAFA52529512BA23_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, int32_t ___0_index, Il2CppFullySharedGenericStruct* il2cppRetVal, const RuntimeMethod* method) 
 {
 	const uint32_t SizeOf_T_t66F7E20077C28ADFCA962FA197D479353432DF9D = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(InitializedTypeInfo(method->klass)->rgctx_data, 5));
@@ -8366,7 +8366,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_get_Item_mCB286376FAE8DB6E7DDD529ECAFA52529512
 	MatrixMxN_1_get_Item_mCB286376FAE8DB6E7DDD529ECAFA52529512BA23(_thisAdjusted, ___0_index, il2cppRetVal, method);
 	return;
 }
-// Method Definition Index: 113504
+// Method Definition Index: 113566
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_set_Item_mBB1FDF0BBCA714FBA22962F6125A255144B7D398_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, int32_t ___0_index, Il2CppFullySharedGenericStruct ___1_value, const RuntimeMethod* method) 
 {
 	const uint32_t SizeOf_T_t66F7E20077C28ADFCA962FA197D479353432DF9D = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(InitializedTypeInfo(method->klass)->rgctx_data, 5));
@@ -8388,7 +8388,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_set_Item_mBB1FDF0BBCA714FBA22962F6125A255144B7
 	_thisAdjusted = reinterpret_cast<MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E*>(__this + _offset);
 	MatrixMxN_1_set_Item_mBB1FDF0BBCA714FBA22962F6125A255144B7D398(_thisAdjusted, ___0_index, ___1_value, method);
 }
-// Method Definition Index: 113505
+// Method Definition Index: 113567
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR NativeArray_1_tDB8B8DC66CC8E16ED6D9A8C75D2C1AFC80AC1E18 MatrixMxN_1_GetArray_m9F72434935311256F9277D1C5FCBFD8888DB2159_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8406,7 +8406,7 @@ IL2CPP_EXTERN_C  NativeArray_1_tDB8B8DC66CC8E16ED6D9A8C75D2C1AFC80AC1E18 MatrixM
 	_returnValue = MatrixMxN_1_GetArray_m9F72434935311256F9277D1C5FCBFD8888DB2159_inline(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113506
+// Method Definition Index: 113568
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_Get_m8F3575B885A95FFD46EB712A7CCEB33EE78ABD46_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, int32_t ___0_x, int32_t ___1_y, Il2CppFullySharedGenericStruct* il2cppRetVal, const RuntimeMethod* method) 
 {
 	const uint32_t SizeOf_T_t66F7E20077C28ADFCA962FA197D479353432DF9D = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(InitializedTypeInfo(method->klass)->rgctx_data, 5));
@@ -8430,7 +8430,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_Get_m8F3575B885A95FFD46EB712A7CCEB33EE78ABD46_
 	MatrixMxN_1_Get_m8F3575B885A95FFD46EB712A7CCEB33EE78ABD46(_thisAdjusted, ___0_x, ___1_y, il2cppRetVal, method);
 	return;
 }
-// Method Definition Index: 113507
+// Method Definition Index: 113569
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_Set_mD0A72616217EA0C9BF1A7D7246D4D3DD366257E1_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, int32_t ___0_x, int32_t ___1_y, Il2CppFullySharedGenericStruct ___2_v, const RuntimeMethod* method) 
 {
 	const uint32_t SizeOf_T_t66F7E20077C28ADFCA962FA197D479353432DF9D = il2cpp_codegen_sizeof(il2cpp_rgctx_data_no_init(InitializedTypeInfo(method->klass)->rgctx_data, 5));
@@ -8454,7 +8454,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_Set_mD0A72616217EA0C9BF1A7D7246D4D3DD366257E1_
 	_thisAdjusted = reinterpret_cast<MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E*>(__this + _offset);
 	MatrixMxN_1_Set_mD0A72616217EA0C9BF1A7D7246D4D3DD366257E1(_thisAdjusted, ___0_x, ___1_y, ___2_v, method);
 }
-// Method Definition Index: 113508
+// Method Definition Index: 113570
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool MatrixMxN_1_get_IsCreated_m139C6B102F48E632ED103BEF00641884CF621E16_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8474,7 +8474,7 @@ IL2CPP_EXTERN_C  bool MatrixMxN_1_get_IsCreated_m139C6B102F48E632ED103BEF0064188
 	_returnValue = MatrixMxN_1_get_IsCreated_m139C6B102F48E632ED103BEF00641884CF621E16(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113509
+// Method Definition Index: 113571
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_Length_mBC3776550911BA05734890369C64FEBEED87957E_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8493,7 +8493,7 @@ IL2CPP_EXTERN_C  int32_t MatrixMxN_1_get_Length_mBC3776550911BA05734890369C64FEB
 	_returnValue = MatrixMxN_1_get_Length_mBC3776550911BA05734890369C64FEBEED87957E(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113510
+// Method Definition Index: 113572
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_DimensionX_m2FD49E5253BB5F83A0F73FF4CA6BDC4C435DD3F8_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8511,7 +8511,7 @@ IL2CPP_EXTERN_C  int32_t MatrixMxN_1_get_DimensionX_m2FD49E5253BB5F83A0F73FF4CA6
 	_returnValue = MatrixMxN_1_get_DimensionX_m2FD49E5253BB5F83A0F73FF4CA6BDC4C435DD3F8_inline(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113511
+// Method Definition Index: 113573
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_DimensionY_m2C91E339A741646CF3302B3741EC45AD41C242E6_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8529,7 +8529,7 @@ IL2CPP_EXTERN_C  int32_t MatrixMxN_1_get_DimensionY_m2C91E339A741646CF3302B3741E
 	_returnValue = MatrixMxN_1_get_DimensionY_m2C91E339A741646CF3302B3741EC45AD41C242E6_inline(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 113512
+// Method Definition Index: 113574
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_Dispose_m13DFF7EC0FB4F5CE59972F37B2178F083A7B788A_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8551,7 +8551,7 @@ IL2CPP_EXTERN_C  void MatrixMxN_1_Dispose_m13DFF7EC0FB4F5CE59972F37B2178F083A7B7
 	_thisAdjusted = reinterpret_cast<MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E*>(__this + _offset);
 	MatrixMxN_1_Dispose_m13DFF7EC0FB4F5CE59972F37B2178F083A7B788A(_thisAdjusted, method);
 }
-// Method Definition Index: 113513
+// Method Definition Index: 113575
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MatrixMxN_1_CopyTo_mAA9DDC54A871349C3441EEF6611139614B4A8F68_gshared (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, __Il2CppFullySharedGenericStructTypeU5BU5D_tF3B929B6E80D0A8C109178E11CE8FF9957B014C1* ___0_array, const RuntimeMethod* method) 
 {
 	{
@@ -31315,7 +31315,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t List_1_get_Count_m4407E4C
 		return L_0;
 	}
 }
-// Method Definition Index: 113505
+// Method Definition Index: 113567
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR NativeArray_1_t3848EE4B6647317212A754634DE6DBC90B99FBEF MatrixMxN_1_GetArray_mE61D04544D11D44F3C5AE38CA98935D92BFB87AD_gshared_inline (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -31332,7 +31332,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool NativeArray_1_get_IsCreated_
 		return (bool)((((int32_t)((((intptr_t)L_0) == ((intptr_t)((uintptr_t)0)))? 1 : 0)) == ((int32_t)0))? 1 : 0);
 	}
 }
-// Method Definition Index: 113510
+// Method Definition Index: 113572
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_DimensionX_m8C6025181DFE84DEE3F2C5BEDE9B124F74AF8F98_gshared_inline (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -31341,7 +31341,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_Dimension
 		return L_0;
 	}
 }
-// Method Definition Index: 113511
+// Method Definition Index: 113573
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_DimensionY_mF28FCA0D0E539D3FC424AE5BF3D158CA0DC29637_gshared_inline (MatrixMxN_1_tCE7536060A541DF76F19476411BF01462801071D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -31350,7 +31350,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_Dimension
 		return L_0;
 	}
 }
-// Method Definition Index: 113505
+// Method Definition Index: 113567
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR NativeArray_1_tDB8B8DC66CC8E16ED6D9A8C75D2C1AFC80AC1E18 MatrixMxN_1_GetArray_m9F72434935311256F9277D1C5FCBFD8888DB2159_gshared_inline (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -31359,7 +31359,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR NativeArray_1_tDB8B8DC66CC8E16ED6
 		return L_0;
 	}
 }
-// Method Definition Index: 113510
+// Method Definition Index: 113572
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_DimensionX_m2FD49E5253BB5F83A0F73FF4CA6BDC4C435DD3F8_gshared_inline (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -31368,7 +31368,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_Dimension
 		return L_0;
 	}
 }
-// Method Definition Index: 113511
+// Method Definition Index: 113573
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t MatrixMxN_1_get_DimensionY_m2C91E339A741646CF3302B3741EC45AD41C242E6_gshared_inline (MatrixMxN_1_t875A8DF2991B522ABDC793640D4BA4B122A7F47E* __this, const RuntimeMethod* method) 
 {
 	{

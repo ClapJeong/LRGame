@@ -343,7 +343,6 @@ struct ITriggerHandler_1_tC8521E676375D345D1BBCC42CAAA2233D9604940;
 struct ITriggerHandler_1_t9ECD8ACC164DA5250414A0D5063F48772E1606E8;
 struct ITriggerHandler_1_t2B801AE9B025A7B367F3C51F27991B9B312D7578;
 struct ITriggerHandler_1_t53BCC826B29B27388A8A63C9E80F17313AB22E2C;
-struct IUniTaskSource_1_tDB0B861DBD93BDE94BC7775BF6DCB345AF98DE83;
 struct IUniTaskSource_1_tF80F5827469250ECC69F6DF44483294EC29C66DB;
 struct IUniTaskSource_1_tCAA4E183E28B5F44ADCE3E70246E3E424AD2BE98;
 struct IUniTaskSource_1_t8A2130B76D4B81157CBE7FCEDFCDF6C83DC94748;
@@ -1826,11 +1825,6 @@ struct UniTask_1_t6789B7391C26F45E188173FA062480778FC16173
 	int32_t ___result;
 	int16_t ___token;
 };
-struct ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 
-{
-	bool ___Item1;
-	ValueTuple_2_tA25235C614630F839C1CEDD0AA58AEC89332BCDA ___Item2;
-};
 struct ValueTuple_2_tD5A2188D8C3A67F5F0F53B860F1DD0F625E65EC0 
 {
 	bool ___Item1;
@@ -2179,12 +2173,6 @@ struct TypedUxmlAttributeDescription_1_t16AC6A42410B48979C278F927FD0587F200214DD
 	uint64_t ___U3CdefaultValueU3Ek__BackingField;
 };
 struct TypedUxmlAttributeDescription_1_t9EDCA7A1D2A3784B3A190D0D1E6CACA78EE18E3D : public UxmlAttributeDescription_t742D021489DB2B564142146CAAAC3F9191825EF2 {};
-struct UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1 
-{
-	RuntimeObject* ___source;
-	ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 ___result;
-	int16_t ___token;
-};
 struct UniTask_1_t041445BF3CDEC5A6525413964686C458AE43E8A8 
 {
 	RuntimeObject* ___source;
@@ -2392,10 +2380,6 @@ struct StyleLength_tF02B24735FC88BE29BEB36F7A87709CA28AF72D8
 {
 	Length_t90BB06D47DD6DB461ED21BD3E3241FAB6C824256 ___m_Value;
 	int32_t ___m_Keyword;
-};
-struct Awaiter_t6533F4B442F9552333591AFD05403EF98107D211 
-{
-	UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1 ___task;
 };
 struct Awaiter_t74C86B2C8DBAED1187BAD3220BBD8EB78E74C9FD 
 {
@@ -4177,20 +4161,13 @@ struct ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918  : public RuntimeA
 };
 
 
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter__ctor_m57EE8F82D4E1A89D7DA8074E607DF4FA9E984EF4_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* ___0_task, const RuntimeMethod* method) ;
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t UniTask_1_get_Status_m9646B196D7B947D79ADA0DAC43CE0BBA878503C9_gshared_inline (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* __this, const RuntimeMethod* method) ;
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool Awaiter_get_IsCompleted_m4BFABA9984F3C820FA4B308B2CEF5A34847CB3A2_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, const RuntimeMethod* method) ;
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 Awaiter_GetResult_mC8948DD034C7C09912FFB0E3DA157FFD0118F486_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, const RuntimeMethod* method) ;
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_OnCompleted_m9466848FBFC4C8B97F22112423B7B1DA1F77F4CB_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) ;
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_UnsafeOnCompleted_mB4FF2DBA2F32196969DAD18CD5BCBA816B7A272E_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) ;
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_gshared_inline (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* __this, RuntimeObject* ___0_obj, const RuntimeMethod* method) ;
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_SourceOnCompleted_mEDFD1A2E698F07CC58B62CB8C882168CC617BD59_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter__ctor_mE8856A0BC1341AA06B8A050B4D41DE016C04C87D_gshared_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, UniTask_1_tF81255CD039A5E65967898FA895F0FC9E4AC1E3A* ___0_task, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t UniTask_1_get_Status_mD6F7E99D0E8C667F6AB923EF72A03E1EDB1A08C9_gshared_inline (UniTask_1_tF81255CD039A5E65967898FA895F0FC9E4AC1E3A* __this, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool Awaiter_get_IsCompleted_mD2AA52726F0D7737DB8487F2069DC79FEBDC9DC9_gshared_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR ValueTuple_2_t72C4129CF93EFCFDEF83FE2C4CC48CA4EE2F5BBD Awaiter_GetResult_m04CCE51442643F120A39954EF231176EF5F8D7FA_gshared_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_OnCompleted_mD42F900C8835A525FB136B265D69F9963390519E_gshared_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_UnsafeOnCompleted_m32FECA85DE2F6EF1EBC572C0F41AB0C10DD9E7CA_gshared_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) ;
+IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_gshared_inline (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* __this, RuntimeObject* ___0_obj, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_SourceOnCompleted_m6EA33EAFF0281F3BBD5C8163BFBF5B7244EFBDB2_gshared_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter__ctor_mC7A5AF58ADF9FBA997DEFB2EE9FAB86CA2A113E2_gshared_inline (Awaiter_t74C86B2C8DBAED1187BAD3220BBD8EB78E74C9FD* __this, UniTask_1_t041445BF3CDEC5A6525413964686C458AE43E8A8* ___0_task, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t UniTask_1_get_Status_m11E283E877BF200428C463BA18E31A3E77D8EE7D_gshared_inline (UniTask_1_t041445BF3CDEC5A6525413964686C458AE43E8A8* __this, const RuntimeMethod* method) ;
@@ -4734,40 +4711,6 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EqualityComparer_1_tBD6B7C36607558DF82D5B7841
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EqualityComparer_1_t97160852989689D9543E2E1EA7D7196DBEA5AEE4* EqualityComparer_1_CreateComparer_m3BD7BED1F69ABEE55E320BA9CCFBB473E9F57C66_gshared (const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR EqualityComparer_1_tCF43443A371EFD813BA0F1853A2F502EAA2C1FD4* EqualityComparer_1_CreateComparer_m0054EEC692876436E2D9DBCA90DAE91D47DFB2D2_gshared (const RuntimeMethod* method) ;
 
-inline void Awaiter__ctor_m57EE8F82D4E1A89D7DA8074E607DF4FA9E984EF4_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* ___0_task, const RuntimeMethod* method)
-{
-	((  void (*) (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*, UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*, const RuntimeMethod*))Awaiter__ctor_m57EE8F82D4E1A89D7DA8074E607DF4FA9E984EF4_gshared_inline)(__this, ___0_task, method);
-}
-inline int32_t UniTask_1_get_Status_m9646B196D7B947D79ADA0DAC43CE0BBA878503C9_inline (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* __this, const RuntimeMethod* method)
-{
-	return ((  int32_t (*) (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*, const RuntimeMethod*))UniTask_1_get_Status_m9646B196D7B947D79ADA0DAC43CE0BBA878503C9_gshared_inline)(__this, method);
-}
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool UniTaskStatusExtensions_IsCompleted_mF43C41C9CEB640E381D1F7A8B40142843AED87AE_inline (int32_t ___0_status, const RuntimeMethod* method) ;
-inline bool Awaiter_get_IsCompleted_m4BFABA9984F3C820FA4B308B2CEF5A34847CB3A2_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, const RuntimeMethod* method)
-{
-	return ((  bool (*) (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*, const RuntimeMethod*))Awaiter_get_IsCompleted_m4BFABA9984F3C820FA4B308B2CEF5A34847CB3A2_gshared_inline)(__this, method);
-}
-inline ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 Awaiter_GetResult_mC8948DD034C7C09912FFB0E3DA157FFD0118F486_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, const RuntimeMethod* method)
-{
-	return ((  ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 (*) (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*, const RuntimeMethod*))Awaiter_GetResult_mC8948DD034C7C09912FFB0E3DA157FFD0118F486_gshared_inline)(__this, method);
-}
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Action_Invoke_m7126A54DACA72B845424072887B5F3A51FC3808E_inline (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* __this, const RuntimeMethod* method) ;
-inline void Awaiter_OnCompleted_m9466848FBFC4C8B97F22112423B7B1DA1F77F4CB_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method)
-{
-	((  void (*) (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*, const RuntimeMethod*))Awaiter_OnCompleted_m9466848FBFC4C8B97F22112423B7B1DA1F77F4CB_gshared_inline)(__this, ___0_continuation, method);
-}
-inline void Awaiter_UnsafeOnCompleted_mB4FF2DBA2F32196969DAD18CD5BCBA816B7A272E_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method)
-{
-	((  void (*) (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*, const RuntimeMethod*))Awaiter_UnsafeOnCompleted_mB4FF2DBA2F32196969DAD18CD5BCBA816B7A272E_gshared_inline)(__this, ___0_continuation, method);
-}
-inline void Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_inline (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* __this, RuntimeObject* ___0_obj, const RuntimeMethod* method)
-{
-	((  void (*) (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, const RuntimeMethod*))Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_gshared_inline)(__this, ___0_obj, method);
-}
-inline void Awaiter_SourceOnCompleted_mEDFD1A2E698F07CC58B62CB8C882168CC617BD59_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, const RuntimeMethod* method)
-{
-	((  void (*) (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, const RuntimeMethod*))Awaiter_SourceOnCompleted_mEDFD1A2E698F07CC58B62CB8C882168CC617BD59_gshared_inline)(__this, ___0_continuation, ___1_state, method);
-}
 inline void Awaiter__ctor_mE8856A0BC1341AA06B8A050B4D41DE016C04C87D_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, UniTask_1_tF81255CD039A5E65967898FA895F0FC9E4AC1E3A* ___0_task, const RuntimeMethod* method)
 {
 	((  void (*) (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA*, UniTask_1_tF81255CD039A5E65967898FA895F0FC9E4AC1E3A*, const RuntimeMethod*))Awaiter__ctor_mE8856A0BC1341AA06B8A050B4D41DE016C04C87D_gshared_inline)(__this, ___0_task, method);
@@ -4776,6 +4719,7 @@ inline int32_t UniTask_1_get_Status_mD6F7E99D0E8C667F6AB923EF72A03E1EDB1A08C9_in
 {
 	return ((  int32_t (*) (UniTask_1_tF81255CD039A5E65967898FA895F0FC9E4AC1E3A*, const RuntimeMethod*))UniTask_1_get_Status_mD6F7E99D0E8C667F6AB923EF72A03E1EDB1A08C9_gshared_inline)(__this, method);
 }
+IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool UniTaskStatusExtensions_IsCompleted_mF43C41C9CEB640E381D1F7A8B40142843AED87AE_inline (int32_t ___0_status, const RuntimeMethod* method) ;
 inline bool Awaiter_get_IsCompleted_mD2AA52726F0D7737DB8487F2069DC79FEBDC9DC9_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, const RuntimeMethod* method)
 {
 	return ((  bool (*) (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA*, const RuntimeMethod*))Awaiter_get_IsCompleted_mD2AA52726F0D7737DB8487F2069DC79FEBDC9DC9_gshared_inline)(__this, method);
@@ -4784,6 +4728,7 @@ inline ValueTuple_2_t72C4129CF93EFCFDEF83FE2C4CC48CA4EE2F5BBD Awaiter_GetResult_
 {
 	return ((  ValueTuple_2_t72C4129CF93EFCFDEF83FE2C4CC48CA4EE2F5BBD (*) (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA*, const RuntimeMethod*))Awaiter_GetResult_m04CCE51442643F120A39954EF231176EF5F8D7FA_gshared_inline)(__this, method);
 }
+IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Action_Invoke_m7126A54DACA72B845424072887B5F3A51FC3808E_inline (Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* __this, const RuntimeMethod* method) ;
 inline void Awaiter_OnCompleted_mD42F900C8835A525FB136B265D69F9963390519E_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method)
 {
 	((  void (*) (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA*, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*, const RuntimeMethod*))Awaiter_OnCompleted_mD42F900C8835A525FB136B265D69F9963390519E_gshared_inline)(__this, ___0_continuation, method);
@@ -4791,6 +4736,10 @@ inline void Awaiter_OnCompleted_mD42F900C8835A525FB136B265D69F9963390519E_inline
 inline void Awaiter_UnsafeOnCompleted_m32FECA85DE2F6EF1EBC572C0F41AB0C10DD9E7CA_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method)
 {
 	((  void (*) (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA*, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07*, const RuntimeMethod*))Awaiter_UnsafeOnCompleted_m32FECA85DE2F6EF1EBC572C0F41AB0C10DD9E7CA_gshared_inline)(__this, ___0_continuation, method);
+}
+inline void Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_inline (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* __this, RuntimeObject* ___0_obj, const RuntimeMethod* method)
+{
+	((  void (*) (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, const RuntimeMethod*))Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_gshared_inline)(__this, ___0_obj, method);
 }
 inline void Awaiter_SourceOnCompleted_m6EA33EAFF0281F3BBD5C8163BFBF5B7244EFBDB2_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, const RuntimeMethod* method)
 {
@@ -7066,250 +7015,6 @@ inline EqualityComparer_1_tCF43443A371EFD813BA0F1853A2F502EAA2C1FD4* EqualityCom
 {
 	return ((  EqualityComparer_1_tCF43443A371EFD813BA0F1853A2F502EAA2C1FD4* (*) (const RuntimeMethod*))EqualityComparer_1_CreateComparer_m0054EEC692876436E2D9DBCA90DAE91D47DFB2D2_gshared)(method);
 }
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Winvalid-offsetof"
-#pragma clang diagnostic ignored "-Wunused-variable"
-#endif
-// Method Definition Index: 75619
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Awaiter__ctor_m57EE8F82D4E1A89D7DA8074E607DF4FA9E984EF4_gshared (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* ___0_task, const RuntimeMethod* method) 
-{
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:633>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = ___0_task;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1 L_1 = (*(UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)L_0);
-		__this->___task = L_1;
-		Il2CppCodeGenWriteBarrier((void**)&(((&__this->___task))->___source), (void*)NULL);
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:634>
-		return;
-	}
-}
-IL2CPP_EXTERN_C  void Awaiter__ctor_m57EE8F82D4E1A89D7DA8074E607DF4FA9E984EF4_AdjustorThunk (RuntimeObject* __this, UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* ___0_task, const RuntimeMethod* method)
-{
-	Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* _thisAdjusted;
-	int32_t _offset = 1;
-	_thisAdjusted = reinterpret_cast<Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*>(__this + _offset);
-	Awaiter__ctor_m57EE8F82D4E1A89D7DA8074E607DF4FA9E984EF4_inline(_thisAdjusted, ___0_task, method);
-}
-// Method Definition Index: 75620
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool Awaiter_get_IsCompleted_m4BFABA9984F3C820FA4B308B2CEF5A34847CB3A2_gshared (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, const RuntimeMethod* method) 
-{
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:642>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int32_t L_1;
-		L_1 = UniTask_1_get_Status_m9646B196D7B947D79ADA0DAC43CE0BBA878503C9_inline(L_0, il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 3));
-		bool L_2;
-		L_2 = UniTaskStatusExtensions_IsCompleted_mF43C41C9CEB640E381D1F7A8B40142843AED87AE_inline(L_1, NULL);
-		return L_2;
-	}
-}
-IL2CPP_EXTERN_C  bool Awaiter_get_IsCompleted_m4BFABA9984F3C820FA4B308B2CEF5A34847CB3A2_AdjustorThunk (RuntimeObject* __this, const RuntimeMethod* method)
-{
-	Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* _thisAdjusted;
-	int32_t _offset = 1;
-	_thisAdjusted = reinterpret_cast<Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*>(__this + _offset);
-	bool _returnValue;
-	_returnValue = Awaiter_get_IsCompleted_m4BFABA9984F3C820FA4B308B2CEF5A34847CB3A2_inline(_thisAdjusted, method);
-	return _returnValue;
-}
-// Method Definition Index: 75621
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 Awaiter_GetResult_mC8948DD034C7C09912FFB0E3DA157FFD0118F486_gshared (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, const RuntimeMethod* method) 
-{
-	RuntimeObject* V_0 = NULL;
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:650>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		RuntimeObject* L_1 = L_0->___source;
-		V_0 = L_1;
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:651>
-		RuntimeObject* L_2 = V_0;
-		if (L_2)
-		{
-			goto IL_001b;
-		}
-	}
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:653>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_3 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 L_4 = L_3->___result;
-		return L_4;
-	}
-
-IL_001b:
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:657>
-		RuntimeObject* L_5 = V_0;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_6 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int16_t L_7 = L_6->___token;
-		NullCheck(L_5);
-		ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 L_8;
-		L_8 = InterfaceFuncInvoker1< ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3, int16_t >::Invoke(0, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 5), L_5, L_7);
-		return L_8;
-	}
-}
-IL2CPP_EXTERN_C  ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 Awaiter_GetResult_mC8948DD034C7C09912FFB0E3DA157FFD0118F486_AdjustorThunk (RuntimeObject* __this, const RuntimeMethod* method)
-{
-	Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* _thisAdjusted;
-	int32_t _offset = 1;
-	_thisAdjusted = reinterpret_cast<Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*>(__this + _offset);
-	ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 _returnValue;
-	_returnValue = Awaiter_GetResult_mC8948DD034C7C09912FFB0E3DA157FFD0118F486_inline(_thisAdjusted, method);
-	return _returnValue;
-}
-// Method Definition Index: 75622
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Awaiter_OnCompleted_m9466848FBFC4C8B97F22112423B7B1DA1F77F4CB_gshared (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) 
-{
-	static bool s_Il2CppMethodInitialized;
-	if (!s_Il2CppMethodInitialized)
-	{
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var);
-		s_Il2CppMethodInitialized = true;
-	}
-	RuntimeObject* V_0 = NULL;
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:665>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		RuntimeObject* L_1 = L_0->___source;
-		V_0 = L_1;
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:666>
-		RuntimeObject* L_2 = V_0;
-		if (L_2)
-		{
-			goto IL_0016;
-		}
-	}
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:668>
-		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_3 = ___0_continuation;
-		NullCheck(L_3);
-		Action_Invoke_m7126A54DACA72B845424072887B5F3A51FC3808E_inline(L_3, NULL);
-		return;
-	}
-
-IL_0016:
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:672>
-		RuntimeObject* L_4 = V_0;
-		il2cpp_codegen_runtime_class_init_inline(AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var);
-		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_5 = ((AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_StaticFields*)il2cpp_codegen_static_fields_for(AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var))->___InvokeContinuationDelegate;
-		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_6 = ___0_continuation;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_7 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int16_t L_8 = L_7->___token;
-		NullCheck(L_4);
-		InterfaceActionInvoker3< Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, int16_t >::Invoke(2, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 5), L_4, L_5, (RuntimeObject*)L_6, L_8);
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:674>
-		return;
-	}
-}
-IL2CPP_EXTERN_C  void Awaiter_OnCompleted_m9466848FBFC4C8B97F22112423B7B1DA1F77F4CB_AdjustorThunk (RuntimeObject* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method)
-{
-	Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* _thisAdjusted;
-	int32_t _offset = 1;
-	_thisAdjusted = reinterpret_cast<Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*>(__this + _offset);
-	Awaiter_OnCompleted_m9466848FBFC4C8B97F22112423B7B1DA1F77F4CB_inline(_thisAdjusted, ___0_continuation, method);
-}
-// Method Definition Index: 75623
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Awaiter_UnsafeOnCompleted_mB4FF2DBA2F32196969DAD18CD5BCBA816B7A272E_gshared (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) 
-{
-	static bool s_Il2CppMethodInitialized;
-	if (!s_Il2CppMethodInitialized)
-	{
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var);
-		s_Il2CppMethodInitialized = true;
-	}
-	RuntimeObject* V_0 = NULL;
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:680>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		RuntimeObject* L_1 = L_0->___source;
-		V_0 = L_1;
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:681>
-		RuntimeObject* L_2 = V_0;
-		if (L_2)
-		{
-			goto IL_0016;
-		}
-	}
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:683>
-		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_3 = ___0_continuation;
-		NullCheck(L_3);
-		Action_Invoke_m7126A54DACA72B845424072887B5F3A51FC3808E_inline(L_3, NULL);
-		return;
-	}
-
-IL_0016:
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:687>
-		RuntimeObject* L_4 = V_0;
-		il2cpp_codegen_runtime_class_init_inline(AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var);
-		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_5 = ((AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_StaticFields*)il2cpp_codegen_static_fields_for(AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var))->___InvokeContinuationDelegate;
-		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_6 = ___0_continuation;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_7 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int16_t L_8 = L_7->___token;
-		NullCheck(L_4);
-		InterfaceActionInvoker3< Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, int16_t >::Invoke(2, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 5), L_4, L_5, (RuntimeObject*)L_6, L_8);
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:689>
-		return;
-	}
-}
-IL2CPP_EXTERN_C  void Awaiter_UnsafeOnCompleted_mB4FF2DBA2F32196969DAD18CD5BCBA816B7A272E_AdjustorThunk (RuntimeObject* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method)
-{
-	Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* _thisAdjusted;
-	int32_t _offset = 1;
-	_thisAdjusted = reinterpret_cast<Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*>(__this + _offset);
-	Awaiter_UnsafeOnCompleted_mB4FF2DBA2F32196969DAD18CD5BCBA816B7A272E_inline(_thisAdjusted, ___0_continuation, method);
-}
-// Method Definition Index: 75624
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Awaiter_SourceOnCompleted_mEDFD1A2E698F07CC58B62CB8C882168CC617BD59_gshared (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, const RuntimeMethod* method) 
-{
-	RuntimeObject* V_0 = NULL;
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:698>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		RuntimeObject* L_1 = L_0->___source;
-		V_0 = L_1;
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:699>
-		RuntimeObject* L_2 = V_0;
-		if (L_2)
-		{
-			goto IL_0017;
-		}
-	}
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:701>
-		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_3 = ___0_continuation;
-		RuntimeObject* L_4 = ___1_state;
-		NullCheck(L_3);
-		Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_inline(L_3, L_4, NULL);
-		return;
-	}
-
-IL_0017:
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:705>
-		RuntimeObject* L_5 = V_0;
-		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_6 = ___0_continuation;
-		RuntimeObject* L_7 = ___1_state;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_8 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int16_t L_9 = L_8->___token;
-		NullCheck(L_5);
-		InterfaceActionInvoker3< Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, int16_t >::Invoke(2, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 5), L_5, L_6, L_7, L_9);
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:707>
-		return;
-	}
-}
-IL2CPP_EXTERN_C  void Awaiter_SourceOnCompleted_mEDFD1A2E698F07CC58B62CB8C882168CC617BD59_AdjustorThunk (RuntimeObject* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, const RuntimeMethod* method)
-{
-	Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* _thisAdjusted;
-	int32_t _offset = 1;
-	_thisAdjusted = reinterpret_cast<Awaiter_t6533F4B442F9552333591AFD05403EF98107D211*>(__this + _offset);
-	Awaiter_SourceOnCompleted_mEDFD1A2E698F07CC58B62CB8C882168CC617BD59_inline(_thisAdjusted, ___0_continuation, ___1_state, method);
-}
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -31855,227 +31560,6 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR String_t* VisualElement_get_viewD
 	}
 }
 // Method Definition Index: 75619
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter__ctor_m57EE8F82D4E1A89D7DA8074E607DF4FA9E984EF4_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* ___0_task, const RuntimeMethod* method) 
-{
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:633>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = ___0_task;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1 L_1 = (*(UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)L_0);
-		__this->___task = L_1;
-		Il2CppCodeGenWriteBarrier((void**)&(((&__this->___task))->___source), (void*)NULL);
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:634>
-		return;
-	}
-}
-// Method Definition Index: 75599
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t UniTask_1_get_Status_m9646B196D7B947D79ADA0DAC43CE0BBA878503C9_gshared_inline (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* __this, const RuntimeMethod* method) 
-{
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:401>
-		RuntimeObject* L_0 = __this->___source;
-		if (!L_0)
-		{
-			goto IL_001a;
-		}
-	}
-	{
-		RuntimeObject* L_1 = __this->___source;
-		int16_t L_2 = __this->___token;
-		NullCheck(L_1);
-		int32_t L_3;
-		L_3 = InterfaceFuncInvoker1< int32_t, int16_t >::Invoke(1, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 1), L_1, L_2);
-		return L_3;
-	}
-
-IL_001a:
-	{
-		return (int32_t)(1);
-	}
-}
-// Method Definition Index: 75620
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR bool Awaiter_get_IsCompleted_m4BFABA9984F3C820FA4B308B2CEF5A34847CB3A2_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, const RuntimeMethod* method) 
-{
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:642>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int32_t L_1;
-		L_1 = UniTask_1_get_Status_m9646B196D7B947D79ADA0DAC43CE0BBA878503C9_inline(L_0, il2cpp_rgctx_method(InitializedTypeInfo(method->klass)->rgctx_data, 3));
-		bool L_2;
-		L_2 = UniTaskStatusExtensions_IsCompleted_mF43C41C9CEB640E381D1F7A8B40142843AED87AE_inline(L_1, NULL);
-		return L_2;
-	}
-}
-// Method Definition Index: 75621
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 Awaiter_GetResult_mC8948DD034C7C09912FFB0E3DA157FFD0118F486_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, const RuntimeMethod* method) 
-{
-	RuntimeObject* V_0 = NULL;
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:650>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		RuntimeObject* L_1 = L_0->___source;
-		V_0 = L_1;
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:651>
-		RuntimeObject* L_2 = V_0;
-		if (L_2)
-		{
-			goto IL_001b;
-		}
-	}
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:653>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_3 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 L_4 = L_3->___result;
-		return L_4;
-	}
-
-IL_001b:
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:657>
-		RuntimeObject* L_5 = V_0;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_6 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int16_t L_7 = L_6->___token;
-		NullCheck(L_5);
-		ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3 L_8;
-		L_8 = InterfaceFuncInvoker1< ValueTuple_2_t6F12A453A5FB63EA0055B81CCD9EE7C6A084D0D3, int16_t >::Invoke(0, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 5), L_5, L_7);
-		return L_8;
-	}
-}
-// Method Definition Index: 75622
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_OnCompleted_m9466848FBFC4C8B97F22112423B7B1DA1F77F4CB_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) 
-{
-	static bool s_Il2CppMethodInitialized;
-	if (!s_Il2CppMethodInitialized)
-	{
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var);
-		s_Il2CppMethodInitialized = true;
-	}
-	RuntimeObject* V_0 = NULL;
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:665>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		RuntimeObject* L_1 = L_0->___source;
-		V_0 = L_1;
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:666>
-		RuntimeObject* L_2 = V_0;
-		if (L_2)
-		{
-			goto IL_0016;
-		}
-	}
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:668>
-		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_3 = ___0_continuation;
-		NullCheck(L_3);
-		Action_Invoke_m7126A54DACA72B845424072887B5F3A51FC3808E_inline(L_3, NULL);
-		return;
-	}
-
-IL_0016:
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:672>
-		RuntimeObject* L_4 = V_0;
-		il2cpp_codegen_runtime_class_init_inline(AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var);
-		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_5 = ((AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_StaticFields*)il2cpp_codegen_static_fields_for(AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var))->___InvokeContinuationDelegate;
-		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_6 = ___0_continuation;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_7 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int16_t L_8 = L_7->___token;
-		NullCheck(L_4);
-		InterfaceActionInvoker3< Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, int16_t >::Invoke(2, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 5), L_4, L_5, (RuntimeObject*)L_6, L_8);
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:674>
-		return;
-	}
-}
-// Method Definition Index: 75623
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_UnsafeOnCompleted_mB4FF2DBA2F32196969DAD18CD5BCBA816B7A272E_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* ___0_continuation, const RuntimeMethod* method) 
-{
-	static bool s_Il2CppMethodInitialized;
-	if (!s_Il2CppMethodInitialized)
-	{
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var);
-		s_Il2CppMethodInitialized = true;
-	}
-	RuntimeObject* V_0 = NULL;
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:680>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		RuntimeObject* L_1 = L_0->___source;
-		V_0 = L_1;
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:681>
-		RuntimeObject* L_2 = V_0;
-		if (L_2)
-		{
-			goto IL_0016;
-		}
-	}
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:683>
-		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_3 = ___0_continuation;
-		NullCheck(L_3);
-		Action_Invoke_m7126A54DACA72B845424072887B5F3A51FC3808E_inline(L_3, NULL);
-		return;
-	}
-
-IL_0016:
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:687>
-		RuntimeObject* L_4 = V_0;
-		il2cpp_codegen_runtime_class_init_inline(AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var);
-		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_5 = ((AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_StaticFields*)il2cpp_codegen_static_fields_for(AwaiterActions_t5D05CAC006FDEBCF6B65E2B9224BC4B44783BBE5_il2cpp_TypeInfo_var))->___InvokeContinuationDelegate;
-		Action_tD00B0A84D7945E50C2DFFC28EFEE6ED44ED2AD07* L_6 = ___0_continuation;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_7 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int16_t L_8 = L_7->___token;
-		NullCheck(L_4);
-		InterfaceActionInvoker3< Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, int16_t >::Invoke(2, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 5), L_4, L_5, (RuntimeObject*)L_6, L_8);
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:689>
-		return;
-	}
-}
-// Method Definition Index: 916
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_gshared_inline (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* __this, RuntimeObject* ___0_obj, const RuntimeMethod* method) 
-{
-	typedef void (*FunctionPointerType) (RuntimeObject*, RuntimeObject*, const RuntimeMethod*);
-	((FunctionPointerType)__this->___invoke_impl)((Il2CppObject*)__this->___method_code, ___0_obj, reinterpret_cast<RuntimeMethod*>(__this->___method));
-}
-// Method Definition Index: 75624
-IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_SourceOnCompleted_mEDFD1A2E698F07CC58B62CB8C882168CC617BD59_gshared_inline (Awaiter_t6533F4B442F9552333591AFD05403EF98107D211* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, const RuntimeMethod* method) 
-{
-	RuntimeObject* V_0 = NULL;
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:698>
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_0 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		RuntimeObject* L_1 = L_0->___source;
-		V_0 = L_1;
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:699>
-		RuntimeObject* L_2 = V_0;
-		if (L_2)
-		{
-			goto IL_0017;
-		}
-	}
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:701>
-		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_3 = ___0_continuation;
-		RuntimeObject* L_4 = ___1_state;
-		NullCheck(L_3);
-		Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_inline(L_3, L_4, NULL);
-		return;
-	}
-
-IL_0017:
-	{
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:705>
-		RuntimeObject* L_5 = V_0;
-		Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* L_6 = ___0_continuation;
-		RuntimeObject* L_7 = ___1_state;
-		UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1* L_8 = (UniTask_1_tF49477B70B5F9F3411B30039BCCF759765A30EB1*)(&__this->___task);
-		int16_t L_9 = L_8->___token;
-		NullCheck(L_5);
-		InterfaceActionInvoker3< Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87*, RuntimeObject*, int16_t >::Invoke(2, il2cpp_rgctx_data(InitializedTypeInfo(method->klass)->rgctx_data, 5), L_5, L_6, L_7, L_9);
-		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:707>
-		return;
-	}
-}
-// Method Definition Index: 75619
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter__ctor_mE8856A0BC1341AA06B8A050B4D41DE016C04C87D_gshared_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, UniTask_1_tF81255CD039A5E65967898FA895F0FC9E4AC1E3A* ___0_task, const RuntimeMethod* method) 
 {
 	{
@@ -32250,6 +31734,12 @@ IL_0016:
 		//<source_info:./Library/PackageCache/com.cysharp.unitask@a85b92a8e443/Runtime/UniTask.cs:689>
 		return;
 	}
+}
+// Method Definition Index: 916
+IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Action_1_Invoke_mF2422B2DD29F74CE66F791C3F68E288EC7C3DB9E_gshared_inline (Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* __this, RuntimeObject* ___0_obj, const RuntimeMethod* method) 
+{
+	typedef void (*FunctionPointerType) (RuntimeObject*, RuntimeObject*, const RuntimeMethod*);
+	((FunctionPointerType)__this->___invoke_impl)((Il2CppObject*)__this->___method_code, ___0_obj, reinterpret_cast<RuntimeMethod*>(__this->___method));
 }
 // Method Definition Index: 75624
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Awaiter_SourceOnCompleted_m6EA33EAFF0281F3BBD5C8163BFBF5B7244EFBDB2_gshared_inline (Awaiter_t5880F8BA12DAE5F2BFB071663E35296CB70567AA* __this, Action_1_t6F9EB113EB3F16226AEF811A2744F4111C116C87* ___0_continuation, RuntimeObject* ___1_state, const RuntimeMethod* method) 
