@@ -44,11 +44,20 @@ namespace LR.UI.Debugging
         LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
       }
 
-      IGameDataService gameDataService = GlobalManager.instance.GameDataService;
-      gameDataService.GetSelectedStage(out var chapter, out var stage);
-      selectedStageIndexText.text = $"current: {chapter}/{stage}";
-      var topClearData = gameDataService.GetTopClearData();
-      clearStageCountTMP.text = $"clear: {Mathf.Max(0, topClearData.ParseIndex())}";
+      if (GlobalManager.instance.GameDataService != null)
+      {
+        GlobalManager
+          .instance
+          .GameDataService
+          .GetSelectedStage(out var chapter, out var stage);
+        selectedStageIndexText.text = $"current: {chapter}/{stage}";
+
+        var topClearData =GlobalManager
+          .instance
+          .GameDataService
+          .GetTopClearData();
+        clearStageCountTMP.text = $"clear: {Mathf.Max(0, topClearData.ParseIndex())}";
+      }     
     }
 
     public void OnLocaleButtonClicked(Locale locale)

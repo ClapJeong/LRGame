@@ -10,6 +10,7 @@ using LR.Stage.Player.Enum;
 using UniRx.Triggers;
 using UniRx;
 using DG.Tweening;
+using UnityEngine.U2D;
 
 namespace LR.UI.GameScene.Player
 {
@@ -49,9 +50,10 @@ namespace LR.UI.GameScene.Player
 
     private readonly CTSContainer damagedCTS = new();
     private readonly Vector2 originPortriatAnchoredPos;
+    private SpriteAtlas atlas;
     private IDisposable viewUpdateDisposable;
     private Portrait prevPortrait;
-
+   
     public UIPlayerStatePortraitPresenter(Model model, UIPlayerStatePortraitView view)
     {
       this.model = model;
@@ -70,7 +72,10 @@ namespace LR.UI.GameScene.Player
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      view.PortraitImage.sprite = await GetPortraitSpriteAsync(Portrait.Idle);
+      if (atlas == null)
+        await LoadAtlasAsync();
+
+      ChangePortrait(Portrait.Idle);
       await UniTask.CompletedTask;
     }
 
@@ -84,6 +89,7 @@ namespace LR.UI.GameScene.Player
 
     public void Dispose()
     {
+      ReleaseAtlas();
       damagedCTS.Dispose();
       viewUpdateDisposable.Dispose();
       model.energySubscriber.UnsubscribeValueEvent(IPlayerEnergySubscriber.ValueEvent.Damaged, OnDamaged);
@@ -108,22 +114,28 @@ namespace LR.UI.GameScene.Player
         _ => throw new NotImplementedException(),
       };
 
-      if(portrait != prevPortrait)
-        ChangePortraitAsync(portrait).Forget();
+      if (portrait != prevPortrait)
+        ChangePortrait(portrait);
     }
 
-    private async UniTask ChangePortraitAsync(Portrait portrait)
+    private void ChangePortrait(Portrait portrait)
     {
-      view.PortraitImage.sprite = await GetPortraitSpriteAsync(portrait);
+      view.PortraitImage.sprite = atlas.GetSprite(portrait.ToString());
       prevPortrait = portrait;
     }
 
-    private async UniTask<Sprite> GetPortraitSpriteAsync(Portrait portrait)
+    private async UniTask LoadAtlasAsync()
     {
-      var keyStb = new StringBuilder(model.addressableKeySO.Path.GetStatePortraitLabel(model.playerType));
-      keyStb.Append(portrait.ToString());
-      keyStb.Append(".png");
-      return await model.resourceManager.LoadAssetAsync<Sprite>(keyStb.ToString());
+      atlas = await model.resourceManager.LoadAssetAsync<SpriteAtlas>(
+        model.addressableKeySO.Path.SpriteAtlas +
+        model.addressableKeySO.AtlasName.GetStatePortrait(model.playerType));
+    }
+
+    private void ReleaseAtlas()
+    {
+      model.resourceManager.ReleaseAsset(
+        model.addressableKeySO.Path.SpriteAtlas +
+        model.addressableKeySO.AtlasName.GetStatePortrait(model.playerType));
     }
 
     private Portrait GetIdlePortrait()

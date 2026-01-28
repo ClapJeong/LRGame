@@ -75,7 +75,7 @@ namespace LR.UI.GameScene.Stage
         () =>
         {
           model.selectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
-          model.depthService.RaiseDepth(IsNextStageExist() ? view.NextProgressFillSubmit.gameObject : view.RestartSelectable.gameObject);
+          model.depthService.RaiseDepth(GetFirstButton().gameObject);
         },
         () =>
         {
@@ -114,6 +114,9 @@ namespace LR.UI.GameScene.Stage
     public VisibleState GetVisibleState()
       => view.GetVisibleState();
 
+    private RectTransform GetFirstButton()
+      => IsNextStageExist() ? view.NextProgressFillSubmit.RectTransform : view.RestartSelectable.GetComponent<RectTransform>();
+
     private void OnRestart()
     {
       DeactivateAsync().Forget();
@@ -128,7 +131,7 @@ namespace LR.UI.GameScene.Stage
 
     private async UniTask GetNewIndicatorAsync()
     {
-      currentIndicator = await model.indicatorService.GetNewAsync(view.IndicatorRoot, view.RestartRect);
+      currentIndicator = await model.indicatorService.GetNewAsync(view.IndicatorRoot, GetFirstButton());
     }
 
     private void ReleaseIndicator()

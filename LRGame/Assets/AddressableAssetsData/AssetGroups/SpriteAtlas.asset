@@ -10,28 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Sprite
+  m_Name: SpriteAtlas
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Sprite
+  m_GroupName: SpriteAtlas
   m_GUID: 01aed87b5b460224192685463cc98f97
   m_SerializeEntries:
-  - m_GUID: 21906a83570b55e40a9e65e4eae127d1
-    m_Address: ChatPortrait
+  - m_GUID: 26a896818d7a49648ae1256171d5a07c
+    m_Address: SpriteAtlas/CenterDialoguePortrait
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 77b1018b835eb50499b77a641f5c0dff
-    m_Address: DialogueBackground
+  - m_GUID: 2fdacd041ddfcad44b203ba06c9c9c7a
+    m_Address: SpriteAtlas/RightDialoguePortrait
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cb718db1893765a4fbdcd5640243467c
-    m_Address: DialoguePortrait
+  - m_GUID: 49461268e2cff0949aa010fc9c29c1a7
+    m_Address: SpriteAtlas/LeftDialoguePortrait
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f1c4f3b8af31b784e805193d1cd5ff2a
-    m_Address: StatePortrait
+  - m_GUID: 4f30a9eca09d8224093636fea76f6de8
+    m_Address: SpriteAtlas/LeftStatePortrait
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b1a21dba5efe938498601238496c4e5c
+    m_Address: SpriteAtlas/RightStatePortrait
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfdb757377ae2574097cc20b3e503bc0
+    m_Address: SpriteAtlas/ChatPortrait
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3af3aa02c120264bb4c810cded2a7b9
+    m_Address: SpriteAtlas/DialogueBackground
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -5,11 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 namespace LR.UI.GameScene.Dialogue.Root
 {
-  public class TalkingController
+  public class TalkingController : IDisposable
   {
     private readonly DialogueUIDataSO dialogueUIDataSO;
     private readonly AddressableKeySO addressableKeySO;
@@ -25,6 +26,7 @@ namespace LR.UI.GameScene.Dialogue.Root
     private readonly List<GameObject> inputEnableIcons;
 
     private readonly CTSContainer cts = new();
+    private SpriteAtlas backgroundAtlas;
     private bool isTalkling = false;
     private bool useImageA;
 
@@ -51,30 +53,27 @@ namespace LR.UI.GameScene.Dialogue.Root
       this.inputEnableIcons = inputEnableIcons;
 
       var leftModel = new UITalkingCharacterPresenter.Model(
-        table.AddressableKeySO.PortraitName,
+        table.AddressableKeySO,
         CharacterPositionType.Left,
         resourceManager,
-        table.AddressableKeySO.Path.LeftDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,
         table.DialogueUIDataSO.TextPresentationData);
       this.leftCharacterPresenter = new (leftModel, leftView);
       leftCharacterPresenter.AttachOnDestroy(attachTarget);
 
       var centerModel = new UITalkingCharacterPresenter.Model(
-        table.AddressableKeySO.PortraitName,
+        table.AddressableKeySO,
         CharacterPositionType.Center,
         resourceManager,
-        table.AddressableKeySO.Path.CenterDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,
         table.DialogueUIDataSO.TextPresentationData);
       this.centerCharacterPresenter = new (centerModel, centerView);
       centerCharacterPresenter.AttachOnDestroy(attachTarget);
 
       var rightModel = new UITalkingCharacterPresenter.Model(
-        table.AddressableKeySO.PortraitName,
+        table.AddressableKeySO,
         CharacterPositionType.Right,
         resourceManager,
-        table.AddressableKeySO.Path.RightDialoguePortrait,
         table.DialogueUIDataSO.PortraitData,
         table.DialogueUIDataSO.TextPresentationData);
       this.rightCharacterPresenter = new (rightModel, rightView);
@@ -193,14 +192,28 @@ namespace LR.UI.GameScene.Dialogue.Root
       backwardImage.transform.SetAsFirstSibling();
     }
 
+    private async UniTask LoadBackgroundAtlas()
+    {
+      backgroundAtlas = await resourceManager.LoadAssetAsync<SpriteAtlas>(
+        addressableKeySO.Path.SpriteAtlas +
+        addressableKeySO.AtlasName.DialogueBackgroundPortrait);
+    }
+
+    private void ReleaseBackgroundAtlas()
+    {
+      resourceManager.ReleaseAsset(
+        addressableKeySO.Path.SpriteAtlas +
+        addressableKeySO.AtlasName.DialogueBackgroundPortrait);
+    }
+
     public async UniTask ChangeBackgroundAsync(int index, bool isImmediately, CancellationToken token)
     {
+      if (backgroundAtlas == null)
+        await LoadBackgroundAtlas();
+
       SwapImageOrder(out var forwardImage, out var backwardImage);
 
-      var key = addressableKeySO.Path.DialogueBackground +
-        ((DialogueDataEnum.BackgroundType)index).ToString() +
-        ".png";
-      var sprite = await resourceManager.LoadAssetAsync<Sprite>(key);
+      var sprite = backgroundAtlas.GetSprite(((DialogueDataEnum.BackgroundType)index).ToString());
       if (forwardImage.sprite == sprite)
         return;
 
@@ -226,6 +239,11 @@ namespace LR.UI.GameScene.Dialogue.Root
       {
         dialogueController.NextSequence();
       }
+    }
+
+    public void Dispose()
+    {
+      ReleaseBackgroundAtlas();
     }
   }
 }

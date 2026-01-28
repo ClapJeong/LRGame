@@ -329,6 +329,7 @@ namespace LR.UI.GameScene.Dialogue.Root
 
     public void Dispose()
     {
+      talkingController.Dispose();
       UnSubscribeService();
     }
   }

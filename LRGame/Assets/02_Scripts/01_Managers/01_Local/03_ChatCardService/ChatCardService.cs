@@ -3,6 +3,7 @@ using LR.UI.GameScene.ChatCard;
 using LR.UI.Enum;
 using System;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class ChatCardService : IChatCardService
 {
@@ -14,6 +15,7 @@ public class ChatCardService : IChatCardService
   private readonly ChatCardDatasSO datasSO;
   private readonly UISO uiSO;
 
+  private SpriteAtlas atlas;
   private UIChatCardPresenter leftPresenter;
   private UIChatCardPresenter centerPresenter;
   private UIChatCardPresenter rightPresenter;
@@ -27,6 +29,8 @@ public class ChatCardService : IChatCardService
     this.addressableSO = addressableSO;
     this.datasSO = datasSO;
     this.uiSO = uiSO;
+
+    LoadAtlasAsync().Forget();
   }
 
   public async UniTask PlayChatCardAsync(ChatCardEnum.ID id)
@@ -79,11 +83,30 @@ public class ChatCardService : IChatCardService
     }
   }
 
+  private async UniTask LoadAtlasAsync()
+  {
+    atlas = await resourceManager.LoadAssetAsync<SpriteAtlas>(
+      addressableSO.Path.SpriteAtlas +
+      addressableSO.AtlasName.ChatPortrait);
+  }
+
+  private void ReleaseAtlas()
+  {
+    resourceManager.ReleaseAsset(
+      addressableSO.Path.SpriteAtlas +
+      addressableSO.AtlasName.ChatPortrait);
+  }
+
   private async UniTask<UIChatCardPresenter> CreatePresenterAsync(CharacterPositionType positionType)
   {
     var key = addressableSO.Path.UI + addressableSO.UIName.GetChatCardName(positionType);
     var root = canvasProvider.GetCanvas(RootType.Popup).transform;
-    var model = new UIChatCardPresenter.Model(positionType, resourceManager, positionGetter, addressableSO, datasSO, uiSO);
+    var model = new UIChatCardPresenter.Model(
+      atlas,
+      positionType, 
+      positionGetter, 
+      datasSO, 
+      uiSO);
     var view = await resourceManager.CreateAssetAsync<UIChatCardView>(key, root);
     switch (positionType)
     {
@@ -136,4 +159,9 @@ public class ChatCardService : IChatCardService
       ChatCardEnum.ID.RightTest2 => CharacterPositionType.Right,
       _ => throw new System.NotImplementedException(),
     };
+
+  public void Dispose()
+  {
+    ReleaseAtlas();
+  }
 }

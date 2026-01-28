@@ -31,6 +31,7 @@ public partial class LocalManager : MonoBehaviour
   public InputQTEUIService InputQTEUIService { get; private set; }
 
   private readonly List<IUIPresenter> firstPresenters = new();
+  private readonly CompositeDisposable disposables = new();
 
   public async UniTask InitializeAsync()
   {
@@ -107,13 +108,14 @@ public partial class LocalManager : MonoBehaviour
       CameraService);
 
     ChatCardService = new(
-  gameObject,
-  GlobalManager.instance.UIManager,
-  GlobalManager.instance.ResourceManager,
-  GlobalManager.instance.UIManager,
-  GlobalManager.instance.Table.AddressableKeySO,
-  GlobalManager.instance.Table.ChatCardDatasSO,
-  GlobalManager.instance.Table.UISO);
+      gameObject,
+        GlobalManager.instance.UIManager,
+        GlobalManager.instance.ResourceManager,
+        GlobalManager.instance.UIManager,
+        GlobalManager.instance.Table.AddressableKeySO,
+        GlobalManager.instance.Table.ChatCardDatasSO,
+        GlobalManager.instance.Table.UISO);
+    ChatCardService.AddTo(disposables);
 
     var stageManagerModel = new StageManager.Model(
       gameObject,
@@ -423,5 +425,10 @@ if(gameDataService.IsVeryFirst())
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var label = GlobalManager.instance.Table.AddressableKeySO.Label.Dialogue;
     await resourceManager.LoadAssetsAsync(label);
+  }
+
+  private void OnDestroy()
+  {
+    disposables.Dispose();
   }
 }

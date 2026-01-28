@@ -22,14 +22,8 @@ MonoBehaviour:
     <UI>k__BackingField: UI/
     <Scene>k__BackingField: Scene/
     <Stage>k__BackingField: Stage/
-    <LeftDialoguePortrait>k__BackingField: DialoguePortrait/00_Left/
-    <CenterDialoguePortrait>k__BackingField: DialoguePortrait/02_Center/
-    <RightDialoguePortrait>k__BackingField: DialoguePortrait/01_Right/
     <Effect>k__BackingField: Effect/
-    <ChatCardPortrait>k__BackingField: ChatPortrait/
-    <DialogueBackground>k__BackingField: DialogueBackground/
-    <LeftStatePortrait>k__BackingField: StatePortrait/00_Left/
-    <RightStatePortrait>k__BackingField: StatePortrait/01_Right/
+    <SpriteAtlas>k__BackingField: SpriteAtlas/
   <SceneName>k__BackingField:
     preloading: Preloading
     lobby: Lobby
@@ -55,3 +49,11 @@ MonoBehaviour:
     <Loading>k__BackingField: Loading
   <StageName>k__BackingField:
     StageNameFormat: Stage_{0}
+  <AtlasName>k__BackingField:
+    <ChatPortrait>k__BackingField: ChatPortrait
+    <LeftDialoguePortrait>k__BackingField: LeftDialoguePortrait
+    <CenterDialoguePortrait>k__BackingField: CenterDialoguePortrait
+    <RightDialoguePortrait>k__BackingField: RightDialoguePortrait
+    <DialogueBackgroundPortrait>k__BackingField: DialogueBackground
+    <LeftStatePortrait>k__BackingField: LeftStatePortrait
+    <RightStatePortrait>k__BackingField: RightStatePortrait

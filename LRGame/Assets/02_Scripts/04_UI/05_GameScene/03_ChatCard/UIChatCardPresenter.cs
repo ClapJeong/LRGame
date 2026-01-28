@@ -5,6 +5,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using LR.UI.Enum;
+using UnityEngine.U2D;
 
 namespace LR.UI.GameScene.ChatCard
 {
@@ -12,19 +13,17 @@ namespace LR.UI.GameScene.ChatCard
   {
     public class Model
     {
+      public SpriteAtlas chatCardAtlas;
       public CharacterPositionType positionType;
-      public IResourceManager resourceManager;
       public IChatCardPositionGetter chatCardPositionGetter;
-      public AddressableKeySO addressableKeySO;
       public ChatCardDatasSO chatCardDatasSO;
       public UISO uiSO;
 
-      public Model(CharacterPositionType positionType, IResourceManager resourceManager, IChatCardPositionGetter chatCardPositionGetter, AddressableKeySO addressableKeySO, ChatCardDatasSO chatCardDatasSO, UISO uiSO)
+      public Model(SpriteAtlas chatCardAtlas, CharacterPositionType positionType, IChatCardPositionGetter chatCardPositionGetter, ChatCardDatasSO chatCardDatasSO, UISO uiSO)
       {
+        this.chatCardAtlas = chatCardAtlas;
         this.positionType = positionType;
-        this.resourceManager = resourceManager;
         this.chatCardPositionGetter = chatCardPositionGetter;
-        this.addressableKeySO = addressableKeySO;
         this.chatCardDatasSO = chatCardDatasSO;
         this.uiSO = uiSO;
       }
@@ -37,6 +36,7 @@ namespace LR.UI.GameScene.ChatCard
 
     private ChatCardData data;
     private float duration = 0.0f;
+    private SpriteAtlas atlas;
 
     public UIChatCardPresenter(Model model, UIChatCardView view)
     {
@@ -88,11 +88,7 @@ namespace LR.UI.GameScene.ChatCard
 
     public async UniTask UpdateViewAsync()
     {
-      var portrait = await model.resourceManager.LoadAssetAsync<Sprite>(
-        model.addressableKeySO.Path.ChatCardPortrait +
-        data.portraitType +
-        ".png");
-
+      var portrait = model.chatCardAtlas.GetSprite(data.portraitType.ToString());
       view.PortraitImage.sprite = portrait;
       view.LocalizeStringEvent.SetEntry(data.localizeKey);
       await UniTask.WaitForEndOfFrame();

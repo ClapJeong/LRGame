@@ -5,9 +5,9 @@ using LR.UI.GameScene.Dialogue.Character;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.U2D;
 using static DialogueDataEnum;
 
 namespace LR.UI.GameScene.Dialogue
@@ -16,19 +16,17 @@ namespace LR.UI.GameScene.Dialogue
   {
     public class Model
     {
-      public PortraitName portraitNameProvider;
+      public AddressableKeySO AddressableKeySO;
       public CharacterPositionType positionType;
       public IResourceManager resourceManager;
-      public string portraitPath;
       public UIPortraitData portraitData;
       public UITextPresentationData textPresentationData;
 
-      public Model(PortraitName portraitNameProvider, CharacterPositionType positionType, IResourceManager resourceManager, string portraitPath, UIPortraitData portraitData, UITextPresentationData textPresentationData)
+      public Model(AddressableKeySO addressableKeySO, CharacterPositionType positionType, IResourceManager resourceManager, UIPortraitData portraitData, UITextPresentationData textPresentationData)
       {
-        this.portraitNameProvider = portraitNameProvider;
+        AddressableKeySO = addressableKeySO;
         this.positionType = positionType;
         this.resourceManager = resourceManager;
-        this.portraitPath = portraitPath;
         this.portraitData = portraitData;
         this.textPresentationData = textPresentationData;
       }
@@ -39,13 +37,18 @@ namespace LR.UI.GameScene.Dialogue
 
     private readonly PortraitController portraitController;
     private readonly TextController textController;
+    private SpriteAtlas atlas;
 
     public UITalkingCharacterPresenter(Model model, UITalkingCharacterView view)
     {
       this.model = model;
       this.view = view;
 
-      LoadAllPortraitsAsync().Forget();
+      LoadAtlasAsync()
+        .ContinueWith(()=>
+        {
+          CacheTransparent();
+        });
 
       portraitController = new(
         model.positionType,
@@ -61,9 +64,7 @@ namespace LR.UI.GameScene.Dialogue
         view.DialogueLocalize, 
         view.DialogueTMP,
         view.AnimatorTMP,
-        view.Typewriter);
-
-      CacheTransparentAsync().Forget();
+        view.Typewriter);      
     }
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
@@ -84,6 +85,7 @@ namespace LR.UI.GameScene.Dialogue
 
     public void Dispose()
     {
+      ReleaseAtlas();
       if (view)
         view.DestroySelf();
     }
@@ -101,7 +103,7 @@ namespace LR.UI.GameScene.Dialogue
 
     public async UniTask PlayCharacterDataAsync(DialogueCharacterData data)
     {
-      var portrait = await GetPortraitSpriteAsync(data.Portrait);
+      var portrait = GetPortraitSprite(data.Portrait);
       portraitController.SetImage(portrait, (DialogueDataEnum.Portrait.ChangeType)data.PortraitChangeType);      
       portraitController.PlayAnimation((DialogueDataEnum.Portrait.AnimationType)data.PortraitAnimationType);
       portraitController.SetAlpha((DialogueDataEnum.Portrait.AlphaType)data.PortraitAlphaType);
@@ -116,50 +118,36 @@ namespace LR.UI.GameScene.Dialogue
     public void ClearText()
       => textController.ClearText();
 
-    private async UniTask<Sprite> GetPortraitSpriteAsync(int index)
+    private Sprite GetPortraitSprite(int index)
     {
-      var assetName = model.positionType switch
+      var spriteName = model.positionType switch
       {
-        CharacterPositionType.Left => model.portraitNameProvider.GetLeftName(index),
-        CharacterPositionType.Center => model.portraitNameProvider.GetLeftName(index),
-        CharacterPositionType.Right => model.portraitNameProvider.GetLeftName(index),
+        CharacterPositionType.Left => ((DialogueDataEnum.Portrait.Left)index).ToString(),
+        CharacterPositionType.Center => ((DialogueDataEnum.Portrait.Center)index).ToString(),
+        CharacterPositionType.Right => ((DialogueDataEnum.Portrait.Right)index).ToString(),
         _ => throw new NotImplementedException(),
       };
-       return await model.resourceManager.LoadAssetAsync<Sprite>(model.portraitPath + assetName);
+
+      return atlas.GetSprite(spriteName);
     }
 
-    private async UniTask LoadAllPortraitsAsync()
+    private async UniTask LoadAtlasAsync()
     {
-      var tasks = new List<UniTask<List<AsyncOperationHandle>>>();
-      switch (model.positionType)
-      {
-        case CharacterPositionType.Left:
-          {
-            foreach (var value in System.Enum.GetValues(typeof(DialogueDataEnum.Portrait.Left)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetLeftName((DialogueDataEnum.Portrait.Left)value)));
-          }
-          break;
-
-        case CharacterPositionType.Center:
-          {
-            foreach (var value in System.Enum.GetValues(typeof(DialogueDataEnum.Portrait.Center)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetCenterName((DialogueDataEnum.Portrait.Center)value)));
-          }
-          break;
-
-        case CharacterPositionType.Right:
-          {
-            foreach (var value in System.Enum.GetValues(typeof(DialogueDataEnum.Portrait.Right)))
-              tasks.Add(model.resourceManager.LoadAssetsAsync(model.portraitPath + model.portraitNameProvider.GetRightName((DialogueDataEnum.Portrait.Right)value)));
-          }
-          break;
-      }
-      await UniTask.WhenAll(tasks);
+      atlas = await model.resourceManager.LoadAssetAsync<SpriteAtlas>(
+        model.AddressableKeySO.Path.SpriteAtlas +
+        model.AddressableKeySO.AtlasName.GetDialoguePortrait(model.positionType));
     }
 
-    private async UniTask CacheTransparentAsync()
+    private void ReleaseAtlas()
     {
-      var transparent = await GetPortraitSpriteAsync(0);
+      model.resourceManager.ReleaseAsset(
+        model.AddressableKeySO.Path.SpriteAtlas +
+        model.AddressableKeySO.AtlasName.GetDialoguePortrait(model.positionType));
+    }
+
+    private void CacheTransparent()
+    {
+      var transparent = GetPortraitSprite(0);
       portraitController.SetTransparent(transparent);
     }
   }
