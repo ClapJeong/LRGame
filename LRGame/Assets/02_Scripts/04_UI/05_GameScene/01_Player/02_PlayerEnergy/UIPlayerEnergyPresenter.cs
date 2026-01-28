@@ -39,12 +39,12 @@ namespace LR.UI.GameScene.Player
     private readonly UIPlayerEnergyView view;
 
     private readonly SubscribeHandle subscribeHandle;
-    private readonly CTSContainer damagedCTS = new();
+    private readonly CTSContainer restoreCTS = new();
     private IDisposable viewUpdateObserver;
 
-    private float lastDamagedNormalized;
+    private float lastNormalized;
     private float fillNormalized;
-    private float damagedUIDuration;
+    private float valueChangingDuration;
 
     public UIPlayerEnergyPresenter(Model model, UIPlayerEnergyView view)
     {
@@ -59,7 +59,7 @@ namespace LR.UI.GameScene.Player
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
     {
-      damagedUIDuration = 0.0f;
+      valueChangingDuration = 0.0f;
       subscribeHandle.Subscribe();
       await view.ShowAsync(isImmedieately, token);
     }    
@@ -75,8 +75,7 @@ namespace LR.UI.GameScene.Player
 
     public void Dispose()
     {
-      damagedCTS.Cancel();
-      damagedCTS.Dispose();
+      restoreCTS.Dispose();
       subscribeHandle.Dispose();
       if (view)
         view.DestroySelf();
@@ -106,18 +105,19 @@ namespace LR.UI.GameScene.Player
 
           view.FillImage.SetFillAmount(fillNormalized);
         });
-      model.energySubscriber.SubscribeOnDamaged(OnDamaged);
+      model.energySubscriber.SubscribeValueEvent(IPlayerEnergySubscriber.ValueEvent.Damaged, OnDamaged);
+      model.energySubscriber.SubscribeValueEvent(IPlayerEnergySubscriber.ValueEvent.Restored, OnRestored);
     }
 
     private void UpdateFillNormalized()
     {
       var currentNormalized = model.energyProvider.CurrentNormalized;
 
-      if (damagedUIDuration > 0.0f)
+      if (valueChangingDuration > 0.0f)
       {
-        var t = 1.0f - damagedUIDuration / model.uiSO.DamagedEnergyUIDuration;
-        fillNormalized = Mathf.Lerp(lastDamagedNormalized, currentNormalized, t);
-        damagedUIDuration -= Time.deltaTime;
+        var t = 1.0f - valueChangingDuration / model.uiSO.EnergyChangedUIDuration;
+        fillNormalized = Mathf.Lerp(lastNormalized, currentNormalized, t);
+        valueChangingDuration -= Time.deltaTime;
       }
       else
       {
@@ -128,13 +128,20 @@ namespace LR.UI.GameScene.Player
     private void UnsubscribePlayerEnergy()
     {
       viewUpdateObserver.Dispose();
-      model.energySubscriber.UnsubscribeOnDamaged(OnDamaged);
+      model.energySubscriber.UnsubscribeValueEvent(IPlayerEnergySubscriber.ValueEvent.Damaged, OnDamaged);
+      model.energySubscriber.UnsubscribeValueEvent(IPlayerEnergySubscriber.ValueEvent.Restored, OnRestored);
     }
 
     private void OnDamaged(float damagedNormalized)
     {
-      lastDamagedNormalized = model.energyProvider.CurrentNormalized + damagedNormalized;
-      damagedUIDuration = model.uiSO.DamagedEnergyUIDuration;
+      lastNormalized = model.energyProvider.CurrentNormalized + damagedNormalized;
+      valueChangingDuration = model.uiSO.EnergyChangedUIDuration;
+    }
+
+    private void OnRestored(float restoredNormalized)
+    {
+      lastNormalized = model.energyProvider.CurrentNormalized - restoredNormalized;
+      valueChangingDuration = model.uiSO.EnergyChangedUIDuration;
     }
   }
 }

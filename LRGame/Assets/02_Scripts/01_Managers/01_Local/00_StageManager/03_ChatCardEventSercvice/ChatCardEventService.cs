@@ -98,7 +98,7 @@ public class ChatCardEventService
                     _ => throw new NotImplementedException()
                   };
 
-                  playerEnergySubscriber.SubscribeOnChanged(data.valueType, data.targetNormalizedValue, PlayChatCard);
+                  playerEnergySubscriber.SubscribeThreshhold(data.valueType, data.targetNormalizedValue, PlayChatCard);
                 }
                 break;
 

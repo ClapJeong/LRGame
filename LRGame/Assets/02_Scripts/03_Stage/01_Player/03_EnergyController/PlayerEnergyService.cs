@@ -20,11 +20,11 @@ namespace LR.Stage.Player
     private readonly IPlayerStateProvider stateProvider;
     private readonly IPlayerEffectController effectController;
 
-    private readonly Dictionary<IPlayerEnergySubscriber.EventType, UnityEvent> energyEvents = new();
+    private readonly Dictionary<StateEvent, UnityEvent> stateEvents = new();
+    private readonly Dictionary<ValueEvent, UnityEvent<float>> valueEvents = new();
     private readonly CancellationTokenSource cts = new();
     private readonly Dictionary<float, UnityEvent> aboveEvents = new();
     private readonly Dictionary<float, UnityEvent> belowEvents = new();
-    private readonly UnityEvent<float> onDamagedEvent = new();
 
     private bool IsEnergyWorking => stateProvider.GetCurrentState() == Enum.PlayerState.Freeze ||
                                     stateProvider.GetCurrentState() == Enum.PlayerState.Clear;
@@ -72,7 +72,7 @@ namespace LR.Stage.Player
       var beforeNormalized = CurrentNormalized;
       energy = Mathf.Max(0.0f, energy -value);
 
-      onDamagedEvent?.Invoke(beforeNormalized - CurrentNormalized);
+      valueEvents.TryInvoke(ValueEvent.Damaged, beforeNormalized - CurrentNormalized);
 
       if (IsDead)
         OnExhauset();
@@ -92,15 +92,18 @@ namespace LR.Stage.Player
       if (IsEnergyWorking)
         return;
 
+      var prevNormalized = CurrentNormalized;
       var prevEnergy = energy;
       energy = Mathf.Min(playerEnergyData.MaxEnergy, energy + value);
 
+      valueEvents.TryInvoke(ValueEvent.Restored, CurrentNormalized - prevNormalized);
+
       if(prevEnergy == 0 &&
          energy > 0)
-        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnRevived);
+        stateEvents.TryInvoke(IPlayerEnergySubscriber.StateEvent.OnRevived);
 
       if (IsFull)
-        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnRestoreFull);
+        stateEvents.TryInvoke(IPlayerEnergySubscriber.StateEvent.OnRestoreFull);
     }
 
     public void RestoreFull()
@@ -112,23 +115,11 @@ namespace LR.Stage.Player
       energy = playerEnergyData.MaxEnergy;
 
       if (prevEnergy == 0)
-        energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnRevived);
+        stateEvents.TryInvoke(IPlayerEnergySubscriber.StateEvent.OnRevived);
 
-      energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnRestoreFull);
+      stateEvents.TryInvoke(IPlayerEnergySubscriber.StateEvent.OnRestoreFull);
     }
         #endregion
-
-    #region IPlayerEnergySubscriber
-    public void SubscribeEvent(IPlayerEnergySubscriber.EventType type, UnityAction action)
-    {
-      energyEvents.AddEvent(type, action);
-    }
-
-    public void UnsubscribeEvent(IPlayerEnergySubscriber.EventType type, UnityAction action)
-    {
-      energyEvents.RemoveEvent(type, action);
-    }
-    #endregion
 
     #region IPlayerEnergyUpdater
     public void UpdateEnergy(float deltaTime)
@@ -174,29 +165,35 @@ namespace LR.Stage.Player
     #endregion
 
     #region IPlayerEnergySubscriber
-    public void SubscribeOnChanged(OnChangedType type, float normalizedValue, UnityAction action)
+    public void SubscribeStateEvent(IPlayerEnergySubscriber.StateEvent type, UnityAction action)
+      => stateEvents.AddEvent(type, action);
+
+    public void UnsubscribeStateEvent(IPlayerEnergySubscriber.StateEvent type, UnityAction action)
+      => stateEvents.RemoveEvent(type, action);
+
+    public void SubscribeThreshhold(Threshhold type, float normalizedValue, UnityAction action)
     {
       switch (type)
       {
-        case OnChangedType.Above:
+        case Threshhold.Above:
           aboveEvents.AddEvent(normalizedValue, action);
           break;
 
-        case OnChangedType.Below:
+        case Threshhold.Below:
           belowEvents.AddEvent(normalizedValue, action);
           break;
       }
     }
 
-    public void UnsubscribeOnChanged(OnChangedType type, float normalizedValue, UnityAction action)
+    public void UnsubscribeThreshhold(Threshhold type, float normalizedValue, UnityAction action)
     {
       switch (type)
       {
-        case OnChangedType.Above:
+        case Threshhold.Above:
           aboveEvents.RemoveEvent(normalizedValue, action);
           break;
 
-        case OnChangedType.Below:
+        case Threshhold.Below:
           belowEvents.RemoveEvent(normalizedValue, action);
           break;
       }
@@ -208,16 +205,16 @@ namespace LR.Stage.Player
     private static bool IsCrossedUp(float prev, float curr, float normalized)
       => prev < normalized && curr >= normalized;
 
-    public void SubscribeOnDamaged(UnityAction<float> onDamaged)
-      => onDamagedEvent.AddListener(onDamaged);
+    public void SubscribeValueEvent(ValueEvent valueEvent, UnityAction<float> action)
+      => valueEvents.AddEvent(valueEvent, action);
 
-    public void UnsubscribeOnDamaged(UnityAction<float> onDamaged)
-      => onDamagedEvent.RemoveListener(onDamaged);
+    public void UnsubscribeValueEvent(ValueEvent valueEvent, UnityAction<float> action)
+      => valueEvents.RemoveEvent(valueEvent, action);
     #endregion
 
     private void OnExhauset()
     {
-      energyEvents.TryInvoke(IPlayerEnergySubscriber.EventType.OnExhausted);
+      stateEvents.TryInvoke(IPlayerEnergySubscriber.StateEvent.OnExhausted);
       effectController.PlayEffect(Enum.PlayerEffect.Exhaust);
     }
 

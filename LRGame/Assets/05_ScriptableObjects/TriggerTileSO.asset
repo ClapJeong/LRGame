@@ -19,7 +19,7 @@ MonoBehaviour:
     <BounceData>k__BackingField:
       <Force>k__BackingField: 6
   <DefaultEnergyItemTriggerData>k__BackingField:
-    <RestoreValue>k__BackingField: 30
+    <RestoreValue>k__BackingField: 25
   <InputtingEnergyItemTriggerData>k__BackingField:
     <RestoreValue>k__BackingField: 50
     <QTEData>k__BackingField:

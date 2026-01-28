@@ -10,7 +10,7 @@ namespace LR.Stage.StageDataContainer
     public ChatCardEnum.PlayerEventType playerEventType;
     
     public float targetNormalizedValue;
-    public IPlayerEnergySubscriber.OnChangedType valueType;
+    public IPlayerEnergySubscriber.Threshhold valueType;
 
     public PlayerState targetPlayerState;
     public bool enter = true;

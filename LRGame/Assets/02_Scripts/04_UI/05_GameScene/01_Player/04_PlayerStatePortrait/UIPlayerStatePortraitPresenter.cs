@@ -64,7 +64,7 @@ namespace LR.UI.GameScene.Player
         {
           UpdatePortrait();
         });
-      model.energySubscriber.SubscribeOnDamaged(OnDamaged);
+      model.energySubscriber.SubscribeValueEvent(IPlayerEnergySubscriber.ValueEvent.Damaged, OnDamaged);
       originPortriatAnchoredPos = view.PortraitImage.rectTransform.anchoredPosition;
     }
 
@@ -86,7 +86,7 @@ namespace LR.UI.GameScene.Player
     {
       damagedCTS.Dispose();
       viewUpdateDisposable.Dispose();
-      model.energySubscriber.UnsubscribeOnDamaged(OnDamaged);
+      model.energySubscriber.UnsubscribeValueEvent(IPlayerEnergySubscriber.ValueEvent.Damaged, OnDamaged);
       if (view)
         view.DestroySelf();
     }
