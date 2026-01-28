@@ -9,6 +9,7 @@ using System.Text;
 using LR.Stage.Player.Enum;
 using UniRx.Triggers;
 using UniRx;
+using DG.Tweening;
 
 namespace LR.UI.GameScene.Player
 {
@@ -17,6 +18,7 @@ namespace LR.UI.GameScene.Player
     public class Model
     {
       public IPlayerStateProvider stateProvider;
+      public IPlayerEnergySubscriber energySubscriber;
       public IPlayerEnergyProvider energyProvider;
       public UISO uiSO;
       public AddressableKeySO addressableKeySO;
@@ -25,6 +27,7 @@ namespace LR.UI.GameScene.Player
 
       public Model(
         IPlayerStateProvider stateProvider,
+        IPlayerEnergySubscriber energySubscriber,
         IPlayerEnergyProvider energyProvider,
         UISO uiSO, 
         AddressableKeySO addressableKeySO, 
@@ -32,6 +35,7 @@ namespace LR.UI.GameScene.Player
         IResourceManager resourceManager)
       {
         this.stateProvider = stateProvider;
+        this.energySubscriber = energySubscriber;
         this.energyProvider = energyProvider;
         this.uiSO = uiSO;
         this.addressableKeySO = addressableKeySO;
@@ -43,6 +47,8 @@ namespace LR.UI.GameScene.Player
     private readonly Model model;
     private readonly UIPlayerStatePortraitView view;
 
+    private readonly CTSContainer damagedCTS = new();
+    private readonly Vector2 originPortriatAnchoredPos;
     private IDisposable viewUpdateDisposable;
     private Portrait prevPortrait;
 
@@ -58,6 +64,8 @@ namespace LR.UI.GameScene.Player
         {
           UpdatePortrait();
         });
+      model.energySubscriber.SubscribeOnDamaged(OnDamaged);
+      originPortriatAnchoredPos = view.PortraitImage.rectTransform.anchoredPosition;
     }
 
     public async UniTask ActivateAsync(bool isImmedieately = false, CancellationToken token = default)
@@ -76,8 +84,9 @@ namespace LR.UI.GameScene.Player
 
     public void Dispose()
     {
+      damagedCTS.Dispose();
       viewUpdateDisposable.Dispose();
-
+      model.energySubscriber.UnsubscribeOnDamaged(OnDamaged);
       if (view)
         view.DestroySelf();
     }
@@ -126,6 +135,24 @@ namespace LR.UI.GameScene.Player
         return Portrait.Low;
       else
         return Portrait.Idle;
+    }
+
+    private void OnDamaged(float _)
+    {
+      damagedCTS.Cancel();
+      damagedCTS.Create();
+      var token = damagedCTS.token;
+
+      view
+        .PortraitImage
+        .rectTransform
+        .DOShakeAnchorPos(model.uiSO.DamagedPortraitShakeDuration, model.uiSO.DamagedPortraitShakeStrengh, model.uiSO.DamagedPortraitShakeVibrato, 360.0f)
+        .OnComplete(() =>
+        {
+          view.PortraitImage.rectTransform.anchoredPosition = originPortriatAnchoredPos;
+        })
+        .ToUniTask(TweenCancelBehaviour.Complete, token)
+        .Forget();
     }
   }
 }

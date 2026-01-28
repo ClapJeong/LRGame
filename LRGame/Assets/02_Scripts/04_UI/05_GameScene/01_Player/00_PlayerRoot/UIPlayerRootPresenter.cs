@@ -201,6 +201,7 @@ namespace LR.UI.GameScene.Player
       var player = this.model.GetPlayer();
       var model = new UIPlayerStatePortraitPresenter.Model(
         player.GetStateProvider(),
+        player.GetEnergySubscriber(),
         player.GetEnergyProvider(),
         this.model.table.UISO,
         this.model.table.AddressableKeySO,
