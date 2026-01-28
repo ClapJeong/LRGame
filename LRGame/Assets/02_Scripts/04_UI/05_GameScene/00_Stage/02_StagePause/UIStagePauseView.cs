@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Threading;
 using UnityEngine;
 using LR.UI.Enum;
+using System;
 
 namespace LR.UI.GameScene.Stage
 {
@@ -32,13 +33,17 @@ namespace LR.UI.GameScene.Stage
       gameObject.SetActive(true);
       visibleState = VisibleState.Showing;
 
-      var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
-      await DOTween.Sequence()
-        .Join(RectTransform.DOAnchorPos(showPosition, duration))
-        .Join(canvasGroup.DOFade(1.0f, duration))
-        .ToUniTask(TweenCancelBehaviour.Kill, token);
+      try
+      {
+        var duration = isImmediately ? 0.0f : UISO.StageUIMoveDefaultDuration;
+        await DOTween.Sequence()
+          .Join(RectTransform.DOAnchorPos(showPosition, duration))
+          .Join(canvasGroup.DOFade(1.0f, duration))
+          .ToUniTask(TweenCancelBehaviour.Kill, token);
 
-      visibleState = VisibleState.Showing;
+        visibleState = VisibleState.Showing;
+      }
+      catch (OperationCanceledException) { }      
     }
   }
 }
