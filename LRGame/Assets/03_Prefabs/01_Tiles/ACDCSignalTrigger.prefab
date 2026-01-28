@@ -53,7 +53,7 @@ MonoBehaviour:
   <InputSpriteRenderer>k__BackingField: {fileID: 0}
   <Key>k__BackingField: 
   <SignalLife>k__BackingField: 1
-  triggerTileType: 5
+  triggerTileType: 4
 --- !u!58 &5804583862459710138
 CircleCollider2D:
   m_ObjectHideFlags: 0

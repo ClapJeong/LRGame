@@ -167,8 +167,9 @@ public class StageManager :
       var topClearIndex = model.gameDataService.GetTopClearData().ParseIndex();
       isThisStageFirst = index > topClearIndex;
     }
-    catch
+    catch (Exception e)
     {
+      Debug.LogError($"Stage Create Error: {e}");
       model.gameDataService.SetSelectedStage(-1, -1);
       model.sceneProvider.LoadSceneAsync(SceneType.Lobby).Forget();
     }
