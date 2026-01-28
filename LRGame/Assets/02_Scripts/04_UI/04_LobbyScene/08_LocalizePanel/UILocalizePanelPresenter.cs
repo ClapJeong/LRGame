@@ -15,13 +15,20 @@ namespace LR.UI.Lobby
   {
     public class Model
     {
+      public LocaleService localeService;
       public IUIIndicatorPresenter indicator;
       public IUISelectedGameObjectService selectedGameObjectService;
       public IUIDepthService depthService;
       public UnityAction onExit;
 
-      public Model(IUIIndicatorPresenter indicator, IUISelectedGameObjectService selectedGameObjectService, IUIDepthService depthService, UnityAction onExit)
+      public Model(
+        LocaleService localeService,
+        IUIIndicatorPresenter indicator, 
+        IUISelectedGameObjectService selectedGameObjectService, 
+        IUIDepthService depthService, 
+        UnityAction onExit)
       {
+        this.localeService = localeService;
         this.indicator = indicator;
         this.selectedGameObjectService = selectedGameObjectService;
         this.depthService = depthService;
@@ -97,7 +104,11 @@ namespace LR.UI.Lobby
         onPerformed: null,
         onCanceled: null,
         onProgress: buttonSet.FillImage.SetFillAmount,
-        onComplete: () => LocalizationSettings.SelectedLocale = buttonSet.Locale);
+        onComplete: () =>
+        {
+          model.localeService.SetLocale(buttonSet.Locale);
+          model.localeService.SaveLocale();
+        });
     }
 
     private void OnSelectedGameObjectEnter(GameObject gameObject)

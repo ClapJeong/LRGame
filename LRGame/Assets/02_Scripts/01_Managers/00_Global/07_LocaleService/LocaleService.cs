@@ -1,13 +1,16 @@
 ﻿
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
 public class LocaleService : IDisposable
 {
+  private const string LocaleKey = "Locale";
   private readonly LocalizeFonts fonts;
 
   private readonly List<LocalizeFontEvent> fontEvents = new();
@@ -21,6 +24,8 @@ public class LocaleService : IDisposable
 
     LocalizationSettings.SelectedLocaleChanged += UpdateFont;
 
+    LoadLocale();
+
     currentLocale = LocalizationSettings.SelectedLocale;
     currentFont = GetLocaleFont(currentLocale);
   }
@@ -33,6 +38,30 @@ public class LocaleService : IDisposable
 
   public void Unregister(LocalizeFontEvent localizeFontEvent)
     => fontEvents.Remove(localizeFontEvent);
+
+  public void SetLocale(Locale locale)
+    => LocalizationSettings.SelectedLocale = locale;
+
+  public void SaveLocale()
+  {
+    var locale = LocalizationSettings.SelectedLocale;
+    if (locale == null) return;
+
+    PlayerPrefs.SetString(LocaleKey, locale.Identifier.Code);
+    PlayerPrefs.Save();
+  }
+
+  public void LoadLocale()
+  {    
+    if (!PlayerPrefs.HasKey(LocaleKey))
+      return;
+
+    var code = PlayerPrefs.GetString(LocaleKey);
+    var locale = LocalizationSettings.AvailableLocales.GetLocale(code);
+
+    if (locale != null)
+      LocalizationSettings.SelectedLocale = locale;
+  }
 
   private void UpdateFont(Locale locale)
   {

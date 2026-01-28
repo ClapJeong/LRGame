@@ -1,25 +1,52 @@
 using Cysharp.Threading.Tasks;
 using LR.UI.Preloading;
 using LR.UI.Enum;
-using UnityEngine;
 using UnityEngine.Events;
 
 public class VeryFirstService
 {
-  private readonly AddressableKeySO addressableKeySO;
-  private readonly IResourceManager resourceManager;
-  private readonly ICanvasProvider canvasProvider;
-
+  private UIVeryFirstLocale firstLocale;
   private UIVeryFirstCutscene firstCutscene;
 
-  public VeryFirstService(AddressableKeySO addressableKeySO, IResourceManager resourceManager, ICanvasProvider canvasProvider)
+  public VeryFirstService()
   {
-    this.addressableKeySO = addressableKeySO;
-    this.resourceManager = resourceManager;
-    this.canvasProvider = canvasProvider;
+
   }
 
-  public async UniTask CreateFirstTimelineAsync()
+  public async UniTask CreateFirstLocaleUI(
+    AddressableKeySO addressableKeySO,
+    IResourceManager resourceManager,
+    ICanvasProvider canvasProvider)
+  {
+    var key = addressableKeySO.Path.UI + addressableKeySO.UIName.VeryFirstLocale;
+    firstLocale = await resourceManager.CreateAssetAsync<UIVeryFirstLocale>(key, canvasProvider.GetCanvas(RootType.SceneLoading).transform);
+  }
+
+  public async UniTask InitializeFirstLocaleUIAsync(
+    LocaleService localeService,
+    IUIIndicatorService indicatorService,
+    IUISelectedGameObjectService selectedGameObjectService,
+    IUIDepthService depthService,
+    IUIInputManager uiInputManager,
+    UnityAction onConfirm)
+  {
+    var model = new UIVeryFirstLocale.Model(
+      localeService,
+      indicatorService,
+      selectedGameObjectService,
+      depthService,
+      uiInputManager,
+      onConfirm);
+    await firstLocale.InitializeAsync(model);
+  }
+
+  public async UniTask DestroyFirstLocaleUIAsync()
+    => await firstLocale.DestroyAsync();
+
+  public async UniTask CreateFirstTimelineAsync(
+    AddressableKeySO addressableKeySO,
+    IResourceManager resourceManager,
+    ICanvasProvider canvasProvider)
   {
     var key = addressableKeySO.Path.UI + addressableKeySO.UIName.VeryFirstCutscene;
     firstCutscene = await resourceManager.CreateAssetAsync<UIVeryFirstCutscene>(key, canvasProvider.GetCanvas(RootType.SceneLoading).transform);
