@@ -42,11 +42,10 @@ MonoBehaviour:
   <ScoreHideDuration>k__BackingField: 0.3
   <SucessUIDelay>k__BackingField: 1.5
   <PortraitLowEnergy>k__BackingField: 0.4
-  <DamagedEnergyUIDuration>k__BackingField: 0.2
+  <EnergyChangedUIDuration>k__BackingField: 0.2
   <DamagedPortraitShakeDuration>k__BackingField: 0.3
   <DamagedPortraitShakeStrengh>k__BackingField: 20
   <DamagedPortraitShakeVibrato>k__BackingField: 55
-  <RestoreEnergyUIDuration>k__BackingField: 0.6
   <DialogueRootShowDuratoin>k__BackingField: 0.6
   <DialogueRootHideDuratoin>k__BackingField: 0.3
   <SelectionShowDuration>k__BackingField: 0.3
