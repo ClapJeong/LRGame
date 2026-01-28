@@ -42,6 +42,8 @@ public class UISO : ScriptableObject
   [field: SerializeField] public float DamagedPortraitShakeDuration { get; private set; }
   [field: SerializeField] public float DamagedPortraitShakeStrengh { get; private set; }
   [field: SerializeField] public int DamagedPortraitShakeVibrato { get; private set; }
+  [field: SerializeField] public float ScoreUIJumpPower {  get; private set; }
+  [field: SerializeField] public float ScoreUIJumpDuration { get; private set; }
   [field: Header("[ Dialogue ]")]
   [field: SerializeField] public float DialogueRootShowDuratoin {  get; private set; }
   [field: SerializeField] public float DialogueRootHideDuratoin { get; private set; }

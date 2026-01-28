@@ -110,6 +110,13 @@ namespace LR.UI.GameScene.Player
             {
               markerShown = true;
               view.ScoreMarkerImage.SetAlpha(1.0f);
+
+              if(isScoreAcquired == false)
+                view.ScoreMarkerRectTransform.DOJumpAnchorPos(
+                  view.ScoreMarkerRectTransform.anchoredPosition,
+                  model.uiSO.ScoreUIJumpPower,
+                  1,
+                  model.uiSO.ScoreUIJumpDuration);
             }
           });
 
