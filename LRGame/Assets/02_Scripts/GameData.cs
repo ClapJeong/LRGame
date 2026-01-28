@@ -21,7 +21,7 @@ public class GameData
     }
 
     public int ParseIndex()
-      => (chapter - 1) * 4 + stage;
+      => Mathf.Max(0, (chapter - 1)) * 4 + stage;
   }
 
   [System.Serializable]

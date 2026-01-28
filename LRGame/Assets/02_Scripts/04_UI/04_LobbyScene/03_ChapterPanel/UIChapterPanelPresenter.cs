@@ -157,7 +157,7 @@ namespace LR.UI.Lobby
 
     private void UnsubscribeSelectedGameObjectService()
     {
-      model.uiSelectedGameObjectService.SubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, SetIndicatorTarget);
+      model.uiSelectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, SetIndicatorTarget);
       model.uiSelectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, stageButtonSetService.OnSelectStageButtonSet);
     }
 

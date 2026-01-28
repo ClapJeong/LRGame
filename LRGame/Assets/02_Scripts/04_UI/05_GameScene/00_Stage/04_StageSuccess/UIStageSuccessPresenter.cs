@@ -146,6 +146,9 @@ namespace LR.UI.GameScene.Stage
         currentIndicator.SetRightInputGuide(progressSubmitView);
       else
         currentIndicator.SetRightInputGuide(new Direction[0]);
+
+      if (gameObject.TryGetComponent<RectTransform>(out var rectTransform))
+        currentIndicator.MoveAsync(rectTransform);
     }
 
     private void OnNext()

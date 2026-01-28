@@ -104,6 +104,9 @@ namespace LR.UI.GameScene.Stage
 
       if (gameObject.TryGetComponent<IUIProgressSubmitView>(out var progressSubmitView))
         currentIndicator.SetRightInputGuide(progressSubmitView);
+
+      if (gameObject.TryGetComponent<RectTransform>(out var rectTransform))
+        currentIndicator.MoveAsync(rectTransform);
     }
 
     private void OnRestart()
