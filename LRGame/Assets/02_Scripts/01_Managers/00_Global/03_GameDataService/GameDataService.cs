@@ -183,12 +183,12 @@ public class GameDataService : IGameDataService
 
   public void Debugging_MaxClearData()
   {
-    var chapterCount = Mathf.Max(1, StageDataCount / 4);
+    var chapterCount = Mathf.Max(1, StageDataCount / 4) + (StageDataCount % 4 > 0? 1 : 0);
     for(int i = 0; i < chapterCount; i++)
     {
       if(i == chapterCount - 1)
       {
-        SetClearData(i + 1, (StageDataCount % 4) + 1, true, true);
+        SetClearData(i + 1, StageDataCount % 4, true, true);
       }
       else
       {
