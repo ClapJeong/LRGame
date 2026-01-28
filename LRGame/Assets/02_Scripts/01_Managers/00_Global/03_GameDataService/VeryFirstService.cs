@@ -32,7 +32,7 @@ public class VeryFirstService
 
   public void DestroyCutscene()
   {
-    GameObject.Destroy(firstCutscene.gameObject);
+    firstCutscene.DestroyAsync().Forget();
     firstCutscene = null;
   }
 }

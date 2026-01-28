@@ -944,6 +944,7 @@ GameObject:
   - component: {fileID: 5499168675842498022}
   - component: {fileID: 419737683681587995}
   - component: {fileID: 5004322447456643749}
+  - component: {fileID: 3330908055207414612}
   m_Layer: 5
   m_Name: VeryFirstTimeline
   m_TagString: Untagged
@@ -1024,7 +1025,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a06d534bcc42e4b8e7e0949e6dc4ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LR.UI.Preloading.UIVeryFirstCutscene
+  canvasGroup: {fileID: 3330908055207414612}
   director: {fileID: 419737683681587995}
+--- !u!225 &3330908055207414612
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6010740150398836509}
+  m_Enabled: 1
+  m_Alpha: 0.61
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6039756301967653942
 GameObject:
   m_ObjectHideFlags: 0
