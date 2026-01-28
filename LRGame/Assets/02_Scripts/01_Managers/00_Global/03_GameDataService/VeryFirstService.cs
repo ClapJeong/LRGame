@@ -40,8 +40,8 @@ public class VeryFirstService
     await firstLocale.InitializeAsync(model);
   }
 
-  public async UniTask DestroyFirstLocaleUIAsync()
-    => await firstLocale.DestroyAsync();
+  public async UniTask DestroyFirstLocaleUIAsync(IResourceManager resourceManager)
+    => await firstLocale.DestroyAsync(resourceManager);
 
   public async UniTask CreateFirstTimelineAsync(
     AddressableKeySO addressableKeySO,
@@ -57,9 +57,9 @@ public class VeryFirstService
     firstCutscene.PlayCutscene(onComplete);    
   }
 
-  public void DestroyCutscene()
+  public void DestroyCutscene(IResourceManager resourceManager)
   {
-    firstCutscene.DestroyAsync().Forget();
+    firstCutscene.DestroyAsync(resourceManager).Forget();
     firstCutscene = null;
   }
 }

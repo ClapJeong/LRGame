@@ -8,7 +8,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using LR.Stage.Player.Enum;
-using LR.Stage.SignalListener;
+using System;
+using UniRx;
 
 public class StageManager : 
   IStageStateHandler,
@@ -18,7 +19,8 @@ public class StageManager :
   IPlayerGetter,
   IStageCreator,
   IDialogueDataProvider,
-  IDialoguePlayableProvider
+  IDialoguePlayableProvider,
+  IDisposable
 {
   public class Model
   {
@@ -75,6 +77,8 @@ public class StageManager :
   private readonly ChatCardEventService chatCardEventService;
   private readonly ScoreCalculator scoreCalculator;
 
+  private readonly CompositeDisposable disposables = new();
+
   private readonly Dictionary<IStageEventSubscriber.StageEventType, UnityEvent> stageEvents = new();  
 
   private StageEnum.State stageState = StageEnum.State.Ready;
@@ -98,6 +102,7 @@ public class StageManager :
       model.table.AddressableKeySO, 
       model.table.EffectTableSO,
       model.defaultEffectRoot);
+    effectService.AddTo(disposables);
     playerSetupService = new PlayerService(
       model.table,
       model.resourceManager,
@@ -106,6 +111,7 @@ public class StageManager :
       model.inputActionFactory,
       model.inputQTEService,
       model.inputProgressService);
+    playerSetupService.AddTo(disposables);
     triggerTileService = new TriggerTileService(
       effectService,
       stageResultHandler: this,
@@ -420,6 +426,13 @@ public class StageManager :
     var isClearStage = model.gameDataService.IsClearStage(chapter, stage);
     var isDialogueDataExist = afterDialogueData != null;
     return isClearStage == false && isDialogueDataExist;
+  }
+
+  public void Dispose()
+  {
+    disposables.Dispose();
+    if(StageDataContainer!=null)
+      model.resourceManager.ReleaseInstance(StageDataContainer.gameObject, true);
   }
   #endregion
 }

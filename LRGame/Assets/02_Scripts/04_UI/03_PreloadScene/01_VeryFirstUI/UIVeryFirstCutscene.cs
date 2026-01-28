@@ -20,12 +20,12 @@ namespace LR.UI.Preloading
       director.Play();      
     }
 
-    public async UniTask DestroyAsync()
+    public async UniTask DestroyAsync(IResourceManager resourceManager)
     {
       await DOTween
         .Sequence()
         .Join(canvasGroup.DOFade(0.0f, 0.8f))
-        .OnComplete(() => Destroy(gameObject))
+        .OnComplete(() => resourceManager.ReleaseInstance(gameObject))
         .ToUniTask();
     }
   }

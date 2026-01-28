@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
-public interface IEffectService
+public interface IEffectService : IDisposable
 {
   public void Create(
     InstanceEffectType effectType, 

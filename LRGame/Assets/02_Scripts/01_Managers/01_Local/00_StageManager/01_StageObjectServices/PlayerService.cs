@@ -3,13 +3,16 @@ using LR.Stage.Player;
 using LR.Stage.Player.Enum;
 using LR.Stage.StageDataContainer;
 using LR.Table.Input;
+using System;
 using System.Collections.Generic;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class PlayerService : 
   IStageObjectSetupService<IPlayerPresenter>, 
   IStageObjectControlService<IPlayerPresenter>,
-  IPlayerGetter
+  IPlayerGetter,
+  IDisposable
 {
   private readonly TableContainer table;
   private readonly IResourceManager resourceManager;
@@ -160,4 +163,12 @@ public class PlayerService :
 
   public bool IsAllPlayerExist()
     => leftPlayer != null && rightPlayer != null;
+
+  public void Dispose()
+  {
+    resourceManager.ReleaseAsset(table.AddressableKeySO.Path.Player +
+      table.AddressableKeySO.GameObjectName.GetPlayerName(PlayerType.Left));
+    resourceManager.ReleaseAsset(table.AddressableKeySO.Path.Player +
+      table.AddressableKeySO.GameObjectName.GetPlayerName(PlayerType.Right));
+  }
 }

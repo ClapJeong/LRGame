@@ -85,7 +85,7 @@ namespace LR.UI.Preloading
       model.uiInputManager.SubscribePerformedEvent(Enum.InputDirection.Space, model.onConfirm);
     }
 
-    public async UniTask DestroyAsync()
+    public async UniTask DestroyAsync(IResourceManager resourceManager)
     {
       model.uiInputManager.UnsubscribePerformedEvent(Enum.InputDirection.Space, model.onConfirm);
       model.selectedGameObjectService.UnsubscribeEvent(IUISelectedGameObjectService.EventType.OnEnter, OnSelectedGameObjectEnter);
@@ -96,8 +96,8 @@ namespace LR.UI.Preloading
         .Append(canvasGroup.DOFade(0.0f, 1.0f))
         .AppendInterval(0.5f)
         .OnComplete(() =>
-        {          
-          Destroy(gameObject);
+        {
+          resourceManager.ReleaseInstance(gameObject);
         })
         .ToUniTask(TweenCancelBehaviour.Complete);
     }

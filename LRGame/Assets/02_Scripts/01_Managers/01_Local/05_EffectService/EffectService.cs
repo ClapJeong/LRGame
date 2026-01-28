@@ -1,12 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
 using LR.Stage.Effect;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class EffectService : IEffectService
 {
-  private class EffectPool
+  private class EffectPool : IDisposable
   {
     private readonly InstanceEffectType effectType;
     private readonly string basePath;
@@ -22,6 +23,16 @@ public class EffectService : IEffectService
       this.basePath = basePath;
       this.resourceManager = resourceManager;
       this.poolingCount = poolingCount;
+    }
+
+    public void Dispose()
+    {
+      var path =
+        basePath +
+        effectType.ToString() +
+        ".prefab";
+
+      resourceManager.ReleaseAsset(path);
     }
 
     public async UniTask PlayOnceAsync(Vector3 position, Quaternion rotation, Transform root, UnityAction onComplete)
@@ -81,7 +92,9 @@ public class EffectService : IEffectService
 
   public void Create(InstanceEffectType effectType, Vector3 position, Quaternion rotation, UnityAction onComplete = null, Transform root = null)
   {
-    if(pools.TryGetValue(effectType, out var pool))
+    root ??= defaultRoot;
+
+    if (pools.TryGetValue(effectType, out var pool))
     {
       pool.PlayOnceAsync(position, rotation, root, onComplete).Forget();
     }
@@ -95,4 +108,10 @@ public class EffectService : IEffectService
 
   public void Create(InstanceEffectType effectType, Vector3 position, Vector3 euler, UnityAction onComplete = null, Transform root = null)
     => Create(effectType, position, Quaternion.Euler(euler), onComplete, root);
+
+  public void Dispose()
+  {
+    foreach(var pool in pools.Values)
+      pool.Dispose();
+  }
 }

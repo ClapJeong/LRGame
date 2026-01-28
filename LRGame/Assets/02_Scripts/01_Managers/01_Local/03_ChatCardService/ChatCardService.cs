@@ -4,6 +4,7 @@ using LR.UI.Enum;
 using System;
 using UnityEngine;
 using UnityEngine.U2D;
+using System.Collections.Generic;
 
 public class ChatCardService : IChatCardService
 {
@@ -14,6 +15,8 @@ public class ChatCardService : IChatCardService
   private readonly AddressableKeySO addressableSO;
   private readonly ChatCardDatasSO datasSO;
   private readonly UISO uiSO;
+
+  private readonly List<string> releaseKeys = new();
 
   private SpriteAtlas atlas;
   private UIChatCardPresenter leftPresenter;
@@ -100,6 +103,8 @@ public class ChatCardService : IChatCardService
   private async UniTask<UIChatCardPresenter> CreatePresenterAsync(CharacterPositionType positionType)
   {
     var key = addressableSO.Path.UI + addressableSO.UIName.GetChatCardName(positionType);
+    if(releaseKeys.Contains(key) == false)
+      releaseKeys.Add(key);
     var root = canvasProvider.GetCanvas(RootType.Popup).transform;
     var model = new UIChatCardPresenter.Model(
       atlas,
@@ -162,6 +167,8 @@ public class ChatCardService : IChatCardService
 
   public void Dispose()
   {
+    foreach (var key in releaseKeys)
+      resourceManager.ReleaseAsset(key);
     ReleaseAtlas();
   }
 }

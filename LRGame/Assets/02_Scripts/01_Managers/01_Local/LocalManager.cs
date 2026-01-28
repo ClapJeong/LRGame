@@ -31,6 +31,7 @@ public partial class LocalManager : MonoBehaviour
   public InputQTEUIService InputQTEUIService { get; private set; }
 
   private readonly List<IUIPresenter> firstPresenters = new();
+  private readonly List<string> releaseKeys = new();
   private readonly CompositeDisposable disposables = new();
 
   public async UniTask InitializeAsync()
@@ -131,6 +132,7 @@ public partial class LocalManager : MonoBehaviour
       ChatCardService,
       GlobalManager.instance.UIManager.GetIUIPresenterContainer());
     StageManager = new StageManager(stageManagerModel);
+    StageManager.AddTo(disposables);
 
     DialogueService = new DialogueService();
   }
@@ -175,7 +177,7 @@ if(gameDataService.IsVeryFirst())
             await veryFirstService.InitializeFirstLocaleUIAsync(localeService, indicatorService, selectedGameObjectService, depthService, uiInputManager, 
               onConfirm: async () =>
             {              
-              await veryFirstService.DestroyFirstLocaleUIAsync();
+              await veryFirstService.DestroyFirstLocaleUIAsync(resourceManager);
 
               var sceneProvider = GlobalManager.instance.SceneProvider;              
               veryFirstService.PlayFirstTimeline(
@@ -190,7 +192,7 @@ if(gameDataService.IsVeryFirst())
                     onComplete: async () =>
                     {
                       UniTask.Delay(10)
-                       .ContinueWith(veryFirstService.DestroyCutscene).Forget();
+                       .ContinueWith(()=> veryFirstService.DestroyCutscene(resourceManager)).Forget();
                     }).Forget();
                 });
 
@@ -265,12 +267,14 @@ if(gameDataService.IsVeryFirst())
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(table.Path.UI + table.UIName.PreloadingRoot, root);
+    var key = table.Path.UI + table.UIName.PreloadingRoot;
+    releaseKeys.Add(key);
+    var view = await resourceManager.CreateAssetAsync<UIPreloadingView>(key, root);
     var presenter = new UIPreloadingPresenter(model, view);
 
     firstPresenters.Add(presenter);
     presenter.AttachOnDestroy(gameObject);    
-    await presenter.DeactivateAsync(true);
+    await presenter.DeactivateAsync(true);    
   }
 
   private async UniTask CreateLobbyUIAsync()
@@ -288,7 +292,9 @@ if(gameDataService.IsVeryFirst())
       sceneProvider: GlobalManager.instance.SceneProvider);
 
     var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
-    var view = await resourceManager.CreateAssetAsync<UILobbyRootView>(table.Path.UI + table.UIName.LobbyRoot, root);
+    var key = table.Path.UI + table.UIName.LobbyRoot;
+    releaseKeys.Add(key);
+    var view = await resourceManager.CreateAssetAsync<UILobbyRootView>(key, root);
     var presenter = new UILobbyRootPresenter(model, view);
 
     presenter.AttachOnDestroy(gameObject);
@@ -301,7 +307,9 @@ if(gameDataService.IsVeryFirst())
     ICanvasProvider canvasProvider = GlobalManager.instance.UIManager;
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
-    var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(table.Path.UI + table.UIName.PlayerRoot, root);
+    var key = table.Path.UI + table.UIName.PlayerRoot;
+    releaseKeys.Add(key);
+    var viewRoot = await resourceManager.CreateAssetAsync<PlayerRootContainer>(key, root);
 
     var Leftmodel = new UIPlayerRootPresenter.Model(
       GlobalManager.instance.Table,
@@ -366,6 +374,7 @@ if(gameDataService.IsVeryFirst())
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var key = table.Path.UI + table.UIName.StageRoot;
+    releaseKeys.Add(key);
     var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
 
     var model = new UIStageRootPresenter.Model(
@@ -395,6 +404,7 @@ if(gameDataService.IsVeryFirst())
     IResourceManager resourceManager = GlobalManager.instance.ResourceManager;
     var table = GlobalManager.instance.Table.AddressableKeySO;
     var key = table.Path.UI + table.UIName.DialogueRoot;
+    releaseKeys.Add(key);
     var root = canvasProvider.GetCanvas(RootType.Overlay).transform;
 
     var model = new UIDialogueRootPresenter.Model(
@@ -429,6 +439,8 @@ if(gameDataService.IsVeryFirst())
 
   private void OnDestroy()
   {
+    foreach (var key in releaseKeys)
+      GlobalManager.instance.ResourceManager.ReleaseAsset(key);
     disposables.Dispose();
   }
 }
