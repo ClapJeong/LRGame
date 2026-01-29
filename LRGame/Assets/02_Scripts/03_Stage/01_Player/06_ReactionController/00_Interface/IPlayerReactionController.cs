@@ -8,6 +8,8 @@ namespace LR.Stage.Player
   {
     public bool IsInputting { get; }
 
+    public bool IsDecaying { get; }
+
     public void Bounce(BounceData data, Vector3 direction);
 
     public void SetInputting(bool isInputting);
@@ -23,5 +25,7 @@ namespace LR.Stage.Player
     public void RestoreEnergyFull();
 
     public void DamageEnergy(float value, bool ignoreInvincible = false);
+
+    public void Decaying(bool isDecaying);
   }
 }

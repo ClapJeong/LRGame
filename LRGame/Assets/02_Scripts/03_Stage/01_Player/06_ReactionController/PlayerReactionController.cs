@@ -10,9 +10,13 @@ namespace LR.Stage.Player
     private readonly IPlayerStateController stateController;
     private readonly IPlayerStateProvider stateProvider;
     private readonly IPlayerEnergyController energyController;
+    private readonly IPlayerEffectController effectController;
 
     private bool isCharging;
     public bool IsInputting => isCharging;
+
+    private bool isDecaying;
+    public bool IsDecaying => isDecaying;
 
     private bool IsFreezeState => stateProvider.GetCurrentState() == Enum.PlayerState.Freeze ||
                                     stateProvider.GetCurrentState() == Enum.PlayerState.Clear;
@@ -21,12 +25,14 @@ namespace LR.Stage.Player
       IPlayerMoveController moveController, 
       IPlayerStateController stateController, 
       IPlayerStateProvider stateProvider,
-      IPlayerEnergyController energyController)
+      IPlayerEnergyController energyController,
+      IPlayerEffectController effectController)
     {
       this.moveController = moveController;
       this.stateController = stateController;
       this.stateProvider = stateProvider;
       this.energyController = energyController;
+      this.effectController = effectController;
     }
 
     public void Bounce(BounceData data, Vector3 direction)
@@ -71,6 +77,15 @@ namespace LR.Stage.Player
     public void DamageEnergy(float value, bool ignoreInvincible = false)
     {
       energyController.Damage(value, ignoreInvincible);
+    }
+
+    public void Decaying(bool isDecaying)
+    {
+      this.isDecaying = isDecaying;
+      if (isDecaying)
+        effectController.PlayEffect(PlayerEffect.Decay);
+      else
+        effectController.StopEffect(PlayerEffect.Decay);
     }
 
     public void Dispose()

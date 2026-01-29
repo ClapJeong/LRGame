@@ -56,14 +56,14 @@ namespace LR.Stage.TriggerTile
      
       switch (view.GetTriggerType())
       {
-        case TriggerTileType.LeftClearTrigger:
+        case TriggerTileType.LeftClear:
           {
             model.stageResultHandler.LeftClearEnter();            
             view.Animator.Play(AnimatorHash.ClearTriggerTile.Clip.LeftEnter);
           }          
           break;
 
-        case TriggerTileType.RightClearTrigger:
+        case TriggerTileType.RightClear:
           {
             model.stageResultHandler.RightClearEnter();
             view.Animator.Play(AnimatorHash.ClearTriggerTile.Clip.RightEnter);

@@ -19,6 +19,7 @@ namespace LR.Stage.Player
     private readonly SpriteRenderer spriteRenderer;
     private readonly IPlayerStateProvider stateProvider;
     private readonly IPlayerEffectController effectController;
+    private IPlayerReactionController reactionController;
 
     private readonly Dictionary<StateEvent, UnityEvent> stateEvents = new();
     private readonly Dictionary<ValueEvent, UnityEvent<float>> valueEvents = new();
@@ -58,6 +59,11 @@ namespace LR.Stage.Player
       this.effectController = effectController;
 
       energy = playerEnergyData.MaxEnergy;
+    }
+
+    public void DelayInject(IPlayerReactionController reactionController)
+    {
+      this.reactionController = reactionController;
     }
 
     #region IPlayerEnergyController
@@ -131,7 +137,9 @@ namespace LR.Stage.Player
         return;
 
       prevEnergy = energy;
-      var currentEnergy = Mathf.Max(0.0f, energy - playerEnergyData.DecreasingValue * deltaTime);
+      var decreaseValue = reactionController.IsDecaying ? playerEnergyData.DecayDecreasingValue 
+                                                        : playerEnergyData.DecreasingValue;
+      var currentEnergy = Mathf.Max(0.0f, energy - decreaseValue * deltaTime);
 
       var prevNormalized = prevEnergy / playerEnergyData.MaxEnergy;
       var currentNormalized = currentEnergy / playerEnergyData.MaxEnergy;

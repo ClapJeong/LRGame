@@ -57,7 +57,7 @@ public class TriggerTileService :
       var tileType = view.GetTriggerType();
       switch (tileType)
       {
-        case TriggerTileType.LeftClearTrigger:
+        case TriggerTileType.LeftClear:
           {
             var model = new ClearTriggerTilePresenter.Model(
               table.TriggerTileModelSO.ClearTrigger,
@@ -69,7 +69,7 @@ public class TriggerTileService :
           }
           break;
 
-        case TriggerTileType.RightClearTrigger:
+        case TriggerTileType.RightClear:
           {
             var model = new ClearTriggerTilePresenter.Model(
               table.TriggerTileModelSO.ClearTrigger, 
@@ -138,6 +138,15 @@ public class TriggerTileService :
               playerGetter);
             var inputSignalView = view as InputSignalTriggerView;
             presenter = new InputSignalTriggerPresenter(model, inputSignalView);
+          }
+          break;
+
+        case TriggerTileType.Decay:
+          {
+            var model = new DecayTrigerTilePresenter.Model(
+              playerGetter);
+            var decayView = view as DecayTrigerTileView;
+            presenter = new DecayTrigerTilePresenter(model, decayView);
           }
           break;
 

@@ -9,6 +9,7 @@ namespace LR.Stage.Player
     [field: SerializeField] public ParticleSystem Inputing { get; private set; }
     [field: SerializeField] public ParticleSystem Stun { get; private set; }
     [field: SerializeField] public ParticleSystem Exhaust {  get; private set; }
+    [field: SerializeField] public ParticleSystem Decay { get; private set; }
 
     public ParticleSystem GetParticle(PlayerEffect effect)
       => effect switch
@@ -17,6 +18,7 @@ namespace LR.Stage.Player
         PlayerEffect.Inputing => Inputing,
         PlayerEffect.Stun => Stun,
         PlayerEffect.Exhaust => Exhaust,
+        PlayerEffect.Decay => Decay,
         _ => throw new System.NotImplementedException(),
       };
   }

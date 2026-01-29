@@ -14,9 +14,9 @@ namespace LR.Stage.TriggerTile
 
     private void OnValidate()
     {
-      if(triggerTileType!=TriggerTileType.LeftClearTrigger &&
-        triggerTileType!=TriggerTileType.RightClearTrigger)
-        triggerTileType = TriggerTileType.LeftClearTrigger;
+      if(triggerTileType!=TriggerTileType.LeftClear &&
+        triggerTileType!=TriggerTileType.RightClear)
+        triggerTileType = TriggerTileType.LeftClear;
     }
 
     public TriggerTileType GetTriggerType()

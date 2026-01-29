@@ -4,20 +4,13 @@ using UnityEngine.Events;
 
 namespace LR.Stage.TriggerTile
 {
-  public class InputtingEnergyItemTriggerView : MonoBehaviour, ITriggerTileView
+  public class DecayTrigerTileView : MonoBehaviour, ITriggerTileView
   {
-    public enum EnergyItemInput
-    {
-      QTE,
-      Progress,
-    }
-    [field: SerializeField] public EnergyItemInput Input { get; private set; }
-
     private readonly UnityEvent<Collider2D> onEnter = new();
     private readonly UnityEvent<Collider2D> onExit = new();
 
     public TriggerTileType GetTriggerType()
-      => TriggerTileType.InputtingEnergy;
+      => TriggerTileType.Decay;
 
     public void SubscribeOnEnter(UnityAction<Collider2D> onEnter)
     {

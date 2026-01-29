@@ -25,5 +25,6 @@
     Inputing,
     Stun,
     Exhaust,
+    Decay,
   }
 }

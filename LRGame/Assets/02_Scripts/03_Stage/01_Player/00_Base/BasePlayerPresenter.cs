@@ -42,7 +42,9 @@ namespace LR.Stage.Player
         moveController,
         stateService,
         stateService,
-        energyService).AddTo(disposables);
+        energyService,
+        effectController).AddTo(disposables);
+      energyService.DelayInject(reactionController);
 
       stateService.AddState(PlayerState.Idle, new PlayerIdleState(
         moveController, 

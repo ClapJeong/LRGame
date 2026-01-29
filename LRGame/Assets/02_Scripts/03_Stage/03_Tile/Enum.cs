@@ -2,13 +2,14 @@ namespace LR.Stage.TriggerTile.Enum
 {
   public enum TriggerTileType
   {
-    LeftClearTrigger,
-    RightClearTrigger,
+    LeftClear,
+    RightClear,
     Spike,
     DefaultSignal,
     InputSignal,
     DefaultEnergy,
     InputtingEnergy,
+    Decay,
   }
 
   public enum SignalInput
