@@ -14,6 +14,7 @@ namespace LR.UI.GameScene.Player
   {
     public class Model
     {
+      public IPlayerReactionController reactionController;
       public IPlayerEnergySubscriber energySubscriber;
       public IPlayerEnergyProvider energyProvider;
       public PlayerEnergyData playerEnergyData;
@@ -21,12 +22,14 @@ namespace LR.UI.GameScene.Player
       public UISO uiSO;
 
       public Model(
+        IPlayerReactionController reactionController,
         IPlayerEnergySubscriber energySubscriber,
         IPlayerEnergyProvider energyProvider, 
         PlayerEnergyData playerEnergyData,
         IStageEventSubscriber stageEventSubscriber,
         UISO uiSO)
       {
+        this.reactionController = reactionController;
         this.energySubscriber = energySubscriber;
         this.energyProvider = energyProvider;
         this.playerEnergyData = playerEnergyData;
@@ -40,8 +43,10 @@ namespace LR.UI.GameScene.Player
 
     private readonly SubscribeHandle subscribeHandle;
     private readonly CTSContainer restoreCTS = new();
+    private readonly CTSContainer decayCTS = new();
     private IDisposable viewUpdateObserver;
 
+    private bool isDecay = false;
     private float lastNormalized;
     private float fillNormalized;
     private float valueChangingDuration;
@@ -52,6 +57,7 @@ namespace LR.UI.GameScene.Player
       this.view = view;
 
       view.FillImage.fillAmount = 1.0f;
+      view.DecayEffectRectTransform.anchoredPosition = new Vector2(0, view.FillImage.rectTransform.rect.height);
 
       subscribeHandle = new(SubscribePlayerEnergy, UnsubscribePlayerEnergy);
       model.stageEventSubscriber.SubscribeOnEvent(IStageEventSubscriber.StageEventType.Restart, subscribeHandle.Subscribe);
@@ -75,6 +81,7 @@ namespace LR.UI.GameScene.Player
 
     public void Dispose()
     {
+      decayCTS.Dispose();
       restoreCTS.Dispose();
       subscribeHandle.Dispose();
       if (view)
@@ -102,6 +109,7 @@ namespace LR.UI.GameScene.Player
         .Subscribe(_ =>
         {
           UpdateFillNormalized();
+          UpdateDecayEffect();
 
           view.FillImage.SetFillAmount(fillNormalized);
         });
@@ -122,6 +130,50 @@ namespace LR.UI.GameScene.Player
       else
       {
         fillNormalized = currentNormalized;
+      }
+    }
+
+    private void UpdateDecayEffect()
+    {
+      if (isDecay == model.reactionController.IsDecaying)
+        return;
+
+      if (model.reactionController.IsDecaying)
+      {
+        decayCTS.Cancel();
+        decayCTS.Create();
+        var token = decayCTS.token;
+        PlayDecayEffectAsync(token).Forget();
+      }
+      else
+      {
+        decayCTS.Cancel();
+      }
+
+      isDecay = model.reactionController.IsDecaying;
+    }
+
+    private async UniTask PlayDecayEffectAsync(CancellationToken token)
+    {      
+      var length = view.FillImage.rectTransform.rect.height;
+      try
+      {
+        await DOTween
+          .Sequence()
+          .Join(view.DecayEffectRectTransform.DOAnchorPosY(-length, model.uiSO.EnergyDecayEffectDuration))
+          .AppendInterval(0.2f)
+          .SetLoops(-1)
+          .OnComplete(() =>
+          {
+            view.DecayEffectRectTransform.anchoredPosition = new Vector2(0, view.DecayEffectRectTransform.rect.height);
+          })
+          .ToUniTask(TweenCancelBehaviour.Kill, token);
+          
+      }
+      catch(OperationCanceledException) { }
+      finally
+      {
+        view.DecayEffectRectTransform.anchoredPosition = new Vector2(0, view.FillImage.rectTransform.rect.height);
       }
     }
 

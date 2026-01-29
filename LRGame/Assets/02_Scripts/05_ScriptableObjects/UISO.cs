@@ -39,6 +39,7 @@ public class UISO : ScriptableObject
   [field: Header("[ Player ]")]
   [field: SerializeField][field: Range(0.0f, 1.0f)] public float PortraitLowEnergy { get; private set; }
   [field: SerializeField] public float EnergyChangedUIDuration { get; private set; }
+  [field: SerializeField] public float EnergyDecayEffectDuration { get; private set; }
   [field: SerializeField] public float DamagedPortraitShakeDuration { get; private set; }
   [field: SerializeField] public float DamagedPortraitShakeStrengh { get; private set; }
   [field: SerializeField] public int DamagedPortraitShakeVibrato { get; private set; }

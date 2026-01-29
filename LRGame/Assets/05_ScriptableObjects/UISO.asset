@@ -43,6 +43,7 @@ MonoBehaviour:
   <SucessUIDelay>k__BackingField: 1.5
   <PortraitLowEnergy>k__BackingField: 0.4
   <EnergyChangedUIDuration>k__BackingField: 0.2
+  <EnergyDecayEffectDuration>k__BackingField: 1.2
   <DamagedPortraitShakeDuration>k__BackingField: 0.3
   <DamagedPortraitShakeStrengh>k__BackingField: 20
   <DamagedPortraitShakeVibrato>k__BackingField: 55

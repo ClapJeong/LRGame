@@ -9,6 +9,7 @@ namespace LR.UI.GameScene.Player
   public class UIPlayerEnergyView : BaseUIView
   {
     [field: SerializeField] public Image FillImage { get; private set; }
+    [field: SerializeField] public RectTransform DecayEffectRectTransform { get; private set; }
 
     public override async UniTask HideAsync(bool isImmediately = false, CancellationToken token = default)
     {
