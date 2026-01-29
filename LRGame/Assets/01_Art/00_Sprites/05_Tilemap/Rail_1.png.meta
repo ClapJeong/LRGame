@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 20ff8c141e02ca249b2e1a48f9892c94
+guid: 895dec09d14b9484aa1be35eccb55c00
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5094191764375996843
-    second: floor_rail_1_0
+      213: 5627670539831972451
+    second: Rail_1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: floor_rail_1_0
+      name: Rail_1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 15
         width: 64
-        height: 64
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 556f5aa949bcd49b0800000000000000
-      internalID: -5094191764375996843
+      spriteID: 3629d9f0a80891e40800000000000000
+      internalID: 5627670539831972451
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      floor_rail_1_0: -5094191764375996843
+      Rail_1_0: 5627670539831972451
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
